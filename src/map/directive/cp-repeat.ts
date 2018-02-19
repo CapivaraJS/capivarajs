@@ -51,11 +51,12 @@ export class CPRepeat {
     }
 
     loop(array, attributeAlias){
-        array.map((row) => {
+        array.map((row, index) => {
             let elm = this.element.cloneNode(true);
             elm.removeAttribute(Constants.REPEAT_ATRIBUTE_NAME);
             new Controller(elm, () => { });
             elm[Constants.SCOPE_ATTRIBUTE_NAME].scope[attributeAlias] = row;
+            elm[Constants.SCOPE_ATTRIBUTE_NAME].scope[Constants.REPEAT_INDEX_NAME] = index;
             return elm;
         }).forEach(elm => {
             this.referenceNode.parentNode.appendChild(elm);

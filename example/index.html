@@ -40,6 +40,9 @@
                     <td>
                         Idade
                     </td>
+                    <td>
+                        Excluir
+                    </td>
                 </tr>
                 <tr cp-repeat="person in pessoas">
                     <td>
@@ -47,6 +50,34 @@
                     </td>
                     <td>
                         <input type="number" cp-model="person.idade">
+                    </td>
+                    <td>
+                        <button type="button" cp-click="execute($index)">Excluir</button>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="table table-striped">
+                <tr>
+                    <td>
+                        Nome
+                    </td>
+                    <td>
+                        Idade
+                    </td>
+                    <td>
+                        Excluir
+                    </td>
+                </tr>
+                <tr cp-repeat="person in pessoas">
+                    <td>
+                        <input type="text" cp-model="person.nome">
+                    </td>
+                    <td>
+                        <input type="number" cp-model="person.idade">
+                    </td>
+                    <td>
+                        <button type="button" cp-click="execute($index)">Excluir</button>
                     </td>
                 </tr>
             </table>

@@ -15,15 +15,42 @@ export class CPClick {
         this.init();
     }
 
+    isNative(fn){
+        return (/\{\s*\[native code\]\s*\}/).test('' + fn);
+    }
+
+    getCallbackClick(element){
+        let callback = _.get(element[Constants.SCOPE_ATTRIBUTE_NAME].scope, this.atribute.substring(0, this.atribute.indexOf('(')));
+        if(!callback && element.parentNode && element.parentNode[Constants.SCOPE_ATTRIBUTE_NAME]){
+            return this.getCallbackClick(element.parentNode);
+        }
+        return callback;
+    }
+
+    getIndexRow(element){
+        let index = _.get(element[Constants.SCOPE_ATTRIBUTE_NAME].scope, Constants.REPEAT_INDEX_NAME);
+        if(index == undefined && element.parentNode){
+            return this.getIndexRow(element.parentNode);
+        }
+        return index;
+    }
+
     init() {
         const onClick = (evt) => {
             this.atribute = this.atribute.replace(/ /g,'');
-            let callback = _.get(this.element[Constants.SCOPE_ATTRIBUTE_NAME].scope, this.atribute.substring(0, this.atribute.indexOf('(')));
-            if(callback){
+            let callback = this.getCallbackClick(this.element);
+            if(callback && !this.isNative(callback)){
                 let params = this.atribute.substring(this.atribute.indexOf('(') + 1, this.atribute.length -1), args = [];
                 params.split(',').forEach(param => args.push(_.get(this.element[Constants.SCOPE_ATTRIBUTE_NAME].scope, param)));
                 callback.call(null, ...args);
             }
+            // else{
+            //     let atribute = this.atribute;
+            //     const evalWithinContext = function(context, code){
+            //         (function(code) { eval(code); }).apply(context, [code]);
+            //     };
+            //     evalWithinContext(this.element[Constants.SCOPE_ATTRIBUTE_NAME].scope, atribute);
+            // }
         }
         //Remove old event
         this.element.removeEventListener('click', onClick);

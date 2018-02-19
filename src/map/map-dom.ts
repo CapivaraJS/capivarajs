@@ -56,8 +56,10 @@ export class MapDom {
     reloadBind(){
         //Update input values
         Object.keys(this.map)
-                .forEach(key => this.map[key]
-                .forEach(bind => bind.applyModelInValue()));
+                .forEach(key => {
+                    this.map[key]
+                        .forEach(bind => bind.applyModelInValue())
+                });
         //Update cp repeats
         this.repeats
             .forEach((repeat) => repeat.applyLoop()); 
