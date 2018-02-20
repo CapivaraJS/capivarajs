@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app">
 
 <head>
     <meta charset="UTF-8">
@@ -14,37 +14,27 @@
     </style>
 </head>
 
-<body>
+<body ng-controller="ctrl">
 
-    <div class="container" id="context">
+    <center>
 
-        <button cp-click="adicionar()">cria</button>
+        <capivara-list #listagem></capivara-list>
+
+        <br><br>
         
-        <table>
-            <tr>
-                <td>
-                    Nome
-                </td>
-                <td>
-                    Excluir
-                </td>
-            </tr>
-            <tr mateus-repeat="person in pessoas">
-                <td>
-                    <input type="text" cp-model="person.nome">
-                </td>
-                <td>
-                    <button cp-click="excluir($index)" >Excluir</button>
-                </td>
-            </tr>
-        </table> 
+        <button ng-click="salvar()">Testar</button>
 
-    </div>
 
-<br><br>
+    </center>  
 
+
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
     <script src="../dist/capivara.js"></script>
+    <script src="list.js"></script>
     <script src="app.js"></script>
+
 </body>
 
 </html>

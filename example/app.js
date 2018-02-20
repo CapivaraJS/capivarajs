@@ -1,19 +1,16 @@
-capivara.constants({
-    REPEAT_ATRIBUTE_NAME: 'mateus-repeat'
-});
+angular.module('app', [])
+    .controller('ctrl', function($scope){
 
-capivara.controller(document.getElementById('context'), function(scope){
+        $scope.titulo = 'Ola mundo';
+        
+        $scope.salvar = () => {
+            $scope.titulo = 'Felipe';
+        };
+        
+        capivara.initComponent('listagem')
+                .context($scope)
+                .bindings({
+                    pessoa: 'data.pessoa'
+                });
 
-    scope.pessoas = [
-        {
-            nome: 'Gabi'
-        },
-        {
-            nome: 'Teteu'
-        },
-        {
-            nome: 'Caiu'
-        }
-    ];
-
-});
+    });
