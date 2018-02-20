@@ -49,6 +49,7 @@ export class CPModel implements Bind {
             default:
                 _.set(this.element[Constants.SCOPE_ATTRIBUTE_NAME].scope, this.atribute, this.element.value);
         }
+        this.map.reloadBind();
     }
 
 }

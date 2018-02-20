@@ -1,29 +1,19 @@
-capivara.controller(document.body, function(scope){
-    
-    scope.pessoa = {};
+capivara.constants({
+    REPEAT_ATRIBUTE_NAME: 'mateus-repeat'
+});
+
+capivara.controller(document.getElementById('context'), function(scope){
 
     scope.pessoas = [
         {
-            nome: "Mateus",
-            idade: 24
+            nome: 'Gabi'
         },
         {
-            nome: "Felipe"
+            nome: 'Teteu'
+        },
+        {
+            nome: 'Caiu'
         }
     ];
-
-    scope.execute = index => {
-        scope.pessoas.splice(index, 1);
-    }
-
-    scope.salvar = function(pessoa){
-        scope.pessoas.push(pessoa);
-        scope.pessoa = {};
-    };
-
-    scope.teste = function(){
-        scope.pessoas = [];
-    }
-
 
 });

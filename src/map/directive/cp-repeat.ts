@@ -35,16 +35,9 @@ export class CPRepeat {
     }
 
     removeChilds(){
-        let start = false;
         Array.from(this.referenceNode.parentNode.childNodes)
-            .filter((elm:any) => {
-                if(elm.nodeName == '#comment' && elm.data == 'start repeat ' + this.atribute){
-                    start = true;
-                }
-                return start;
-            })
             .forEach((elm: any) => {
-                if(elm.nodeName == this.originalElement.nodeName){
+                if(elm.nodeName == this.originalElement.nodeName || elm.nodeName == '#comment' && elm.data == 'end repeat ' + this.atribute){
                     this.referenceNode.parentNode.removeChild(elm);
                 }
             })
@@ -54,13 +47,12 @@ export class CPRepeat {
         array.map((row, index) => {
             let elm = this.element.cloneNode(true);
             elm.removeAttribute(Constants.REPEAT_ATRIBUTE_NAME);
+            this.referenceNode.parentNode.appendChild(elm);
             new Controller(elm, () => { });
             elm[Constants.SCOPE_ATTRIBUTE_NAME].scope[attributeAlias] = row;
             elm[Constants.SCOPE_ATTRIBUTE_NAME].scope[Constants.REPEAT_INDEX_NAME] = index;
             return elm;
-        }).forEach(elm => {
-            this.referenceNode.parentNode.appendChild(elm);
-        });
+        })
         this.referenceNode.parentNode.appendChild(document.createComment('end repeat ' + this.atribute));
     }
 

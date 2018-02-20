@@ -8,6 +8,8 @@ export class Scope {
     //Dados disponíveis nesse escopo
     public scope: ScopeProxy;
 
+    public $parent: Scope;
+
     public mapDom: MapDom;
 
     public watchers;
@@ -21,6 +23,10 @@ export class Scope {
         this.mapDom = new MapDom(_element);
         this.scope = new ScopeProxy({}, this);
         setTimeout(() => this.executeOnInit(), 0);
+    }
+
+    getScopeProxy(){
+        return this.scope;
     }
 
     /**

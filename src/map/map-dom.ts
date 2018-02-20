@@ -50,19 +50,35 @@ export class MapDom {
         if(child.hasAttribute(Constants.REPEAT_ATRIBUTE_NAME)) this.createCPRepeat(child);
     }
 
+    reloadChilds(element){
+        if(element.children){
+            Array.from(element.children).forEach((child: any) => {
+                if(child[Constants.SCOPE_ATTRIBUTE_NAME] && child[Constants.SCOPE_ATTRIBUTE_NAME].mapDom){
+                    child[Constants.SCOPE_ATTRIBUTE_NAME].mapDom.reload();
+                    this.reloadChilds(child);
+                }
+            });
+        }        
+    }
+
+    reload(){
+        //Update input values
+        Object.keys(this.map)
+        .forEach(key => {
+            this.map[key]
+                .forEach(bind => bind.applyModelInValue())
+        });
+        //Update cp repeats
+        this.repeats
+        .forEach((repeat) => repeat.applyLoop()); 
+    }
+
     /**
      * @method void Atualiza os valores dos elementos HTML de acordo com o atributo que está sendo observado.
      */
     reloadBind(){
-        //Update input values
-        Object.keys(this.map)
-                .forEach(key => {
-                    this.map[key]
-                        .forEach(bind => bind.applyModelInValue())
-                });
-        //Update cp repeats
-        this.repeats
-            .forEach((repeat) => repeat.applyLoop()); 
+        this.reloadChilds(this.element);
+        this.reload();
     }
 
     /**

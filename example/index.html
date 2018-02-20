@@ -16,78 +16,32 @@
 
 <body>
 
-    <div class="container">
+    <div class="container" id="context">
 
-        <form>
-            <div class="form-group">
-                <label>Nome</label>
-                <input type="text" class="form-control" cp-model="pessoa.nome" />
-            </div>
-            <div class="form-group">
-                <label>Idade</label>
-                <input type="number" class="form-control" cp-model="pessoa.idade" />
-            </div>
-
-            <button type="button" class="btn btn-default" cp-click="salvar(pessoa)">Salvar</button>
-            <br>
-            <br>
-
-            <table class="table table-striped">
-                <tr>
-                    <td>
-                        Nome
-                    </td>
-                    <td>
-                        Idade
-                    </td>
-                    <td>
-                        Excluir
-                    </td>
-                </tr>
-                <tr cp-repeat="person in pessoas">
-                    <td>
-                        <input type="text" cp-model="person.nome">
-                    </td>
-                    <td>
-                        <input type="number" cp-model="person.idade">
-                    </td>
-                    <td>
-                        <button type="button" cp-click="execute($index)">Excluir</button>
-                    </td>
-                </tr>
-            </table>
-
-            <table class="table table-striped">
-                <tr>
-                    <td>
-                        Nome
-                    </td>
-                    <td>
-                        Idade
-                    </td>
-                    <td>
-                        Excluir
-                    </td>
-                </tr>
-                <tr cp-repeat="person in pessoas">
-                    <td>
-                        <input type="text" cp-model="person.nome">
-                    </td>
-                    <td>
-                        <input type="number" cp-model="person.idade">
-                    </td>
-                    <td>
-                        <button type="button" cp-click="execute($index)">Excluir</button>
-                    </td>
-                </tr>
-            </table>
-            
-            <button type="button" cp-click="teste()">teste</button>
-
-        </form>
+        <button cp-click="adicionar()">cria</button>
+        
+        <table>
+            <tr>
+                <td>
+                    Nome
+                </td>
+                <td>
+                    Excluir
+                </td>
+            </tr>
+            <tr mateus-repeat="person in pessoas">
+                <td>
+                    <input type="text" cp-model="person.nome">
+                </td>
+                <td>
+                    <button cp-click="excluir($index)" >Excluir</button>
+                </td>
+            </tr>
+        </table> 
 
     </div>
 
+<br><br>
 
     <script src="../dist/capivara.js"></script>
     <script src="app.js"></script>
