@@ -1,11 +1,24 @@
-angular.module('app', [])
-    .controller('ctrl', function($scope){
-
-        capivara.initComponent('nome')
-                .context($scope)
-                .bindings({
-                    nomeDoCara: 'nome'
-                });
+capivara.component('my-component', {
+    template: '<input type="text" cp-model="$bindings.nome"/>',
+    bindings: ['nome'],
+    controller: function(scope){
+    }
+})
 
 
-    });
+
+let pessoa = { nome: 'Mateus' };
+
+capivara.componentBuilder('meuMarcador')
+        .context(pessoa)
+        .bindings({
+            nome: 'nome'
+        })
+        .build();
+
+
+
+
+function teste(){
+    console.log(pessoa);
+}

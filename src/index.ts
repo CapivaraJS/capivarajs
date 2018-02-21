@@ -26,10 +26,10 @@ const packageJson = require('../package.json');
                 window['capivara'].components[componentName.toUpperCase()] = new Component(componentName, config);
             },
             /**
-             * @name capivara.initComponent
+             * @name capivara.componentBuilder
              * @description Faz a inicialização de um componente.
              */
-            initComponent: function(hashName){
+            componentBuilder: function(hashName){
                 let elms = Array.from(document.querySelectorAll('[\\#'+hashName+']'));
                 if(elms.length == 0) console.error('CapivaraJS did not find its component with the hash ' + hashName);
                 let instance;

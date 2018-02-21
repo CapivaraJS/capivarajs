@@ -1,17 +1,14 @@
 capivara
-    .component('gumga-input', {
-        template : `
-            <input cp-model="$bindings.nomeDoCara" placeholder="Nome"/>
+    .component('my-component', {
+        template: `
+            <h1>Bem-vindo ao nosso super site</h1>
         `,
-        bindings : ['nomeDoCara'],
-        constants: [],
-        functions: [],
+        constants: ['titulo'],
         controller: function(scope){
-            
+
+            scope.$onInit = function(){
+                console.log(scope.$constants.titulo);
+            }
+
         }
     });
-
-
-
-
-        

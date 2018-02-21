@@ -7,22 +7,29 @@ export class ComponentInstance {
     config: any;
     element: any;
     contextObj;
+    componentScope;
 
     constructor(_element, _config) {
         this.element = _element;
         this.config = _config;
-        this.create();
+
+        this.element.innerHTML = this.config.template;
+        
+        window['capivara'].controller(this.element, (scope) => {
+            this.componentScope = scope;
+            if(_config.controller) _config.controller(scope);
+        });
+
+        this.element[Constants.SCOPE_ATTRIBUTE_NAME].scope['$bindings']  = {};
+        this.element[Constants.SCOPE_ATTRIBUTE_NAME].scope['$constants'] = {};
+        this.element[Constants.SCOPE_ATTRIBUTE_NAME].scope['$functions'] = {};
     }
 
     /**
      * @description Renderiza o template no elemento.
      */
-    create() {
-        this.element.innerHTML = this.config.template;
-        window['capivara'].controller(this.element, this.config.controller);
-        this.element[Constants.SCOPE_ATTRIBUTE_NAME].scope['$bindings']  = {};
-        this.element[Constants.SCOPE_ATTRIBUTE_NAME].scope['$constants'] = {};
-        this.element[Constants.SCOPE_ATTRIBUTE_NAME].scope['$functions'] = {};
+    build() {
+        if(this.componentScope.$onInit) this.componentScope.$onInit();
     }
 
     /**
