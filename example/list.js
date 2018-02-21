@@ -1,6 +1,11 @@
 capivara
-    .component('capivara-list', {
-        template: '<input cp-model="label"/>',
+    .component('gumga-input', {
+        template : `
+            <input cp-model="$bindings.nomeDoCara" placeholder="Nome"/>
+        `,
+        bindings : ['nomeDoCara'],
+        constants: [],
+        functions: [],
         controller: function(scope){
             
         }
