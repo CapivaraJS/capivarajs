@@ -118,6 +118,13 @@ const packageJson = require('../package.json');
                 return Object.assign({}, value);
             },
             /**
+             * @name capivara,replaceAll
+             * @description Faz a devida alteração em todas as  ocorrências
+             */
+            replaceAll: function(str, needle, replacement){
+                return str.split(needle).join(replacement);
+            },
+            /**
              * @name capivara,constants
              * @description Modifica o nome das diretivas que são criadas pelo capivara.
              */

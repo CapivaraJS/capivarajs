@@ -1,11 +1,11 @@
 {
   "name": "capivarajs",
-  "version": "3.1.0-alpha",
+  "version": "3.6.0-alpha",
   "description": "",
-  "main": "webpack.config.js",
+  "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --config ./webpack.config.js",
-    "prod": "NODE_ENV=production webpack --config ./webpack.config.js"
+    "prod": "webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js"
   },
   "author": "",
   "license": "ISC",

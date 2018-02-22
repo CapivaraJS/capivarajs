@@ -1,18 +1,16 @@
-capivara.component('my-component', {
-    template: '<div></div>',
-    constants: ['titulo'],
-    controller: function(scope){
 
-        scope.$onInit = function(){
-            console.log(scope.$constants.titulo);
-        };
-
-    }
-})
-
+var config = {
+    titulo: 'My Title'
+}
 
 capivara.componentBuilder('meuMarcador')
-        .constants({
-            titulo: 'Meu incrível titulo'
+        .context(config)
+        .bindings({
+            titulo: 'titulo'
         })
         .build();
+
+
+setTimeout(function(){
+    config.titulo = 'My Title Modify!';
+}, 9000)

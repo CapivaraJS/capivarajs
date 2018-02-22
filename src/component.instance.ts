@@ -54,6 +54,10 @@ export class ComponentInstance {
      * @param _bindings Objeto com o nome dos bindings
      */
     bindings(_bindings = {}) {
+        if(!this.contextObj){
+            console.error('Bindings ainda não aplicados. Primeiro, é necessário informar o contexto.');
+            return this;
+        }
         this.config.bindings.forEach(key => {
             if (_bindings[key]) {
                 this.element[Constants.SCOPE_ATTRIBUTE_NAME].scope['$bindings'][key] = _.get(this.contextObj, _bindings[key]);

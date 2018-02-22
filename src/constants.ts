@@ -4,5 +4,7 @@ export const Constants = {
     REPEAT_INDEX_NAME       : '$index',
     REPEAT_ATRIBUTE_OPERATOR: ' in ',
     MODEL_ATRIBUTE_NAME     : 'cp-model',
-    CLICK_ATRIBUTE_NAME     : 'cp-click'
+    CLICK_ATRIBUTE_NAME     : 'cp-click',
+    START_INTERPOLATION     : '[[',
+    END_INTERPOLATION       : ']]',
 };

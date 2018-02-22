@@ -1,14 +1,17 @@
 capivara
     .component('my-component', {
         template: `
-            <h1>Bem-vindo ao nosso super site</h1>
+
+            <h1>[[$bindings.titulo]]</h1>
+
+            <button cp-click="alterar()">Mudar</button>  
         `,
-        constants: ['titulo'],
+        bindings: ['titulo'],
         controller: function(scope){
 
-            scope.$onInit = function(){
-                console.log(scope.$constants.titulo);
-            }
+            scope.alterar = function(){
+
+            };
 
         }
     });
