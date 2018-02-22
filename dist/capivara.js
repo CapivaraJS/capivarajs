@@ -17736,6 +17736,11 @@ var MapDom = (function () {
         this.reloadChilds(this.element);
         this.reload();
     };
+    /**
+     * @description Executa o eval alterando as propriedades do source para seus determinados valores dentro do contexto.
+     * @param source
+     * @param context
+     */
     MapDom.prototype.evalInContext = function (source, context) {
         if (source) {
             source.split(' ').forEach(function (word) {
@@ -17749,18 +17754,24 @@ var MapDom = (function () {
                         source = source.replace(word, value != null ? value : null);
                     }
                 }
-                else {
-                }
             });
         }
         return eval(source);
     };
+    /**
+     * @description Percorre os elementos para processar os interpolations.
+     * @param element
+     */
     MapDom.prototype.processInterpolation = function (element) {
         var _this = this;
         Array.from(element.childNodes).forEach(function (childNode) {
             _this.interpolation(childNode);
         });
     };
+    /**
+     * @description percorre os elementos até encontrar um escopo pai.
+     * @param element
+     */
     MapDom.prototype.getScopeParent = function (element) {
         if (element[__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME]) {
             return element[__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME].scope;
@@ -17769,6 +17780,10 @@ var MapDom = (function () {
             return this.getScopeParent(element.parentNode);
         }
     };
+    /**
+     * @description Função que modifica o texto da interpolação pelo determinado valor.
+     * @param childNode
+     */
     MapDom.prototype.interpolation = function (childNode) {
         var _this = this;
         if (childNode.nodeName == '#text') {
@@ -18483,6 +18498,10 @@ var ComponentInstance = (function () {
     ComponentInstance.prototype.bindings = function (_bindings) {
         var _this = this;
         if (_bindings === void 0) { _bindings = {}; }
+        if (!this.contextObj) {
+            console.error('Bindings ainda não aplicados. Primeiro, é necessário informar o contexto.');
+            return this;
+        }
         this.config.bindings.forEach(function (key) {
             if (_bindings[key]) {
                 _this.element[__WEBPACK_IMPORTED_MODULE_0__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME].scope['$bindings'][key] = __WEBPACK_IMPORTED_MODULE_2_lodash___default.a.get(_this.contextObj, _bindings[key]);
@@ -19337,7 +19356,7 @@ var ComponentInstance = (function () {
 /* 18 */
 /***/ (function(module, exports) {
 
-module.exports = {"name":"capivarajs","version":"3.6.0-alpha","description":"","main":"index.js","scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js"},"author":"","license":"ISC","dependencies":{},"devDependencies":{"@types/node":"^9.4.0","babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-preset-env":"^1.6.1","babel-preset-stage-0":"^6.24.1","css-loader":"^0.28.7","extract-text-webpack-plugin":"^3.0.2","file-loader":"^1.1.5","html-loader":"^0.5.1","lodash":"^4.17.5","node-sass":"^4.7.2","sass-loader":"^6.0.6","style-loader":"^0.19.0","ts-loader":"^3.2.0","uglifyjs-webpack-plugin":"^1.1.2","webpack":"^3.9.1","webpack-dev-server":"^2.9.5"}}
+module.exports = {"name":"capivarajs","version":"3.7.0-alpha","description":"","main":"index.js","scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js"},"author":"","license":"ISC","dependencies":{},"devDependencies":{"@types/node":"^9.4.0","babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-preset-env":"^1.6.1","babel-preset-stage-0":"^6.24.1","css-loader":"^0.28.7","extract-text-webpack-plugin":"^3.0.2","file-loader":"^1.1.5","html-loader":"^0.5.1","lodash":"^4.17.5","node-sass":"^4.7.2","sass-loader":"^6.0.6","style-loader":"^0.19.0","ts-loader":"^3.2.0","uglifyjs-webpack-plugin":"^1.1.2","webpack":"^3.9.1","webpack-dev-server":"^2.9.5"}}
 
 /***/ })
 /******/ ]);

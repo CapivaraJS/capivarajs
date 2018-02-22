@@ -1,17 +1,21 @@
-capivara
-    .component('my-component', {
-        template: `
+capivara.component('my-component', {
+    template: `        
+        <ul>
+            <li cp-repeat="pessoa in pessoas">
+                [[pessoa.nome]]
+            </li>
+        </ul>
+    `,
+    controller: function(scope){
 
-            <h1>[[$bindings.titulo]]</h1>
+        scope.pessoas = [
+            {
+                nome: 'João'
+            },
+            {
+                nome: 'Maria'
+            }
+        ]
 
-            <button cp-click="alterar()">Mudar</button>  
-        `,
-        bindings: ['titulo'],
-        controller: function(scope){
-
-            scope.alterar = function(){
-
-            };
-
-        }
-    });
+    }
+});
