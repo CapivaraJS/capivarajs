@@ -1,6 +1,6 @@
 {
   "name": "capivarajs",
-  "version": "3.0.0-alpha",
+  "version": "3.1.0-alpha",
   "description": "",
   "main": "webpack.config.js",
   "scripts": {

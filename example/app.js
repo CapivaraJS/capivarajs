@@ -1,24 +1,18 @@
 capivara.component('my-component', {
-    template: '<input type="text" cp-model="$bindings.nome"/>',
-    bindings: ['nome'],
+    template: '<div></div>',
+    constants: ['titulo'],
     controller: function(scope){
+
+        scope.$onInit = function(){
+            console.log(scope.$constants.titulo);
+        };
+
     }
 })
 
 
-
-let pessoa = { nome: 'Mateus' };
-
 capivara.componentBuilder('meuMarcador')
-        .context(pessoa)
-        .bindings({
-            nome: 'nome'
+        .constants({
+            titulo: 'Meu incrível titulo'
         })
         .build();
-
-
-
-
-function teste(){
-    console.log(pessoa);
-}

@@ -1,6 +1,7 @@
 import { Constants } from './constants';
 import WatchJS from 'melanke-watchjs';
 import _ from 'lodash';
+import { setTimeout } from 'timers';
 
 export class ComponentInstance {
 
@@ -14,7 +15,7 @@ export class ComponentInstance {
         this.config = _config;
 
         this.element.innerHTML = this.config.template;
-        
+
         window['capivara'].controller(this.element, (scope) => {
             this.componentScope = scope;
             if(_config.controller) _config.controller(scope);
@@ -30,6 +31,14 @@ export class ComponentInstance {
      */
     build() {
         if(this.componentScope.$onInit) this.componentScope.$onInit();
+        window['capivara'].$on('DOMNodeRemoved', () => setTimeout(() => { if(!document.body.contains(this.element)) this.destroy(); }, 0));
+    }
+
+    /**
+     * @description Função executada quando o elemento é destruído do documento.
+     */
+    destroy(){
+        if(this.componentScope.$destroy) this.componentScope.$destroy();
     }
 
     /**

@@ -1,6 +1,7 @@
 import { Controller } from './controller';
 import { Constants } from './constants';
 import { Component } from './component';
+import { throws } from 'assert';
 
 const packageJson = require('../package.json');
 
@@ -14,6 +15,7 @@ const packageJson = require('../package.json');
              * @description Armazena os componentes criados 
              */
             components: {},
+            $watchers: [],
             /**
              * @name capivara.component
              * @description Registra um novo componente capivara
@@ -65,6 +67,57 @@ const packageJson = require('../package.json');
                 return value !== null && typeof value === 'object';
             },
             /**
+             * @name capivara,isDate
+             * @description Verifica se um valor é uma Data.
+             */
+            isDate: function(value){
+                return toString.call(value) === '[object Date]';
+            },
+            /**
+             * @name capivara,isElement
+             * @description Verifica se um valor é um NodeElement.
+             */
+            isElement: function(value){
+                return !!(value &&
+                    (value.nodeName  // We are a direct element.
+                    || (value.prop && value.attr && value.find)));
+            },
+            /**
+             * @name capivara,isFunction
+             * @description Verifica se um valor é uma função.
+             */
+            isFunction: function(value){
+                return typeof value === 'function';
+            },
+            /**
+             * @name capivara,isNumber
+             * @description Verifica se um valor é um número.
+             */
+            isNumber: function(value){
+                return typeof value === 'number';
+            },
+            /**
+             * @name capivara,isString
+             * @description Verifica se um valor é uma string.
+             */
+            isString: function(value){
+                return typeof value === 'string';
+            },
+            /**
+             * @name capivara,merge
+             * @description Faz a junção de objetos em um único objeto.
+             */
+            merge: function(...args){
+                return (Object.assign as any)(...args);
+            },
+            /**
+             * @name capivara,copy
+             * @description Faz a copia de um objeto para que seja perdida a referência.
+             */
+            copy(value){
+                return Object.assign({}, value);
+            },
+            /**
              * @name capivara,constants
              * @description Modifica o nome das diretivas que são criadas pelo capivara.
              */
@@ -73,8 +126,22 @@ const packageJson = require('../package.json');
                     if (Constants[key]) Constants[key] = obj[key];
                 });
             },
+            $on: function(evtName, callback){
+                window['capivara'].$watchers.push({ evtName, callback });
+            },
+            $emit: function(evtName, ...args){
+                window['capivara']
+                    .$watchers
+                    .filter(watcher => watcher.evtName == evtName)
+                    .forEach(watcher => {
+                        watcher.callback.call(...args);
+                    });
+            },
             version: packageJson.version
         }
+
+        let onNodeRemove = (evt) => window['capivara'].$emit('DOMNodeRemoved');
+        document.addEventListener('DOMNodeRemoved', onNodeRemove);
 
     } else {
         console.warn('CapivaraJS tried to load more than once.');
