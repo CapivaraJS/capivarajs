@@ -1,14 +1,16 @@
 
 capivara.component('my-component', {
     template: `        
-        <h1 cp-show="teste">Ola pessoas</h1>
+        <h1 cp-show="mostrarTexto">Esse é um texto de exemplo.</h1>
 
-        <button cp-click="alterar()">teste</button>
+        <button cp-click="alterar()">Clique para Mostrar</button>
     `,
     controller: function(scope){
 
+        scope.mostrarTexto = false;
+
         scope.alterar = function(){
-            scope.teste = !scope.teste;
+            scope.mostrarTexto = true;
         }
 
     }
