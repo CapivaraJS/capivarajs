@@ -19,7 +19,7 @@ export class Scope {
             console.warn('Unable to create a scope, it is necessary to report an html element.');
         }
         this.watchers = new Array();
-        this.applyScopeInElement(_element, this);
+        this.addScope(_element, this);
         this.mapDom = new MapDom(_element);
         this.scope = new ScopeProxy({}, this);
         setTimeout(() => this.executeOnInit(), 0);
@@ -29,12 +29,12 @@ export class Scope {
         return this.scope;
     }
 
-    /**
+    /** #Mudar não poderia ser adicionar a referencia do scope do componente no elemento do componente
      * @method void Aplicado um escopo em um elemento HTML.
      * @param element Elemento que será aplicado o escopo
      * @param scope Escopo que será aplicado no elemento
      */
-    applyScopeInElement(element: any, scope: Scope){
+    addScope(element: any, scope: Scope){
         if(element && element.nodeName) element[Constants.SCOPE_ATTRIBUTE_NAME] = scope;
     }
 

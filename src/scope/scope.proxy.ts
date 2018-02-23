@@ -95,7 +95,7 @@ export class ScopeProxy {
 
         _.set(target, key, value);
         
-        this.scope.mapDom.reloadBind();
+        this.scope.mapDom.reload();
 
         return true;
     }

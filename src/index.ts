@@ -8,7 +8,7 @@ const packageJson = require('../package.json');
 (function (capivara) {
 
     if (!capivara) {
-
+        
         window['capivara'] = {
             /**
              * @name capivara.components

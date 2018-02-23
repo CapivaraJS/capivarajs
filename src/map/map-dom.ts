@@ -3,6 +3,8 @@ import { Constants } from '../constants';
 import { CPModel } from './directive/cp-model';
 import { CPClick } from './directive/cp-click';
 import { CPRepeat } from './directive/cp-repeat';
+import { CPShow } from './directive/cp-show';
+import { Common } from '../common';
 
 export class MapDom {
 
@@ -14,97 +16,82 @@ export class MapDom {
     /**
      * Mapa de atributos com os elementos que os observam.
      */
-    private map = {};
+    private cpModels = {};
 
     /**
      * Array com os ng repeat
      */
     private repeats = [];
 
+    private cpShows = [];
+
     private regexInterpolation;
 
     constructor(_element: HTMLElement) {
         this.element = _element;
         this.regexInterpolation = '({{).*?(}})';
-        if (this.element) this.createBind();
+        if (this.element) this.addScope();
     }
 
-    /**
+    /** 
      * @method void Percorre os elementos filhos do elemento principal criando os binds.  
      */
-    createBind() {
+    addScope() {
         const recursiveBind = (element) => {
             Array.from(element.children).forEach((child: any) => {
-                child[Constants.SCOPE_ATTRIBUTE_NAME] = this.element[Constants.SCOPE_ATTRIBUTE_NAME];
-                this.createBindByChildAttribute(child);
+                child[Constants.SCOPE_ATTRIBUTE_NAME] = Common.getScope(this.element);
+                this.createDirectives(child);
                 if (child.children) recursiveBind(child);
             });
         }
         recursiveBind(this.element);
     }
 
-    /**
+    /** 
      * @method void Cria uma nova instancia de bind de acordo com o atributo declarado no elemento child. 
      * @param child Elemento que utiliza algum tipo de bind.
      */
-    createBindByChildAttribute(child) {
-        if (child.hasAttribute(Constants.MODEL_ATRIBUTE_NAME)) this.createCPModel(child);
-        if (child.hasAttribute(Constants.CLICK_ATRIBUTE_NAME)) this.createCPClick(child);
+    createDirectives(child) {
+        if (child.hasAttribute(Constants.MODEL_ATRIBUTE_NAME))  this.createCPModel(child);
+        if (child.hasAttribute(Constants.CLICK_ATRIBUTE_NAME))  this.createCPClick(child);
         if (child.hasAttribute(Constants.REPEAT_ATRIBUTE_NAME)) this.createCPRepeat(child);
+        if (child.hasAttribute(Constants.SHOW_ATRIBUTE_NAME))   this.createCPShow(child);
     }
 
-    reloadChilds(element) {
+    reloadElementChilds(element) {
         if (element.children) {
             Array.from(element.children).forEach((child: any) => {
-                if (child[Constants.SCOPE_ATTRIBUTE_NAME] && child[Constants.SCOPE_ATTRIBUTE_NAME].mapDom) {
-                    child[Constants.SCOPE_ATTRIBUTE_NAME].mapDom.reload();
-                    this.reloadChilds(child);
+                let childScope = Common.getScope(child);
+                if (childScope && childScope.mapDom) {
+                    childScope.mapDom.reloadDirectives();
+                    this.reloadElementChilds(child);
                 }
             });
         }
     }
 
-    reload() {
+    reloadDirectives() {
         //Update input values
-        Object.keys(this.map)
+        Object.keys(this.cpModels)
             .forEach(key => {
-                this.map[key]
+                this.cpModels[key]
                     .forEach(bind => bind.applyModelInValue())
             });
         //Update cp repeats
         this.repeats.forEach((repeat) => repeat.applyLoop());
+        
+        //Update cp show
+        this.cpShows.forEach((cpShow) => cpShow.init());
 
         this.processInterpolation(this.element);
     }
 
-    /**
+    /** 
      * @method void Atualiza os valores dos elementos HTML de acordo com o atributo que está sendo observado.
      */
-    reloadBind() {
-        this.reloadChilds(this.element);
-        this.reload();
-    }
-
-    /**
-     * @description Executa o eval alterando as propriedades do source para seus determinados valores dentro do contexto.
-     * @param source 
-     * @param context 
-     */
-    evalInContext(source, context) {
-        if (source) {
-            source.split(' ').forEach(word => {
-                let firstKey = (word.indexOf('.') != -1 ? word.substring(0, word.indexOf('.')) : word).replace(/ /g, '');
-                if (firstKey && word && context && context.hasOwnProperty(firstKey)) {
-                    let value = _.get(context, word.replace(/ /g, ''));
-                    if (window['capivara'].isString(value)) {
-                        source = source.replace(word, value != null ? "'" + value + "'" : null);
-                    } else {
-                        source = source.replace(word, value != null ? value : null);
-                    }
-                }
-            });
-        }
-        return eval(source);
+    reload() {
+        this.reloadElementChilds(this.element);
+        this.reloadDirectives();
     }
 
     /**
@@ -115,19 +102,6 @@ export class MapDom {
         Array.from(element.childNodes).forEach((childNode: any) => {
             this.interpolation(childNode);
         });
-    }
-
-    /**
-     * @description percorre os elementos até encontrar um escopo pai. 
-     * @param element 
-     */
-    getScopeParent(element){
-        if(element[Constants.SCOPE_ATTRIBUTE_NAME]){
-            return element[Constants.SCOPE_ATTRIBUTE_NAME].scope;
-        }
-        if(element.parentNode){
-            return this.getScopeParent(element.parentNode);
-        }
     }
 
     /**
@@ -146,7 +120,7 @@ export class MapDom {
                 let content = key.replace('{{', '').replace('}}', ''), value = '';
                 
                 try {
-                    value = this.evalInContext(content, this.getScopeParent(childNode)) || '';                    
+                    value = Common.evalInContext(content, Common.getScopeParent(childNode)) || '';                    
                 } catch (e) {};
 
                 key = window['capivara'].replaceAll(key, '{{', Constants.START_INTERPOLATION);
@@ -168,17 +142,17 @@ export class MapDom {
     /**
      * @method void Retorna um mapa de atributos e elementos escutando alterações desse atributo.
      */
-    getMapDom() {
-        return this.map;
+    getCpModels() {
+        return this.cpModels;
     }
 
     /**
      * @method void Adiciona um tipo de bind em um mapa, esse bind possui um elemento HTML que será atualizado quando o valor do atributo for alterado.
      * @param capivaraBind Tipo de bind que será monitorado.
      */
-    addElementMap(capivaraBind) {
-        this.map[capivaraBind.atribute] = this.map[capivaraBind.atribute] || [];
-        this.map[capivaraBind.atribute].push(capivaraBind);
+    addCpModels(capivaraBind) {
+        this.cpModels[capivaraBind.atribute] = this.cpModels[capivaraBind.atribute] || [];
+        this.cpModels[capivaraBind.atribute].push(capivaraBind);
     }
 
     /**
@@ -195,6 +169,14 @@ export class MapDom {
      */
     createCPClick(child) {
         return new CPClick(child, this);
+    }
+
+    /**
+     * 
+     * @param child Elemento que está sendo criado o bind de show
+     */
+    createCPShow(child) {
+        this.cpShows.push(new CPShow(child, this));
     }
 
     /**

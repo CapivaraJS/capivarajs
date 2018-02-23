@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { Constants } from '../../constants';
 import { MapDom } from '../map-dom';
+import { Common } from '../../common';
 
 export class CPClick {
 
@@ -20,15 +21,15 @@ export class CPClick {
     }
 
     getCallbackClick(element){
-        let callback = _.get(element[Constants.SCOPE_ATTRIBUTE_NAME].scope, this.atribute.substring(0, this.atribute.indexOf('(')));
-        if(!callback && element.parentNode && element.parentNode[Constants.SCOPE_ATTRIBUTE_NAME]){
+        let callback = _.get(Common.getScope(element).scope, this.atribute.substring(0, this.atribute.indexOf('(')));
+        if(!callback && element.parentNode && Common.getScope(element.parentNode)){
             return this.getCallbackClick(element.parentNode);
         }
         return callback;
     }
 
     getIndexRow(element){
-        let index = _.get(element[Constants.SCOPE_ATTRIBUTE_NAME].scope, Constants.REPEAT_INDEX_NAME);
+        let index = _.get(Common.getScope(element).scope, Constants.REPEAT_INDEX_NAME);
         if(index == undefined && element.parentNode){
             return this.getIndexRow(element.parentNode);
         }
@@ -41,16 +42,9 @@ export class CPClick {
             let callback = this.getCallbackClick(this.element);
             if(callback && !this.isNative(callback)){
                 let params = this.atribute.substring(this.atribute.indexOf('(') + 1, this.atribute.length -1), args = [];
-                params.split(',').forEach(param => args.push(_.get(this.element[Constants.SCOPE_ATTRIBUTE_NAME].scope, param)));
+                params.split(',').forEach(param => args.push(_.get(Common.getScope(this.element).scope, param)));
                 callback.call(null, ...args);
             }
-            // else{
-            //     let atribute = this.atribute;
-            //     const evalWithinContext = function(context, code){
-            //         (function(code) { eval(code); }).apply(context, [code]);
-            //     };
-            //     evalWithinContext(this.element[Constants.SCOPE_ATTRIBUTE_NAME].scope, atribute);
-            // }
         }
         //Remove old event
         this.element.removeEventListener('click', onClick);

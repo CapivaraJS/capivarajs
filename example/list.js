@@ -1,21 +1,15 @@
+
 capivara.component('my-component', {
     template: `        
-        <ul>
-            <li cp-repeat="pessoa in pessoas">
-                [[pessoa.nome]]
-            </li>
-        </ul>
+        <h1 cp-show="teste">Ola pessoas</h1>
+
+        <button cp-click="alterar()">teste</button>
     `,
     controller: function(scope){
 
-        scope.pessoas = [
-            {
-                nome: 'João'
-            },
-            {
-                nome: 'Maria'
-            }
-        ]
+        scope.alterar = function(){
+            scope.teste = !scope.teste;
+        }
 
     }
 });

@@ -76,6 +76,7 @@ var Constants = {
     REPEAT_ATRIBUTE_OPERATOR: ' in ',
     MODEL_ATRIBUTE_NAME: 'cp-model',
     CLICK_ATRIBUTE_NAME: 'cp-click',
+    SHOW_ATRIBUTE_NAME: 'cp-show',
     START_INTERPOLATION: '[[',
     END_INTERPOLATION: ']]',
 };
@@ -17184,10 +17185,66 @@ var Constants = {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(8)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(8)(module)))
 
 /***/ }),
 /* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Common; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__constants__ = __webpack_require__(0);
+
+
+var Common;
+(function (Common) {
+    /**
+     * @description Executa o eval alterando as propriedades do source para seus determinados valores dentro do contexto.
+     * @param source
+     * @param context
+     */
+    function evalInContext(source, context) {
+        if (source) {
+            source.split(' ').forEach(function (word) {
+                var firstKey = (word.indexOf('.') != -1 ? word.substring(0, word.indexOf('.')) : word).replace(/ /g, '');
+                if (firstKey && word && context && context.hasOwnProperty(firstKey)) {
+                    var value = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.get(context, word.replace(/ /g, ''));
+                    if (window['capivara'].isString(value)) {
+                        source = source.replace(word, value != null ? "'" + value + "'" : null);
+                    }
+                    else {
+                        source = source.replace(word, value != null ? value : null);
+                    }
+                }
+            });
+        }
+        return eval(source);
+    }
+    Common.evalInContext = evalInContext;
+    function getAttributeCpShow(element) {
+        return element.getAttribute(__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].SHOW_ATRIBUTE_NAME);
+    }
+    Common.getAttributeCpShow = getAttributeCpShow;
+    function getScope(element) {
+        return element[__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME];
+    }
+    Common.getScope = getScope;
+    function getScopeParent(element) {
+        if (getScope(element)) {
+            return getScope(element).scope;
+        }
+        if (element.parentNode) {
+            return getScopeParent(element.parentNode);
+        }
+    }
+    Common.getScopeParent = getScopeParent;
+})(Common || (Common = {}));
+
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports) {
 
 var g;
@@ -17214,7 +17271,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17237,85 +17294,18 @@ var Controller = (function () {
 
 
 /***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {var apply = Function.prototype.apply;
-
-// DOM APIs, for completeness
-
-exports.setTimeout = function() {
-  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
-};
-exports.setInterval = function() {
-  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
-};
-exports.clearTimeout =
-exports.clearInterval = function(timeout) {
-  if (timeout) {
-    timeout.close();
-  }
-};
-
-function Timeout(id, clearFn) {
-  this._id = id;
-  this._clearFn = clearFn;
-}
-Timeout.prototype.unref = Timeout.prototype.ref = function() {};
-Timeout.prototype.close = function() {
-  this._clearFn.call(window, this._id);
-};
-
-// Does not start the time, just sets up the members needed.
-exports.enroll = function(item, msecs) {
-  clearTimeout(item._idleTimeoutId);
-  item._idleTimeout = msecs;
-};
-
-exports.unenroll = function(item) {
-  clearTimeout(item._idleTimeoutId);
-  item._idleTimeout = -1;
-};
-
-exports._unrefActive = exports.active = function(item) {
-  clearTimeout(item._idleTimeoutId);
-
-  var msecs = item._idleTimeout;
-  if (msecs >= 0) {
-    item._idleTimeoutId = setTimeout(function onTimeout() {
-      if (item._onTimeout)
-        item._onTimeout();
-    }, msecs);
-  }
-};
-
-// setimmediate attaches itself to the global object
-__webpack_require__(13);
-// On some exotic environments, it's not clear which object `setimmeidate` was
-// able to install onto.  Search each possibility in the same order as the
-// `setimmediate` library.
-exports.setImmediate = (typeof self !== "undefined" && self.setImmediate) ||
-                       (typeof global !== "undefined" && global.setImmediate) ||
-                       (this && this.setImmediate);
-exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
-                         (typeof global !== "undefined" && global.clearImmediate) ||
-                         (this && this.clearImmediate);
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
-
-/***/ }),
 /* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__controller__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__controller__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__constants__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__component__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__component__ = __webpack_require__(17);
 
 
 
-var packageJson = __webpack_require__(18);
+var packageJson = __webpack_require__(20);
 (function (capivara) {
     if (!capivara) {
         window['capivara'] = {
@@ -17485,7 +17475,7 @@ var packageJson = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__scope_proxy__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__map_map_dom__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__constants__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_timers__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_timers__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_timers___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_timers__);
 
 
@@ -17501,7 +17491,7 @@ var Scope = (function () {
             console.warn('Unable to create a scope, it is necessary to report an html element.');
         }
         this.watchers = new Array();
-        this.applyScopeInElement(_element, this);
+        this.addScope(_element, this);
         this.mapDom = new __WEBPACK_IMPORTED_MODULE_1__map_map_dom__["a" /* MapDom */](_element);
         this.scope = new __WEBPACK_IMPORTED_MODULE_0__scope_proxy__["a" /* ScopeProxy */]({}, this);
         Object(__WEBPACK_IMPORTED_MODULE_3_timers__["setTimeout"])(function () { return _this.executeOnInit(); }, 0);
@@ -17509,12 +17499,12 @@ var Scope = (function () {
     Scope.prototype.getScopeProxy = function () {
         return this.scope;
     };
-    /**
+    /** #Mudar não poderia ser adicionar a referencia do scope do componente no elemento do componente
      * @method void Aplicado um escopo em um elemento HTML.
      * @param element Elemento que será aplicado o escopo
      * @param scope Escopo que será aplicado no elemento
      */
-    Scope.prototype.applyScopeInElement = function (element, scope) {
+    Scope.prototype.addScope = function (element, scope) {
         if (element && element.nodeName)
             element[__WEBPACK_IMPORTED_MODULE_2__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME] = scope;
     };
@@ -17611,7 +17601,7 @@ var ScopeProxy = (function () {
             }
         }
         __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.set(target, key, value);
-        this.scope.mapDom.reloadBind();
+        this.scope.mapDom.reload();
         return true;
     };
     return ScopeProxy;
@@ -17653,12 +17643,13 @@ module.exports = function(module) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MapDom; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__constants__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__directive_cp_model__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__directive_cp_click__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__directive_cp_repeat__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__directive_cp_model__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__directive_cp_click__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__directive_cp_repeat__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__directive_cp_show__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__common__ = __webpack_require__(2);
+
 
 
 
@@ -17669,25 +17660,26 @@ var MapDom = (function () {
         /**
          * Mapa de atributos com os elementos que os observam.
          */
-        this.map = {};
+        this.cpModels = {};
         /**
          * Array com os ng repeat
          */
         this.repeats = [];
+        this.cpShows = [];
         this.element = _element;
         this.regexInterpolation = '({{).*?(}})';
         if (this.element)
-            this.createBind();
+            this.addScope();
     }
     /**
      * @method void Percorre os elementos filhos do elemento principal criando os binds.
      */
-    MapDom.prototype.createBind = function () {
+    MapDom.prototype.addScope = function () {
         var _this = this;
         var recursiveBind = function (element) {
             Array.from(element.children).forEach(function (child) {
-                child[__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME] = _this.element[__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME];
-                _this.createBindByChildAttribute(child);
+                child[__WEBPACK_IMPORTED_MODULE_0__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME] = __WEBPACK_IMPORTED_MODULE_5__common__["a" /* Common */].getScope(_this.element);
+                _this.createDirectives(child);
                 if (child.children)
                     recursiveBind(child);
             });
@@ -17698,65 +17690,48 @@ var MapDom = (function () {
      * @method void Cria uma nova instancia de bind de acordo com o atributo declarado no elemento child.
      * @param child Elemento que utiliza algum tipo de bind.
      */
-    MapDom.prototype.createBindByChildAttribute = function (child) {
-        if (child.hasAttribute(__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].MODEL_ATRIBUTE_NAME))
+    MapDom.prototype.createDirectives = function (child) {
+        if (child.hasAttribute(__WEBPACK_IMPORTED_MODULE_0__constants__["a" /* Constants */].MODEL_ATRIBUTE_NAME))
             this.createCPModel(child);
-        if (child.hasAttribute(__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].CLICK_ATRIBUTE_NAME))
+        if (child.hasAttribute(__WEBPACK_IMPORTED_MODULE_0__constants__["a" /* Constants */].CLICK_ATRIBUTE_NAME))
             this.createCPClick(child);
-        if (child.hasAttribute(__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].REPEAT_ATRIBUTE_NAME))
+        if (child.hasAttribute(__WEBPACK_IMPORTED_MODULE_0__constants__["a" /* Constants */].REPEAT_ATRIBUTE_NAME))
             this.createCPRepeat(child);
+        if (child.hasAttribute(__WEBPACK_IMPORTED_MODULE_0__constants__["a" /* Constants */].SHOW_ATRIBUTE_NAME))
+            this.createCPShow(child);
     };
-    MapDom.prototype.reloadChilds = function (element) {
+    MapDom.prototype.reloadElementChilds = function (element) {
         var _this = this;
         if (element.children) {
             Array.from(element.children).forEach(function (child) {
-                if (child[__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME] && child[__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME].mapDom) {
-                    child[__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME].mapDom.reload();
-                    _this.reloadChilds(child);
+                var childScope = __WEBPACK_IMPORTED_MODULE_5__common__["a" /* Common */].getScope(child);
+                if (childScope && childScope.mapDom) {
+                    childScope.mapDom.reloadDirectives();
+                    _this.reloadElementChilds(child);
                 }
             });
         }
     };
-    MapDom.prototype.reload = function () {
+    MapDom.prototype.reloadDirectives = function () {
         var _this = this;
         //Update input values
-        Object.keys(this.map)
+        Object.keys(this.cpModels)
             .forEach(function (key) {
-            _this.map[key]
+            _this.cpModels[key]
                 .forEach(function (bind) { return bind.applyModelInValue(); });
         });
         //Update cp repeats
         this.repeats.forEach(function (repeat) { return repeat.applyLoop(); });
+        //Update cp show
+        this.cpShows.forEach(function (cpShow) { return cpShow.init(); });
         this.processInterpolation(this.element);
     };
     /**
      * @method void Atualiza os valores dos elementos HTML de acordo com o atributo que está sendo observado.
      */
-    MapDom.prototype.reloadBind = function () {
-        this.reloadChilds(this.element);
-        this.reload();
-    };
-    /**
-     * @description Executa o eval alterando as propriedades do source para seus determinados valores dentro do contexto.
-     * @param source
-     * @param context
-     */
-    MapDom.prototype.evalInContext = function (source, context) {
-        if (source) {
-            source.split(' ').forEach(function (word) {
-                var firstKey = (word.indexOf('.') != -1 ? word.substring(0, word.indexOf('.')) : word).replace(/ /g, '');
-                if (firstKey && word && context && context.hasOwnProperty(firstKey)) {
-                    var value = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.get(context, word.replace(/ /g, ''));
-                    if (window['capivara'].isString(value)) {
-                        source = source.replace(word, value != null ? "'" + value + "'" : null);
-                    }
-                    else {
-                        source = source.replace(word, value != null ? value : null);
-                    }
-                }
-            });
-        }
-        return eval(source);
+    MapDom.prototype.reload = function () {
+        this.reloadElementChilds(this.element);
+        this.reloadDirectives();
     };
     /**
      * @description Percorre os elementos para processar os interpolations.
@@ -17769,37 +17744,24 @@ var MapDom = (function () {
         });
     };
     /**
-     * @description percorre os elementos até encontrar um escopo pai.
-     * @param element
-     */
-    MapDom.prototype.getScopeParent = function (element) {
-        if (element[__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME]) {
-            return element[__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME].scope;
-        }
-        if (element.parentNode) {
-            return this.getScopeParent(element.parentNode);
-        }
-    };
-    /**
      * @description Função que modifica o texto da interpolação pelo determinado valor.
      * @param childNode
      */
     MapDom.prototype.interpolation = function (childNode) {
-        var _this = this;
         if (childNode.nodeName == '#text') {
             childNode.originalValue = childNode.originalValue || childNode.nodeValue;
             var nodeModified_1 = childNode.originalValue;
-            var str = window['capivara'].replaceAll(childNode.originalValue, __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].START_INTERPOLATION, '{{');
-            str = window['capivara'].replaceAll(str, __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].END_INTERPOLATION, '}}');
+            var str = window['capivara'].replaceAll(childNode.originalValue, __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* Constants */].START_INTERPOLATION, '{{');
+            str = window['capivara'].replaceAll(str, __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* Constants */].END_INTERPOLATION, '}}');
             (str.match(this.regexInterpolation) || []).forEach(function (key) {
                 var content = key.replace('{{', '').replace('}}', ''), value = '';
                 try {
-                    value = _this.evalInContext(content, _this.getScopeParent(childNode)) || '';
+                    value = __WEBPACK_IMPORTED_MODULE_5__common__["a" /* Common */].evalInContext(content, __WEBPACK_IMPORTED_MODULE_5__common__["a" /* Common */].getScopeParent(childNode)) || '';
                 }
                 catch (e) { }
                 ;
-                key = window['capivara'].replaceAll(key, '{{', __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].START_INTERPOLATION);
-                key = window['capivara'].replaceAll(key, '}}', __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].END_INTERPOLATION);
+                key = window['capivara'].replaceAll(key, '{{', __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* Constants */].START_INTERPOLATION);
+                key = window['capivara'].replaceAll(key, '}}', __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* Constants */].END_INTERPOLATION);
                 nodeModified_1 = nodeModified_1.replace(key, value);
                 childNode.nodeValue = nodeModified_1;
             });
@@ -17812,37 +17774,44 @@ var MapDom = (function () {
     /**
      * @method void Retorna um mapa de atributos e elementos escutando alterações desse atributo.
      */
-    MapDom.prototype.getMapDom = function () {
-        return this.map;
+    MapDom.prototype.getCpModels = function () {
+        return this.cpModels;
     };
     /**
      * @method void Adiciona um tipo de bind em um mapa, esse bind possui um elemento HTML que será atualizado quando o valor do atributo for alterado.
      * @param capivaraBind Tipo de bind que será monitorado.
      */
-    MapDom.prototype.addElementMap = function (capivaraBind) {
-        this.map[capivaraBind.atribute] = this.map[capivaraBind.atribute] || [];
-        this.map[capivaraBind.atribute].push(capivaraBind);
+    MapDom.prototype.addCpModels = function (capivaraBind) {
+        this.cpModels[capivaraBind.atribute] = this.cpModels[capivaraBind.atribute] || [];
+        this.cpModels[capivaraBind.atribute].push(capivaraBind);
     };
     /**
      *
      * @param child Elemento que está sendo criado o bind de model
      */
     MapDom.prototype.createCPModel = function (child) {
-        return new __WEBPACK_IMPORTED_MODULE_2__directive_cp_model__["a" /* CPModel */](child, this);
+        return new __WEBPACK_IMPORTED_MODULE_1__directive_cp_model__["a" /* CPModel */](child, this);
     };
     /**
      *
      * @param child Elemento que está sendo criado o bind de click
      */
     MapDom.prototype.createCPClick = function (child) {
-        return new __WEBPACK_IMPORTED_MODULE_3__directive_cp_click__["a" /* CPClick */](child, this);
+        return new __WEBPACK_IMPORTED_MODULE_2__directive_cp_click__["a" /* CPClick */](child, this);
+    };
+    /**
+     *
+     * @param child Elemento que está sendo criado o bind de show
+     */
+    MapDom.prototype.createCPShow = function (child) {
+        this.cpShows.push(new __WEBPACK_IMPORTED_MODULE_4__directive_cp_show__["a" /* CPShow */](child, this));
     };
     /**
      *
      * @param child Elemento que está sendo criado o bind de repeat.
      */
     MapDom.prototype.createCPRepeat = function (child) {
-        this.repeats.push(new __WEBPACK_IMPORTED_MODULE_4__directive_cp_repeat__["a" /* CPRepeat */](child, this));
+        this.repeats.push(new __WEBPACK_IMPORTED_MODULE_3__directive_cp_repeat__["a" /* CPRepeat */](child, this));
     };
     return MapDom;
 }());
@@ -17858,6 +17827,8 @@ var MapDom = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__constants__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__common__ = __webpack_require__(2);
+
 
 
 var CPModel = (function () {
@@ -17870,11 +17841,11 @@ var CPModel = (function () {
     }
     CPModel.prototype.init = function () {
         var _this = this;
-        this.map.addElementMap(this);
+        this.map.addCpModels(this);
         this.element.addEventListener('input', function (evt) { return _this.applyValueInModel(); });
     };
     CPModel.prototype.applyModelInValue = function () {
-        var value = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.get(this.element[__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME].scope, this.atribute);
+        var value = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.get(__WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(this.element).scope, this.atribute);
         if (this.element.value != value) {
             switch (this.element.type) {
                 case 'date':
@@ -17891,15 +17862,15 @@ var CPModel = (function () {
     CPModel.prototype.applyValueInModel = function () {
         switch (this.element.type) {
             case 'date':
-                __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.set(this.element[__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME].scope, this.atribute, this.element.valueAsDate);
+                __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.set(__WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(this.element).scope, this.atribute, this.element.valueAsDate);
                 break;
             case 'number':
-                __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.set(this.element[__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME].scope, this.atribute, this.element.valueAsNumber);
+                __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.set(__WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(this.element).scope, this.atribute, this.element.valueAsNumber);
                 break;
             default:
-                __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.set(this.element[__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME].scope, this.atribute, this.element.value);
+                __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.set(__WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(this.element).scope, this.atribute, this.element.value);
         }
-        this.map.reloadBind();
+        this.map.reload();
     };
     return CPModel;
 }());
@@ -17915,6 +17886,8 @@ var CPModel = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__constants__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__common__ = __webpack_require__(2);
+
 
 
 var CPClick = (function () {
@@ -17928,14 +17901,14 @@ var CPClick = (function () {
         return (/\{\s*\[native code\]\s*\}/).test('' + fn);
     };
     CPClick.prototype.getCallbackClick = function (element) {
-        var callback = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.get(element[__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME].scope, this.atribute.substring(0, this.atribute.indexOf('(')));
-        if (!callback && element.parentNode && element.parentNode[__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME]) {
+        var callback = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.get(__WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(element).scope, this.atribute.substring(0, this.atribute.indexOf('(')));
+        if (!callback && element.parentNode && __WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(element.parentNode)) {
             return this.getCallbackClick(element.parentNode);
         }
         return callback;
     };
     CPClick.prototype.getIndexRow = function (element) {
-        var index = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.get(element[__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME].scope, __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].REPEAT_INDEX_NAME);
+        var index = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.get(__WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(element).scope, __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].REPEAT_INDEX_NAME);
         if (index == undefined && element.parentNode) {
             return this.getIndexRow(element.parentNode);
         }
@@ -17948,16 +17921,9 @@ var CPClick = (function () {
             var callback = _this.getCallbackClick(_this.element);
             if (callback && !_this.isNative(callback)) {
                 var params = _this.atribute.substring(_this.atribute.indexOf('(') + 1, _this.atribute.length - 1), args_1 = [];
-                params.split(',').forEach(function (param) { return args_1.push(__WEBPACK_IMPORTED_MODULE_0_lodash___default.a.get(_this.element[__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME].scope, param)); });
+                params.split(',').forEach(function (param) { return args_1.push(__WEBPACK_IMPORTED_MODULE_0_lodash___default.a.get(__WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(_this.element).scope, param)); });
                 callback.call.apply(callback, [null].concat(args_1));
             }
-            // else{
-            //     let atribute = this.atribute;
-            //     const evalWithinContext = function(context, code){
-            //         (function(code) { eval(code); }).apply(context, [code]);
-            //     };
-            //     evalWithinContext(this.element[Constants.SCOPE_ATTRIBUTE_NAME].scope, atribute);
-            // }
         };
         //Remove old event
         this.element.removeEventListener('click', onClick);
@@ -17978,7 +17944,9 @@ var CPClick = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__constants__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common__ = __webpack_require__(2);
+
 
 
 
@@ -17992,12 +17960,12 @@ var CPRepeat = (function () {
         this.atribute = _element.getAttribute(__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].REPEAT_ATRIBUTE_NAME).replace(/\s+/g, ' ');
         this.referenceNode = document.createComment('start repeat ' + this.atribute);
         this.originalElement.replaceWith(this.referenceNode);
-        this.originalElement[__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME].$on('$onInit', function () { return _this.applyLoop(); });
+        __WEBPACK_IMPORTED_MODULE_3__common__["a" /* Common */].getScope(this.originalElement).$on('$onInit', function () { return _this.applyLoop(); });
     }
     CPRepeat.prototype.applyLoop = function () {
         var attributeAlias = this.atribute.substring(0, this.atribute.indexOf(__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].REPEAT_ATRIBUTE_OPERATOR));
         var attributeScope = this.atribute.substring(this.atribute.indexOf(__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].REPEAT_ATRIBUTE_OPERATOR) + __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].REPEAT_ATRIBUTE_OPERATOR.length, this.atribute.length);
-        var array = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.get(this.originalElement[__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME].scope, attributeScope);
+        var array = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.get(__WEBPACK_IMPORTED_MODULE_3__common__["a" /* Common */].getScope(this.originalElement).scope, attributeScope);
         if (array && !__WEBPACK_IMPORTED_MODULE_0_lodash___default.a.isEqual(array, this.lastArray)) {
             this.lastArray = array.slice();
             this.removeChilds();
@@ -18020,8 +17988,8 @@ var CPRepeat = (function () {
             elm.removeAttribute(__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].REPEAT_ATRIBUTE_NAME);
             _this.referenceNode.parentNode.appendChild(elm);
             new __WEBPACK_IMPORTED_MODULE_2__controller__["a" /* Controller */](elm, function () { });
-            elm[__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME].scope[attributeAlias] = row;
-            elm[__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME].scope[__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].REPEAT_INDEX_NAME] = index;
+            __WEBPACK_IMPORTED_MODULE_3__common__["a" /* Common */].getScope(elm).scope[attributeAlias] = row;
+            __WEBPACK_IMPORTED_MODULE_3__common__["a" /* Common */].getScope(elm).scope[__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].REPEAT_INDEX_NAME] = index;
             return elm;
         });
         this.referenceNode.parentNode.appendChild(document.createComment('end repeat ' + this.atribute));
@@ -18033,6 +18001,109 @@ var CPRepeat = (function () {
 
 /***/ }),
 /* 13 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CPShow; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__common__ = __webpack_require__(2);
+
+var CPShow = (function () {
+    function CPShow(_element, _map) {
+        var _this = this;
+        this.element = _element;
+        this.initialDisplay = this.element.style.display || 'block';
+        this.map = _map;
+        this.atribute = __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].getAttributeCpShow(this.element);
+        __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].getScope(this.element).$on('$onInit', function () { return _this.init(); });
+    }
+    CPShow.prototype.init = function () {
+        try {
+            __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].evalInContext(this.atribute, __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].getScope(this.element).scope) ? this.show() : this.hide();
+        }
+        catch (ex) {
+            this.hide();
+        }
+    };
+    CPShow.prototype.hide = function () {
+        this.element.style.display = 'none';
+    };
+    CPShow.prototype.show = function () {
+        this.element.style.display = this.initialDisplay;
+    };
+    return CPShow;
+}());
+
+
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {var apply = Function.prototype.apply;
+
+// DOM APIs, for completeness
+
+exports.setTimeout = function() {
+  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
+};
+exports.setInterval = function() {
+  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
+};
+exports.clearTimeout =
+exports.clearInterval = function(timeout) {
+  if (timeout) {
+    timeout.close();
+  }
+};
+
+function Timeout(id, clearFn) {
+  this._id = id;
+  this._clearFn = clearFn;
+}
+Timeout.prototype.unref = Timeout.prototype.ref = function() {};
+Timeout.prototype.close = function() {
+  this._clearFn.call(window, this._id);
+};
+
+// Does not start the time, just sets up the members needed.
+exports.enroll = function(item, msecs) {
+  clearTimeout(item._idleTimeoutId);
+  item._idleTimeout = msecs;
+};
+
+exports.unenroll = function(item) {
+  clearTimeout(item._idleTimeoutId);
+  item._idleTimeout = -1;
+};
+
+exports._unrefActive = exports.active = function(item) {
+  clearTimeout(item._idleTimeoutId);
+
+  var msecs = item._idleTimeout;
+  if (msecs >= 0) {
+    item._idleTimeoutId = setTimeout(function onTimeout() {
+      if (item._onTimeout)
+        item._onTimeout();
+    }, msecs);
+  }
+};
+
+// setimmediate attaches itself to the global object
+__webpack_require__(15);
+// On some exotic environments, it's not clear which object `setimmeidate` was
+// able to install onto.  Search each possibility in the same order as the
+// `setimmediate` library.
+exports.setImmediate = (typeof self !== "undefined" && self.setImmediate) ||
+                       (typeof global !== "undefined" && global.setImmediate) ||
+                       (this && this.setImmediate);
+exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
+                         (typeof global !== "undefined" && global.clearImmediate) ||
+                         (this && this.clearImmediate);
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ }),
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -18222,10 +18293,10 @@ var CPRepeat = (function () {
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(14)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(16)))
 
 /***/ }),
-/* 14 */
+/* 16 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -18415,12 +18486,12 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 15 */
+/* 17 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Component; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__component_instance__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__component_instance__ = __webpack_require__(18);
 
 var Component = (function () {
     function Component(_componentName, config) {
@@ -18436,37 +18507,37 @@ var Component = (function () {
 
 
 /***/ }),
-/* 16 */
+/* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ComponentInstance; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_melanke_watchjs__ = __webpack_require__(17);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_melanke_watchjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_melanke_watchjs__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_lodash__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_timers__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_timers___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_timers__);
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_melanke_watchjs__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_melanke_watchjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_melanke_watchjs__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_lodash__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__common__ = __webpack_require__(2);
 
 
 
 var ComponentInstance = (function () {
     function ComponentInstance(_element, _config) {
-        var _this = this;
         this.element = _element;
         this.config = _config;
         this.element.innerHTML = this.config.template;
+        this.registerController();
+        __WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(this.element).scope['$bindings'] = {};
+        __WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(this.element).scope['$constants'] = {};
+        __WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(this.element).scope['$functions'] = {};
+    }
+    ComponentInstance.prototype.registerController = function () {
+        var _this = this;
         window['capivara'].controller(this.element, function (scope) {
             _this.componentScope = scope;
-            if (_config.controller)
-                _config.controller(scope);
+            if (_this.config.controller)
+                _this.config.controller(scope);
         });
-        this.element[__WEBPACK_IMPORTED_MODULE_0__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME].scope['$bindings'] = {};
-        this.element[__WEBPACK_IMPORTED_MODULE_0__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME].scope['$constants'] = {};
-        this.element[__WEBPACK_IMPORTED_MODULE_0__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME].scope['$functions'] = {};
-    }
+    };
     /**
      * @description Renderiza o template no elemento.
      */
@@ -18474,7 +18545,10 @@ var ComponentInstance = (function () {
         var _this = this;
         if (this.componentScope.$onInit)
             this.componentScope.$onInit();
-        window['capivara'].$on('DOMNodeRemoved', function () { return Object(__WEBPACK_IMPORTED_MODULE_3_timers__["setTimeout"])(function () { if (!document.body.contains(_this.element))
+        /**
+         * @description Olhamos o evento global para ser possível desparar o evento destroy nos controllers.
+         */
+        window['capivara'].$on('DOMNodeRemoved', function () { return setTimeout(function () { if (!document.body.contains(_this.element))
             _this.destroy(); }, 0); });
     };
     /**
@@ -18485,6 +18559,7 @@ var ComponentInstance = (function () {
             this.componentScope.$destroy();
     };
     /**
+     * @description
      * @param obj Contexto dos bindings, o contexto é o objeto que possui os valores dos bindings
      */
     ComponentInstance.prototype.context = function (obj) {
@@ -18504,23 +18579,36 @@ var ComponentInstance = (function () {
         }
         this.config.bindings.forEach(function (key) {
             if (_bindings[key]) {
-                _this.element[__WEBPACK_IMPORTED_MODULE_0__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME].scope['$bindings'][key] = __WEBPACK_IMPORTED_MODULE_2_lodash___default.a.get(_this.contextObj, _bindings[key]);
-                var keyObserve = _bindings[key].indexOf('.') != -1 ? _bindings[key].substring(0, _bindings[key].indexOf('.')) : _bindings[key];
-                /**
-                 * @description Observa o contexto, quando houver alteração é modificado no escopo do componente
-                 */
-                __WEBPACK_IMPORTED_MODULE_1_melanke_watchjs___default.a.watch(_this.contextObj, keyObserve, function () {
-                    _this.element[__WEBPACK_IMPORTED_MODULE_0__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME].scope['$bindings'][key] = __WEBPACK_IMPORTED_MODULE_2_lodash___default.a.get(_this.contextObj, _bindings[key]);
-                });
-                /**
-                 * @description Observa o componente quando houver alteração é modificado o contexto
-                 */
-                __WEBPACK_IMPORTED_MODULE_1_melanke_watchjs___default.a.watch(_this.element[__WEBPACK_IMPORTED_MODULE_0__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME].scope['$bindings'], key, function () {
-                    __WEBPACK_IMPORTED_MODULE_2_lodash___default.a.set(_this.contextObj, _bindings[key], _this.element[__WEBPACK_IMPORTED_MODULE_0__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME].scope['$bindings'][key]);
-                });
+                _this.setAtributteValue(_bindings, key);
+                _this.createObserverContext(_bindings, key);
+                _this.createObserverScope(_bindings, key);
             }
         });
         return this;
+    };
+    /**
+    * @description Observa o componente quando houver alteração é modificado o contexto
+    */
+    ComponentInstance.prototype.createObserverScope = function (_bindings, key) {
+        var _this = this;
+        __WEBPACK_IMPORTED_MODULE_0_melanke_watchjs___default.a.watch(__WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(this.element).scope['$bindings'], key, function () {
+            __WEBPACK_IMPORTED_MODULE_1_lodash___default.a.set(_this.contextObj, _bindings[key], __WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(_this.element).scope['$bindings'][key]);
+        });
+    };
+    /**
+     * @description Observa o contexto, quando houver alteração é modificado no escopo do componente
+     */
+    ComponentInstance.prototype.createObserverContext = function (_bindings, key) {
+        var _this = this;
+        __WEBPACK_IMPORTED_MODULE_0_melanke_watchjs___default.a.watch(this.contextObj, this.getFirstAtributte(_bindings, key), function () {
+            _this.setAtributteValue(_bindings, key);
+        });
+    };
+    ComponentInstance.prototype.getFirstAtributte = function (_bindings, key) {
+        return _bindings[key].indexOf('.') != -1 ? _bindings[key].substring(0, _bindings[key].indexOf('.')) : _bindings[key];
+    };
+    ComponentInstance.prototype.setAtributteValue = function (_bindings, key) {
+        __WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(this.element).scope['$bindings'][key] = __WEBPACK_IMPORTED_MODULE_1_lodash___default.a.get(this.contextObj, _bindings[key]);
     };
     /**
      * @description Crie valores sem referências
@@ -18530,7 +18618,7 @@ var ComponentInstance = (function () {
         var _this = this;
         this.config.constants.forEach(function (key) {
             if (_constants[key]) {
-                _this.element[__WEBPACK_IMPORTED_MODULE_0__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME].scope['$constants'][key] = _constants[key];
+                __WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(_this.element).scope['$constants'][key] = _constants[key];
             }
         });
         return this;
@@ -18539,7 +18627,7 @@ var ComponentInstance = (function () {
         var _this = this;
         this.config.functions.forEach(function (key) {
             if (_functions[key]) {
-                _this.element[__WEBPACK_IMPORTED_MODULE_0__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME].scope['$functions'][key] = _functions[key];
+                __WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(_this.element).scope['$functions'][key] = _functions[key];
             }
         });
         return this;
@@ -18550,7 +18638,7 @@ var ComponentInstance = (function () {
 
 
 /***/ }),
-/* 17 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19353,7 +19441,7 @@ var ComponentInstance = (function () {
 
 
 /***/ }),
-/* 18 */
+/* 20 */
 /***/ (function(module, exports) {
 
 module.exports = {"name":"capivarajs","version":"3.7.0-alpha","description":"","main":"index.js","scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js"},"author":"","license":"ISC","dependencies":{},"devDependencies":{"@types/node":"^9.4.0","babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-preset-env":"^1.6.1","babel-preset-stage-0":"^6.24.1","css-loader":"^0.28.7","extract-text-webpack-plugin":"^3.0.2","file-loader":"^1.1.5","html-loader":"^0.5.1","lodash":"^4.17.5","node-sass":"^4.7.2","sass-loader":"^6.0.6","style-loader":"^0.19.0","ts-loader":"^3.2.0","uglifyjs-webpack-plugin":"^1.1.2","webpack":"^3.9.1","webpack-dev-server":"^2.9.5"}}

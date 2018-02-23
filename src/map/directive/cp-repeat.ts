@@ -3,6 +3,7 @@ import { Constants } from '../../constants';
 import { MapDom } from '../map-dom';
 import { Scope } from '../../scope/scope';
 import { Controller } from '../../controller';
+import { Common } from '../../common';
 
 export class CPRepeat {
 
@@ -20,13 +21,13 @@ export class CPRepeat {
         this.atribute = _element.getAttribute(Constants.REPEAT_ATRIBUTE_NAME).replace(/\s+/g, ' ');
         this.referenceNode = document.createComment('start repeat ' + this.atribute);
         this.originalElement.replaceWith(this.referenceNode);
-        this.originalElement[Constants.SCOPE_ATTRIBUTE_NAME].$on('$onInit', () => this.applyLoop());
+        Common.getScope(this.originalElement).$on('$onInit', () => this.applyLoop());
     }
 
     applyLoop() {
         let attributeAlias = this.atribute.substring(0, this.atribute.indexOf(Constants.REPEAT_ATRIBUTE_OPERATOR));
         let attributeScope = this.atribute.substring(this.atribute.indexOf(Constants.REPEAT_ATRIBUTE_OPERATOR) + Constants.REPEAT_ATRIBUTE_OPERATOR.length, this.atribute.length);
-        let array = _.get(this.originalElement[Constants.SCOPE_ATTRIBUTE_NAME].scope, attributeScope);
+        let array = _.get(Common.getScope(this.originalElement).scope, attributeScope);
         if (array && !_.isEqual(array, this.lastArray)) {
             this.lastArray = array.slice();
             this.removeChilds();
@@ -49,8 +50,8 @@ export class CPRepeat {
             elm.removeAttribute(Constants.REPEAT_ATRIBUTE_NAME);
             this.referenceNode.parentNode.appendChild(elm);
             new Controller(elm, () => { });
-            elm[Constants.SCOPE_ATTRIBUTE_NAME].scope[attributeAlias] = row;
-            elm[Constants.SCOPE_ATTRIBUTE_NAME].scope[Constants.REPEAT_INDEX_NAME] = index;
+            Common.getScope(elm).scope[attributeAlias] = row;
+            Common.getScope(elm).scope[Constants.REPEAT_INDEX_NAME] = index;
             return elm;
         })
         this.referenceNode.parentNode.appendChild(document.createComment('end repeat ' + this.atribute));

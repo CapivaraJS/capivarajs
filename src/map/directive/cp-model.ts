@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import { Constants } from '../../constants';
-import { Bind } from './bind';
 import { MapDom } from '../map-dom';
+import { Common } from '../../common';
 
-export class CPModel implements Bind {
+export class CPModel {
 
     private element: any;
     private map: MapDom;
@@ -18,12 +18,12 @@ export class CPModel implements Bind {
     }
 
     init() {
-        this.map.addElementMap(this);
+        this.map.addCpModels(this);
         this.element.addEventListener('input', evt => this.applyValueInModel());
     }
 
     applyModelInValue() {
-        let value = _.get(this.element[Constants.SCOPE_ATTRIBUTE_NAME].scope, this.atribute);
+        let value = _.get(Common.getScope(this.element).scope, this.atribute);
         if (this.element.value != value) {
             switch (this.element.type) {
                 case 'date':
@@ -41,15 +41,15 @@ export class CPModel implements Bind {
     applyValueInModel() {
         switch (this.element.type) {
             case 'date':
-                _.set(this.element[Constants.SCOPE_ATTRIBUTE_NAME].scope, this.atribute, this.element.valueAsDate);
+                _.set(Common.getScope(this.element).scope, this.atribute, this.element.valueAsDate);
                 break;
             case 'number':
-                _.set(this.element[Constants.SCOPE_ATTRIBUTE_NAME].scope, this.atribute, this.element.valueAsNumber);
+                _.set(Common.getScope(this.element).scope, this.atribute, this.element.valueAsNumber);
                 break;
             default:
-                _.set(this.element[Constants.SCOPE_ATTRIBUTE_NAME].scope, this.atribute, this.element.value);
+                _.set(Common.getScope(this.element).scope, this.atribute, this.element.value);
         }
-        this.map.reloadBind();
+        this.map.reload();
     }
 
 }
