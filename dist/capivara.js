@@ -17280,7 +17280,7 @@ module.exports = g;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__constants__ = __webpack_require__(0);
 
 
-var Controller = (function () {
+var Controller = /** @class */ (function () {
     function Controller(element, callback) {
         var scope = new __WEBPACK_IMPORTED_MODULE_0__scope_scope__["a" /* Scope */](element);
         if (element && element.parentNode && element.parentNode[__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME]) {
@@ -17481,7 +17481,7 @@ var packageJson = __webpack_require__(20);
 
 
 
-var Scope = (function () {
+var Scope = /** @class */ (function () {
     function Scope(_element) {
         var _this = this;
         this.$on = function (event, callback) {
@@ -17527,7 +17527,7 @@ var Scope = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
 
-var ScopeProxy = (function () {
+var ScopeProxy = /** @class */ (function () {
     /**
      * @param obj Objeto que será feito o proxy
      * @param _scope Instância do escopo criado.
@@ -17655,7 +17655,7 @@ module.exports = function(module) {
 
 
 
-var MapDom = (function () {
+var MapDom = /** @class */ (function () {
     function MapDom(_element) {
         /**
          * Mapa de atributos com os elementos que os observam.
@@ -17831,7 +17831,7 @@ var MapDom = (function () {
 
 
 
-var CPModel = (function () {
+var CPModel = /** @class */ (function () {
     function CPModel(_element, _map) {
         this.element = _element;
         this.map = _map;
@@ -17890,7 +17890,7 @@ var CPModel = (function () {
 
 
 
-var CPClick = (function () {
+var CPClick = /** @class */ (function () {
     function CPClick(_element, _map) {
         this.element = _element;
         this.map = _map;
@@ -17950,7 +17950,7 @@ var CPClick = (function () {
 
 
 
-var CPRepeat = (function () {
+var CPRepeat = /** @class */ (function () {
     function CPRepeat(_element, _map) {
         var _this = this;
         this.lastArray = [];
@@ -18007,7 +18007,7 @@ var CPRepeat = (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CPShow; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__common__ = __webpack_require__(2);
 
-var CPShow = (function () {
+var CPShow = /** @class */ (function () {
     function CPShow(_element, _map) {
         var _this = this;
         this.element = _element;
@@ -18493,7 +18493,7 @@ process.umask = function() { return 0; };
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Component; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__component_instance__ = __webpack_require__(18);
 
-var Component = (function () {
+var Component = /** @class */ (function () {
     function Component(_componentName, config) {
         this.componentName = _componentName;
         this.config = config;
@@ -18520,7 +18520,7 @@ var Component = (function () {
 
 
 
-var ComponentInstance = (function () {
+var ComponentInstance = /** @class */ (function () {
     function ComponentInstance(_element, _config) {
         this.element = _element;
         this.config = _config;
@@ -19444,7 +19444,7 @@ var ComponentInstance = (function () {
 /* 20 */
 /***/ (function(module, exports) {
 
-module.exports = {"name":"capivarajs","version":"3.7.0-alpha","description":"","main":"index.js","scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js"},"author":"","license":"ISC","dependencies":{},"devDependencies":{"@types/node":"^9.4.0","babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-preset-env":"^1.6.1","babel-preset-stage-0":"^6.24.1","css-loader":"^0.28.7","extract-text-webpack-plugin":"^3.0.2","file-loader":"^1.1.5","html-loader":"^0.5.1","lodash":"^4.17.5","node-sass":"^4.7.2","sass-loader":"^6.0.6","style-loader":"^0.19.0","ts-loader":"^3.2.0","uglifyjs-webpack-plugin":"^1.1.2","webpack":"^3.9.1","webpack-dev-server":"^2.9.5"}}
+module.exports = {"name":"capivarajs","version":"3.8.0-alpha","description":"","main":"index.js","scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js"},"author":"","license":"ISC","dependencies":{"melanke-watchjs":"^1.3.1","typescript":"^2.7.2"},"devDependencies":{"@types/node":"^9.4.0","babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-preset-env":"^1.6.1","babel-preset-stage-0":"^6.24.1","css-loader":"^0.28.7","extract-text-webpack-plugin":"^3.0.2","file-loader":"^1.1.5","html-loader":"^0.5.1","lodash":"^4.17.5","node-sass":"^4.7.2","sass-loader":"^6.0.6","style-loader":"^0.19.0","ts-loader":"^3.2.0","uglifyjs-webpack-plugin":"^1.1.2","webpack":"^3.9.1","webpack-dev-server":"^2.9.5"}}
 
 /***/ })
 /******/ ]);
