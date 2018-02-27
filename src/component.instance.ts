@@ -3,6 +3,7 @@ import WatchJS from 'melanke-watchjs';
 import _ from 'lodash';
 import { Common } from './common';
 import { ComponentConfig } from './component.config';
+import {CPIf} from "./map/directive/cp-if";
 
 export class ComponentInstance {
 
@@ -10,11 +11,14 @@ export class ComponentInstance {
     element: any;
     contextObj;
     componentScope;
+    destroyed: Boolean;
 
     constructor(_element, _config: ComponentConfig) {
         this.element = _element;
+        this.element.$instance = this;
         this.config = _config;
         this.element.innerHTML = this.config.template;
+        this.destroyed = true;
         this.registerController();
         Common.getScope(this.element).scope['$bindings']  = {};
         Common.getScope(this.element).scope['$constants'] = {};
@@ -24,15 +28,24 @@ export class ComponentInstance {
     registerController(){
         window['capivara'].controller(this.element, (scope) => {
             this.componentScope = scope;
-            if(this.config.controller) this.config.controller(scope);
         });
+    }
+
+    initController(){
+        if(this.destroyed){
+            if(this.config.controller) this.config.controller(this.componentScope);
+            if(this.componentScope.$onInit) this.componentScope.$onInit();
+            this.destroyed = false;
+        }
     }
 
     /**
      * @description Renderiza o template no elemento.
      */
     build() {
-        if(this.componentScope.$onInit) this.componentScope.$onInit();
+        if(!this.element.hasAttribute(Constants.IF_ATTRIBUTE_NAME)){
+            this.initController();
+        }
         /**
          * @description Olhamos o evento global para ser possível desparar o evento destroy nos controllers.
          */
@@ -43,7 +56,8 @@ export class ComponentInstance {
      * @description Função executada quando o elemento é destruído do documento.
      */
     destroy(){
-        if(this.componentScope.$destroy) this.componentScope.$destroy();
+        this.destroyed = true;
+        if(this.componentScope.$destroy && !this.destroyed) this.componentScope.$destroy();
     }
 
 

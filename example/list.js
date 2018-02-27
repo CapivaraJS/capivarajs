@@ -1,32 +1,14 @@
-capivara.component('mateus', {
-    template: `
-        <h1> [[ mateus ]] </h1>
-    `,
-    controller: function(scope){
-        scope.mateus = 'Mateus Miranda';
-
-        scope.$onInit = function () {
-            console.log('iniciou');
-        }
-
-    }
-});
-
-
-// noinspection HtmlUnknownAttribute
 capivara.component('my-component', {
     template: `        
-        <mateus cp-if="mostrar"  #componentMateus></mateus>
+        <h1 cp-if="mostrar == 20">Exemplo</h1>
         
         <button cp-click="alterar()">Clique para Mostrar</button>
     `,
     controller: function(scope){
-        capivara.componentBuilder('componentMateus').build();
-
-        scope.mostrar = false;
+        scope.mostrar = 10;
 
         scope.alterar = function(){
-            scope.mostrar = !scope.mostrar;
+            scope.mostrar = 20;
         }
 
     }

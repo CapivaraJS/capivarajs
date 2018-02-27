@@ -18,11 +18,15 @@ export class CPIf {
         });
     }
 
+    public static isValidCondition(element){
+        let scope = Common.getScope(element).$parent || Common.getScope(element);
+        return Common.evalInContext(Common.getAttributeCpIf(element), scope.scope);
+    }
+
     init() {
         if(!this.element) { return; }
         try {
-            let scope = Common.getScope(this.element).$parent || Common.getScope(this.element);
-            Common.evalInContext(this.attribute, scope.scope) ? this.show() : this.hide();
+            CPIf.isValidCondition(this.element) ? this.show() : this.hide();
         } catch (ex) {
             this.hide();
         }
@@ -30,12 +34,12 @@ export class CPIf {
 
     hide() {
         this.element.replaceWith(this.elementComment);
+        if(this.element.$instance) this.element.$instance.destroy();
     }
 
     show() {
-        // let component = window['capivara'].components[this.element.nodeName];
-        // if(component){ component.createNewInstance(this.element); }
         this.elementComment.replaceWith(this.element);
+        if(this.element.$instance) this.element.$instance.initController();
     }
 
 }
