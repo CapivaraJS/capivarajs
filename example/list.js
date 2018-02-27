@@ -1,14 +1,33 @@
-capivara.component('my-component', {
+capivara.component('gumga-input', {
     template: `        
-
-        <h1 cp-init="teste(10)">
-            [[ 40 + 74 ]]
-        </h1>
-
+        Ola mundo
     `,
     controller: function (scope) {
-        scope.teste = function (numero) {
-            console.log("iniciou", numero);
-        };
+
+    }
+});
+
+
+capivara.component('my-component', {
+    template: `        
+        <div cp-repeat="pessoa in pessoas">
+            <gumga-input ></gumga-input>
+        </div>
+    `,
+    controller: function (scope) {
+        scope.pessoas = [
+            {
+                nome: 'Mateus'
+            },
+            {
+                nome: 'João'
+            }
+        ];
+
+        scope.create = function(){
+            capivara.componentBuilder('myInput').build();
+        }
+
+
     }
 });
