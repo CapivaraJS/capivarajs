@@ -1,7 +1,6 @@
 import { Controller } from './controller';
 import { Constants } from './constants';
 import { Component } from './component';
-import { throws } from 'assert';
 
 const packageJson = require('../package.json');
 
@@ -34,16 +33,22 @@ const packageJson = require('../package.json');
             componentBuilder: function(hashName){
                 let elms = Array.from(document.querySelectorAll('[\\#'+hashName+']'));
                 if(elms.length == 0) console.error('CapivaraJS did not find its component with the hash ' + hashName);
-                let instance;
-                elms.forEach(elm => {
-                    let component = window['capivara'].components[elm.nodeName];
-                    if(!component) {
-                        console.error('We did not find a registered entry under the name: '+elm.nodeName);
-                        return;
-                    }
-                    if(!instance) instance = component.createNewInstance(elm);
-                });
-                return instance;
+                let instance = undefined;
+
+                const findElementAndCreateInstance = () => {
+                    elms = Array.from(document.querySelectorAll('[\\#'+hashName+']'));
+                    elms.forEach(elm => {
+                        let component = window['capivara'].components[elm.nodeName];
+                        if(!component) {
+                            console.error('We did not find a registered entry under the name: '+elm.nodeName);
+                            return;
+                        }
+                        if(!instance) instance = component.createNewInstance(elm);
+                    });
+                    return instance;
+                };
+
+                return findElementAndCreateInstance();
             },
             /**
              * @name capivara.controller
@@ -147,9 +152,7 @@ const packageJson = require('../package.json');
             version: packageJson.version
         };
 
-        let onNodeRemove = (evt) => window['capivara'].$emit('DOMNodeRemoved');
-        document.addEventListener('DOMNodeRemoved', onNodeRemove);
-
+        document.addEventListener('DOMNodeRemoved', (evt) => window['capivara'].$emit('DOMNodeRemoved', evt));
     } else {
         console.warn('CapivaraJS tried to load more than once.');
     }

@@ -29,6 +29,10 @@ export namespace Common {
         return element.getAttribute(Constants.SHOW_ATTRIBUTE_NAME);
     }
 
+    export function getAttributeCpIf(element) {
+        return element.getAttribute(Constants.IF_ATTRIBUTE_NAME);
+    }
+
     export function getScope(element) {
         return element[Constants.SCOPE_ATTRIBUTE_NAME];
     }
