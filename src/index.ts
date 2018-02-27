@@ -145,7 +145,7 @@ const packageJson = require('../package.json');
                     });
             },
             version: packageJson.version
-        }
+        };
 
         let onNodeRemove = (evt) => window['capivara'].$emit('DOMNodeRemoved');
         document.addEventListener('DOMNodeRemoved', onNodeRemove);

@@ -7,12 +7,12 @@ export class CPClick {
 
     private element: any;
     private map: MapDom;
-    private atribute;
+    private attribute;
 
     constructor(_element: HTMLElement, _map: MapDom) {
         this.element = _element;
         this.map = _map;
-        this.atribute = this.element.getAttribute(Constants.CLICK_ATTRIBUTE_NAME);
+        this.attribute = this.element.getAttribute(Constants.CLICK_ATTRIBUTE_NAME);
         this.init();
     }
 
@@ -21,7 +21,7 @@ export class CPClick {
     }
 
     getCallbackClick(element){
-        let callback = _.get(Common.getScope(element).scope, this.atribute.substring(0, this.atribute.indexOf('(')));
+        let callback = _.get(Common.getScope(element).scope, this.attribute.substring(0, this.attribute.indexOf('(')));
         if(!callback && element.parentNode && Common.getScope(element.parentNode)){
             return this.getCallbackClick(element.parentNode);
         }
@@ -38,14 +38,14 @@ export class CPClick {
 
     init() {
         const onClick = (evt) => {
-            this.atribute = this.atribute.replace(/ /g,'');
+            this.attribute = this.attribute.replace(/ /g,'');
             let callback = this.getCallbackClick(this.element);
             if(callback && !this.isNative(callback)){
-                let params = this.atribute.substring(this.atribute.indexOf('(') + 1, this.atribute.length -1), args = [];
+                let params = this.attribute.substring(this.attribute.indexOf('(') + 1, this.attribute.length -1), args = [];
                 params.split(',').forEach(param => args.push(_.get(Common.getScope(this.element).scope, param)));
                 callback.call(null, ...args);
             }
-        }
+        };
         //Remove old event
         this.element.removeEventListener('click', onClick);
         //Add new event

@@ -29,8 +29,8 @@ export class ScopeProxy {
      * @param obj Objeto a ser analisado o tipo da instância.
      */
     isNativeFn(obj) {
-        if(obj instanceof Date) return true;
-        return false;
+        return obj instanceof Date;
+        
     }
 
     /**

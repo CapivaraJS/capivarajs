@@ -7,12 +7,12 @@ export class CPModel {
 
     private element: any;
     private map: MapDom;
-    private atribute;
+    private attribute;
 
     constructor(_element: HTMLElement, _map: MapDom) {
         this.element = _element;
         this.map = _map;
-        this.atribute = this.element.getAttribute(Constants.MODEL_ATTRIBUTE_NAME);
+        this.attribute = this.element.getAttribute(Constants.MODEL_ATTRIBUTE_NAME);
         this.init();
         this.applyValueInModel();
     }
@@ -23,7 +23,7 @@ export class CPModel {
     }
 
     applyModelInValue() {
-        let value = _.get(Common.getScope(this.element).scope, this.atribute);
+        let value = _.get(Common.getScope(this.element).scope, this.attribute);
         if (this.element.value != value) {
             switch (this.element.type) {
                 case 'date':
@@ -41,13 +41,13 @@ export class CPModel {
     applyValueInModel() {
         switch (this.element.type) {
             case 'date':
-                _.set(Common.getScope(this.element).scope, this.atribute, this.element.valueAsDate);
+                _.set(Common.getScope(this.element).scope, this.attribute, this.element.valueAsDate);
                 break;
             case 'number':
-                _.set(Common.getScope(this.element).scope, this.atribute, this.element.valueAsNumber);
+                _.set(Common.getScope(this.element).scope, this.attribute, this.element.valueAsNumber);
                 break;
             default:
-                _.set(Common.getScope(this.element).scope, this.atribute, this.element.value);
+                _.set(Common.getScope(this.element).scope, this.attribute, this.element.value);
         }
         this.map.reload();
     }

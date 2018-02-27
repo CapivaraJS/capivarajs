@@ -67,7 +67,7 @@ export class ComponentInstance {
         }
         this.config.bindings.forEach(key => {
             if (_bindings[key]) {                
-                this.setAtributteValue(_bindings, key);            
+                this.setAttributeValue(_bindings, key);
                 this.createObserverContext(_bindings, key);
                 this.createObserverScope(_bindings, key);                
             }
@@ -89,17 +89,17 @@ export class ComponentInstance {
      * @description Observa o contexto, quando houver alteração é modificado no escopo do componente
      */
     createObserverContext(_bindings, key) {
-        WatchJS.watch(this.contextObj, this.getFirstAtributte(_bindings, key),
+        WatchJS.watch(this.contextObj, this.getFirstAttribute(_bindings, key),
             () => {
-                this.setAtributteValue(_bindings, key);
+                this.setAttributeValue(_bindings, key);
             });
     }
 
-    getFirstAtributte(_bindings, key) {
+    getFirstAttribute(_bindings, key) {
         return _bindings[key].indexOf('.') != -1 ? _bindings[key].substring(0, _bindings[key].indexOf('.')) : _bindings[key];
     }
 
-    setAtributteValue(_bindings, key) {
+    setAttributeValue(_bindings, key) {
         Common.getScope(this.element).scope['$bindings'][key] = _.get(this.contextObj, _bindings[key]);
     }
 

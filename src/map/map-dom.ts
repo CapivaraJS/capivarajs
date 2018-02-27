@@ -4,8 +4,8 @@ import { CPModel } from './directive/cp-model';
 import { CPClick } from './directive/cp-click';
 import { CPRepeat } from './directive/cp-repeat';
 import { CPShow } from './directive/cp-show';
-import { Common } from '../common';
 import { CPIf } from "./directive/cp-if";
+import { Common } from '../common';
 
 export class MapDom {
 
@@ -46,7 +46,7 @@ export class MapDom {
                 this.createDirectives(child);
                 if (child.children) recursiveBind(child);
             });
-        }
+        };
         recursiveBind(this.element);
     }
 
@@ -59,7 +59,7 @@ export class MapDom {
         if (child.hasAttribute(Constants.CLICK_ATTRIBUTE_NAME))  this.createCPClick(child);
         if (child.hasAttribute(Constants.REPEAT_ATTRIBUTE_NAME)) this.createCPRepeat(child);
         if (child.hasAttribute(Constants.SHOW_ATTRIBUTE_NAME))   this.createCPShow(child);
-        if (child.hasAttribute(Constants.IF_ATTRIBUTE_NAME))   this.createCPIf(child);
+        if (child.hasAttribute(Constants.IF_ATTRIBUTE_NAME))     this.createCPIf(child);
     }
 
     reloadElementChildes(element) {
@@ -128,7 +128,7 @@ export class MapDom {
                 
                 try {
                     value = Common.evalInContext(content, Common.getScopeParent(childNode)) || '';                    
-                } catch (e) {};
+                } catch (e) {}
 
                 key = window['capivara'].replaceAll(key, '{{', Constants.START_INTERPOLATION);
                 key = window['capivara'].replaceAll(key, '}}', Constants.END_INTERPOLATION);
