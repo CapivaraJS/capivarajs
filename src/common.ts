@@ -33,6 +33,10 @@ export namespace Common {
         return element.getAttribute(Constants.IF_ATTRIBUTE_NAME);
     }
 
+    export function getAttributeCpInit(element) {
+        return element.getAttribute(Constants.INIT_ATTRIBUTE_NAME);
+    }
+
     export function getScope(element) {
         return element[Constants.SCOPE_ATTRIBUTE_NAME];
     }
@@ -44,6 +48,18 @@ export namespace Common {
         if (element.parentNode) {
             return getScopeParent(element.parentNode);
         }
+    }
+
+    export function getCallbackClick(element, attribute) {
+        let callback = _.get(getScope(element).scope, attribute.substring(0, attribute.indexOf('(')));
+        if (!callback && element.parentNode && getScope(element.parentNode)) {
+            return getCallbackClick(element.parentNode, attribute);
+        }
+        return callback;
+    }
+
+    export function isNative(fn) {
+        return (/\{\s*\[native code\]\s*\}/).test('' + fn);
     }
 
 }

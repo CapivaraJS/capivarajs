@@ -5,6 +5,7 @@ import { CPClick } from './directive/cp-click';
 import { CPRepeat } from './directive/cp-repeat';
 import { CPShow } from './directive/cp-show';
 import { CPIf } from "./directive/cp-if";
+import { CPInit } from "./directive/cp-init";
 import { Common } from '../common';
 
 export class MapDom {
@@ -32,7 +33,7 @@ export class MapDom {
 
     constructor(_element: HTMLElement) {
         this.element = _element;
-        this.regexInterpolation = '({{).*?(}})';
+        this.regexInterpolation = new RegExp(/({{).*?(}})/g);
         if (this.element) this.addScope();
     }
 
@@ -60,6 +61,7 @@ export class MapDom {
         if (child.hasAttribute(Constants.REPEAT_ATTRIBUTE_NAME)) this.createCPRepeat(child);
         if (child.hasAttribute(Constants.SHOW_ATTRIBUTE_NAME))   this.createCPShow(child);
         if (child.hasAttribute(Constants.IF_ATTRIBUTE_NAME))     this.createCPIf(child);
+        if (child.hasAttribute(Constants.INIT_ATTRIBUTE_NAME))   this.createCPInit(child);
     }
 
     reloadElementChildes(element) {
@@ -123,10 +125,12 @@ export class MapDom {
             let str = window['capivara'].replaceAll(childNode.originalValue, Constants.START_INTERPOLATION, '{{');
                 str = window['capivara'].replaceAll(str, Constants.END_INTERPOLATION, '}}');
             
-            (str.match(this.regexInterpolation) || []).forEach(key => {
+                (str.match(this.regexInterpolation) || []).forEach(key => {
                 let content = key.replace('{{', '').replace('}}', ''), value = '';
+
                 try {
-                    value = Common.evalInContext(content, Common.getScopeParent(childNode)) || '';                    
+                    let evalValue = Common.evalInContext(content, Common.getScopeParent(childNode));
+                    value = evalValue != undefined ? evalValue : '';     
                 } catch (e) {}
 
                 key = window['capivara'].replaceAll(key, '{{', Constants.START_INTERPOLATION);
@@ -199,6 +203,14 @@ export class MapDom {
      */
     createCPRepeat(child) {
         this.repeats.push(new CPRepeat(child, this));
+    }
+
+    /**
+     * 
+     * @param child Elemento que está sendo criado o bind de repeat.
+     */
+    createCPInit(child) {
+        new CPInit(child, this)
     }
 
 }
