@@ -18,15 +18,15 @@ export class CPRepeat {
         this.element = _element.cloneNode(true);
         this.originalElement = _element;
         this.map = _map;
-        this.atribute = _element.getAttribute(Constants.REPEAT_ATRIBUTE_NAME).replace(/\s+/g, ' ');
+        this.atribute = _element.getAttribute(Constants.REPEAT_ATTRIBUTE_NAME).replace(/\s+/g, ' ');
         this.referenceNode = document.createComment('start repeat ' + this.atribute);
         this.originalElement.replaceWith(this.referenceNode);
         Common.getScope(this.originalElement).$on('$onInit', () => this.applyLoop());
     }
 
     applyLoop() {
-        let attributeAlias = this.atribute.substring(0, this.atribute.indexOf(Constants.REPEAT_ATRIBUTE_OPERATOR));
-        let attributeScope = this.atribute.substring(this.atribute.indexOf(Constants.REPEAT_ATRIBUTE_OPERATOR) + Constants.REPEAT_ATRIBUTE_OPERATOR.length, this.atribute.length);
+        let attributeAlias = this.atribute.substring(0, this.atribute.indexOf(Constants.REPEAT_ATTRIBUTE_OPERATOR));
+        let attributeScope = this.atribute.substring(this.atribute.indexOf(Constants.REPEAT_ATTRIBUTE_OPERATOR) + Constants.REPEAT_ATTRIBUTE_OPERATOR.length, this.atribute.length);
         let array = _.get(Common.getScope(this.originalElement).scope, attributeScope);
         if (array && !_.isEqual(array, this.lastArray)) {
             this.lastArray = array.slice();
@@ -47,7 +47,7 @@ export class CPRepeat {
     loop(array, attributeAlias){
         array.map((row, index) => {
             let elm = this.element.cloneNode(true);
-            elm.removeAttribute(Constants.REPEAT_ATRIBUTE_NAME);
+            elm.removeAttribute(Constants.REPEAT_ATTRIBUTE_NAME);
             this.referenceNode.parentNode.appendChild(elm);
             new Controller(elm, () => { });
             Common.getScope(elm).scope[attributeAlias] = row;

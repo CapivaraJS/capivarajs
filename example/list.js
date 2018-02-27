@@ -1,7 +1,7 @@
 
 capivara.component('my-component', {
     template: `        
-        <h1 cp-show="mostrarTexto">Esse é um texto de exemplo.</h1>
+        <h1 cp-if="mostrarTexto">Esse é um texto de exemplo.</h1>
 
         <button cp-click="alterar()">Clique para Mostrar</button>
     `,
@@ -10,7 +10,7 @@ capivara.component('my-component', {
         scope.mostrarTexto = false;
 
         scope.alterar = function(){
-            scope.mostrarTexto = true;
+            scope.mostrarTexto = !scope.mostrarTexto;
         }
 
     }

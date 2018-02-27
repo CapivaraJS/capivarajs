@@ -3,16 +3,14 @@ import { Constants } from '../../constants';
 import { MapDom } from '../map-dom';
 import { Common } from '../../common';
 
-export class CPShow {
+export class CPIf {
 
     private element: any;
     private map: MapDom;
     private attribute;
-    private initialDisplay;
 
     constructor(_element: HTMLElement, _map: MapDom) {
         this.element = _element;
-        this.initialDisplay = this.element.style.display || 'block';
         this.map = _map;
         this.attribute = Common.getAttributeCpShow(this.element);
 
@@ -21,18 +19,20 @@ export class CPShow {
 
     init() {
         try{
-            Common.evalInContext(this.attribute, Common.getScope(this.element).scope) ? this.show() : this.hide();
+            Common.evalInContext(this.attribute, Common.getScope(this.element).scope) ? this.if() : this.hide();
         }catch(ex){
             this.hide();
         }
     }
 
     hide(){
-        this.element.style.display = 'none';
+        console.log('hide');
+        // this.element.style.display = 'none';
+
     }
 
-    show(){
-        this.element.style.display = this.initialDisplay;
+    if(){
+        console.log('if');
     }
 
 }

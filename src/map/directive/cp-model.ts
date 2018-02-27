@@ -12,7 +12,7 @@ export class CPModel {
     constructor(_element: HTMLElement, _map: MapDom) {
         this.element = _element;
         this.map = _map;
-        this.atribute = this.element.getAttribute(Constants.MODEL_ATRIBUTE_NAME);
+        this.atribute = this.element.getAttribute(Constants.MODEL_ATTRIBUTE_NAME);
         this.init();
         this.applyValueInModel();
     }

@@ -12,7 +12,7 @@ export class CPClick {
     constructor(_element: HTMLElement, _map: MapDom) {
         this.element = _element;
         this.map = _map;
-        this.atribute = this.element.getAttribute(Constants.CLICK_ATRIBUTE_NAME);
+        this.atribute = this.element.getAttribute(Constants.CLICK_ATTRIBUTE_NAME);
         this.init();
     }
 

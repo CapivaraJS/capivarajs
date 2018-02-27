@@ -5,6 +5,7 @@ import { CPClick } from './directive/cp-click';
 import { CPRepeat } from './directive/cp-repeat';
 import { CPShow } from './directive/cp-show';
 import { Common } from '../common';
+import { CPIf } from "./directive/cp-if";
 
 export class MapDom {
 
@@ -24,6 +25,8 @@ export class MapDom {
     private repeats = [];
 
     private cpShows = [];
+
+    private cpIfs = [];
 
     private regexInterpolation;
 
@@ -52,19 +55,20 @@ export class MapDom {
      * @param child Elemento que utiliza algum tipo de bind.
      */
     createDirectives(child) {
-        if (child.hasAttribute(Constants.MODEL_ATRIBUTE_NAME))  this.createCPModel(child);
-        if (child.hasAttribute(Constants.CLICK_ATRIBUTE_NAME))  this.createCPClick(child);
-        if (child.hasAttribute(Constants.REPEAT_ATRIBUTE_NAME)) this.createCPRepeat(child);
-        if (child.hasAttribute(Constants.SHOW_ATRIBUTE_NAME))   this.createCPShow(child);
+        if (child.hasAttribute(Constants.MODEL_ATTRIBUTE_NAME))  this.createCPModel(child);
+        if (child.hasAttribute(Constants.CLICK_ATTRIBUTE_NAME))  this.createCPClick(child);
+        if (child.hasAttribute(Constants.REPEAT_ATTRIBUTE_NAME)) this.createCPRepeat(child);
+        if (child.hasAttribute(Constants.SHOW_ATTRIBUTE_NAME))   this.createCPShow(child);
+        if (child.hasAttribute(Constants.IF_ATTRIBUTE_NAME))   this.createCPIf(child);
     }
 
-    reloadElementChilds(element) {
+    reloadElementChildes(element) {
         if (element.children) {
             Array.from(element.children).forEach((child: any) => {
                 let childScope = Common.getScope(child);
                 if (childScope && childScope.mapDom) {
                     childScope.mapDom.reloadDirectives();
-                    this.reloadElementChilds(child);
+                    this.reloadElementChildes(child);
                 }
             });
         }
@@ -83,6 +87,9 @@ export class MapDom {
         //Update cp show
         this.cpShows.forEach((cpShow) => cpShow.init());
 
+        //Update cp if
+        this.cpIfs.forEach((cpIf) => cpIf.init());
+
         this.processInterpolation(this.element);
     }
 
@@ -90,7 +97,7 @@ export class MapDom {
      * @method void Atualiza os valores dos elementos HTML de acordo com o atributo que está sendo observado.
      */
     reload() {
-        this.reloadElementChilds(this.element);
+        this.reloadElementChildes(this.element);
         this.reloadDirectives();
     }
 
@@ -177,6 +184,14 @@ export class MapDom {
      */
     createCPShow(child) {
         this.cpShows.push(new CPShow(child, this));
+    }
+
+    /**
+     *
+     * @param child Elemento que está sendo criado o bind de if
+     */
+    createCPIf(child) {
+        this.cpIfs.push(new CPIf(child, this));
     }
 
     /**

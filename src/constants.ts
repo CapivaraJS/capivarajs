@@ -1,11 +1,12 @@
-export const Constants = {    
+export const Constants = {
     SCOPE_ATTRIBUTE_NAME    : '$scope',
-    REPEAT_ATRIBUTE_NAME    : 'cp-repeat',
+    REPEAT_ATTRIBUTE_NAME    : 'cp-repeat',
     REPEAT_INDEX_NAME       : '$index',
-    REPEAT_ATRIBUTE_OPERATOR: ' in ',
-    MODEL_ATRIBUTE_NAME     : 'cp-model',
-    CLICK_ATRIBUTE_NAME     : 'cp-click',
-    SHOW_ATRIBUTE_NAME      : 'cp-show',
+    REPEAT_ATTRIBUTE_OPERATOR: ' in ',
+    MODEL_ATTRIBUTE_NAME     : 'cp-model',
+    CLICK_ATTRIBUTE_NAME     : 'cp-click',
+    SHOW_ATTRIBUTE_NAME      : 'cp-show',
+    IF_ATTRIBUTE_NAME        : 'cp-if',
     START_INTERPOLATION     : '[[',
     END_INTERPOLATION       : ']]',
 };

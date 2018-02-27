@@ -26,7 +26,7 @@ export namespace Common {
     }
 
     export function getAttributeCpShow(element) {
-        return element.getAttribute(Constants.SHOW_ATRIBUTE_NAME);
+        return element.getAttribute(Constants.SHOW_ATTRIBUTE_NAME);
     }
 
     export function getScope(element) {
