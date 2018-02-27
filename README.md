@@ -1,5 +1,3 @@
-# Framework de Componentes
-
 <p align="center">
     <img  src="https://www.gumga.com.br/blog/wp-content/uploads/2018/01/Ativo-1@4x.png"  alt="CapivaraJS"  width="200px"/>
 </p>
