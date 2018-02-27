@@ -1,17 +1,12 @@
 capivara.component('my-component', {
     template: `        
-        <h1 cp-repeat="number in numbers">
-            <span cp-if="number != 3">[[number]]</span>
-        </h1>
+        <h1 cp-if="mostrar">Exemplo</h1>
+        
+        <button cp-click="alterar()">Clique para Mostrar</button>
     `,
-    controller: function(scope){
-        scope.mostrar = 10;
+    controller: function (scope) {
+        scope.numbers = [1, 2, 3, 4, 5, 6];
 
-        scope.alterar = function(){
-            scope.mostrar = 20;
-        };
-
-        scope.numbers = [1,2,3,4,5,6]
-
+        scope.mostrar = !scope.mostrar;
     }
 });
