@@ -125,7 +125,6 @@ export class MapDom {
             
             (str.match(this.regexInterpolation) || []).forEach(key => {
                 let content = key.replace('{{', '').replace('}}', ''), value = '';
-                
                 try {
                     value = Common.evalInContext(content, Common.getScopeParent(childNode)) || '';                    
                 } catch (e) {}

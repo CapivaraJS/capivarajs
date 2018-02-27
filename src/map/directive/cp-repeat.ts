@@ -48,6 +48,7 @@ export class CPRepeat {
         array.map((row, index) => {
             let elm = this.element.cloneNode(true);
             elm.removeAttribute(Constants.REPEAT_ATTRIBUTE_NAME);
+            elm.classList.add('binding-repeat');
             this.referenceNode.parentNode.appendChild(elm);
             new Controller(elm, () => { });
             Common.getScope(elm).scope[attributeAlias] = row;

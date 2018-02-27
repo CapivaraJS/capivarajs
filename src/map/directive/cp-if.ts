@@ -1,6 +1,6 @@
 import {MapDom} from '../map-dom';
 import {Common} from '../../common';
-
+import { Constants } from '../../constants';
 export class CPIf {
 
     private element: any;
@@ -19,7 +19,10 @@ export class CPIf {
     }
 
     public static isValidCondition(element){
-        let scope = Common.getScope(element).$parent || Common.getScope(element);
+        let scope = Common.getScope(element);
+        if(!(element.parentNode && element.parentNode.classList.contains('binding-repeat')) && scope.$parent){
+            scope = scope.$parent;
+        }
         return Common.evalInContext(Common.getAttributeCpIf(element), scope.scope);
     }
 
