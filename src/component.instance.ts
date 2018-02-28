@@ -14,6 +14,7 @@ export class ComponentInstance {
     destroyed: boolean;
 
     constructor(_element, _config: ComponentConfig) {
+        _config.controllerAs = _config.controllerAs || '$ctrl';
         this.element = _element;
         this.element.$instance = this;
         this.config = _config;
@@ -33,8 +34,13 @@ export class ComponentInstance {
 
     initController(){
         if(this.destroyed){
-            if(this.config.controller) this.config.controller(this.componentScope);
-            if(this.componentScope.$onInit) this.componentScope.$onInit();
+            if(this.config.controller){
+                this.componentScope[this.config.controllerAs] = new this.config.controller(this.componentScope);
+                WatchJS.watch(this.componentScope[this.config.controllerAs], (value) => Common.getScope(this.element).mapDom.reload());
+            }
+            if(this.componentScope[this.config.controllerAs] && this.componentScope[this.config.controllerAs].$onInit){
+                this.componentScope[this.config.controllerAs].$onInit();
+            }
             this.destroyed = false;
         }
     }
@@ -57,7 +63,9 @@ export class ComponentInstance {
      */
     destroy(){
         this.destroyed = true;
-        if(this.componentScope.$destroy && !this.destroyed) this.componentScope.$destroy();
+        if(this.componentScope[this.config.controllerAs] && this.componentScope[this.config.controllerAs].$destroy){
+            this.componentScope[this.config.controllerAs].$destroy();
+        }
     }
 
 

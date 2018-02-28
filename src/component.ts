@@ -4,6 +4,7 @@ export class Component {
 
     componentName: string;
     config: any;
+    
     constructor(_componentName, config){
         this.componentName = _componentName;
         this.config = config;
