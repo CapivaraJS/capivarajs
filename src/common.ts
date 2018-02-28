@@ -33,6 +33,10 @@ export namespace Common {
         return element.getAttribute(Constants.IF_ATTRIBUTE_NAME);
     }
 
+    export function getAttributeCpElseIf(element) {
+        return element.getAttribute(Constants.IF_ATTRIBUTE_NAME);
+    }
+
     export function getAttributeCpElse(element) {
         return element.getAttribute(Constants.ELSE_ATTRIBUTE_NAME);
     }
