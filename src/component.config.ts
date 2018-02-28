@@ -1,6 +1,6 @@
 export interface ComponentConfig {
     template: string;
-    controller: Function,
+    controller: any,
     bindings: Array<string>,
     functions: Array<any>,
     constants: Array<string>

@@ -33,7 +33,7 @@ export class ComponentInstance {
 
     initController(){
         if(this.destroyed){
-            if(this.config.controller) this.config.controller(this.componentScope);
+            if(this.config.controller) new this.config.controller(this.componentScope);
             if(this.componentScope.$onInit) this.componentScope.$onInit();
             this.destroyed = false;
         }
