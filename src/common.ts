@@ -33,6 +33,10 @@ export namespace Common {
         return element.getAttribute(Constants.IF_ATTRIBUTE_NAME);
     }
 
+    export function getAttributeCpElse(element) {
+        return element.getAttribute(Constants.ELSE_ATTRIBUTE_NAME);
+    }
+
     export function getScope(element) {
         return element[Constants.SCOPE_ATTRIBUTE_NAME];
     }
@@ -44,6 +48,16 @@ export namespace Common {
         if (element.parentNode) {
             return getScopeParent(element.parentNode);
         }
+    }
+
+    export function destroyElement(element, elementComment) {
+        element.replaceWith(elementComment);
+        if (element.$instance) element.$instance.destroy();
+    }
+
+    export function createElement(element,elementComment) {
+        elementComment.replaceWith(element);
+        if (element.$instance) element.$instance.initController();
     }
 
 }
