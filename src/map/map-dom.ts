@@ -7,7 +7,7 @@ import { CPShow } from './directive/cp-show';
 import { CPIf } from "./directive/cp-if";
 import { CPInit } from "./directive/cp-init";
 import { Common } from '../common';
-import {CPElse} from "./directive/cp-else";
+import { CPElse } from "./directive/cp-else";
 
 export class MapDom {
 

@@ -1,9 +1,10 @@
-import { Constants } from './constants';
-import WatchJS from 'melanke-watchjs';
 import _ from 'lodash';
+import 'object.observe';
+import WatchJS from 'melanke-watchjs';
+import { Constants } from './constants';
 import { Common } from './common';
 import { ComponentConfig } from './component.config';
-import {CPIf} from "./map/directive/cp-if";
+import { CPIf } from "./map/directive/cp-if";
 
 export class ComponentInstance {
 
@@ -36,7 +37,9 @@ export class ComponentInstance {
         if(this.destroyed){
             if(this.config.controller){
                 this.componentScope[this.config.controllerAs] = new this.config.controller(this.componentScope);
-                WatchJS.watch(this.componentScope[this.config.controllerAs], (value) => Common.getScope(this.element).mapDom.reload());
+                Object['observe'](this.componentScope[this.config.controllerAs], (changes) => {
+                    Common.getScope(this.element).mapDom.reload();
+                });
             }
             if(this.componentScope[this.config.controllerAs] && this.componentScope[this.config.controllerAs].$onInit){
                 this.componentScope[this.config.controllerAs].$onInit();
