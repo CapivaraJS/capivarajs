@@ -34,7 +34,7 @@ export namespace Common {
     }
 
     export function getAttributeCpElseIf(element) {
-        return element.getAttribute(Constants.IF_ATTRIBUTE_NAME);
+        return element.getAttribute(Constants.ELSE_IF_ATTRIBUTE_NAME);
     }
 
     export function getAttributeCpElse(element) {
@@ -78,6 +78,14 @@ export namespace Common {
     export function createElement(element,elementComment) {
         elementComment.replaceWith(element);
         if (element.$instance) element.$instance.initController();
+    }
+
+    export function isValidCondition(element, condition) {
+        let scope = getScope(element);
+        if (!(element.parentNode && element.parentNode.classList.contains('binding-repeat')) && scope.$parent) {
+            scope = scope.$parent;
+        }
+        return evalInContext(condition, scope.scope);
     }
 
 }

@@ -19,8 +19,7 @@ export class CPShow {
 
     init() {
         try{
-            let scope = Common.getScope(this.element).$parent || Common.getScope(this.element);
-            Common.evalInContext(this.attribute, scope.scope) ? this.show() : this.hide();
+            Common.isValidCondition(this.element, Common.getAttributeCpShow(this.element)) ? this.show() : this.hide();
         }catch(ex){
             this.hide();
         }

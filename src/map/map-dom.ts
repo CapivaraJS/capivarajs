@@ -7,8 +7,8 @@ import { CPShow } from './directive/cp-show';
 import { CPIf } from "./directive/cp-if";
 import { CPInit } from "./directive/cp-init";
 import { Common } from '../common';
-import {CPElse} from "./directive/cp-else";
-import {CPElseIf} from "./directive/cp-else-if";
+import { CPElse } from "./directive/cp-else";
+import { CPElseIf } from "./directive/cp-else-if";
 
 
 export class MapDom {
@@ -69,7 +69,7 @@ export class MapDom {
         if (child.hasAttribute(Constants.SHOW_ATTRIBUTE_NAME))    this.createCPShow(child);
         if (child.hasAttribute(Constants.IF_ATTRIBUTE_NAME))      this.createCPIf(child);
         if (child.hasAttribute(Constants.ELSE_ATTRIBUTE_NAME))    this.createCPElse(child);
-        if (child.hasAttribute(Constants.ELSE_IF_ATTRIBUTE_NAME)) this.createCPElse(child);
+        if (child.hasAttribute(Constants.ELSE_IF_ATTRIBUTE_NAME)) this.createCPElseIf(child);
         if (child.hasAttribute(Constants.INIT_ATTRIBUTE_NAME))    this.createCPInit(child);
     }
 
@@ -222,7 +222,7 @@ export class MapDom {
 
     /**
      *
-     * @param child Elemento que está sendo criado o bind do else
+     * @param child Elemento que está sendo criado o bind do else if
      */
     createCPElseIf(child) {
         this.cpElseIfs.push(new CPElseIf(child, this));
