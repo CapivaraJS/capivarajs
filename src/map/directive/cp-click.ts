@@ -16,21 +16,9 @@ export class CPClick {
         this.init();
     }
 
-    isNative(fn){
-        return (/\{\s*\[native code\]\s*\}/).test('' + fn);
-    }
-
-    getCallbackClick(element){
-        let callback = _.get(Common.getScope(element).scope, this.attribute.substring(0, this.attribute.indexOf('(')));
-        if(!callback && element.parentNode && Common.getScope(element.parentNode)){
-            return this.getCallbackClick(element.parentNode);
-        }
-        return callback;
-    }
-
-    getIndexRow(element){
+    getIndexRow(element) {
         let index = _.get(Common.getScope(element).scope, Constants.REPEAT_INDEX_NAME);
-        if(index == undefined && element.parentNode){
+        if (index == undefined && element.parentNode) {
             return this.getIndexRow(element.parentNode);
         }
         return index;
@@ -38,10 +26,10 @@ export class CPClick {
 
     init() {
         const onClick = (evt) => {
-            this.attribute = this.attribute.replace(/ /g,'');
-            let callback = this.getCallbackClick(this.element);
-            if(callback && !this.isNative(callback)){
-                let params = this.attribute.substring(this.attribute.indexOf('(') + 1, this.attribute.length -1), args = [];
+            this.attribute = this.attribute.replace(/ /g, '');
+            let callback = Common.getCallbackClick(this.element, this.attribute);
+            if (callback && !Common.isNative(callback)) {
+                let params = this.attribute.substring(this.attribute.indexOf('(') + 1, this.attribute.length - 1), args = [];
                 params.split(',').forEach(param => args.push(_.get(Common.getScope(this.element).scope, param)));
                 callback.call(null, ...args);
             }

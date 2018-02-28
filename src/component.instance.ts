@@ -11,7 +11,7 @@ export class ComponentInstance {
     element: any;
     contextObj;
     componentScope;
-    destroyed: Boolean;
+    destroyed: boolean;
 
     constructor(_element, _config: ComponentConfig) {
         this.element = _element;
