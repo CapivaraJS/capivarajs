@@ -85,7 +85,6 @@ export class ScopeProxy {
         if (_.isEqual(_.get(target, key), value)) {
             return true;
         }
-
         //proxy nested objects
         if (value !== null && typeof value === 'object' && !this.proxiedObjs.has(value)) {
             if(!this.isNativeFn(value)){

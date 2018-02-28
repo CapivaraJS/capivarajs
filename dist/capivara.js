@@ -18280,6 +18280,7 @@ var Component = /** @class */ (function () {
 
 var ComponentInstance = /** @class */ (function () {
     function ComponentInstance(_element, _config) {
+        _config.controllerAs = _config.controllerAs || '$ctrl';
         this.element = _element;
         this.element.$instance = this;
         this.config = _config;
@@ -18297,11 +18298,15 @@ var ComponentInstance = /** @class */ (function () {
         });
     };
     ComponentInstance.prototype.initController = function () {
+        var _this = this;
         if (this.destroyed) {
-            if (this.config.controller)
-                new this.config.controller(this.componentScope);
-            if (this.componentScope.$onInit)
-                this.componentScope.$onInit();
+            if (this.config.controller) {
+                this.componentScope[this.config.controllerAs] = new this.config.controller(this.componentScope);
+                __WEBPACK_IMPORTED_MODULE_1_melanke_watchjs___default.a.watch(this.componentScope[this.config.controllerAs], function (value) { return __WEBPACK_IMPORTED_MODULE_3__common__["a" /* Common */].getScope(_this.element).mapDom.reload(); });
+            }
+            if (this.componentScope[this.config.controllerAs] && this.componentScope[this.config.controllerAs].$onInit) {
+                this.componentScope[this.config.controllerAs].$onInit();
+            }
             this.destroyed = false;
         }
     };
@@ -18324,8 +18329,9 @@ var ComponentInstance = /** @class */ (function () {
      */
     ComponentInstance.prototype.destroy = function () {
         this.destroyed = true;
-        if (this.componentScope.$destroy && !this.destroyed)
-            this.componentScope.$destroy();
+        if (this.componentScope[this.config.controllerAs] && this.componentScope[this.config.controllerAs].$destroy) {
+            this.componentScope[this.config.controllerAs].$destroy();
+        }
     };
     /**
      * @description
