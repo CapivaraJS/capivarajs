@@ -1,7 +1,6 @@
 import { ScopeProxy } from './scope.proxy';
 import { MapDom } from '../map/map-dom';
 import { Constants } from '../constants';
-import { setTimeout } from 'timers';
 
 export class Scope {
 

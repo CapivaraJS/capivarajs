@@ -3,10 +3,10 @@ import { Constants } from './constants';
 
 export namespace Common {
 
-    /** 
+    /**
      * @description Executa o eval alterando as propriedades do source para seus determinados valores dentro do contexto.
-     * @param source 
-     * @param context 
+     * @param source
+     * @param context
      */
     export function evalInContext(source, context) {
         if (source) {
@@ -31,6 +31,10 @@ export namespace Common {
 
     export function getAttributeCpIf(element) {
         return element.getAttribute(Constants.IF_ATTRIBUTE_NAME);
+    }
+
+    export function getAttributeCpElse(element) {
+        return element.getAttribute(Constants.ELSE_ATTRIBUTE_NAME);
     }
 
     export function getAttributeCpInit(element) {
@@ -62,4 +66,15 @@ export namespace Common {
         return (/\{\s*\[native code\]\s*\}/).test('' + fn);
     }
 
+    export function destroyElement(element, elementComment) {
+        element.replaceWith(elementComment);
+        if (element.$instance) element.$instance.destroy();
+    }
+
+    export function createElement(element,elementComment) {
+        elementComment.replaceWith(element);
+        if (element.$instance) element.$instance.initController();
+    }
+
 }
+

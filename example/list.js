@@ -1,33 +1,16 @@
-capivara.component('gumga-input', {
-    template: `        
-        Ola mundo
-    `,
-    controller: function (scope) {
-
-    }
-});
-
-
 capivara.component('my-component', {
     template: `        
-        <div cp-repeat="pessoa in pessoas">
-            <gumga-input ></gumga-input>
-        </div>
+        <h1 cp-if="mostrar">If</h1>
+        <h1 cp-else> Else</h1>
+        
+        <button cp-click="alterar()">Clique para Mostrar</button>
     `,
     controller: function (scope) {
-        scope.pessoas = [
-            {
-                nome: 'Mateus'
-            },
-            {
-                nome: 'João'
-            }
-        ];
 
-        scope.create = function(){
-            capivara.componentBuilder('myInput').build();
+        scope.mostrar = false;
+
+        scope.alterar = function () {
+            scope.mostrar = !scope.mostrar;
         }
-
-
     }
 });

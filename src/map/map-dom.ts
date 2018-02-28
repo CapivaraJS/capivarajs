@@ -7,6 +7,7 @@ import { CPShow } from './directive/cp-show';
 import { CPIf } from "./directive/cp-if";
 import { CPInit } from "./directive/cp-init";
 import { Common } from '../common';
+import {CPElse} from "./directive/cp-else";
 
 export class MapDom {
 
@@ -29,6 +30,8 @@ export class MapDom {
 
     private cpIfs = [];
 
+    private cpElses = [];
+
     private regexInterpolation;
 
     constructor(_element: HTMLElement) {
@@ -37,8 +40,8 @@ export class MapDom {
         if (this.element) this.addScope();
     }
 
-    /** 
-     * @method void Percorre os elementos filhos do elemento principal criando os binds.  
+    /**
+     * @method void Percorre os elementos filhos do elemento principal criando os binds.
      */
     addScope() {
         const recursiveBind = (element) => {
@@ -51,8 +54,8 @@ export class MapDom {
         recursiveBind(this.element);
     }
 
-    /** 
-     * @method void Cria uma nova instancia de bind de acordo com o atributo declarado no elemento child. 
+    /**
+     * @method void Cria uma nova instancia de bind de acordo com o atributo declarado no elemento child.
      * @param child Elemento que utiliza algum tipo de bind.
      */
     createDirectives(child) {
@@ -61,6 +64,7 @@ export class MapDom {
         if (child.hasAttribute(Constants.REPEAT_ATTRIBUTE_NAME)) this.createCPRepeat(child);
         if (child.hasAttribute(Constants.SHOW_ATTRIBUTE_NAME))   this.createCPShow(child);
         if (child.hasAttribute(Constants.IF_ATTRIBUTE_NAME))     this.createCPIf(child);
+        if (child.hasAttribute(Constants.ELSE_ATTRIBUTE_NAME))   this.createCPElse(child);
         if (child.hasAttribute(Constants.INIT_ATTRIBUTE_NAME))   this.createCPInit(child);
     }
 
@@ -85,17 +89,20 @@ export class MapDom {
             });
         //Update cp repeats
         this.repeats.forEach((repeat) => repeat.applyLoop());
-        
+
         //Update cp show
         this.cpShows.forEach((cpShow) => cpShow.init());
 
         //Update cp if
         this.cpIfs.forEach((cpIf) => cpIf.init());
 
+        //Update cp if
+        this.cpElses.forEach((cpElse) => cpElse.init());
+
         this.processInterpolation(this.element);
     }
 
-    /** 
+    /**
      * @method void Atualiza os valores dos elementos HTML de acordo com o atributo que está sendo observado.
      */
     reload() {
@@ -105,7 +112,7 @@ export class MapDom {
 
     /**
      * @description Percorre os elementos para processar os interpolations.
-     * @param element 
+     * @param element
      */
     processInterpolation(element) {
         Array.from(element.childNodes).forEach((childNode: any) => {
@@ -115,7 +122,7 @@ export class MapDom {
 
     /**
      * @description Função que modifica o texto da interpolação pelo determinado valor.
-     * @param childNode 
+     * @param childNode
      */
     interpolation(childNode) {
         if (childNode.nodeName == '#text') {
@@ -123,14 +130,14 @@ export class MapDom {
             let nodeModified = childNode.originalValue;
 
             let str = window['capivara'].replaceAll(childNode.originalValue, Constants.START_INTERPOLATION, '{{');
-                str = window['capivara'].replaceAll(str, Constants.END_INTERPOLATION, '}}');
-            
-                (str.match(this.regexInterpolation) || []).forEach(key => {
+            str = window['capivara'].replaceAll(str, Constants.END_INTERPOLATION, '}}');
+
+            (str.match(this.regexInterpolation) || []).forEach(key => {
                 let content = key.replace('{{', '').replace('}}', ''), value = '';
 
                 try {
                     let evalValue = Common.evalInContext(content, Common.getScopeParent(childNode));
-                    value = evalValue != undefined ? evalValue : '';     
+                    value = evalValue != undefined ? evalValue : '';
                 } catch (e) {}
 
                 key = window['capivara'].replaceAll(key, '{{', Constants.START_INTERPOLATION);
@@ -166,7 +173,7 @@ export class MapDom {
     }
 
     /**
-     * 
+     *
      * @param child Elemento que está sendo criado o bind de model
      */
     createCPModel(child) {
@@ -174,7 +181,7 @@ export class MapDom {
     }
 
     /**
-     * 
+     *
      * @param child Elemento que está sendo criado o bind de click
      */
     createCPClick(child) {
@@ -182,7 +189,7 @@ export class MapDom {
     }
 
     /**
-     * 
+     *
      * @param child Elemento que está sendo criado o bind de show
      */
     createCPShow(child) {
@@ -191,14 +198,23 @@ export class MapDom {
 
     /**
      *
-     * @param child Elemento que está sendo criado o bind de if
+     * @param child Elemento que está sendo criado o bind do if
      */
     createCPIf(child) {
         this.cpIfs.push(new CPIf(child, this));
     }
 
     /**
-     * 
+     *
+     * @param child Elemento que está sendo criado o bind do else
+     */
+    createCPElse(child) {
+        this.cpElses.push(new CPElse(child, this));
+    }
+
+
+    /**
+     *
      * @param child Elemento que está sendo criado o bind de repeat.
      */
     createCPRepeat(child) {
