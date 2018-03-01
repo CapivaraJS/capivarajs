@@ -17,6 +17,9 @@ export class CPIf {
             this.integrationCpElse();
             this.map = _map;
             this.attribute = Common.getAttributeCpIf(this.element);
+            if(!this.attribute) {
+                throw `syntax error cp-if expected arguments`
+            }
             this.elementComment = document.createComment('cpIf ' + this.attribute);
             this.init();
         });

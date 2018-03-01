@@ -20,10 +20,14 @@ export class CPElseIf {
             this.element['cpElseIf'] = this;
             this.integrationCpElse();
             this.attribute = Common.getAttributeCpElseIf(this.element);
+            if(!this.attribute){
+                throw `syntax error cp-else-if expected arguments`
+            }
             this.prevElement = _element.previousSibling;
             this.parentCondition = Common.getScope(this.element).parentCondition;
             if (!this.parentCondition) {
-                throw "cp-else-if expected cp-if or cp-else-if above.";
+                throw `syntax error cp-else-if used on element ` +
+                `<${this.element.nodeName.toLowerCase()}> without corresponding cp-if.`;
             }
             this.map = _map;
             this.elementComment = document.createComment('CPElseIf '+this.attribute);
@@ -44,7 +48,7 @@ export class CPElseIf {
         }
         try {
             if(!Common.isValidCondition(this.parentCondition.element, Common.getAttributeCpIf(this.parentCondition.element))){
-                Common.createElement(this.element, this.elementComment)
+                Common.createElement(this.element, this.elementComment);
                 if(!Common.isValidCondition(this.element, this.attribute))
                     Common.destroyElement(this.element, this.elementComment);
             }else{

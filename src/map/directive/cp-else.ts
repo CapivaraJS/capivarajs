@@ -1,8 +1,7 @@
 import _ from 'lodash';
-import { MapDom } from '../map-dom';
-import { Common } from '../../common';
-import { Constants } from '../../constants';
-import { CPIf } from "./cp-if";
+import {MapDom} from '../map-dom';
+import {Common} from '../../common';
+import {Constants} from '../../constants';
 
 export class CPElse {
 
@@ -15,13 +14,15 @@ export class CPElse {
     constructor(_element: HTMLElement, _map: MapDom) {
         Common.getScope(_element).$on('$onInit', () => {
             this.element = _element;
-            if(Common.getAttributeCpElse(this.element)){
-                throw "cp-else don't expect arguments";
+            if (Common.getAttributeCpElse(this.element)) {
+                throw `cp-else don't expect arguments`;
             }
             this.prevElement = _element.previousSibling;
             this.parentCondition = Common.getScope(this.element).parentCondition;
             if (!this.parentCondition) {
-                throw "cp-else expected cp-if or cp-else-if above.";
+                throw `syntax error cp-else used on element ` +
+                `<${this.element.nodeName.toLowerCase()}> without corresponding cp-if.`;
+
             }
             this.map = _map;
             this.elementComment = document.createComment('cpElse');
@@ -29,13 +30,13 @@ export class CPElse {
         });
     }
 
-    hasValidCondition(_element, conditions){
-        if(_element && ((_element.hasAttribute && _element.hasAttribute(Constants.IF_ATTRIBUTE_NAME)) || (_element.nodeType == 8 && _element.data.indexOf('cpIf') != -1))){
-            if((_element.nodeType == 8 && _element.data.indexOf('cpIf') != -1) && conditions.length == 0) return false;
-            return true;
+    hasValidCondition(_element, conditions) {
+        if (_element && ((_element.hasAttribute && _element.hasAttribute(Constants.IF_ATTRIBUTE_NAME)) || (_element.nodeType == 8 && _element.data.indexOf('cpIf') != -1))) {
+            return !((_element.nodeType == 8 && _element.data.indexOf('cpIf') != -1) && conditions.length == 0);
+
         }
-        if(_element && _element.previousSibling){
-            if(_element.hasAttribute && _element.hasAttribute(Constants.ELSE_IF_ATTRIBUTE_NAME)){
+        if (_element && _element.previousSibling) {
+            if (_element.hasAttribute && _element.hasAttribute(Constants.ELSE_IF_ATTRIBUTE_NAME)) {
                 conditions.push(_element);
             }
             return this.hasValidCondition(_element.previousSibling, conditions);
@@ -46,9 +47,9 @@ export class CPElse {
         if (!this.element) {
             return;
         }
-        try {   
+        try {
             Common.createElement(this.element, this.elementComment);
-            if(this.hasValidCondition(this.element, [])){
+            if (this.hasValidCondition(this.element, [])) {
                 Common.destroyElement(this.element, this.elementComment)
             }
         } catch (ex) {
