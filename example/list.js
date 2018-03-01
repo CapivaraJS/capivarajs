@@ -50,6 +50,7 @@
 
 capivara.component('my-component', {
     template: `        
+        <h1 cp-if="$ctrl.nome == 'felipe'">Primeiro if</h1>
 
         <h1 cp-if="$ctrl.numero == 6">If</h1>
         <h1 cp-else-if="$ctrl.numero == 8"> Else IF 8 </h1>

@@ -11,7 +11,7 @@ export class CPElseIf {
     private elementComment;
     private prevElement;
     private attribute;
-    private cpIf;
+    private parentCondition;
     private cpElseIf;
 
     constructor(_element: HTMLElement, _map: MapDom) {
@@ -21,8 +21,8 @@ export class CPElseIf {
             this.integrationCpElse();
             this.attribute = Common.getAttributeCpElseIf(this.element);
             this.prevElement = _element.previousSibling;
-            this.cpIf = Common.getScope(this.element).parentCondition;
-            if (!this.cpIf) {
+            this.parentCondition = Common.getScope(this.element).parentCondition;
+            if (!this.parentCondition) {
                 throw "cp-else-if expected cp-if or cp-else-if above.";
             }
             this.map = _map;
@@ -43,7 +43,7 @@ export class CPElseIf {
             return;
         }
         try {
-            if(!Common.isValidCondition(this.cpIf.element, Common.getAttributeCpIf(this.cpIf.element))){
+            if(!Common.isValidCondition(this.parentCondition.element, Common.getAttributeCpIf(this.parentCondition.element))){
                 Common.createElement(this.element, this.elementComment)
                 if(!Common.isValidCondition(this.element, this.attribute))
                     Common.destroyElement(this.element, this.elementComment);
@@ -54,4 +54,5 @@ export class CPElseIf {
             Common.destroyElement(this.element, this.elementComment);
         }
     }
+    
 }

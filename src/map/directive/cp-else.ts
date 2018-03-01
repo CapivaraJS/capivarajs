@@ -10,7 +10,7 @@ export class CPElse {
     private map: MapDom;
     private elementComment;
     private prevElement;
-    private cpIf;
+    private parentCondition;
 
     constructor(_element: HTMLElement, _map: MapDom) {
         Common.getScope(_element).$on('$onInit', () => {
@@ -19,8 +19,8 @@ export class CPElse {
                 throw "cp-else don't expect arguments";
             }
             this.prevElement = _element.previousSibling;
-            this.cpIf = Common.getScope(this.element).parentCondition;
-            if (!this.cpIf) {
+            this.parentCondition = Common.getScope(this.element).parentCondition;
+            if (!this.parentCondition) {
                 throw "cp-else expected cp-if or cp-else-if above.";
             }
             this.map = _map;
@@ -29,12 +29,17 @@ export class CPElse {
         });
     }
 
-    parentIsIfOrElseIf(_element){
-        let prev = _element.previousElementSibling;
-        if(!prev) {
-            return;
+    hasValidCondition(_element, conditions){
+        if(_element && ((_element.hasAttribute && _element.hasAttribute(Constants.IF_ATTRIBUTE_NAME)) || (_element.nodeType == 8 && _element.data.indexOf('cpIf') != -1))){
+            if((_element.nodeType == 8 && _element.data.indexOf('cpIf') != -1) && conditions.length == 0) return false;
+            return true;
         }
-        return (prev.hasAttribute(Constants.ELSE_IF_ATTRIBUTE_NAME) || prev.hasAttribute(Constants.IF_ATTRIBUTE_NAME));
+        if(_element && _element.previousSibling){
+            if(_element.hasAttribute && _element.hasAttribute(Constants.ELSE_IF_ATTRIBUTE_NAME)){
+                conditions.push(_element);
+            }
+            return this.hasValidCondition(_element.previousSibling, conditions);
+        }
     }
 
     init() {
@@ -43,7 +48,7 @@ export class CPElse {
         }
         try {   
             Common.createElement(this.element, this.elementComment);
-            if(this.parentIsIfOrElseIf(this.element)){
+            if(this.hasValidCondition(this.element, [])){
                 Common.destroyElement(this.element, this.elementComment)
             }
         } catch (ex) {
