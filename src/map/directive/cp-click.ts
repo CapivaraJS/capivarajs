@@ -13,6 +13,9 @@ export class CPClick {
         this.element = _element;
         this.map = _map;
         this.attribute = this.element.getAttribute(Constants.CLICK_ATTRIBUTE_NAME);
+        if(!this.attribute) {
+            throw `syntax error ${Constants.CLICK_ATTRIBUTE_NAME} expected arguments`
+        }
         this.init();
     }
 

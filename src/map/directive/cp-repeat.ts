@@ -13,12 +13,17 @@ export class CPRepeat {
     private originalElement;
     private referenceNode;
     private lastArray = [];
+    private regex;
 
     constructor(_element: HTMLElement, _map: MapDom) {
         this.element = _element.cloneNode(true);
         this.originalElement = _element;
         this.map = _map;
         this.attribute = _element.getAttribute(Constants.REPEAT_ATTRIBUTE_NAME).replace(/\s+/g, ' ');
+        this.regex = new RegExp('[a-zA-Z\\d]+\\s+'+Constants.REPEAT_ATTRIBUTE_OPERATOR+'\\s+[a-zA-Z\\d]+', 'g');
+        if(!this.regex.test(this.attribute)){
+            throw `syntax error invalid ${Constants.REPEAT_ATTRIBUTE_NAME} expresion: ${this.attribute}`;
+        }
         this.referenceNode = document.createComment('start repeat ' + this.attribute);
         this.originalElement.replaceWith(this.referenceNode);
         Common.getScope(this.originalElement).$on('$onInit', () => this.applyLoop());

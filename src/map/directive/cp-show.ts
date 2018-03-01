@@ -1,5 +1,6 @@
 import { MapDom } from '../map-dom';
 import { Common } from '../../common';
+import { Constants } from '../../constants';
 
 export class CPShow {
 
@@ -13,7 +14,9 @@ export class CPShow {
         this.initialDisplay = this.element.style.display || 'block';
         this.map = _map;
         this.attribute = Common.getAttributeCpShow(this.element);
-
+        if(!this.attribute) {
+            throw `syntax error ${Constants.SHOW_ATTRIBUTE_NAME} expected arguments`
+        }
         Common.getScope(this.element).$on('$onInit', () => this.init());
     }
 

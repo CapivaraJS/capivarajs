@@ -21,13 +21,13 @@ export class CPElseIf {
             this.integrationCpElse();
             this.attribute = Common.getAttributeCpElseIf(this.element);
             if(!this.attribute){
-                throw `syntax error cp-else-if expected arguments`
+                throw `syntax error ${Constants.ELSE_IF_ATTRIBUTE_NAME} expected arguments`
             }
             this.prevElement = _element.previousSibling;
             this.parentCondition = Common.getScope(this.element).parentCondition;
             if (!this.parentCondition) {
-                throw `syntax error cp-else-if used on element ` +
-                `<${this.element.nodeName.toLowerCase()}> without corresponding cp-if.`;
+                throw `syntax error ${Constants.ELSE_IF_ATTRIBUTE_NAME} used on element ` +
+                `<${this.element.nodeName.toLowerCase()}> without corresponding ${Constants.IF_ATTRIBUTE_NAME}.`;
             }
             this.map = _map;
             this.elementComment = document.createComment('CPElseIf '+this.attribute);

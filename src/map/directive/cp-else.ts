@@ -15,13 +15,13 @@ export class CPElse {
         Common.getScope(_element).$on('$onInit', () => {
             this.element = _element;
             if (Common.getAttributeCpElse(this.element)) {
-                throw `cp-else don't expect arguments`;
+                throw `${Constants.ELSE_ATTRIBUTE_NAME} don't expect arguments`;
             }
             this.prevElement = _element.previousSibling;
             this.parentCondition = Common.getScope(this.element).parentCondition;
             if (!this.parentCondition) {
-                throw `syntax error cp-else used on element ` +
-                `<${this.element.nodeName.toLowerCase()}> without corresponding cp-if.`;
+                throw `syntax error ${Constants.ELSE_ATTRIBUTE_NAME} used on element ` +
+                `<${this.element.nodeName.toLowerCase()}> without corresponding ${Constants.IF_ATTRIBUTE_NAME}.`;
 
             }
             this.map = _map;
