@@ -8,7 +8,9 @@ export const Constants = {
     SHOW_ATTRIBUTE_NAME      : 'cp-show',
     IF_ATTRIBUTE_NAME        : 'cp-if',
     ELSE_ATTRIBUTE_NAME      : 'cp-else',
+    ELSE_IF_ATTRIBUTE_NAME   : 'cp-else-if',
     INIT_ATTRIBUTE_NAME      : 'cp-init',
     START_INTERPOLATION      : '[[',
     END_INTERPOLATION        : ']]',
 };
+

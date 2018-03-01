@@ -8,6 +8,8 @@ import { CPIf } from "./directive/cp-if";
 import { CPInit } from "./directive/cp-init";
 import { Common } from '../common';
 import { CPElse } from "./directive/cp-else";
+import { CPElseIf } from "./directive/cp-else-if";
+
 
 export class MapDom {
 
@@ -31,6 +33,8 @@ export class MapDom {
     private cpIfs = [];
 
     private cpElses = [];
+
+    private cpElseIfs = [];
 
     private regexInterpolation;
 
@@ -59,13 +63,14 @@ export class MapDom {
      * @param child Elemento que utiliza algum tipo de bind.
      */
     createDirectives(child) {
-        if (child.hasAttribute(Constants.MODEL_ATTRIBUTE_NAME))  this.createCPModel(child);
-        if (child.hasAttribute(Constants.CLICK_ATTRIBUTE_NAME))  this.createCPClick(child);
-        if (child.hasAttribute(Constants.REPEAT_ATTRIBUTE_NAME)) this.createCPRepeat(child);
-        if (child.hasAttribute(Constants.SHOW_ATTRIBUTE_NAME))   this.createCPShow(child);
-        if (child.hasAttribute(Constants.IF_ATTRIBUTE_NAME))     this.createCPIf(child);
-        if (child.hasAttribute(Constants.ELSE_ATTRIBUTE_NAME))   this.createCPElse(child);
-        if (child.hasAttribute(Constants.INIT_ATTRIBUTE_NAME))   this.createCPInit(child);
+        if (child.hasAttribute(Constants.MODEL_ATTRIBUTE_NAME))   this.createCPModel(child);
+        if (child.hasAttribute(Constants.CLICK_ATTRIBUTE_NAME))   this.createCPClick(child);
+        if (child.hasAttribute(Constants.REPEAT_ATTRIBUTE_NAME))  this.createCPRepeat(child);
+        if (child.hasAttribute(Constants.SHOW_ATTRIBUTE_NAME))    this.createCPShow(child);
+        if (child.hasAttribute(Constants.IF_ATTRIBUTE_NAME))      this.createCPIf(child);
+        if (child.hasAttribute(Constants.ELSE_ATTRIBUTE_NAME))    this.createCPElse(child);
+        if (child.hasAttribute(Constants.ELSE_IF_ATTRIBUTE_NAME)) this.createCPElseIf(child);
+        if (child.hasAttribute(Constants.INIT_ATTRIBUTE_NAME))    this.createCPInit(child);
     }
 
     reloadElementChildes(element) {
@@ -96,7 +101,10 @@ export class MapDom {
         //Update cp if
         this.cpIfs.forEach((cpIf) => cpIf.init());
 
-        //Update cp if
+        //Update cp else-if
+        this.cpElseIfs.forEach((cpElseIf) => cpElseIf.init());
+
+        //Update cp else
         this.cpElses.forEach((cpElse) => cpElse.init());
 
         this.processInterpolation(this.element);
@@ -210,6 +218,14 @@ export class MapDom {
      */
     createCPElse(child) {
         this.cpElses.push(new CPElse(child, this));
+    }
+
+    /**
+     *
+     * @param child Elemento que está sendo criado o bind do else if
+     */
+    createCPElseIf(child) {
+        this.cpElseIfs.push(new CPElseIf(child, this));
     }
 
 

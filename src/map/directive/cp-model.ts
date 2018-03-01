@@ -13,6 +13,9 @@ export class CPModel {
         this.element = _element;
         this.map = _map;
         this.attribute = this.element.getAttribute(Constants.MODEL_ATTRIBUTE_NAME);
+        if(!this.attribute) {
+            throw `syntax error ${Constants.MODEL_ATTRIBUTE_NAME} expected arguments`
+        }
         this.init();
         this.applyValueInModel();
     }

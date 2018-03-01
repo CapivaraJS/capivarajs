@@ -13,6 +13,9 @@ export class CPInit {
             this.element = _element;
             this.map = _map;
             this.attribute = Common.getAttributeCpInit(this.element);
+            if(!this.attribute) {
+                throw `syntax error ${Constants.INIT_ATTRIBUTE_NAME} expected arguments`
+            }
             this.init();
         });
     }
