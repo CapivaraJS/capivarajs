@@ -13,10 +13,12 @@ export class ComponentInstance {
     contextObj;
     componentScope;
     destroyed: boolean;
+    initialDisplay;
 
     constructor(_element, _config: ComponentConfig) {
         _config.controllerAs = _config.controllerAs || '$ctrl';
         this.element = _element;
+        this.initialDisplay = this.element.style.display || '';
         this.element.$instance = this;
         this.config = _config;
         this.element.innerHTML = this.config.template;

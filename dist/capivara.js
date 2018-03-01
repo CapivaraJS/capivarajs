@@ -17517,8 +17517,20 @@ var packageJson = __webpack_require__(22);
 var Scope = /** @class */ (function () {
     function Scope(_element) {
         var _this = this;
-        this.$on = function (event, callback) {
-            _this.watchers.push({ event: event, callback: callback });
+        this.$on = function (evtName, callback) {
+            _this.watchers.push({ evtName: evtName, callback: callback });
+        };
+        this.$emit = function (evtName) {
+            var args = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                args[_i - 1] = arguments[_i];
+            }
+            _this.watchers
+                .filter(function (watcher) { return watcher.evtName == evtName; })
+                .forEach(function (watcher) {
+                (_a = watcher.callback).call.apply(_a, args);
+                var _a;
+            });
         };
         if (!_element || !_element.nodeName) {
             console.warn('Unable to create a scope, it is necessary to report an html element.');
@@ -17527,7 +17539,7 @@ var Scope = /** @class */ (function () {
         this.addScope(_element, this);
         this.mapDom = new __WEBPACK_IMPORTED_MODULE_1__map_map_dom__["a" /* MapDom */](_element);
         this.scope = new __WEBPACK_IMPORTED_MODULE_0__scope_proxy__["a" /* ScopeProxy */]({}, this);
-        setTimeout(function () { return _this.executeOnInit(); }, 0);
+        this.$emit('$onInit');
     }
     Scope.prototype.getScopeProxy = function () {
         return this.scope;
@@ -17540,11 +17552,6 @@ var Scope = /** @class */ (function () {
     Scope.prototype.addScope = function (element, scope) {
         if (element && element.nodeName)
             element[__WEBPACK_IMPORTED_MODULE_2__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME] = scope;
-    };
-    Scope.prototype.executeOnInit = function () {
-        this.watchers
-            .filter(function (watcher) { return watcher.event == '$onInit'; })
-            .forEach(function (watcher) { return watcher.callback(); });
     };
     return Scope;
 }());
@@ -18126,7 +18133,7 @@ var CPShow = /** @class */ (function () {
     function CPShow(_element, _map) {
         var _this = this;
         this.element = _element;
-        this.initialDisplay = this.element.style.display || 'block';
+        this.initialDisplay = this.element.style.display || '';
         this.map = _map;
         this.attribute = __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].getAttributeCpShow(this.element);
         if (!this.attribute) {
@@ -18411,6 +18418,7 @@ var ComponentInstance = /** @class */ (function () {
     function ComponentInstance(_element, _config) {
         _config.controllerAs = _config.controllerAs || '$ctrl';
         this.element = _element;
+        this.initialDisplay = this.element.style.display || '';
         this.element.$instance = this;
         this.config = _config;
         this.element.innerHTML = this.config.template;
@@ -20097,7 +20105,7 @@ Object.observe || (function(O, A, root, _undefined) {
 /* 22 */
 /***/ (function(module, exports) {
 
-module.exports = {"name":"capivarajs","version":"1.6.0-beta","description":"Um framework para criação de componentes.","main":"index.js","scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js"},"author":"Capivara Team.","license":"LGPL-3.0","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1","object.observe":"^0.2.6"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"devDependencies":{"@types/node":"^9.4.0","babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-preset-env":"^1.6.1","babel-preset-stage-0":"^6.24.1","css-loader":"^0.28.7","extract-text-webpack-plugin":"^3.0.2","file-loader":"^1.1.5","html-loader":"^0.5.1","intern":"^4.1.5","node-sass":"^4.7.2","remap-istanbul":"^0.10.1","sass-loader":"^6.0.6","style-loader":"^0.19.0","ts-loader":"^3.2.0","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","webpack":"^3.9.1","webpack-dev-server":"^2.9.5"}}
+module.exports = {"name":"capivarajs","version":"1.7.0-beta","description":"Um framework para criação de componentes.","main":"index.js","scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js"},"author":"Capivara Team.","license":"LGPL-3.0","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1","object.observe":"^0.2.6"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"devDependencies":{"@types/node":"^9.4.0","babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-preset-env":"^1.6.1","babel-preset-stage-0":"^6.24.1","css-loader":"^0.28.7","extract-text-webpack-plugin":"^3.0.2","file-loader":"^1.1.5","html-loader":"^0.5.1","intern":"^4.1.5","node-sass":"^4.7.2","remap-istanbul":"^0.10.1","sass-loader":"^6.0.6","style-loader":"^0.19.0","ts-loader":"^3.2.0","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","webpack":"^3.9.1","webpack-dev-server":"^2.9.5"}}
 
 /***/ })
 /******/ ]);

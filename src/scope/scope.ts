@@ -21,7 +21,7 @@ export class Scope {
         this.addScope(_element, this);
         this.mapDom = new MapDom(_element);
         this.scope = new ScopeProxy({}, this);
-        setTimeout(() => this.executeOnInit(), 0);
+        this.$emit('$onInit');
     }
 
     getScopeProxy(){
@@ -36,15 +36,17 @@ export class Scope {
     addScope(element: any, scope: Scope){
         if(element && element.nodeName) element[Constants.SCOPE_ATTRIBUTE_NAME] = scope;
     }
-
-    executeOnInit(){
-        this.watchers
-            .filter(watcher => watcher.event == '$onInit')
-            .forEach(watcher => watcher.callback());
+    
+    $on = (evtName, callback) => {
+        this.watchers.push({ evtName, callback });
     }
 
-    $on = (event, callback) => {
-        this.watchers.push({ event, callback });
+    $emit = (evtName, ...args) => {
+        this.watchers
+        .filter(watcher => watcher.evtName == evtName)
+        .forEach(watcher => {
+            watcher.callback.call(...args);
+        });
     }
     
 }
