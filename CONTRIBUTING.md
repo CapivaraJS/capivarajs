@@ -15,7 +15,6 @@ Abrir um issue não é a melhor maneira de resolver problemas e questões sobre 
 
 Nossos links para contato:
 - O [Google Group][groups] do CapivaraJS
-- O [CapivaraJS Gitter][gitter]
 
 ## <a name="issue"></a>Issue ou Bug?
 
@@ -73,7 +72,6 @@ Esse é um pequeno tutorial de como enviar pull requests para o [CapivaraJS][Cap
 [github-issues]: https://github.com/CapivaraJS/capivarajs/issues
 [github-new-issue]: https://github.com/CapivaraJS/capivarajs/issues/new
 [github]: https://github.com/CapivaraJS/capivarajs
-[gitter]: https://gitter.im/angular/angular.js
 [groups]: https://groups.google.com/d/forum/capivarajs
 [individual-cla]: http://code.google.com/legal/individual-cla-v1.0.html
 [jsfiddle]: http://jsfiddle.net/
