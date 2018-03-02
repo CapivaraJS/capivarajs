@@ -3,6 +3,7 @@
 </p>
 
 <p align="center">
+    <a href="https://travis-ci.org/CapivaraJS/capivarajs"><img src="https://travis-ci.org/CapivaraJS/capivarajs.svg" alt="Travis"></a>
     <a href="https://www.npmjs.com/package/capivarajs"><img src="https://img.shields.io/npm/dm/capivarajs.svg" alt="Downloads"></a>
     <a href="https://www.npmjs.com/package/capivarajs"><img src="https://img.shields.io/npm/v/capivarajs.svg" alt="Version"></a> 
     <a href="https://www.npmjs.com/package/capivarajs"><img src="https://img.shields.io/npm/l/capivarajs.svg" alt="License"></a>
