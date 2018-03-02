@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">47.83% </span>
+        <span class="strong">69.86% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>33/69</span>
+        <span class='fraction'>51/73</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">5.41% </span>
+        <span class="strong">37.84% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>2/37</span>
+        <span class='fraction'>14/37</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">5.88% </span>
+        <span class="strong">47.06% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>1/17</span>
+        <span class='fraction'>8/17</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">34.62% </span>
+        <span class="strong">64.29% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>18/52</span>
+        <span class='fraction'>36/56</span>
       </div>
     </div>
   </div>
-  <div class='status-line low'></div>
+  <div class='status-line medium'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -143,7 +143,11 @@
 98
 99
 100
-101</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+101
+102
+103
+104
+105</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2×</span>
@@ -154,40 +158,44 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-yes">4×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -253,41 +261,45 @@ export namespace Common {
      * @param source
      * @param context
      */
-<span class="fstat-no" title="function not covered" >    export function evalInContext(source, context)</span> {
-<span class="cstat-no" title="statement not covered" >        if (source) {</span>
-<span class="cstat-no" title="statement not covered" >            source.split(' ').forEach(<span class="fstat-no" title="function not covered" >word </span>=&gt; {</span>
-<span class="cstat-no" title="statement not covered" >                let firstKey = (word.indexOf('.') != -1 ? word.substring(0, word.indexOf('.')) : word).replace(/ /g, '');</span>
-<span class="cstat-no" title="statement not covered" >                if (firstKey &amp;&amp; word &amp;&amp; context &amp;&amp; context.hasOwnProperty(firstKey)) {</span>
-<span class="cstat-no" title="statement not covered" >                    let value = _.get(context, word.replace(/ /g, ''));</span>
-<span class="cstat-no" title="statement not covered" >                    if (window['capivara'].isString(value)) {</span>
-<span class="cstat-no" title="statement not covered" >                        source = source.replace(word, value != null ? "'" + value + "'" : null);</span>
+    export function evalInContext(source, context) {
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (source) {
+            source.split(' ').forEach(word =&gt; {
+                let firstKey = (word.indexOf('.') != -1 ? <span class="branch-0 cbranch-no" title="branch not covered" >word.substring(0, word.indexOf('.')) </span>: word).replace(/ /g, '');
+                firstKey = firstKey.split('(').join('');
+                firstKey = firstKey.split(')').join('');
+                if (firstKey &amp;&amp; word &amp;&amp; context &amp;&amp; context.hasOwnProperty(firstKey)) {
+                    word = word.split('(').join('');
+                    word = word.split(')').join('');
+                    let value = _.get(context, word.replace(/ /g, ''));
+                    if (window['capivara'].isString(value)) {
+                        source = source.replace(word, value != null ? "'" + value + "'" : <span class="branch-1 cbranch-no" title="branch not covered" >null)</span>;
                     } else {
-<span class="cstat-no" title="statement not covered" >                        source = source.replace(word, value != null ? value : null);</span>
+                        source = source.replace(word, value != null ? value : <span class="branch-1 cbranch-no" title="branch not covered" >null)</span>;
                     }
                 }
             });
         }
-<span class="cstat-no" title="statement not covered" >        return eval(source);</span>
+        return eval(source);
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    export function getAttributeCpShow(element)</span> {
-<span class="cstat-no" title="statement not covered" >        return element.getAttribute(Constants.SHOW_ATTRIBUTE_NAME);</span>
+    export function getAttributeCpShow(element) {
+        return element.getAttribute(Constants.SHOW_ATTRIBUTE_NAME);
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    export function getAttributeCpIf(element)</span> {
-<span class="cstat-no" title="statement not covered" >        return element.getAttribute(Constants.IF_ATTRIBUTE_NAME);</span>
+    export function getAttributeCpIf(element) {
+        return element.getAttribute(Constants.IF_ATTRIBUTE_NAME);
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    export function getAttributeCpElseIf(element)</span> {
-<span class="cstat-no" title="statement not covered" >        return element.getAttribute(Constants.ELSE_IF_ATTRIBUTE_NAME);</span>
+    export function getAttributeCpElseIf(element) {
+        return element.getAttribute(Constants.ELSE_IF_ATTRIBUTE_NAME);
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    export function getAttributeCpElse(element)</span> {
-<span class="cstat-no" title="statement not covered" >        return element.getAttribute(Constants.ELSE_ATTRIBUTE_NAME);</span>
+    export function getAttributeCpElse(element) {
+        return element.getAttribute(Constants.ELSE_ATTRIBUTE_NAME);
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    export function getAttributeCpInit(element)</span> {
-<span class="cstat-no" title="statement not covered" >        return element.getAttribute(Constants.INIT_ATTRIBUTE_NAME);</span>
+    export function getAttributeCpInit(element) {
+        return element.getAttribute(Constants.INIT_ATTRIBUTE_NAME);
     }
 &nbsp;
 <span class="fstat-no" title="function not covered" >    export function getScope(element)</span> {
@@ -349,7 +361,7 @@ export namespace Common {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Mar 02 2018 15:01:48 GMT-0300 (-03)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Mar 02 2018 17:54:21 GMT-0300 (-03)
 </div>
 </div>
 <script src="../prettify.js"></script>
