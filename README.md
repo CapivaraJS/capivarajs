@@ -23,3 +23,6 @@ CapivaraJS é compatível com todos frameworks. Experimente!
 
 [Ir para documentação](https://capivarajs.github.io/)
 
+[Seja um contibuidor][contributing]
+
+[contributing]: https://github.com/CapivaraJS/capivarajs/blob/master/CONTRIBUTING.md
