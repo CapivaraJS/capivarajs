@@ -88,5 +88,13 @@ export namespace Common {
         return evalInContext(condition, scope.scope);
     }
 
+    export function appendBefore(element, elementToInsert){
+        element.parentNode.insertBefore(elementToInsert, element);
+    }
+
+    export function appendAfter(element, elementToInsert){
+        element.parentNode.insertBefore(elementToInsert, element.nextSibling);
+    }
+
 }
 

@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "dist";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -79,6 +79,7 @@ var Constants = {
     SHOW_ATTRIBUTE_NAME: 'cp-show',
     IF_ATTRIBUTE_NAME: 'cp-if',
     ELSE_ATTRIBUTE_NAME: 'cp-else',
+    ELSE_IF_ATTRIBUTE_NAME: 'cp-else-if',
     INIT_ATTRIBUTE_NAME: 'cp-init',
     START_INTERPOLATION: '[[',
     END_INTERPOLATION: ']]',
@@ -129,6 +130,10 @@ var Common;
         return element.getAttribute(__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].IF_ATTRIBUTE_NAME);
     }
     Common.getAttributeCpIf = getAttributeCpIf;
+    function getAttributeCpElseIf(element) {
+        return element.getAttribute(__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].ELSE_IF_ATTRIBUTE_NAME);
+    }
+    Common.getAttributeCpElseIf = getAttributeCpElseIf;
     function getAttributeCpElse(element) {
         return element.getAttribute(__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].ELSE_ATTRIBUTE_NAME);
     }
@@ -174,6 +179,22 @@ var Common;
             element.$instance.initController();
     }
     Common.createElement = createElement;
+    function isValidCondition(element, condition) {
+        var scope = getScope(element);
+        if (!(element.parentNode && element.parentNode.classList.contains('binding-repeat')) && scope.$parent) {
+            scope = scope.$parent;
+        }
+        return evalInContext(condition, scope.scope);
+    }
+    Common.isValidCondition = isValidCondition;
+    function appendBefore(element, elementToInsert) {
+        element.parentNode.insertBefore(elementToInsert, element);
+    }
+    Common.appendBefore = appendBefore;
+    function appendAfter(element, elementToInsert) {
+        element.parentNode.insertBefore(elementToInsert, element.nextSibling);
+    }
+    Common.appendAfter = appendAfter;
 })(Common || (Common = {}));
 
 
@@ -17280,7 +17301,7 @@ var Common;
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), __webpack_require__(9)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(8)(module)))
 
 /***/ }),
 /* 3 */
@@ -17288,7 +17309,7 @@ var Common;
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Controller; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__scope_scope__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__scope_scope__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__constants__ = __webpack_require__(0);
 
 
@@ -17310,67 +17331,14 @@ var Controller = /** @class */ (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CPIf; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__common__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__constants__ = __webpack_require__(0);
-
-
-var CPIf = /** @class */ (function () {
-    function CPIf(_element, _map) {
-        var _this = this;
-        __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].getScope(_element).$on('$onInit', function () {
-            _this.element = _element;
-            _this.integrationCpElse();
-            _this.map = _map;
-            _this.attribute = __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].getAttributeCpIf(_this.element);
-            _this.elementComment = document.createComment('cpIf ' + _this.attribute);
-            _this.init();
-        });
-    }
-    CPIf.prototype.integrationCpElse = function () {
-        var nextElement = this.element.nextElementSibling;
-        if (nextElement && nextElement.hasAttribute(__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].ELSE_ATTRIBUTE_NAME)) {
-            __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].getScope(nextElement).cpIf = this;
-        }
-    };
-    CPIf.isValidCondition = function (element) {
-        var scope = __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].getScope(element);
-        if (!(element.parentNode && element.parentNode.classList.contains('binding-repeat')) && scope.$parent) {
-            scope = scope.$parent;
-        }
-        return __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].evalInContext(__WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].getAttributeCpIf(element), scope.scope);
-    };
-    CPIf.prototype.init = function () {
-        if (!this.element) {
-            return;
-        }
-        try {
-            CPIf.isValidCondition(this.element)
-                ? __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].createElement(this.element, this.elementComment)
-                : __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].destroyElement(this.element, this.elementComment);
-        }
-        catch (ex) {
-            __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].destroyElement(this.element, this.elementComment);
-        }
-    };
-    return CPIf;
-}());
-
-
-
-/***/ }),
-/* 5 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__controller__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__constants__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__component__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__component__ = __webpack_require__(18);
 
 
 
-var packageJson = __webpack_require__(21);
+var packageJson = __webpack_require__(22);
 (function (capivara) {
     if (!capivara) {
         window['capivara'] = {
@@ -17535,13 +17503,13 @@ var packageJson = __webpack_require__(21);
 
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Scope; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__scope_proxy__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__map_map_dom__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__scope_proxy__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__map_map_dom__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__constants__ = __webpack_require__(0);
 
 
@@ -17549,8 +17517,20 @@ var packageJson = __webpack_require__(21);
 var Scope = /** @class */ (function () {
     function Scope(_element) {
         var _this = this;
-        this.$on = function (event, callback) {
-            _this.watchers.push({ event: event, callback: callback });
+        this.$on = function (evtName, callback) {
+            _this.watchers.push({ evtName: evtName, callback: callback });
+        };
+        this.$emit = function (evtName) {
+            var args = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                args[_i - 1] = arguments[_i];
+            }
+            _this.watchers
+                .filter(function (watcher) { return watcher.evtName == evtName; })
+                .forEach(function (watcher) {
+                (_a = watcher.callback).call.apply(_a, args);
+                var _a;
+            });
         };
         if (!_element || !_element.nodeName) {
             console.warn('Unable to create a scope, it is necessary to report an html element.');
@@ -17559,7 +17539,7 @@ var Scope = /** @class */ (function () {
         this.addScope(_element, this);
         this.mapDom = new __WEBPACK_IMPORTED_MODULE_1__map_map_dom__["a" /* MapDom */](_element);
         this.scope = new __WEBPACK_IMPORTED_MODULE_0__scope_proxy__["a" /* ScopeProxy */]({}, this);
-        setTimeout(function () { return _this.executeOnInit(); }, 0);
+        this.$emit('$onInit');
     }
     Scope.prototype.getScopeProxy = function () {
         return this.scope;
@@ -17573,18 +17553,13 @@ var Scope = /** @class */ (function () {
         if (element && element.nodeName)
             element[__WEBPACK_IMPORTED_MODULE_2__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME] = scope;
     };
-    Scope.prototype.executeOnInit = function () {
-        this.watchers
-            .filter(function (watcher) { return watcher.event == '$onInit'; })
-            .forEach(function (watcher) { return watcher.callback(); });
-    };
     return Scope;
 }());
 
 
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17673,7 +17648,7 @@ var ScopeProxy = /** @class */ (function () {
 
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports) {
 
 var g;
@@ -17700,7 +17675,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -17728,20 +17703,22 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MapDom; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__directive_cp_model__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__directive_cp_click__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__directive_cp_repeat__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__directive_cp_show__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__directive_cp_if__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__directive_cp_model__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__directive_cp_click__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__directive_cp_repeat__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__directive_cp_show__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__directive_cp_if__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__directive_cp_init__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__common__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__directive_cp_else__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__directive_cp_else_if__ = __webpack_require__(17);
+
 
 
 
@@ -17764,6 +17741,7 @@ var MapDom = /** @class */ (function () {
         this.cpShows = [];
         this.cpIfs = [];
         this.cpElses = [];
+        this.cpElseIfs = [];
         this.element = _element;
         this.regexInterpolation = new RegExp(/({{).*?(}})/g);
         if (this.element)
@@ -17801,6 +17779,8 @@ var MapDom = /** @class */ (function () {
             this.createCPIf(child);
         if (child.hasAttribute(__WEBPACK_IMPORTED_MODULE_0__constants__["a" /* Constants */].ELSE_ATTRIBUTE_NAME))
             this.createCPElse(child);
+        if (child.hasAttribute(__WEBPACK_IMPORTED_MODULE_0__constants__["a" /* Constants */].ELSE_IF_ATTRIBUTE_NAME))
+            this.createCPElseIf(child);
         if (child.hasAttribute(__WEBPACK_IMPORTED_MODULE_0__constants__["a" /* Constants */].INIT_ATTRIBUTE_NAME))
             this.createCPInit(child);
     };
@@ -17830,7 +17810,9 @@ var MapDom = /** @class */ (function () {
         this.cpShows.forEach(function (cpShow) { return cpShow.init(); });
         //Update cp if
         this.cpIfs.forEach(function (cpIf) { return cpIf.init(); });
-        //Update cp if
+        //Update cp else-if
+        this.cpElseIfs.forEach(function (cpElseIf) { return cpElseIf.init(); });
+        //Update cp else
         this.cpElses.forEach(function (cpElse) { return cpElse.init(); });
         this.processInterpolation(this.element);
     };
@@ -17930,6 +17912,13 @@ var MapDom = /** @class */ (function () {
     };
     /**
      *
+     * @param child Elemento que está sendo criado o bind do else if
+     */
+    MapDom.prototype.createCPElseIf = function (child) {
+        this.cpElseIfs.push(new __WEBPACK_IMPORTED_MODULE_9__directive_cp_else_if__["a" /* CPElseIf */](child, this));
+    };
+    /**
+     *
      * @param child Elemento que está sendo criado o bind de repeat.
      */
     MapDom.prototype.createCPRepeat = function (child) {
@@ -17948,7 +17937,7 @@ var MapDom = /** @class */ (function () {
 
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17965,6 +17954,9 @@ var CPModel = /** @class */ (function () {
         this.element = _element;
         this.map = _map;
         this.attribute = this.element.getAttribute(__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].MODEL_ATTRIBUTE_NAME);
+        if (!this.attribute) {
+            throw "syntax error " + __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].MODEL_ATTRIBUTE_NAME + " expected arguments";
+        }
         this.init();
         this.applyValueInModel();
     }
@@ -18007,7 +17999,7 @@ var CPModel = /** @class */ (function () {
 
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18024,6 +18016,9 @@ var CPClick = /** @class */ (function () {
         this.element = _element;
         this.map = _map;
         this.attribute = this.element.getAttribute(__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].CLICK_ATTRIBUTE_NAME);
+        if (!this.attribute) {
+            throw "syntax error " + __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].CLICK_ATTRIBUTE_NAME + " expected arguments";
+        }
         this.init();
     }
     CPClick.prototype.getIndexRow = function (element) {
@@ -18055,7 +18050,7 @@ var CPClick = /** @class */ (function () {
 
 
 /***/ }),
-/* 13 */
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18077,18 +18072,23 @@ var CPRepeat = /** @class */ (function () {
         this.originalElement = _element;
         this.map = _map;
         this.attribute = _element.getAttribute(__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].REPEAT_ATTRIBUTE_NAME).replace(/\s+/g, ' ');
+        this.regex = new RegExp('^[\\s*|\\S]+\\s+in\\s+\\S+\\s*', 'g');
+        var matchs = this.attribute.match(this.regex);
+        if (!this.attribute || (!matchs || matchs.length == 0)) {
+            throw "syntax error invalid " + __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].REPEAT_ATTRIBUTE_NAME + " expresion: " + this.attribute;
+        }
         this.referenceNode = document.createComment('start repeat ' + this.attribute);
         this.originalElement.replaceWith(this.referenceNode);
         __WEBPACK_IMPORTED_MODULE_3__common__["a" /* Common */].getScope(this.originalElement).$on('$onInit', function () { return _this.applyLoop(); });
     }
     CPRepeat.prototype.applyLoop = function () {
-        var attributeAlias = this.attribute.substring(0, this.attribute.indexOf(__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].REPEAT_ATTRIBUTE_OPERATOR));
-        var attributeScope = this.attribute.substring(this.attribute.indexOf(__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].REPEAT_ATTRIBUTE_OPERATOR) + __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].REPEAT_ATTRIBUTE_OPERATOR.length, this.attribute.length);
+        var attributeAlias = this.attribute.substring(0, this.attribute.indexOf(__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].REPEAT_ATTRIBUTE_OPERATOR)).replace(/ /g, '');
+        var attributeScope = this.attribute.substring(this.attribute.indexOf(__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].REPEAT_ATTRIBUTE_OPERATOR) + __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].REPEAT_ATTRIBUTE_OPERATOR.length, this.attribute.length).replace(/ /g, '');
         var array = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.get(__WEBPACK_IMPORTED_MODULE_3__common__["a" /* Common */].getScope(this.originalElement).scope, attributeScope);
         if (array && !__WEBPACK_IMPORTED_MODULE_0_lodash___default.a.isEqual(array, this.lastArray)) {
             this.lastArray = array.slice();
             this.removeChildes();
-            this.loop(array, attributeAlias);
+            this.loop(array.slice().reverse(), attributeAlias);
         }
     };
     CPRepeat.prototype.removeChildes = function () {
@@ -18106,7 +18106,7 @@ var CPRepeat = /** @class */ (function () {
             var elm = _this.element.cloneNode(true);
             elm.removeAttribute(__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].REPEAT_ATTRIBUTE_NAME);
             elm.classList.add('binding-repeat');
-            _this.referenceNode.parentNode.appendChild(elm);
+            __WEBPACK_IMPORTED_MODULE_3__common__["a" /* Common */].appendAfter(_this.referenceNode, elm);
             new __WEBPACK_IMPORTED_MODULE_2__controller__["a" /* Controller */](elm, function () { });
             __WEBPACK_IMPORTED_MODULE_3__common__["a" /* Common */].getScope(elm).scope[attributeAlias] = row;
             __WEBPACK_IMPORTED_MODULE_3__common__["a" /* Common */].getScope(elm).scope[__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].REPEAT_INDEX_NAME] = index;
@@ -18120,26 +18120,30 @@ var CPRepeat = /** @class */ (function () {
 
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CPShow; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__common__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__constants__ = __webpack_require__(0);
+
 
 var CPShow = /** @class */ (function () {
     function CPShow(_element, _map) {
         var _this = this;
         this.element = _element;
-        this.initialDisplay = this.element.style.display || 'block';
+        this.initialDisplay = this.element.style.display || '';
         this.map = _map;
         this.attribute = __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].getAttributeCpShow(this.element);
+        if (!this.attribute) {
+            throw "syntax error " + __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].SHOW_ATTRIBUTE_NAME + " expected arguments";
+        }
         __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].getScope(this.element).$on('$onInit', function () { return _this.init(); });
     }
     CPShow.prototype.init = function () {
         try {
-            var scope = __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].getScope(this.element).$parent || __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].getScope(this.element);
-            __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].evalInContext(this.attribute, scope.scope) ? this.show() : this.hide();
+            __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].isValidCondition(this.element, __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].getAttributeCpShow(this.element)) ? this.show() : this.hide();
         }
         catch (ex) {
             this.hide();
@@ -18157,6 +18161,56 @@ var CPShow = /** @class */ (function () {
 
 
 /***/ }),
+/* 14 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CPIf; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__common__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__constants__ = __webpack_require__(0);
+
+
+var CPIf = /** @class */ (function () {
+    function CPIf(_element, _map) {
+        var _this = this;
+        __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].getScope(_element).$on('$onInit', function () {
+            _this.element = _element;
+            _this.element['cpIf'] = _this;
+            _this.integrationCpElse();
+            _this.map = _map;
+            _this.attribute = __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].getAttributeCpIf(_this.element);
+            if (!_this.attribute) {
+                throw "syntax error " + __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].IF_ATTRIBUTE_NAME + " expected arguments";
+            }
+            _this.elementComment = document.createComment('cpIf ' + _this.attribute);
+            _this.init();
+        });
+    }
+    CPIf.prototype.integrationCpElse = function () {
+        var nextElement = this.element.nextElementSibling;
+        if (nextElement && (nextElement.hasAttribute(__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].ELSE_ATTRIBUTE_NAME) || nextElement.hasAttribute(__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].ELSE_IF_ATTRIBUTE_NAME))) {
+            __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].getScope(nextElement).parentCondition = this;
+        }
+    };
+    CPIf.prototype.init = function () {
+        if (!this.element) {
+            return;
+        }
+        try {
+            __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].createElement(this.element, this.elementComment);
+            if (!__WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].isValidCondition(this.element, __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].getAttributeCpIf(this.element)))
+                __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].destroyElement(this.element, this.elementComment);
+        }
+        catch (ex) {
+            __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].destroyElement(this.element, this.elementComment);
+        }
+    };
+    return CPIf;
+}());
+
+
+
+/***/ }),
 /* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -18165,6 +18219,8 @@ var CPShow = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__common__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__constants__ = __webpack_require__(0);
+
 
 
 var CPInit = /** @class */ (function () {
@@ -18174,6 +18230,9 @@ var CPInit = /** @class */ (function () {
             _this.element = _element;
             _this.map = _map;
             _this.attribute = __WEBPACK_IMPORTED_MODULE_1__common__["a" /* Common */].getAttributeCpInit(_this.element);
+            if (!_this.attribute) {
+                throw "syntax error " + __WEBPACK_IMPORTED_MODULE_2__constants__["a" /* Constants */].INIT_ATTRIBUTE_NAME + " expected arguments";
+            }
             _this.init();
         });
     }
@@ -18202,7 +18261,7 @@ var CPInit = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CPElse; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__common__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__cp_if__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__constants__ = __webpack_require__(0);
 
 
 var CPElse = /** @class */ (function () {
@@ -18211,26 +18270,39 @@ var CPElse = /** @class */ (function () {
         __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].getScope(_element).$on('$onInit', function () {
             _this.element = _element;
             if (__WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].getAttributeCpElse(_this.element)) {
-                throw "cp-else don't expect arguments";
+                throw __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].ELSE_ATTRIBUTE_NAME + " don't expect arguments";
             }
             _this.prevElement = _element.previousSibling;
-            _this.cpIf = __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].getScope(_this.element).cpIf;
-            if (!_this.cpIf) {
-                throw "cp-else expected cp-if above.";
+            _this.parentCondition = __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].getScope(_this.element).parentCondition;
+            if (!_this.parentCondition) {
+                throw "syntax error " + __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].ELSE_ATTRIBUTE_NAME + " used on element " +
+                    ("<" + _this.element.nodeName.toLowerCase() + "> without corresponding " + __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].IF_ATTRIBUTE_NAME + ".");
             }
             _this.map = _map;
-            _this.elementComment = document.createComment('cpElse ');
+            _this.elementComment = document.createComment('cpElse');
             _this.init();
         });
     }
+    CPElse.prototype.hasValidCondition = function (_element, conditions) {
+        if (_element && ((_element.hasAttribute && _element.hasAttribute(__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].IF_ATTRIBUTE_NAME)) || (_element.nodeType == 8 && _element.data.indexOf('cpIf') != -1))) {
+            return !((_element.nodeType == 8 && _element.data.indexOf('cpIf') != -1) && conditions.length == 0);
+        }
+        if (_element && _element.previousSibling) {
+            if (_element.hasAttribute && _element.hasAttribute(__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].ELSE_IF_ATTRIBUTE_NAME)) {
+                conditions.push(_element);
+            }
+            return this.hasValidCondition(_element.previousSibling, conditions);
+        }
+    };
     CPElse.prototype.init = function () {
         if (!this.element) {
             return;
         }
         try {
-            !__WEBPACK_IMPORTED_MODULE_1__cp_if__["a" /* CPIf */].isValidCondition(this.cpIf.element)
-                ? __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].createElement(this.element, this.elementComment)
-                : __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].destroyElement(this.element, this.elementComment);
+            __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].createElement(this.element, this.elementComment);
+            if (this.hasValidCondition(this.element, [])) {
+                __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].destroyElement(this.element, this.elementComment);
+            }
         }
         catch (ex) {
             __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].destroyElement(this.element, this.elementComment);
@@ -18246,8 +18318,69 @@ var CPElse = /** @class */ (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CPElseIf; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__common__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__constants__ = __webpack_require__(0);
+
+
+var CPElseIf = /** @class */ (function () {
+    function CPElseIf(_element, _map) {
+        var _this = this;
+        __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].getScope(_element).$on('$onInit', function () {
+            _this.element = _element;
+            _this.element['cpElseIf'] = _this;
+            _this.integrationCpElse();
+            _this.attribute = __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].getAttributeCpElseIf(_this.element);
+            if (!_this.attribute) {
+                throw "syntax error " + __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].ELSE_IF_ATTRIBUTE_NAME + " expected arguments";
+            }
+            _this.prevElement = _element.previousSibling;
+            _this.parentCondition = __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].getScope(_this.element).parentCondition;
+            if (!_this.parentCondition) {
+                throw "syntax error " + __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].ELSE_IF_ATTRIBUTE_NAME + " used on element " +
+                    ("<" + _this.element.nodeName.toLowerCase() + "> without corresponding " + __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].IF_ATTRIBUTE_NAME + ".");
+            }
+            _this.map = _map;
+            _this.elementComment = document.createComment('CPElseIf ' + _this.attribute);
+            _this.init();
+        });
+    }
+    CPElseIf.prototype.integrationCpElse = function () {
+        var nextElement = this.element.nextElementSibling;
+        if (nextElement && (nextElement.hasAttribute(__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].ELSE_ATTRIBUTE_NAME) || nextElement.hasAttribute(__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].ELSE_IF_ATTRIBUTE_NAME))) {
+            __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].getScope(nextElement).parentCondition = this;
+        }
+    };
+    CPElseIf.prototype.init = function () {
+        if (!this.element) {
+            return;
+        }
+        try {
+            if (!__WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].isValidCondition(this.parentCondition.element, __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].getAttributeCpIf(this.parentCondition.element))) {
+                __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].createElement(this.element, this.elementComment);
+                if (!__WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].isValidCondition(this.element, this.attribute))
+                    __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].destroyElement(this.element, this.elementComment);
+            }
+            else {
+                __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].destroyElement(this.element, this.elementComment);
+            }
+        }
+        catch (ex) {
+            __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].destroyElement(this.element, this.elementComment);
+        }
+    };
+    return CPElseIf;
+}());
+
+
+
+/***/ }),
+/* 18 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Component; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__component_instance__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__component_instance__ = __webpack_require__(19);
 
 var Component = /** @class */ (function () {
     function Component(_componentName, config) {
@@ -18263,16 +18396,16 @@ var Component = /** @class */ (function () {
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ComponentInstance; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_object_observe__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_object_observe__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_object_observe___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_object_observe__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_melanke_watchjs__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_melanke_watchjs__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_melanke_watchjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_melanke_watchjs__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__constants__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__common__ = __webpack_require__(1);
@@ -18285,6 +18418,7 @@ var ComponentInstance = /** @class */ (function () {
     function ComponentInstance(_element, _config) {
         _config.controllerAs = _config.controllerAs || '$ctrl';
         this.element = _element;
+        this.initialDisplay = this.element.style.display || '';
         this.element.$instance = this;
         this.config = _config;
         this.element.innerHTML = this.config.template;
@@ -18418,7 +18552,7 @@ var ComponentInstance = /** @class */ (function () {
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports) {
 
 /*!
@@ -19165,7 +19299,7 @@ Object.observe || (function(O, A, root, _undefined) {
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19968,10 +20102,10 @@ Object.observe || (function(O, A, root, _undefined) {
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports) {
 
-module.exports = {"name":"capivarajs","version":"1.5.0-beta","description":"Um framework para criação de componentes.","main":"index.js","scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js"},"author":"Capivara Team.","license":"LGPL-3.0","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1","object.observe":"^0.2.6"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"devDependencies":{"@types/node":"^9.4.0","babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-preset-env":"^1.6.1","babel-preset-stage-0":"^6.24.1","css-loader":"^0.28.7","extract-text-webpack-plugin":"^3.0.2","file-loader":"^1.1.5","html-loader":"^0.5.1","intern":"^4.1.5","node-sass":"^4.7.2","remap-istanbul":"^0.10.1","sass-loader":"^6.0.6","style-loader":"^0.19.0","ts-loader":"^3.2.0","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","webpack":"^3.9.1","webpack-dev-server":"^2.9.5"}}
+module.exports = {"name":"capivarajs","version":"1.7.0-beta","description":"Um framework para criação de componentes.","main":"index.js","scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js"},"author":"Capivara Team.","license":"LGPL-3.0","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1","object.observe":"^0.2.6"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"devDependencies":{"@types/node":"^9.4.0","babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-preset-env":"^1.6.1","babel-preset-stage-0":"^6.24.1","css-loader":"^0.28.7","extract-text-webpack-plugin":"^3.0.2","file-loader":"^1.1.5","html-loader":"^0.5.1","intern":"^4.1.5","node-sass":"^4.7.2","remap-istanbul":"^0.10.1","sass-loader":"^6.0.6","style-loader":"^0.19.0","ts-loader":"^3.2.0","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","webpack":"^3.9.1","webpack-dev-server":"^2.9.5"}}
 
 /***/ })
 /******/ ]);

@@ -20,8 +20,9 @@ export class CPRepeat {
         this.originalElement = _element;
         this.map = _map;
         this.attribute = _element.getAttribute(Constants.REPEAT_ATTRIBUTE_NAME).replace(/\s+/g, ' ');
-        this.regex = new RegExp('[a-zA-Z\\d]+\\s+'+Constants.REPEAT_ATTRIBUTE_OPERATOR+'\\s+[a-zA-Z\\d]+', 'g');
-        if(!this.regex.test(this.attribute)){
+        this.regex = new RegExp('^[\\s*|\\S]+\\s+in\\s+\\S+\\s*', 'g');
+        let matchs = this.attribute.match(this.regex);
+        if(!this.attribute || (!matchs || matchs.length == 0)){
             throw `syntax error invalid ${Constants.REPEAT_ATTRIBUTE_NAME} expresion: ${this.attribute}`;
         }
         this.referenceNode = document.createComment('start repeat ' + this.attribute);
@@ -30,13 +31,13 @@ export class CPRepeat {
     }
 
     applyLoop() {
-        let attributeAlias = this.attribute.substring(0, this.attribute.indexOf(Constants.REPEAT_ATTRIBUTE_OPERATOR));
-        let attributeScope = this.attribute.substring(this.attribute.indexOf(Constants.REPEAT_ATTRIBUTE_OPERATOR) + Constants.REPEAT_ATTRIBUTE_OPERATOR.length, this.attribute.length);
+        let attributeAlias = this.attribute.substring(0, this.attribute.indexOf(Constants.REPEAT_ATTRIBUTE_OPERATOR)).replace(/ /g, '');
+        let attributeScope = this.attribute.substring(this.attribute.indexOf(Constants.REPEAT_ATTRIBUTE_OPERATOR) + Constants.REPEAT_ATTRIBUTE_OPERATOR.length, this.attribute.length).replace(/ /g, '');
         let array = _.get(Common.getScope(this.originalElement).scope, attributeScope);
         if (array && !_.isEqual(array, this.lastArray)) {
             this.lastArray = array.slice();
             this.removeChildes();
-            this.loop(array, attributeAlias);            
+            this.loop(array.slice().reverse(), attributeAlias);            
         }
     }
 
@@ -54,7 +55,7 @@ export class CPRepeat {
             let elm = this.element.cloneNode(true);
             elm.removeAttribute(Constants.REPEAT_ATTRIBUTE_NAME);
             elm.classList.add('binding-repeat');
-            this.referenceNode.parentNode.appendChild(elm);
+            Common.appendAfter(this.referenceNode, elm);
             new Controller(elm, () => { });
             Common.getScope(elm).scope[attributeAlias] = row;
             Common.getScope(elm).scope[Constants.REPEAT_INDEX_NAME] = index;

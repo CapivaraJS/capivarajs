@@ -1,22 +1,21 @@
 capivara.component('my-component', {
     template: `        
-        <h1 cp-if="$ctrl.nome == 'felipe'">Primeiro if</h1>
-
-        <h1 cp-if="$ctrl.numero == 6">If</h1>
-        <h1 cp-else-if="$ctrl.numero == 8"> Else IF 8 </h1>
         
-        <button cp-click="$ctrl.alterar()">Clique para Mostrar</button>
+        <h1 cp-if="$ctrl.numero == 1">if</h1>
+        <h1 cp-else-if="$ctrl.numero == 2">else if 1</h1>
+        <h1 cp-else-if="$ctrl.numero == 3">else if 2</h1>
+        <h1 cp-else>else</h1>
+
+        <button cp-click="$ctrl.click()">ola</button>
     `,
     controller: function (scope) {
         let $ctrl = this;
+        
+        $ctrl.numero = 1;
 
-        $ctrl.nome = 'felipe';
-
-        $ctrl.numero = 5;
-
-        $ctrl.alterar = function () {
+        $ctrl.click = function(){
             $ctrl.numero = $ctrl.numero + 1;
-        };
+        }
 
     }
 });
