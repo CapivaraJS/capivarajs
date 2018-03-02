@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/common.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">src/</a> common.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">47.83% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>33/69</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">5.41% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>2/37</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">5.88% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>1/17</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">34.62% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>18/52</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import * as _ from 'lodash';
+import { Constants } from './constants';
+&nbsp;
+export namespace Common {
+&nbsp;
+    /**
+     * @description Executa o eval alterando as propriedades do source para seus determinados valores dentro do contexto.
+     * @param source
+     * @param context
+     */
+<span class="fstat-no" title="function not covered" >    export function evalInContext(source, context)</span> {
+<span class="cstat-no" title="statement not covered" >        if (source) {</span>
+<span class="cstat-no" title="statement not covered" >            source.split(' ').forEach(<span class="fstat-no" title="function not covered" >word </span>=&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                let firstKey = (word.indexOf('.') != -1 ? word.substring(0, word.indexOf('.')) : word).replace(/ /g, '');</span>
+<span class="cstat-no" title="statement not covered" >                if (firstKey &amp;&amp; word &amp;&amp; context &amp;&amp; context.hasOwnProperty(firstKey)) {</span>
+<span class="cstat-no" title="statement not covered" >                    let value = _.get(context, word.replace(/ /g, ''));</span>
+<span class="cstat-no" title="statement not covered" >                    if (window['capivara'].isString(value)) {</span>
+<span class="cstat-no" title="statement not covered" >                        source = source.replace(word, value != null ? "'" + value + "'" : null);</span>
+                    } else {
+<span class="cstat-no" title="statement not covered" >                        source = source.replace(word, value != null ? value : null);</span>
+                    }
+                }
+            });
+        }
+<span class="cstat-no" title="statement not covered" >        return eval(source);</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    export function getAttributeCpShow(element)</span> {
+<span class="cstat-no" title="statement not covered" >        return element.getAttribute(Constants.SHOW_ATTRIBUTE_NAME);</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    export function getAttributeCpIf(element)</span> {
+<span class="cstat-no" title="statement not covered" >        return element.getAttribute(Constants.IF_ATTRIBUTE_NAME);</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    export function getAttributeCpElseIf(element)</span> {
+<span class="cstat-no" title="statement not covered" >        return element.getAttribute(Constants.ELSE_IF_ATTRIBUTE_NAME);</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    export function getAttributeCpElse(element)</span> {
+<span class="cstat-no" title="statement not covered" >        return element.getAttribute(Constants.ELSE_ATTRIBUTE_NAME);</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    export function getAttributeCpInit(element)</span> {
+<span class="cstat-no" title="statement not covered" >        return element.getAttribute(Constants.INIT_ATTRIBUTE_NAME);</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    export function getScope(element)</span> {
+<span class="cstat-no" title="statement not covered" >        return element[Constants.SCOPE_ATTRIBUTE_NAME];</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    export function getScopeParent(element)</span> {
+<span class="cstat-no" title="statement not covered" >        if (getScope(element)) {</span>
+<span class="cstat-no" title="statement not covered" >            return getScope(element).scope;</span>
+        }
+<span class="cstat-no" title="statement not covered" >        if (element.parentNode) {</span>
+<span class="cstat-no" title="statement not covered" >            return getScopeParent(element.parentNode);</span>
+        }
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    export function getCallbackClick(element, attribute)</span> {
+<span class="cstat-no" title="statement not covered" >        let callback = _.get(getScope(element).scope, attribute.substring(0, attribute.indexOf('(')));</span>
+<span class="cstat-no" title="statement not covered" >        if (!callback &amp;&amp; element.parentNode &amp;&amp; getScope(element.parentNode)) {</span>
+<span class="cstat-no" title="statement not covered" >            return getCallbackClick(element.parentNode, attribute);</span>
+        }
+<span class="cstat-no" title="statement not covered" >        return callback;</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    export function isNative(fn)</span> {
+<span class="cstat-no" title="statement not covered" >        return (/\{\s*\[native code\]\s*\}/).test('' + fn);</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    export function destroyElement(element, elementComment)</span> {
+<span class="cstat-no" title="statement not covered" >        element.replaceWith(elementComment);</span>
+<span class="cstat-no" title="statement not covered" >        if (element.$instance) <span class="cstat-no" title="statement not covered" >element.$instance.destroy();</span></span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    export function createElement(element,elementComment)</span> {
+<span class="cstat-no" title="statement not covered" >        elementComment.replaceWith(element);</span>
+<span class="cstat-no" title="statement not covered" >        if (element.$instance) <span class="cstat-no" title="statement not covered" >element.$instance.initController();</span></span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    export function isValidCondition(element, condition)</span> {
+<span class="cstat-no" title="statement not covered" >        let scope = getScope(element);</span>
+<span class="cstat-no" title="statement not covered" >        if (!(element.parentNode &amp;&amp; element.parentNode.classList.contains('binding-repeat')) &amp;&amp; scope.$parent) {</span>
+<span class="cstat-no" title="statement not covered" >            scope = scope.$parent;</span>
+        }
+<span class="cstat-no" title="statement not covered" >        return evalInContext(condition, scope.scope);</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    export function appendBefore(element, elementToInsert)</span>{
+<span class="cstat-no" title="statement not covered" >        element.parentNode.insertBefore(elementToInsert, element);</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    export function appendAfter(element, elementToInsert)</span>{
+<span class="cstat-no" title="statement not covered" >        element.parentNode.insertBefore(elementToInsert, element.nextSibling);</span>
+    }
+&nbsp;
+}
+&nbsp;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Mar 02 2018 15:01:48 GMT-0300 (-03)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

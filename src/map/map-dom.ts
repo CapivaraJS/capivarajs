@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import * as _ from 'lodash';
 import { Constants } from '../constants';
 import { CPModel } from './directive/cp-model';
 import { CPClick } from './directive/cp-click';

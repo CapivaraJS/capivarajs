@@ -157,4 +157,7 @@ const packageJson = require('../package.json');
         console.warn('CapivaraJS tried to load more than once.');
     }
 
+
 })(window['capivara']);
+
+export default window['capivara'];

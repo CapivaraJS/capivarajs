@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import * as _ from 'lodash';
 import {MapDom} from '../map-dom';
 import {Common} from '../../common';
 import {Constants} from '../../constants';
