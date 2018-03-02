@@ -12,7 +12,11 @@ export namespace Common {
         if (source) {
             source.split(' ').forEach(word => {
                 let firstKey = (word.indexOf('.') != -1 ? word.substring(0, word.indexOf('.')) : word).replace(/ /g, '');
+                firstKey = firstKey.split('(').join('');
+                firstKey = firstKey.split(')').join('');
                 if (firstKey && word && context && context.hasOwnProperty(firstKey)) {
+                    word = word.split('(').join('');
+                    word = word.split(')').join('');
                     let value = _.get(context, word.replace(/ /g, ''));
                     if (window['capivara'].isString(value)) {
                         source = source.replace(word, value != null ? "'" + value + "'" : null);
