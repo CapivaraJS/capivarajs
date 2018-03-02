@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import { Scope } from './scope';
+import WeakSet  from 'weakset';
 
 export class ScopeProxy {
     
