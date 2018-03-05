@@ -30,12 +30,11 @@ const packageJson = require('../package.json');
              * @description Faz a inicialização de um componente.
              */
             componentBuilder: function (hashName) {
-                let elms = Array.from(document.querySelectorAll('[\\#' + hashName + ']'));
+                let elms = window['capivara'].isElement(hashName) ? [hashName] : Array.from(document.querySelectorAll('[\\#' + hashName + ']'));
                 if (elms.length == 0) console.error('CapivaraJS did not find its component with the hash ' + hashName);
                 let instance = undefined;
-
                 const findElementAndCreateInstance = () => {
-                    elms = Array.from(document.querySelectorAll('[\\#' + hashName + ']'));
+                    elms = window['capivara'].isElement(hashName) ? [hashName] : Array.from(document.querySelectorAll('[\\#' + hashName + ']'));
                     elms.forEach(elm => {
                         let component = window['capivara'].components[elm.nodeName];
                         if (!component) {
