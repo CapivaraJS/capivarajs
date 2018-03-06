@@ -26,9 +26,6 @@ describe('test method evalInContext', () => {
     it('Should return the multiplication of values', () => {
         expect(Common.evalInContext('numberOne * numberTwo', { numberOne: 100, numberTwo: 50 })).toEqual(5000);
     });
-    it('Should return the multiplication of values', () => {
-        expect(Common.evalInContext('numberOne * numberTwo', { numberOne: 100, numberTwo: 50 })).toEqual(5000);
-    });
 
     it('Should return the value of the math operation', () => {
         expect(Common.evalInContext('numberOne + ((10 * numberTwo) / 25)', { numberOne: 70, numberTwo: 80 })).toEqual(102);
