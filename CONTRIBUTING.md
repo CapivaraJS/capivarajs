@@ -11,7 +11,7 @@ Nós gostamos muito de contribuições em nosso projeto, isso faz com que o  Cap
 
 ## <a name="question"></a> Questões e Problemas?
 
-Abrir uma issue não é a melhor maneira de resolver problemas e questões sobre a utilização do CapivaraJS, explicaremos melhor no próximo tópico quando se deve abrir issues, pois isso evita misturar problemas e questões com Bugs dificultando o trabalho de determinar qual a velocidade em que as requisições devem ser atendidas. A maneira mais rápida e eficiente de resolver isso é utilizando nossos grupos, devido a velocidade em que a equipe ou a comunidade pode resolver. esses são os links para acessar os grupos:
+Abrir uma issue não é a melhor maneira de resolver problemas e questões sobre a utilização do CapivaraJS, explicaremos melhor no próximo tópico quando se deve abrir issues, pois isso evita misturar problemas e questões com Bugs dificultando o trabalho de determinar qual a velocidade em que as requisições devem ser atendidas. A maneira mais rápida e eficiente de resolver isso é utilizando nossos grupos, devido a velocidade em que a equipe ou a comunidade pode resolver. Esses são os links para acessar os grupos:
 
 Nossos links para contato:
 - O [Google Group][groups] do CapivaraJS
