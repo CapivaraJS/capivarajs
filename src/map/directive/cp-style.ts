@@ -9,6 +9,11 @@ export class CPStyle {
     private map: MapDom;
     private attribute;
     private elementComment;
+    private regex;
+    private cssStyle = {
+        properties: '',
+        value: ''
+    }
 
     constructor(_element: HTMLElement, _map: MapDom) {
         Common.getScope(_element).$on('$onInit', () => {
@@ -16,31 +21,18 @@ export class CPStyle {
             this.element['cpStyle'] = this;
             this.map = _map;
             this.attribute = Common.getAttributeCpStyle(this.element);
-            if(!this.attribute) {
-                throw `syntax error ${Constants.IF_ATTRIBUTE_NAME} expected arguments`
-            }
-            this.elementComment = document.createComment('cpIf ' + this.attribute);
+            this.regex = new RegExp('^[\s\t]*[^\s\t:]+[\s\t]*:[\s\t]*[^\s\t:]+[\s\t]*$', 'g');
+            let matchs = this.attribute.match(this.regex).toString();
+            this.elementComment = document.createComment('cpStyle ' + this.attribute);
+            let temp = matchs.split(":");
+            this.cssStyle.properties = temp[0];
+            this.cssStyle.value = temp[1];
             this.init();
         });
     }
 
-    integrationCpElse(){
-        let nextElement = this.element.nextElementSibling;
-        if(nextElement && (nextElement.hasAttribute(Constants.ELSE_ATTRIBUTE_NAME) || nextElement.hasAttribute(Constants.ELSE_IF_ATTRIBUTE_NAME)) ){
-            Common.getScope(nextElement).parentCondition = this;
-        }
-    }
-
     init() {
-        if (!this.element) {
-            return;
-        }
-        try {
-            Common.createElement(this.element, this.elementComment);
-            if(!Common.isValidCondition(this.element, Common.getAttributeCpIf(this.element)))
-                Common.destroyElement(this.element, this.elementComment);
-        } catch (ex) {
-            Common.destroyElement(this.element, this.elementComment);
-        }
+        this.element.style.setProperty(this.cssStyle.properties, this.cssStyle.value);
+        Common.createElement(this.element, this.element);
     }
 }

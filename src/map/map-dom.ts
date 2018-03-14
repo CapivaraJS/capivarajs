@@ -37,6 +37,8 @@ export class MapDom {
 
     private cpElseIfs = [];
 
+    private cpStyles = [];
+
     private regexInterpolation;
 
     constructor(_element: HTMLElement) {
@@ -108,6 +110,10 @@ export class MapDom {
 
         //Update cp else
         this.cpElses.forEach((cpElse) => cpElse.init());
+
+        //Update cp style
+        this.cpStyles.forEach((cpStyle) => cpStyle.init());
+
 
         this.processInterpolation(this.element);
     }
