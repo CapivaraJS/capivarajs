@@ -10,10 +10,7 @@ export class CPStyle {
     private attribute;
     private elementComment;
     private regex;
-    private cssStyle = {
-        properties: '',
-        value: ''
-    }
+    private cssStyle = {}
 
     constructor(_element: HTMLElement, _map: MapDom) {
         Common.getScope(_element).$on('$onInit', () => {
@@ -22,17 +19,15 @@ export class CPStyle {
             this.map = _map;
             this.attribute = Common.getAttributeCpStyle(this.element);
             this.regex = new RegExp('^[\s\t]*[^\s\t:]+[\s\t]*:[\s\t]*[^\s\t:]+[\s\t]*$', 'g');
-            let matchs = this.attribute.match(this.regex).toString();
+            let matchs = this.attribute.match(this.regex) + '';
             this.elementComment = document.createComment('cpStyle ' + this.attribute);
-            let temp = matchs.split(":");
-            this.cssStyle.properties = temp[0];
-            this.cssStyle.value = temp[1];
+            this.cssStyle = matchs.split(":");
             this.init();
         });
     }
 
     init() {
-        this.element.style.setProperty(this.cssStyle.properties, this.cssStyle.value);
+        this.element.style.setProperty(this.cssStyle[0], this.cssStyle[1]);
         Common.createElement(this.element, this.element);
     }
 }
