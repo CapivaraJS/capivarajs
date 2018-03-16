@@ -27,7 +27,7 @@ export class CPStyle {
 
     init() {
         try {
-            this.attribute.split(',')
+            this.attribute.split(';')
                 .map(attr => {
                     return { 
                         key: attr.substring(0, attr.indexOf(':')).replace(/'/g, "").replace(/"/, '').replace(/{/g, '').replace(/}/, ''), 

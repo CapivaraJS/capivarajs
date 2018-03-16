@@ -137,7 +137,6 @@ const packageJson = require('../package.json');
                 });
             },
             $on: function (evtName, callback) {
-                console.log(window['capivara'].$emit.prototype);
                 window['capivara'].$watchers.push({evtName, callback});
             },
             $emit: function (evtName, ...args) {
