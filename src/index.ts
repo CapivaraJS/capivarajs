@@ -144,7 +144,7 @@ const packageJson = require('../package.json');
                     .$watchers
                     .filter(watcher => watcher.evtName == evtName)
                     .forEach(watcher => {
-                        watcher.callback.call(...args);
+                        watcher.callback(...args);
                     });
             },
             version: packageJson.version
