@@ -6,6 +6,7 @@ import { CPRepeat } from './directive/cp-repeat';
 import { CPShow } from './directive/cp-show';
 import { CPIf } from "./directive/cp-if";
 import { CPInit } from "./directive/cp-init";
+import { CPStyle } from "./directive/cp-style";
 import { Common } from '../common';
 import { CPElse } from "./directive/cp-else";
 import { CPElseIf } from "./directive/cp-else-if";
@@ -36,6 +37,8 @@ export class MapDom {
 
     private cpElseIfs = [];
 
+    private cpStyles = [];
+
     private regexInterpolation;
 
     constructor(_element: HTMLElement) {
@@ -63,14 +66,15 @@ export class MapDom {
      * @param child Elemento que utiliza algum tipo de bind.
      */
     createDirectives(child) {
-        if (child.hasAttribute(Constants.MODEL_ATTRIBUTE_NAME))   this.createCPModel(child);
-        if (child.hasAttribute(Constants.CLICK_ATTRIBUTE_NAME))   this.createCPClick(child);
-        if (child.hasAttribute(Constants.REPEAT_ATTRIBUTE_NAME))  this.createCPRepeat(child);
-        if (child.hasAttribute(Constants.SHOW_ATTRIBUTE_NAME))    this.createCPShow(child);
-        if (child.hasAttribute(Constants.IF_ATTRIBUTE_NAME))      this.createCPIf(child);
-        if (child.hasAttribute(Constants.ELSE_ATTRIBUTE_NAME))    this.createCPElse(child);
+        if (child.hasAttribute(Constants.MODEL_ATTRIBUTE_NAME)) this.createCPModel(child);
+        if (child.hasAttribute(Constants.CLICK_ATTRIBUTE_NAME)) this.createCPClick(child);
+        if (child.hasAttribute(Constants.REPEAT_ATTRIBUTE_NAME)) this.createCPRepeat(child);
+        if (child.hasAttribute(Constants.SHOW_ATTRIBUTE_NAME)) this.createCPShow(child);
+        if (child.hasAttribute(Constants.IF_ATTRIBUTE_NAME)) this.createCPIf(child);
+        if (child.hasAttribute(Constants.ELSE_ATTRIBUTE_NAME)) this.createCPElse(child);
         if (child.hasAttribute(Constants.ELSE_IF_ATTRIBUTE_NAME)) this.createCPElseIf(child);
-        if (child.hasAttribute(Constants.INIT_ATTRIBUTE_NAME))    this.createCPInit(child);
+        if (child.hasAttribute(Constants.INIT_ATTRIBUTE_NAME)) this.createCPInit(child);
+        if (child.hasAttribute(Constants.STYLE_ATTRIBUTE_NAME)) this.createCPStyle(child);
     }
 
     reloadElementChildes(element) {
@@ -106,6 +110,10 @@ export class MapDom {
 
         //Update cp else
         this.cpElses.forEach((cpElse) => cpElse.init());
+
+        //Update cp style
+        this.cpStyles.forEach((cpStyle) => cpStyle.init());
+
 
         this.processInterpolation(this.element);
     }
@@ -146,7 +154,7 @@ export class MapDom {
                 try {
                     let evalValue = Common.evalInContext(content, Common.getScopeParent(childNode));
                     value = evalValue != undefined ? evalValue : '';
-                } catch (e) {}
+                } catch (e) { }
 
                 key = window['capivara'].replaceAll(key, '{{', Constants.START_INTERPOLATION);
                 key = window['capivara'].replaceAll(key, '}}', Constants.END_INTERPOLATION);
@@ -239,10 +247,18 @@ export class MapDom {
 
     /**
      * 
-     * @param child Elemento que está sendo criado o bind de repeat.
+     * @param child Elemento que está sendo criado o bind do init.
      */
     createCPInit(child) {
         new CPInit(child, this)
+    }
+
+    /**
+     * 
+     * @param child Elemento que está sendo criado o bind do style.
+     */
+    createCPStyle(child) {
+        this.cpStyles.push(new CPStyle(child, this));
     }
 
 }

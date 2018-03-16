@@ -49,6 +49,10 @@ export namespace Common {
         return element.getAttribute(Constants.INIT_ATTRIBUTE_NAME);
     }
 
+    export function getAttributeCpStyle(element) {
+        return element.getAttribute(Constants.STYLE_ATTRIBUTE_NAME);
+    }
+
     export function getScope(element) {
         return element[Constants.SCOPE_ATTRIBUTE_NAME];
     }
