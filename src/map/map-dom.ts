@@ -258,7 +258,7 @@ export class MapDom {
      * @param child Elemento que está sendo criado o bind do style.
      */
     createCPStyle(child) {
-        new CPStyle(child, this)
+        this.cpStyles.push(new CPStyle(child, this));
     }
 
 }
