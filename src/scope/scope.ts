@@ -1,6 +1,7 @@
 import { ScopeProxy } from './scope.proxy';
 import { MapDom } from '../map/map-dom';
 import { Constants } from '../constants';
+import { eventNames } from 'cluster';
 
 export class Scope {
 
@@ -18,7 +19,7 @@ export class Scope {
             console.warn('Unable to create a scope, it is necessary to report an html element.');
         }
         this.watchers = new Array();
-        this.addScope(_element, this);
+        this.addScope(_element, this)
         this.mapDom = new MapDom(_element);
         this.scope = new ScopeProxy({}, this);
         this.$emit('$onInit');

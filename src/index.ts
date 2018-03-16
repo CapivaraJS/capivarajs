@@ -137,6 +137,7 @@ const packageJson = require('../package.json');
                 });
             },
             $on: function (evtName, callback) {
+                console.log(window['capivara'].$emit.prototype);
                 window['capivara'].$watchers.push({evtName, callback});
             },
             $emit: function (evtName, ...args) {
@@ -149,7 +150,6 @@ const packageJson = require('../package.json');
             },
             version: packageJson.version
         };
-
         document.addEventListener('DOMNodeRemoved', (evt) => window['capivara'].$emit('DOMNodeRemoved', evt));
     } else {
         console.warn('CapivaraJS tried to load more than once.');
