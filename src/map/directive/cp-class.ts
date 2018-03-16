@@ -25,14 +25,17 @@ export class CPClass {
 
     init() {
         try {
-            let temp = this.attribute.split(';')
+            this.attribute.split(';')
                 .map(attr => {
                     return {
-                        value: attr.substring(attr.indexOf(':') + 1, attr.length).replace(/{/g, '').replace(/}/, '').replace(/ /g,'')
+                        // value sempre tem q ser um valor boleano, todos os outros frameworks passam um boolean para saber se devem ativar ou desativar
+                        // a classe, entao value tem q ser um boolean que so vai deixar o addClass acontecer se ele for true
+                        key: attr.substring(0, attr.indexOf(':')).replace(/'/g, "").replace(/"/, '').replace(/{/g, '').replace(/}/, ''),
+                        // value: Common.evalInContext(attr.substring(attr.indexOf(':') + 1, attr.length).replace(/{/g, '').replace(/}/, ''), Common.getScope(this.element).scope)
                     }
                 })
                 .forEach(p => {
-                    this.addClass(this.element, p.value);
+                        this.addClass(this.element, p.key.replace(/ /g, ''));
                 });
         } catch (e) {
         }
