@@ -5,7 +5,7 @@ capivara.component('my-component', {
         <h1 cp-style="{color: $ctrl.numberOne == 70 ? 'red' : 'green'}"> [[ $ctrl.numberOne + $ctrl.numberTwo ]] </h1>
 
 
-        <p cp-style="{ background: 'red'; padding: '10px';}">Exemplo 1</p> 
+        <p cp-class="{ democlass ; democlass2 }" cp-style="{ padding: '10px';}">Exemplo 1</p> 
         <p cp-style="{ background: $ctrl.blue; padding: '10px';}">Exemplo 2</p>
 
         <br/>
@@ -24,6 +24,7 @@ capivara.component('my-component', {
             $ctrl.numberOne = 50;
             $ctrl.numberTwo = 80;
             $ctrl.blue = "blue";
+            $ctrl.democlass = "democlass";
         }
 
         $ctrl.teste = function(s){

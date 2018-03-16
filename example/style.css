@@ -10,3 +10,11 @@
     transition: width 500ms;
 }
 
+.democlass{
+    color: purple;
+}
+
+.democlass2 {
+    font-style: oblique;
+}
+

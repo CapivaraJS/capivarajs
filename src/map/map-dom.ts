@@ -7,6 +7,7 @@ import { CPShow } from './directive/cp-show';
 import { CPIf } from "./directive/cp-if";
 import { CPInit } from "./directive/cp-init";
 import { CPStyle } from "./directive/cp-style";
+import { CPClass } from "./directive/cp-class";
 import { Common } from '../common';
 import { CPElse } from "./directive/cp-else";
 import { CPElseIf } from "./directive/cp-else-if";
@@ -38,6 +39,8 @@ export class MapDom {
     private cpElseIfs = [];
 
     private cpStyles = [];
+
+    private cpClasses = [];
 
     private regexInterpolation;
 
@@ -75,6 +78,7 @@ export class MapDom {
         if (child.hasAttribute(Constants.ELSE_IF_ATTRIBUTE_NAME)) this.createCPElseIf(child);
         if (child.hasAttribute(Constants.INIT_ATTRIBUTE_NAME)) this.createCPInit(child);
         if (child.hasAttribute(Constants.STYLE_ATTRIBUTE_NAME)) this.createCPStyle(child);
+        if (child.hasAttribute(Constants.CLASS_ATTRIBUTE_NAME)) this.createCPClass(child);
     }
 
     reloadElementChildes(element) {
@@ -261,4 +265,11 @@ export class MapDom {
         this.cpStyles.push(new CPStyle(child, this));
     }
 
+    /**
+     * 
+     * @param child Elemento que está sendo criado o bind do style.
+     */
+    createCPClass(child) {
+        this.cpClasses.push(new CPClass(child, this));
+    }
 }
