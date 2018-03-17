@@ -9,8 +9,6 @@ export class CPStyle {
     private map: MapDom;
     private attribute;
     private elementComment;
-    private regex;
-    private cssStyle = {}
     private elmScope;
 
     constructor(_element: HTMLElement, _map: MapDom) {
