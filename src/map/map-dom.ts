@@ -54,6 +54,7 @@ export class MapDom {
      * @method void Percorre os elementos filhos do elemento principal criando os binds.
      */
     addScope() {
+        this.createDirectives(this.element);
         const recursiveBind = (element) => {
             Array.from(element.children).forEach((child: any) => {
                 child[Constants.SCOPE_ATTRIBUTE_NAME] = Common.getScope(this.element);
