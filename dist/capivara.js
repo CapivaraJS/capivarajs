@@ -18120,7 +18120,7 @@ var CPClick = /** @class */ (function () {
                 var params = _this.attribute.substring(_this.attribute.indexOf('(') + 1, _this.attribute.length - 1), args_1 = [];
                 params.split(',').forEach(function (param) { return args_1.push(__WEBPACK_IMPORTED_MODULE_0_lodash__["get"](__WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(_this.element).scope, param)); });
                 var context = __WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(_this.element);
-                callback.apply.apply(callback, [context.scope[_this.element.$instance.config.controllerAs]].concat(args_1));
+                callback.apply.apply(callback, [context.scope[context.mapDom.element.$instance.config.controllerAs]].concat(args_1));
             }
         };
         //Remove old event
@@ -18362,7 +18362,7 @@ var CPStyle = /** @class */ (function () {
     CPStyle.prototype.init = function () {
         var _this = this;
         try {
-            this.attribute.split(';')
+            this.attribute.split(',')
                 .map(function (attr) {
                 return {
                     key: attr.substring(0, attr.indexOf(':')).replace(/'/g, "").replace(/"/, '').replace(/{/g, '').replace(/}/, ''),
@@ -20280,7 +20280,7 @@ Object.observe || (function(O, A, root, _undefined) {
 /* 25 */
 /***/ (function(module, exports) {
 
-module.exports = {"name":"capivarajs","version":"1.9.0-rc.0","description":"Um framework para criação de componentes.","main":"index.js","scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"npm run test-once && webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js","test":"karma start","test-once":"karma start --single-run"},"author":"Capivara Team.","license":"LGPL-3.0","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1","object.observe":"^0.2.6"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"devDependencies":{"@types/jasmine":"^2.6.3","@types/node":"^9.4.0","babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-plugin-proxy":"^1.1.0","babel-polyfill":"^6.26.0","babel-preset-env":"^1.6.1","babel-preset-stage-0":"^6.24.1","css-loader":"^0.28.7","extract-text-webpack-plugin":"^3.0.2","file-loader":"^1.1.5","html-loader":"^0.5.1","intern":"^4.1.5","jasmine":"^2.8.0","jasmine-core":"^2.8.0","karma":"^1.7.1","karma-babel-preprocessor":"^7.0.0","karma-chrome-launcher":"^2.2.0","karma-cli":"^1.0.1","karma-coverage":"^1.1.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.0","karma-jshint-preprocessor":"0.0.6","karma-mocha":"^1.3.0","karma-mocha-reporter":"^2.2.5","karma-phantomjs-launcher":"^1.0.4","karma-spec-reporter":"0.0.31","karma-typescript":"^3.0.8","karma-typescript-es6-transform":"^1.0.2","karma-typescript-preprocessor":"^0.3.1","karma-webpack":"^2.0.5","mocha":"^4.0.1","node-sass":"^4.7.2","phantomjs-polyfill":"0.0.2","phantomjs-polyfill-array-from":"^1.0.1","remap-istanbul":"^0.10.1","sass-loader":"^6.0.6","style-loader":"^0.19.0","ts-loader":"^3.2.0","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^3.9.1","webpack-dev-server":"^2.9.5"}}
+module.exports = {"name":"capivarajs","version":"1.9.0-rc.1","description":"Um framework para criação de componentes.","main":"index.js","scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"npm run test-once && webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js","test":"karma start","test-once":"karma start --single-run"},"author":"Capivara Team.","license":"LGPL-3.0","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1","object.observe":"^0.2.6"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"devDependencies":{"@types/jasmine":"^2.6.3","@types/node":"^9.4.0","babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-plugin-proxy":"^1.1.0","babel-polyfill":"^6.26.0","babel-preset-env":"^1.6.1","babel-preset-stage-0":"^6.24.1","css-loader":"^0.28.7","extract-text-webpack-plugin":"^3.0.2","file-loader":"^1.1.5","html-loader":"^0.5.1","intern":"^4.1.5","jasmine":"^2.8.0","jasmine-core":"^2.8.0","karma":"^1.7.1","karma-babel-preprocessor":"^7.0.0","karma-chrome-launcher":"^2.2.0","karma-cli":"^1.0.1","karma-coverage":"^1.1.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.0","karma-jshint-preprocessor":"0.0.6","karma-mocha":"^1.3.0","karma-mocha-reporter":"^2.2.5","karma-phantomjs-launcher":"^1.0.4","karma-spec-reporter":"0.0.31","karma-typescript":"^3.0.8","karma-typescript-es6-transform":"^1.0.2","karma-typescript-preprocessor":"^0.3.1","karma-webpack":"^2.0.5","mocha":"^4.0.1","node-sass":"^4.7.2","phantomjs-polyfill":"0.0.2","phantomjs-polyfill-array-from":"^1.0.1","remap-istanbul":"^0.10.1","sass-loader":"^6.0.6","style-loader":"^0.19.0","ts-loader":"^3.2.0","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^3.9.1","webpack-dev-server":"^2.9.5"}}
 
 /***/ })
 /******/ ]);

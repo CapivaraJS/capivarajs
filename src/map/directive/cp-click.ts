@@ -35,7 +35,7 @@ export class CPClick {
                 let params = this.attribute.substring(this.attribute.indexOf('(') + 1, this.attribute.length - 1), args = [];
                 params.split(',').forEach(param => args.push(_.get(Common.getScope(this.element).scope, param)));
                 let context = Common.getScope(this.element);
-                callback.apply(context.scope[this.element.$instance.config.controllerAs], ...args);
+                callback.apply(context.scope[context.mapDom.element.$instance.config.controllerAs], ...args);
             }
         };
         //Remove old event
