@@ -2,10 +2,11 @@
 capivara.component('my-component', {
     template: `        
         
-        <h1 cp-style="{color: $ctrl.numberOne == 70 ? 'red' : 'green'}"> [[ $ctrl.numberOne + $ctrl.numberTwo ]] </h1>
+        <h1 cp-style="{ color : $ctrl.numberOne == 70 ? 'red' : 'green'}"> [[ $ctrl.numberOne + $ctrl.numberTwo ]] </h1>
 
 
-        <p cp-class="{ democlass: $ctrl.visible; }" cp-style="{ padding: '10px';}">Exemplo 1</p> 
+        <p cp-class="{ democlass: $ctrl.visible }" cp-style="{ padding: '10px';}">Exemplo 1</p> 
+
         <p cp-style="{ background: $ctrl.blue; padding: '10px';}">Exemplo 2</p>
 
         <br/>
@@ -29,6 +30,7 @@ capivara.component('my-component', {
 
         $ctrl.teste = function(s){
             $ctrl.numberOne = 70;
+            $ctrl.visible = !$ctrl.visible;
         }
         
     }

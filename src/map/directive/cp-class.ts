@@ -25,32 +25,35 @@ export class CPClass {
 
     init() {
         try {
-            this.attribute.split(';')
+            this.attribute.split(',')
                 .map(attr => {
                     return {
-                        // value sempre tem q ser um valor boleano, todos os outros frameworks passam um boolean para saber se devem ativar ou desativar
-                        // a classe, entao value tem q ser um boolean que so vai deixar o addClass acontecer se ele for true
                         key: attr.substring(0, attr.indexOf(':')).replace(/'/g, "").replace(/"/, '').replace(/{/g, '').replace(/}/, ''),
-                        // value: Common.evalInContext(attr.substring(attr.indexOf(':') + 1, attr.length).replace(/{/g, '').replace(/}/, ''), Common.getScope(this.element).scope)
+                        value: Common.evalInContext(attr.substring(attr.indexOf(':') + 1, attr.length).replace(/{/g, '').replace(/}/, ''), Common.getScope(this.element).scope)
                     }
                 })
-                .forEach(p => {
-                        this.addClass(this.element, p.key.replace(/ /g, ''));
+                .forEach(cpClass => {
+                    if (cpClass.value)
+                        this.addClass(this.element, cpClass.key.replace(/ /g, ''));
+                    else
+                        this.removeClass(this.element, cpClass.key.replace(/ /g, ''));
                 });
         } catch (e) {
         }
     }
 
-    addClass(el, className) {
-        if (el.classList)
-            el.classList.add(className)
-        else if (!this.hasClass(el, className)) el.className += " " + className
+    removeClass(el, className) {
+        if (el.classList && el.classList.contains(className))
+            el.classList.remove(className);
+        else if (!el.classList && el.className.indexOf(className) != -1)
+            el.className = el.className.replace(className, '');
     }
 
-    hasClass(el, className) {
-        if (el.classList)
-            return el.classList.contains(className)
-        else
-            return !!el.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'))
+    addClass(el, className) {
+        if (el.classList && !el.classList.contains(className))
+            el.classList.add(className);
+        else if (!el.classList && el.className.indexOf(className) == -1)
+            el.className += " " + className
     }
+
 }

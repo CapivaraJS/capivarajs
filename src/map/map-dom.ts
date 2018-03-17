@@ -118,6 +118,8 @@ export class MapDom {
         //Update cp style
         this.cpStyles.forEach((cpStyle) => cpStyle.init());
 
+        //Update cp style
+        this.cpClasses.forEach((cpClass) => cpClass.init());
 
         this.processInterpolation(this.element);
     }
