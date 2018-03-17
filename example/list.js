@@ -2,29 +2,37 @@
 capivara.component('my-component', {
     template: `        
         
-        <h1 cp-style="{ color : $ctrl.numberOne == 70 ? 'red' : 'green'}"> [[ $ctrl.numberOne + $ctrl.numberTwo ]] </h1>
-
-        <p cp-class="{ democlass: $ctrl.visible }" cp-style="{ padding: '10px';}">Exemplo 1</p> 
-        <p cp-style="{ background: $ctrl.blue; padding: '10px';}">Exemplo 2</p>
-
-        <br/>
-        <h1 cp-if="true"> [[ $ctrl.numberOne + ((10 * $ctrl.numberTwo) / 25) ]] </h1>
-        <button cp-click="$ctrl.teste()">Mudar cor</button>  
+        <li cp-repeat="pessoa in $ctrl.pessoas" cp-class="{'democlass': pessoa.id == 2}">
+            <span>[[pessoa.nome]]</span>
+        </li>
     `,
     controller: function (scope) {
         let $ctrl = this;
         
         $ctrl.$onInit = function(){
-            $ctrl.numberOne = 50;
-            $ctrl.numberTwo = 80;
-            $ctrl.blue = "blue";
-            $ctrl.visible = true;
+            $ctrl.pessoas = [
+                {
+                    nome: 'Mateus',
+                    id: 1
+                },
+                {
+                    nome: 'Caio',
+                    id: 2
+                },
+                {
+                    nome: 'João',
+                    id: 3
+                },
+                {
+                    nome: 'Douglas',
+                    id: 4
+                },
+                {
+                    nome: 'Felipe',
+                    id: 5
+                }
+            ];        
         }
 
-        $ctrl.teste = function(s){
-            $ctrl.numberOne = 70;
-            $ctrl.visible = !$ctrl.visible;
-        }
-        
     }
 });
