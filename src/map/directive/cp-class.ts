@@ -33,6 +33,7 @@ export class CPClass {
                     }
                 })
                 .forEach(cpClass => {
+                    console.log(cpClass);
                     if (cpClass.value)
                         this.addClass(this.element, cpClass.key.replace(/ /g, ''));
                     else
