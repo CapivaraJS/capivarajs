@@ -1,11 +1,11 @@
 {
   "name": "capivarajs",
-  "version": "1.8.0-beta",
+  "version": "1.9.0-rc.0",
   "description": "Um framework para criação de componentes.",
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --config ./webpack.config.js",
-    "prod": "webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js",
+    "prod": "npm run test-once && webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js",
     "test": "karma start",
     "test-once": "karma start --single-run"
   },
