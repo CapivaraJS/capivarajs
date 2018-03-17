@@ -144,12 +144,11 @@ const packageJson = require('../package.json');
                     .$watchers
                     .filter(watcher => watcher.evtName == evtName)
                     .forEach(watcher => {
-                        watcher.callback.call(...args);
+                        watcher.callback(...args);
                     });
             },
             version: packageJson.version
         };
-
         document.addEventListener('DOMNodeRemoved', (evt) => window['capivara'].$emit('DOMNodeRemoved', evt));
     } else {
         console.warn('CapivaraJS tried to load more than once.');

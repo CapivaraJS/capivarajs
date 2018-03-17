@@ -10,6 +10,8 @@ export const Constants = {
     ELSE_ATTRIBUTE_NAME      : 'cp-else',
     ELSE_IF_ATTRIBUTE_NAME   : 'cp-else-if',
     INIT_ATTRIBUTE_NAME      : 'cp-init',
+    STYLE_ATTRIBUTE_NAME     : 'cp-style',
+    CLASS_ATTRIBUTE_NAME     : 'cp-class',
     START_INTERPOLATION      : '[[',
     END_INTERPOLATION        : ']]',
 };
