@@ -30,13 +30,7 @@ export class CPClick {
     init() {
         const onClick = (evt) => {
             this.attribute = this.attribute.replace(/ /g, '');
-            let callback = Common.getCallbackClick(this.element, this.attribute);
-            if (callback && !Common.isNative(callback)) {
-                let params = this.attribute.substring(this.attribute.indexOf('(') + 1, this.attribute.length - 1), args = [];
-                params.split(',').forEach(param => args.push(_.get(Common.getScope(this.element).scope, param)));
-                let context = Common.getScope(this.element);
-                callback.apply(context.scope[context.mapDom.element.$instance.config.controllerAs], ...args);
-            }
+            Common.executeFunctionCallback(this.element, this.attribute);
         };
         //Remove old event
         this.element.removeEventListener('click', onClick);

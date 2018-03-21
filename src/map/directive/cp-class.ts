@@ -33,12 +33,21 @@ export class CPClass {
                     }
                 })
                 .forEach(cpClass => {
-                    if (cpClass.value)
+                    if (cpClass.value === true)
                         this.addClass(this.element, cpClass.key.replace(/ /g, ''));
                     else
                         this.removeClass(this.element, cpClass.key.replace(/ /g, ''));
                 });
         } catch (e) {
+            const result = Common.executeFunctionCallback(this.element, this.attribute);
+            if (result && window['capivara'].isObject(result)) {
+                Object.keys(result).forEach(key => {
+                    if (result[key] === true)
+                        this.addClass(this.element, key.replace(/ /g, ''));
+                    else
+                        this.removeClass(this.element, key.replace(/ /g, ''));
+                });
+            }
         }
     }
 

@@ -36,6 +36,12 @@ export class CPStyle {
                     this.element.style.setProperty(style.key.replace(/ /g, ''), style.value);
                 });
         } catch (e) {
+            const result = Common.executeFunctionCallback(this.element, this.attribute);
+            if (result && window['capivara'].isObject(result)) {
+                Object.keys(result).forEach(key => {
+                    this.element.style.setProperty(key.replace(/ /g, ''), result[key]);
+                });
+            }
         }
     }
 }

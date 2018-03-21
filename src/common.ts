@@ -11,8 +11,7 @@ export namespace Common {
     export function evalInContext(source, context) {
         if (source) {
             source.split(' ').forEach(word => {
-                let firstKey = (word.indexOf('.') != -1 ? word.substring(0, word.indexOf('.')) : word).replace(/ /g, '');
-                firstKey = firstKey.split('(').join('').split(')').join('').replace(/!/g, '');
+                let firstKey = getFirstKey(word);
                 if (firstKey && word && context && context.hasOwnProperty(firstKey)) {
                     word = word.split('(').join('').split(')').join('').replace(/!/g, '');
                     let value = _.get(context, word.replace(/ /g, ''));
@@ -25,6 +24,11 @@ export namespace Common {
             });
         }
         return eval(source);
+    }
+
+    export function getFirstKey(str: string) {
+        let firstKey = (str.indexOf('.') != -1 ? str.substring(0, str.indexOf('.')) : str).replace(/ /g, '');
+        return firstKey.split('(').join('').split(')').join('').replace(/!/g, '');
     }
 
     export function getAttributeCpShow(element) {
@@ -68,6 +72,19 @@ export namespace Common {
         }
     }
 
+    export function executeFunctionCallback(element, attribute) {
+        let callback = getCallbackClick(element, attribute);
+        if (callback && !isNative(callback)) {
+            let params = attribute.substring(attribute.indexOf('(') + 1, attribute.length - 1), args = [];
+            let context = getScope(element);
+            params.split(',').forEach(param => {
+                let valueScope = evalInContext(param, context.scope);
+                args.push(valueScope == undefined ? evalInContext(param, context.scope) : valueScope);
+            });
+            return callback.call(context.scope[context.mapDom.element.$instance.config.controllerAs], ...args);
+        }
+    }
+
     export function getCallbackClick(element, attribute) {
         let callback = _.get(getScope(element).scope, attribute.substring(0, attribute.indexOf('(')));
         if (!callback && element.parentNode && getScope(element.parentNode)) {
@@ -85,7 +102,7 @@ export namespace Common {
         if (element.$instance) element.$instance.destroy();
     }
 
-    export function createElement(element,elementComment) {
+    export function createElement(element, elementComment) {
         elementComment.replaceWith(element);
         if (element.$instance) element.$instance.initController();
     }
@@ -98,11 +115,11 @@ export namespace Common {
         return evalInContext(condition, scope.scope);
     }
 
-    export function appendBefore(element, elementToInsert){
+    export function appendBefore(element, elementToInsert) {
         element.parentNode.insertBefore(elementToInsert, element);
     }
 
-    export function appendAfter(element, elementToInsert){
+    export function appendAfter(element, elementToInsert) {
         element.parentNode.insertBefore(elementToInsert, element.nextSibling);
     }
 
