@@ -1,0 +1,49 @@
+18:17:41.767 INFO - Selenium build info: version: '3.0.1', revision: '1969d75'
+18:17:41.770 INFO - Launching a standalone Selenium Server
+2018-03-22 18:17:41.788:INFO::main: Logging initialized @238ms
+18:17:41.837 INFO - Driver provider org.openqa.selenium.ie.InternetExplorerDriver registration is skipped:
+ registration capabilities Capabilities [{ensureCleanSession=true, browserName=internet explorer, version=, platform=WINDOWS}] does not match the current platform LINUX
+18:17:41.838 INFO - Driver provider org.openqa.selenium.edge.EdgeDriver registration is skipped:
+ registration capabilities Capabilities [{browserName=MicrosoftEdge, version=, platform=WINDOWS}] does not match the current platform LINUX
+18:17:41.838 INFO - Driver class not found: com.opera.core.systems.OperaDriver
+18:17:41.838 INFO - Driver provider com.opera.core.systems.OperaDriver registration is skipped:
+Unable to create new instances on this machine.
+18:17:41.838 INFO - Driver class not found: com.opera.core.systems.OperaDriver
+18:17:41.838 INFO - Driver provider com.opera.core.systems.OperaDriver is not registered
+18:17:41.839 INFO - Driver provider org.openqa.selenium.safari.SafariDriver registration is skipped:
+ registration capabilities Capabilities [{browserName=safari, version=, platform=MAC}] does not match the current platform LINUX
+2018-03-22 18:17:41.875:INFO:osjs.Server:main: jetty-9.2.15.v20160210
+2018-03-22 18:17:41.894:INFO:osjsh.ContextHandler:main: Started o.s.j.s.ServletContextHandler@5f375618{/,null,AVAILABLE}
+2018-03-22 18:17:41.909:INFO:osjs.ServerConnector:main: Started ServerConnector@2300dc1b{HTTP/1.1}{0.0.0.0:5555}
+2018-03-22 18:17:41.910:INFO:osjs.Server:main: Started @360ms
+18:17:41.910 INFO - Selenium Server is up and running
+18:17:42.148 INFO - SessionCleaner initialized with insideBrowserTimeout 0 and clientGoneTimeout 1800000 polling every 180000
+18:17:42.176 INFO - Executing: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]])
+18:17:42.190 INFO - Creating a new session for Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]
+Starting ChromeDriver 2.35.528139 (47ead77cb35ad2a9a83248b292151462a66cd881) on port 7979
+Only local connections are allowed.
+18:17:42.535 INFO - Attempting bi-dialect session, assuming Postel's Law holds true on the remote end
+18:17:43.356 INFO - Detected dialect: OSS
+18:17:43.381 INFO - Done: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]]
+18:17:43.404 INFO - Executing: [set window size])
+18:17:43.531 INFO - Done: [set window size]
+18:17:43.537 INFO - Executing: [get: http://localhost:1111/test/e2e/cpClick/template.html])
+18:17:43.727 INFO - Done: [get: http://localhost:1111/test/e2e/cpClick/template.html]
+18:17:43.735 INFO - Executing: [find elements: By.cssSelector: button])
+18:17:43.769 INFO - Done: [find elements: By.cssSelector: button]
+18:17:43.774 INFO - Executing: [is displayed: 0 [[ChromeDriver: chrome on LINUX (3bfb6442ed54e7ad7d0d9726c60f56ac)] -> css selector: button]])
+18:17:43.790 INFO - Done: [is displayed: 0 [[ChromeDriver: chrome on LINUX (3bfb6442ed54e7ad7d0d9726c60f56ac)] -> css selector: button]]
+18:17:44.801 INFO - Executing: [find element: By.cssSelector: button])
+18:17:44.823 INFO - Done: [find element: By.cssSelector: button]
+18:17:44.828 INFO - Executing: [get text: 0 [[ChromeDriver: chrome on LINUX (3bfb6442ed54e7ad7d0d9726c60f56ac)] -> css selector: button]])
+18:17:44.848 INFO - Done: [get text: 0 [[ChromeDriver: chrome on LINUX (3bfb6442ed54e7ad7d0d9726c60f56ac)] -> css selector: button]]
+18:17:44.852 INFO - Executing: [find element: By.cssSelector: button])
+18:17:44.862 INFO - Done: [find element: By.cssSelector: button]
+18:17:44.866 INFO - Executing: [click: 0 [[ChromeDriver: chrome on LINUX (3bfb6442ed54e7ad7d0d9726c60f56ac)] -> css selector: button]])
+18:17:44.910 INFO - Done: [click: 0 [[ChromeDriver: chrome on LINUX (3bfb6442ed54e7ad7d0d9726c60f56ac)] -> css selector: button]]
+18:17:45.919 INFO - Executing: [find element: By.cssSelector: button])
+18:17:45.934 INFO - Done: [find element: By.cssSelector: button]
+18:17:45.937 INFO - Executing: [get text: 0 [[ChromeDriver: chrome on LINUX (3bfb6442ed54e7ad7d0d9726c60f56ac)] -> css selector: button]])
+18:17:45.947 INFO - Done: [get text: 0 [[ChromeDriver: chrome on LINUX (3bfb6442ed54e7ad7d0d9726c60f56ac)] -> css selector: button]]
+18:17:46.956 INFO - Executing: [delete session: cb6b0fe0-481a-41fb-80ed-795fe787c778])
+18:17:47.039 INFO - Done: [delete session: cb6b0fe0-481a-41fb-80ed-795fe787c778]
