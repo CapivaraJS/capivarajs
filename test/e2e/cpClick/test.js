@@ -1,5 +1,5 @@
 module.exports = {  
-    "Hello": function(browser){
+    "cpClick": function(browser){
         browser.resizeWindow(1920, 1080);
         browser
             .url('http://localhost:1111/test/e2e/cpClick/template.html')
