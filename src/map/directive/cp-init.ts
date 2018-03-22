@@ -22,14 +22,6 @@ export class CPInit {
 
     init() {
         this.attribute = this.attribute.replace(/ /g, '');
-        let callback = Common.getCallbackClick(this.element, this.attribute);
-        if (callback && !Common.isNative(callback)) {
-            let params = this.attribute.substring(this.attribute.indexOf('(') + 1, this.attribute.length - 1), args = [];
-            params.split(',').forEach(param => {
-                let value = _.get(Common.getScope(this.element).scope, param);
-                args.push(value != undefined ? value : param);
-            });
-            callback.call(null, ...args);
-        }
+        Common.executeFunctionCallback(this.element, this.attribute);
     }
 }

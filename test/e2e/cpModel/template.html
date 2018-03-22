@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Test</title>
+</head>
+<body>
+
+    <my-component #myComponent></my-component>
+    
+    <script src="/dist/capivara.js"></script>
+    <script>
+        capivara.component('my-component', {
+            template: `
+                <p>[[ $ctrl.pessoa.nome ]]</p>
+
+                <input cp-model="$ctrl.pessoa.nome"/>
+        
+                <button type="button" cp-click="$ctrl.test()">Clique-me</button>
+            `,
+            controller: function(){
+                const $ctrl = this;
+        
+                $ctrl.pessoa = { nome: 'Mateus'};
+        
+                $ctrl.test = function(){
+                    console.log($ctrl.pessoa.nome);
+                };
+            }
+        });
+
+        capivara.componentBuilder('myComponent').build();
+    </script>
+</body>
+</html>

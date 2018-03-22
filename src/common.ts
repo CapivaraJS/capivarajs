@@ -23,7 +23,7 @@ export namespace Common {
                 }
             });
         }
-        return eval(source);
+        return eval(source.replace(/NaN/, 0));
     }
 
     export function getFirstKey(str: string) {

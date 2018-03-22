@@ -1,4 +1,5 @@
 capivara.componentBuilder('meuMarcador')
-        .constants({ h1Class: 'democlass' })
-        .build();
-
+.constants({
+    nome: 'Mateus Miranda'
+})
+.build();

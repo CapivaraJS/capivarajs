@@ -1,4 +1,3 @@
-import { ScopeProxy } from './scope.proxy';
 import { MapDom } from '../map/map-dom';
 import { Constants } from '../constants';
 import { eventNames } from 'cluster';
@@ -6,7 +5,7 @@ import { eventNames } from 'cluster';
 export class Scope {
 
     //Dados disponíveis nesse escopo
-    public scope: ScopeProxy;
+    public scope: any;
 
     public $parent: Scope;
 
@@ -21,12 +20,16 @@ export class Scope {
         this.watchers = new Array();
         this.addScope(_element, this)
         this.mapDom = new MapDom(_element);
-        this.scope = new ScopeProxy({}, this);
-        this.$emit('$onInit');
+        this.scope = {};
+        this.createWatcherScope();
     }
 
     getScopeProxy(){
         return this.scope;
+    }
+
+    createWatcherScope(){
+        Object['observe'](this.scope, (changes) => this.mapDom.reload());
     }
 
     /** #Mudar não poderia ser adicionar a referencia do scope do componente no elemento do componente

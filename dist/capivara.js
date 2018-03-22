@@ -122,7 +122,7 @@ var Common;
                 }
             });
         }
-        return eval(source);
+        return eval(source.replace(/NaN/, 0));
     }
     Common.evalInContext = evalInContext;
     function getFirstKey(str) {
@@ -17330,7 +17330,7 @@ var Common;
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(8)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), __webpack_require__(9)(module)))
 
 /***/ }),
 /* 3 */
@@ -17363,11 +17363,11 @@ var Controller = /** @class */ (function () {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__controller__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__constants__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__component__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__component__ = __webpack_require__(19);
 
 
 
-var packageJson = __webpack_require__(25);
+var packageJson = __webpack_require__(23);
 (function (capivara) {
     if (!capivara) {
         window['capivara'] = {
@@ -17538,10 +17538,8 @@ var packageJson = __webpack_require__(25);
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Scope; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__scope_proxy__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__map_map_dom__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__constants__ = __webpack_require__(0);
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__map_map_dom__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__constants__ = __webpack_require__(0);
 
 
 var Scope = /** @class */ (function () {
@@ -17567,12 +17565,16 @@ var Scope = /** @class */ (function () {
         }
         this.watchers = new Array();
         this.addScope(_element, this);
-        this.mapDom = new __WEBPACK_IMPORTED_MODULE_1__map_map_dom__["a" /* MapDom */](_element);
-        this.scope = new __WEBPACK_IMPORTED_MODULE_0__scope_proxy__["a" /* ScopeProxy */]({}, this);
-        this.$emit('$onInit');
+        this.mapDom = new __WEBPACK_IMPORTED_MODULE_0__map_map_dom__["a" /* MapDom */](_element);
+        this.scope = {};
+        this.createWatcherScope();
     }
     Scope.prototype.getScopeProxy = function () {
         return this.scope;
+    };
+    Scope.prototype.createWatcherScope = function () {
+        var _this = this;
+        Object['observe'](this.scope, function (changes) { return _this.mapDom.reload(); });
     };
     /** #Mudar não poderia ser adicionar a referencia do scope do componente no elemento do componente
      * @method void Aplicado um escopo em um elemento HTML.
@@ -17581,7 +17583,7 @@ var Scope = /** @class */ (function () {
      */
     Scope.prototype.addScope = function (element, scope) {
         if (element && element.nodeName)
-            element[__WEBPACK_IMPORTED_MODULE_2__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME] = scope;
+            element[__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].SCOPE_ATTRIBUTE_NAME] = scope;
     };
     return Scope;
 }());
@@ -17593,203 +17595,19 @@ var Scope = /** @class */ (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ScopeProxy; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_weakset__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_weakset___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_weakset__);
-
-
-var ScopeProxy = /** @class */ (function () {
-    /**
-     * @param obj Objeto que será feito o proxy
-     * @param _scope Instância do escopo criado.
-     */
-    function ScopeProxy(obj, _scope) {
-        this.scope = _scope;
-        this.proxiedObjs = new __WEBPACK_IMPORTED_MODULE_1_weakset___default.a();
-        return this.createProxiedObject(obj);
-    }
-    /**
-     *
-     * @method Boolean Verifica se o objeto informado é uma instância nativa do JS.
-     * @param obj Objeto a ser analisado o tipo da instância.
-     */
-    ScopeProxy.prototype.isNativeFn = function (obj) {
-        return obj instanceof Date;
-    };
-    /**
-     * @method Proxy Cria um proxy em um determinado objeto, para que possa ser sobrescrito os metodos GET e SET que permitem atualizar os elementos quando o conteudo da variavel for alterado.
-     * @param objToProxy Objeto a ser encapsulado no proxy.
-     */
-    ScopeProxy.prototype.createProxiedObject = function (objToProxy) {
-        var _this = this;
-        for (var x in objToProxy) {
-            var subObj = objToProxy[x];
-            if (subObj !== null && typeof subObj === 'object' && !this.proxiedObjs.has(subObj)) {
-                if (!this.isNativeFn(subObj)) {
-                    objToProxy[x] = this.createProxiedObject(subObj);
-                }
-            }
-        }
-        var proxied = new Proxy(objToProxy, {
-            get: function (target, key) { return _this.get(target, key); },
-            set: function (target, key, value) { return _this.set(target, key, value); }
-        });
-        proxied.get = function () { return _this.getObjectWithoutProxy(proxied); };
-        this.proxiedObjs.add(proxied);
-        return proxied;
-    };
-    /**
-     * @method Object Função executado quando quer o objeto original sem proxy.
-     * @param proxied Proxy que tem o objeto encapsulado
-     */
-    ScopeProxy.prototype.getObjectWithoutProxy = function (proxied) {
-        return JSON.parse(JSON.stringify(proxied));
-    };
-    /**
-     * @method any Função executado quando o valor do objeto é acionado.
-     * @param target Objeto acionado
-     * @param key Atributo do objeto que foi acionado
-     */
-    ScopeProxy.prototype.get = function (target, key) {
-        return __WEBPACK_IMPORTED_MODULE_0_lodash__["get"](target, key);
-    };
-    /**
-     * @method Boolean Atualiza um objeto pelo atributo e seu novo valor.
-     * @param target Objeto que foi alterado
-     * @param key Atributo que foi alterado
-     * @param value Novo valor que foi inserido
-     */
-    ScopeProxy.prototype.set = function (target, key, value) {
-        if (__WEBPACK_IMPORTED_MODULE_0_lodash__["isEqual"](__WEBPACK_IMPORTED_MODULE_0_lodash__["get"](target, key), value)) {
-            return true;
-        }
-        //proxy nested objects
-        if (value !== null && typeof value === 'object' && !this.proxiedObjs.has(value)) {
-            if (!this.isNativeFn(value)) {
-                value = this.createProxiedObject(value);
-            }
-        }
-        __WEBPACK_IMPORTED_MODULE_0_lodash__["set"](target, key, value);
-        this.scope.mapDom.reload();
-        return true;
-    };
-    return ScopeProxy;
-}());
-
-
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports) {
-
-module.exports = function(module) {
-	if(!module.webpackPolyfill) {
-		module.deprecate = function() {};
-		module.paths = [];
-		// module.parent = undefined by default
-		if(!module.children) module.children = [];
-		Object.defineProperty(module, "loaded", {
-			enumerable: true,
-			get: function() {
-				return module.l;
-			}
-		});
-		Object.defineProperty(module, "id", {
-			enumerable: true,
-			get: function() {
-				return module.i;
-			}
-		});
-		module.webpackPolyfill = 1;
-	}
-	return module;
-};
-
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports) {
-
-/**
- * @module WeakSet
- */
-var counter = Date.now() % 1e9;
-
-
-/**
- * @constructor
- */
-function WeakSet (data) {
-  this.name = '__st' + (Math.random() * 1e9 >>> 0) + (counter++ + '__');
-  data && data.forEach && data.forEach(this.add, this);
-};
-
-
-var proto = WeakSet.prototype;
-
-proto['add'] = function(val) {
-  var name = this.name;
-  if (!val[name]) Object.defineProperty(val, name, {value: true, writable: true});
-  return this;
-};
-proto['delete'] = function(val) {
-  if (!val[this.name]) return false;
-  val[this.name] = undefined;
-  return true;
-};
-proto['has'] = function(val) {
-  return !!val[this.name];
-};
-
-module.exports = WeakSet;
-
-/***/ }),
-/* 10 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MapDom; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__directive_cp_model__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__directive_cp_click__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__directive_cp_repeat__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__directive_cp_show__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__directive_cp_if__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__directive_cp_init__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__directive_cp_style__ = __webpack_require__(17);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__directive_cp_class__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__directive_cp_model__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__directive_cp_click__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__directive_cp_repeat__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__directive_cp_show__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__directive_cp_if__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__directive_cp_init__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__directive_cp_style__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__directive_cp_class__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__common__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__directive_cp_else__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__directive_cp_else_if__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__directive_cp_else__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__directive_cp_else_if__ = __webpack_require__(18);
 
 
 
@@ -18036,7 +17854,7 @@ var MapDom = /** @class */ (function () {
 
 
 /***/ }),
-/* 11 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18098,7 +17916,62 @@ var CPModel = /** @class */ (function () {
 
 
 /***/ }),
-/* 12 */
+/* 8 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports) {
+
+module.exports = function(module) {
+	if(!module.webpackPolyfill) {
+		module.deprecate = function() {};
+		module.paths = [];
+		// module.parent = undefined by default
+		if(!module.children) module.children = [];
+		Object.defineProperty(module, "loaded", {
+			enumerable: true,
+			get: function() {
+				return module.l;
+			}
+		});
+		Object.defineProperty(module, "id", {
+			enumerable: true,
+			get: function() {
+				return module.i;
+			}
+		});
+		module.webpackPolyfill = 1;
+	}
+	return module;
+};
+
+
+/***/ }),
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18144,7 +18017,7 @@ var CPClick = /** @class */ (function () {
 
 
 /***/ }),
-/* 13 */
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18214,7 +18087,7 @@ var CPRepeat = /** @class */ (function () {
 
 
 /***/ }),
-/* 14 */
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18255,7 +18128,7 @@ var CPShow = /** @class */ (function () {
 
 
 /***/ }),
-/* 15 */
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18305,43 +18178,31 @@ var CPIf = /** @class */ (function () {
 
 
 /***/ }),
-/* 16 */
+/* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CPInit; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__common__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__constants__ = __webpack_require__(0);
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__common__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__constants__ = __webpack_require__(0);
 
 
 var CPInit = /** @class */ (function () {
     function CPInit(_element, _map) {
         var _this = this;
-        __WEBPACK_IMPORTED_MODULE_1__common__["a" /* Common */].getScope(_element).$on('$onInit', function () {
+        __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].getScope(_element).$on('$onInit', function () {
             _this.element = _element;
             _this.map = _map;
-            _this.attribute = __WEBPACK_IMPORTED_MODULE_1__common__["a" /* Common */].getAttributeCpInit(_this.element);
+            _this.attribute = __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].getAttributeCpInit(_this.element);
             if (!_this.attribute) {
-                throw "syntax error " + __WEBPACK_IMPORTED_MODULE_2__constants__["a" /* Constants */].INIT_ATTRIBUTE_NAME + " expected arguments";
+                throw "syntax error " + __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* Constants */].INIT_ATTRIBUTE_NAME + " expected arguments";
             }
             _this.init();
         });
     }
     CPInit.prototype.init = function () {
-        var _this = this;
         this.attribute = this.attribute.replace(/ /g, '');
-        var callback = __WEBPACK_IMPORTED_MODULE_1__common__["a" /* Common */].getCallbackClick(this.element, this.attribute);
-        if (callback && !__WEBPACK_IMPORTED_MODULE_1__common__["a" /* Common */].isNative(callback)) {
-            var params = this.attribute.substring(this.attribute.indexOf('(') + 1, this.attribute.length - 1), args_1 = [];
-            params.split(',').forEach(function (param) {
-                var value = __WEBPACK_IMPORTED_MODULE_0_lodash__["get"](__WEBPACK_IMPORTED_MODULE_1__common__["a" /* Common */].getScope(_this.element).scope, param);
-                args_1.push(value != undefined ? value : param);
-            });
-            callback.call.apply(callback, [null].concat(args_1));
-        }
+        __WEBPACK_IMPORTED_MODULE_0__common__["a" /* Common */].executeFunctionCallback(this.element, this.attribute);
     };
     return CPInit;
 }());
@@ -18349,7 +18210,7 @@ var CPInit = /** @class */ (function () {
 
 
 /***/ }),
-/* 17 */
+/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18398,7 +18259,7 @@ var CPStyle = /** @class */ (function () {
 
 
 /***/ }),
-/* 18 */
+/* 16 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18465,7 +18326,7 @@ var CPClass = /** @class */ (function () {
 
 
 /***/ }),
-/* 19 */
+/* 17 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18524,7 +18385,7 @@ var CPElse = /** @class */ (function () {
 
 
 /***/ }),
-/* 20 */
+/* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18585,12 +18446,12 @@ var CPElseIf = /** @class */ (function () {
 
 
 /***/ }),
-/* 21 */
+/* 19 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Component; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__component_instance__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__component_instance__ = __webpack_require__(20);
 
 var Component = /** @class */ (function () {
     function Component(_componentName, config) {
@@ -18606,16 +18467,16 @@ var Component = /** @class */ (function () {
 
 
 /***/ }),
-/* 22 */
+/* 20 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ComponentInstance; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_object_observe__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_object_observe__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_object_observe___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_object_observe__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_melanke_watchjs__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_melanke_watchjs__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_melanke_watchjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_melanke_watchjs__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__constants__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__common__ = __webpack_require__(1);
@@ -18626,16 +18487,17 @@ var Component = /** @class */ (function () {
 
 var ComponentInstance = /** @class */ (function () {
     function ComponentInstance(_element, _config) {
+        this.constantsValue = {};
+        this.functionsValue = {};
+        this.bindingsValue = {};
         _config.controllerAs = _config.controllerAs || '$ctrl';
         this.element = _element;
         this.element.$instance = this;
         this.config = _config;
+        this.config.controller = this.config.controller || function () { };
         this.element.innerHTML = this.config.template;
         this.destroyed = true;
         this.registerController();
-        __WEBPACK_IMPORTED_MODULE_4__common__["a" /* Common */].getScope(this.element).scope['$bindings'] = {};
-        __WEBPACK_IMPORTED_MODULE_4__common__["a" /* Common */].getScope(this.element).scope['$constants'] = {};
-        __WEBPACK_IMPORTED_MODULE_4__common__["a" /* Common */].getScope(this.element).scope['$functions'] = {};
     }
     ComponentInstance.prototype.registerController = function () {
         var _this = this;
@@ -18652,10 +18514,14 @@ var ComponentInstance = /** @class */ (function () {
                     __WEBPACK_IMPORTED_MODULE_4__common__["a" /* Common */].getScope(_this.element).mapDom.reload();
                 });
             }
+            this.applyContains();
+            this.applyFunctions();
+            this.applyBindings();
             if (this.componentScope[this.config.controllerAs] && this.componentScope[this.config.controllerAs].$onInit) {
                 this.componentScope[this.config.controllerAs].$onInit();
             }
             this.destroyed = false;
+            __WEBPACK_IMPORTED_MODULE_4__common__["a" /* Common */].getScope(this.element).$emit('$onInit');
         }
     };
     /**
@@ -18694,28 +18560,32 @@ var ComponentInstance = /** @class */ (function () {
      * @param _bindings Objeto com o nome dos bindings
      */
     ComponentInstance.prototype.bindings = function (_bindings) {
-        var _this = this;
         if (_bindings === void 0) { _bindings = {}; }
         if (!this.contextObj) {
             console.error('Bindings ainda não aplicados. Primeiro, é necessário informar o contexto.');
             return this;
         }
-        this.config.bindings.forEach(function (key) {
-            if (_bindings[key]) {
-                _this.setAttributeValue(_bindings, key);
-                _this.createObserverContext(_bindings, key);
-                _this.createObserverScope(_bindings, key);
+        this.bindingsValue = _bindings;
+        return this;
+    };
+    ComponentInstance.prototype.applyBindings = function () {
+        var _this = this;
+        (this.config.bindings || []).forEach(function (key) {
+            if (_this.bindingsValue[key]) {
+                _this.setAttributeValue(_this.bindingsValue, key);
+                _this.createObserverContext(_this.bindingsValue, key);
+                _this.createObserverScope(_this.bindingsValue, key);
             }
         });
-        return this;
     };
     /**
     * @description Observa o componente quando houver alteração é modificado o contexto
     */
     ComponentInstance.prototype.createObserverScope = function (_bindings, key) {
         var _this = this;
-        __WEBPACK_IMPORTED_MODULE_2_melanke_watchjs___default.a.watch(__WEBPACK_IMPORTED_MODULE_4__common__["a" /* Common */].getScope(this.element).scope['$bindings'], key, function () {
-            __WEBPACK_IMPORTED_MODULE_0_lodash__["set"](_this.contextObj, _bindings[key], __WEBPACK_IMPORTED_MODULE_4__common__["a" /* Common */].getScope(_this.element).scope['$bindings'][key]);
+        __WEBPACK_IMPORTED_MODULE_2_melanke_watchjs___default.a.watch(__WEBPACK_IMPORTED_MODULE_4__common__["a" /* Common */].getScope(this.element).scope[this.config.controllerAs]['$bindings'], key, function () {
+            __WEBPACK_IMPORTED_MODULE_0_lodash__["set"](_this.contextObj, _bindings[key], __WEBPACK_IMPORTED_MODULE_4__common__["a" /* Common */].getScope(_this.element).scope[_this.config.controllerAs]['$bindings'][key]);
+            __WEBPACK_IMPORTED_MODULE_4__common__["a" /* Common */].getScope(_this.element).mapDom.reload();
         });
     };
     /**
@@ -18731,29 +18601,36 @@ var ComponentInstance = /** @class */ (function () {
         return _bindings[key].indexOf('.') != -1 ? _bindings[key].substring(0, _bindings[key].indexOf('.')) : _bindings[key];
     };
     ComponentInstance.prototype.setAttributeValue = function (_bindings, key) {
-        __WEBPACK_IMPORTED_MODULE_4__common__["a" /* Common */].getScope(this.element).scope['$bindings'][key] = __WEBPACK_IMPORTED_MODULE_0_lodash__["get"](this.contextObj, _bindings[key]);
+        __WEBPACK_IMPORTED_MODULE_0_lodash__["set"](__WEBPACK_IMPORTED_MODULE_4__common__["a" /* Common */].getScope(this.element).scope, this.config.controllerAs + '.$bindings.' + key, __WEBPACK_IMPORTED_MODULE_0_lodash__["get"](this.contextObj, _bindings[key]));
+        __WEBPACK_IMPORTED_MODULE_4__common__["a" /* Common */].getScope(this.element).mapDom.reload();
     };
     /**
      * @description Crie valores sem referências
      * @param _constants Objeto com o nome das constants
      */
     ComponentInstance.prototype.constants = function (_constants) {
-        var _this = this;
-        this.config.constants.forEach(function (key) {
-            if (_constants[key]) {
-                __WEBPACK_IMPORTED_MODULE_4__common__["a" /* Common */].getScope(_this.element).scope['$constants'][key] = _constants[key];
-            }
-        });
+        this.constantsValue = _constants;
         return this;
     };
-    ComponentInstance.prototype.functions = function (_functions) {
+    ComponentInstance.prototype.applyContains = function () {
         var _this = this;
-        this.config.functions.forEach(function (key) {
-            if (_functions[key]) {
-                __WEBPACK_IMPORTED_MODULE_4__common__["a" /* Common */].getScope(_this.element).scope['$functions'][key] = _functions[key];
+        (this.config.constants || []).forEach(function (key) {
+            if (_this.constantsValue[key]) {
+                __WEBPACK_IMPORTED_MODULE_0_lodash__["set"](__WEBPACK_IMPORTED_MODULE_4__common__["a" /* Common */].getScope(_this.element).scope, _this.config.controllerAs + '.$constants.' + key, _this.constantsValue[key]);
             }
         });
+    };
+    ComponentInstance.prototype.functions = function (_functions) {
+        this.functionsValue = _functions;
         return this;
+    };
+    ComponentInstance.prototype.applyFunctions = function () {
+        var _this = this;
+        (this.config.functions || []).forEach(function (key) {
+            if (_this.functionsValue[key]) {
+                __WEBPACK_IMPORTED_MODULE_0_lodash__["set"](__WEBPACK_IMPORTED_MODULE_4__common__["a" /* Common */].getScope(_this.element).scope, _this.config.controllerAs + '.$functions.' + key, _this.functionsValue[key]);
+            }
+        });
     };
     return ComponentInstance;
 }());
@@ -18761,7 +18638,7 @@ var ComponentInstance = /** @class */ (function () {
 
 
 /***/ }),
-/* 23 */
+/* 21 */
 /***/ (function(module, exports) {
 
 /*!
@@ -19508,7 +19385,7 @@ Object.observe || (function(O, A, root, _undefined) {
 
 
 /***/ }),
-/* 24 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20311,7 +20188,7 @@ Object.observe || (function(O, A, root, _undefined) {
 
 
 /***/ }),
-/* 25 */
+/* 23 */
 /***/ (function(module, exports) {
 
 module.exports = {"name":"capivarajs","version":"1.9.0-rc.5","description":"Um framework para criação de componentes.","main":"index.js","scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"npm run test-once && webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js","test":"karma start","test-once":"karma start --single-run"},"author":"Capivara Team.","license":"LGPL-3.0","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1","object.observe":"^0.2.6"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"devDependencies":{"@types/jasmine":"^2.6.3","@types/node":"^9.4.0","babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-plugin-proxy":"^1.1.0","babel-polyfill":"^6.26.0","babel-preset-env":"^1.6.1","babel-preset-stage-0":"^6.24.1","css-loader":"^0.28.7","extract-text-webpack-plugin":"^3.0.2","file-loader":"^1.1.5","html-loader":"^0.5.1","intern":"^4.1.5","jasmine":"^2.8.0","jasmine-core":"^2.8.0","karma":"^1.7.1","karma-babel-preprocessor":"^7.0.0","karma-chrome-launcher":"^2.2.0","karma-cli":"^1.0.1","karma-coverage":"^1.1.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.0","karma-jshint-preprocessor":"0.0.6","karma-mocha":"^1.3.0","karma-mocha-reporter":"^2.2.5","karma-phantomjs-launcher":"^1.0.4","karma-spec-reporter":"0.0.31","karma-typescript":"^3.0.8","karma-typescript-es6-transform":"^1.0.2","karma-typescript-preprocessor":"^0.3.1","karma-webpack":"^2.0.5","mocha":"^4.0.1","node-sass":"^4.7.2","phantomjs-polyfill":"0.0.2","phantomjs-polyfill-array-from":"^1.0.1","remap-istanbul":"^0.10.1","sass-loader":"^6.0.6","style-loader":"^0.19.0","ts-loader":"^3.2.0","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^3.9.1","webpack-dev-server":"^2.9.5"}}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Test</title>
+</head>
+<body>
+
+    <my-component #myComponent></my-component>
+    
+    <script src="/dist/capivara.js"></script>
+    <script>
+        capivara.component('my-component', {
+            template: `
+                <h1 cp-if="$ctrl.mostrarTexto">Esse é um texto de exemplo.</h1>
+        
+                <button cp-click="$ctrl.alterar()">Clique para Mostrar</button>
+            `,
+            controller: function(){
+                const $ctrl = this;
+        
+                $ctrl.mostrarTexto = false;
+        
+                $ctrl.alterar = function(){
+                    $ctrl.mostrarTexto = !$ctrl.mostrarTexto;
+                }
+            }
+        });
+
+        capivara.componentBuilder('myComponent').build();
+    </script>
+</body>
+</html>
