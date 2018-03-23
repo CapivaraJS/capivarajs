@@ -1,6 +1,6 @@
 capivara.component('my-component', {
     template: `
-        <h1 > 
+        <h1 cp-repeat="name in $ctrl.names"> 
             [[ $ctrl.$constants.nome ]]
         </h1>
     `,

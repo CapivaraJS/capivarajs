@@ -118,11 +118,10 @@ describe('test method merge', () => {
     let samePerson = {
         lastName: 'Smith'
     }
-    
-    it('Should not be a merge', () => {
+    it('Should not be a merge, in this case the object will be attributed to the first object', () => {
         expect(capivara.merge(person, samePerson)).not.toEqual(samePerson)
     });
-    it('Should be a merge', () => {
+    it('Should be a merge, the same here', () => {
         expect(capivara.merge(person, samePerson)).toEqual(person)
    });
 });
