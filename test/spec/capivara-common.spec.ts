@@ -66,11 +66,11 @@ describe('test method will test all the getAttribute functions', () => {
 describe('This will test the scope function', () => {
     let element = document.createElement('div');
     element.id = 'elementDiv';
-    element.innerHTML = '<p>Simple example</p>'
+    element.innerHTML = '<p>Sample example</p>'
     document.body.appendChild(element);
     let otherElement = document.createElement('div');
     otherElement.id = 'otherElementDiv';
-    element.innerHTML = '<p>This is Other simple example</p>'
+    element.innerHTML = '<p>This is Other sample example</p>'
     document.body.appendChild(otherElement);
     
     let scope = Common.getScope(element);
@@ -79,6 +79,6 @@ describe('This will test the scope function', () => {
         expect(Common.getScope(element)).not.toEqual(otherElement);
     });
     it('Should contain the getScope element', () => {
-        expect(Common.getScope(element)).toEqual(scope)
+        expect(Common.getScope(element)).toEqual(scope);
     });
 });
