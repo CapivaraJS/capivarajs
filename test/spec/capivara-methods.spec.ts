@@ -1,4 +1,4 @@
-import {} from 'jasmine';
+import { } from 'jasmine';
 import capivara from '../../src/index';
 import { Common } from '../../src/common';
 
@@ -9,7 +9,7 @@ describe('test method isArray', () => {
     it('Shoulded be array', () => {
         expect(
             capivara.isArray([]) &&
-            capivara.isArray([{name: 'My Array'}])
+            capivara.isArray([{ name: 'My Array' }])
         ).toBeTruthy();
     });
 });
@@ -92,4 +92,36 @@ describe('test method replaceAll', () => {
         expect(
             capivara.replaceAll('This awesome framework is awesome', 'awesome', 'wonderful')).toEqual('This wonderful framework is wonderful')
     });
+});
+
+describe('test method copy', () => {
+    let person = {
+        name: 'Bob',
+        lastName: 'Smith'
+    };
+    let otherPerson = {
+        name: 'Mark',
+        lastName: 'Smith'
+    };
+    it('Should not be a copy', () => {
+        expect(capivara.copy(person)).not.toEqual(otherPerson)
+    });
+    it('Should be a copy', () => {
+        expect(capivara.copy(person)).toEqual(person)
+    });
+});
+
+describe('test method merge', () => {
+    let person = {
+        name: 'Bob',
+    };
+    let samePerson = {
+        lastName: 'Smith'
+    };
+    it('Should not be a merge, in this case the object will be attributed to the first object', () => {
+        expect(capivara.merge(person, samePerson)).not.toEqual(samePerson)
+    });
+    it('Should be a merge, the same here', () => {
+        expect(capivara.merge(person, samePerson)).toEqual(person)
+   });
 });
