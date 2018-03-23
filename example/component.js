@@ -1,6 +1,6 @@
 capivara.component('my-component', {
     template: `
-        <h1 cp-repeat="name in $ctrl.names"> 
+        <h1 cp-click="$ctrl.hi()"> 
             [[ $ctrl.$constants.nome ]]
         </h1>
     `,
@@ -9,6 +9,10 @@ capivara.component('my-component', {
         const $ctrl = this;
 
         $ctrl.$onInit = function(){
+        }
+
+        $ctrl.hi = function(){
+            console.log("Hi");
         }
 
     }

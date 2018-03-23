@@ -63,9 +63,22 @@ describe('test method will test all the getAttribute functions', () => {
     });
 });
 
-describe('',() => {
-   let element = document.createElement('h1');
-   it('Should contain the getScope element', () => {
-        expect(Common.getScope(element)).toEqual(Common.getScope(element))
-   })
+describe('This will test the scope function', () => {
+    let element = document.createElement('div');
+    element.id = 'elementDiv';
+    element.innerHTML = '<p>Simple example</p>'
+    document.body.appendChild(element);
+    let otherElement = document.createElement('div');
+    otherElement.id = 'otherElementDiv';
+    element.innerHTML = '<p>This is Other simple example</p>'
+    document.body.appendChild(otherElement);
+    
+    let scope = Common.getScope(element);
+
+    it('Should not contain the getScope element', () =>{
+        expect(Common.getScope(element)).not.toEqual(otherElement);
+    });
+    it('Should contain the getScope element', () => {
+        expect(Common.getScope(element)).toEqual(scope)
+    });
 });
