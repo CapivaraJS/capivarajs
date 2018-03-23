@@ -1,13 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuites errors="0"
+<testsuites errors="1"
             failures="0"
-            tests="0">
+            tests="1">
 
   <testsuite name="index"
-    errors="0" failures="0" hostname="" id="" package="index" skipped="0"
-    tests="0" time="0.000" timestamp="Thu, 22 Mar 2018 20:41:12 GMT">
+    errors="1" failures="0" hostname="" id="" package="index" skipped="0"
+    tests="1" time="0.004000" timestamp="Fri, 23 Mar 2018 01:15:15 GMT">
+  
+    <testcase name="cpModel" classname="index" time="0.004000" assertions="0">
+    </testcase>
   
 
+  
+    <system-err>
+        Error while running [Index / cpModel]:
+
+  TypeError: Cannot read property &#39;pause&#39; of undefined
+    at Object.cpModel (/home/jcanabarro/Documents/capivaraJS/capivarajs/test/e2e/cpStyle/test.js:14:13)
+    at Module.call (/home/jcanabarro/Documents/capivaraJS/capivarajs/node_modules/nightwatch/lib/runner/module.js:62:34)
+    at /home/jcanabarro/Documents/capivaraJS/capivarajs/node_modules/nightwatch/lib/runner/testcase.js:70:29
+    at _fulfilled (/home/jcanabarro/Documents/capivaraJS/capivarajs/node_modules/nightwatch/node_modules/q/q.js:834:54)
+    at self.promiseDispatch.done (/home/jcanabarro/Documents/capivaraJS/capivarajs/node_modules/nightwatch/node_modules/q/q.js:863:30)
+    at Promise.promise.promiseDispatch (/home/jcanabarro/Documents/capivaraJS/capivarajs/node_modules/nightwatch/node_modules/q/q.js:796:13)
+    at /home/jcanabarro/Documents/capivaraJS/capivarajs/node_modules/nightwatch/node_modules/q/q.js:556:49
+    at runSingle (/home/jcanabarro/Documents/capivaraJS/capivarajs/node_modules/nightwatch/node_modules/q/q.js:137:13)
+    at flush (/home/jcanabarro/Documents/capivaraJS/capivarajs/node_modules/nightwatch/node_modules/q/q.js:125:13)
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    </system-err>
   
 
   
