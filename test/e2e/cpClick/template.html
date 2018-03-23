@@ -14,14 +14,14 @@
     <script>
         capivara.component('my-component', {
             template: `
-                <button cp-click="$ctrl.minhaFuncao()">[[ $ctrl.btnText ]]</button>
+                <button cp-click="$ctrl.clicked()">[[ $ctrl.btnText ]]</button>
             `,
             controller: function(){
                 const $ctrl = this;
 
                 $ctrl.btnText = 'Clique-me';
         
-                $ctrl.minhaFuncao = function(){
+                $ctrl.clicked = function(){
                     $ctrl.btnText = 'Clicou';
                 };
         

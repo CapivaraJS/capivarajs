@@ -23,15 +23,15 @@
                 <p cp-class="{ democlass: $ctrl.visible }">Um simples exemplo</p> 
                 <button cp-click="$ctrl.toogleClass()">Mudar cor</button>
             `,
-            controller: function (scope) {
+            controller: function () {
                 let $ctrl = this;
                 
                 $ctrl.$onInit = function(){
                     $ctrl.visible = false;
-                }
+                };
                 $ctrl.toogleClass = function(){
                     $ctrl.visible = !$ctrl.visible;
-                }
+                };
             }
         });    
 
