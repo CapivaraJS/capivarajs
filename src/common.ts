@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { Constants } from './constants';
+import {Constants} from './constants';
 
 export namespace Common {
 
@@ -10,11 +10,11 @@ export namespace Common {
      */
     export function evalInContext(source, context) {
         if (source) {
-            source.split(' ').forEach(word => {
-                let firstKey = getFirstKey(word);
+            source.split(' ').forEach((word) => {
+                const firstKey = getFirstKey(word);
                 if (firstKey && word && context && context.hasOwnProperty(firstKey)) {
                     word = word.split('(').join('').split(')').join('').replace(/!/g, '');
-                    let value = _.get(context, word.replace(/ /g, ''));
+                    const value = _.get(context, word.replace(/ /g, ''));
                     if (window['capivara'].isString(value)) {
                         source = source.replace(word, value != null ? "'" + value + "'" : null);
                     } else {
@@ -27,7 +27,7 @@ export namespace Common {
     }
 
     export function getFirstKey(str: string) {
-        let firstKey = (str.indexOf('.') != -1 ? str.substring(0, str.indexOf('.')) : str).replace(/ /g, '');
+        const firstKey = (str.indexOf('.') !== -1 ? str.substring(0, str.indexOf('.')) : str).replace(/ /g, '');
         return firstKey.split('(').join('').split(')').join('').replace(/!/g, '');
     }
 
@@ -73,20 +73,20 @@ export namespace Common {
     }
 
     export function executeFunctionCallback(element, attribute) {
-        let callback = getCallbackClick(element, attribute);
+        const callback = getCallbackClick(element, attribute);
         if (callback && !isNative(callback)) {
-            let params = attribute.substring(attribute.indexOf('(') + 1, attribute.length - 1), args = [];
-            let context = getScope(element);
-            params.split(',').forEach(param => {
-                let valueScope = evalInContext(param, context.scope);
-                args.push(valueScope == undefined ? evalInContext(param, context.scope) : valueScope);
+            const params = attribute.substring(attribute.indexOf('(') + 1, attribute.length - 1), args = [];
+            const context = getScope(element);
+            params.split(',').forEach((param) => {
+                const valueScope = evalInContext(param, context.scope);
+                args.push(valueScope === undefined ? evalInContext(param, context.scope) : valueScope);
             });
             return callback.call(context.scope[context.mapDom.element.$instance.config.controllerAs], ...args);
         }
     }
 
     export function getCallbackClick(element, attribute) {
-        let callback = _.get(getScope(element).scope, attribute.substring(0, attribute.indexOf('(')));
+        const callback = _.get(getScope(element).scope, attribute.substring(0, attribute.indexOf('(')));
         if (!callback && element.parentNode && getScope(element.parentNode)) {
             return getCallbackClick(element.parentNode, attribute);
         }
@@ -94,17 +94,17 @@ export namespace Common {
     }
 
     export function isNative(fn) {
-        return (/\{\s*\[native code\]\s*\}/).test('' + fn);
+        return /{\s*\[native code]\s*}/.test('' + fn);
     }
 
     export function destroyElement(element, elementComment) {
         element.replaceWith(elementComment);
-        if (element.$instance) element.$instance.destroy();
+        if (element.$instance) { element.$instance.destroy(); }
     }
 
     export function createElement(element, elementComment) {
         elementComment.replaceWith(element);
-        if (element.$instance) element.$instance.initController();
+        if (element.$instance) { element.$instance.initController(); }
     }
 
     export function isValidCondition(element, condition) {
@@ -122,6 +122,4 @@ export namespace Common {
     export function appendAfter(element, elementToInsert) {
         element.parentNode.insertBefore(elementToInsert, element.nextSibling);
     }
-
 }
-

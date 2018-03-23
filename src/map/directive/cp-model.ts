@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
+import { Common } from '../../common';
 import { Constants } from '../../constants';
 import { MapDom } from '../map-dom';
-import { Common } from '../../common';
 
 export class CPModel {
 
@@ -13,21 +13,21 @@ export class CPModel {
         this.element = _element;
         this.map = _map;
         this.attribute = this.element.getAttribute(Constants.MODEL_ATTRIBUTE_NAME);
-        if(!this.attribute) {
-            throw `syntax error ${Constants.MODEL_ATTRIBUTE_NAME} expected arguments`
+        if (!this.attribute) {
+            throw new Error(`syntax error ${Constants.MODEL_ATTRIBUTE_NAME} expected arguments`);
         }
         this.init();
         this.applyValueInModel();
     }
 
-    init() {
+    public init() {
         this.map.addCpModels(this);
-        this.element.addEventListener('input', evt => this.applyValueInModel());
+        this.element.addEventListener('input', () => this.applyValueInModel());
     }
 
-    applyModelInValue() {
-        let value = _.get(Common.getScope(this.element).scope, this.attribute);
-        if (this.element.value != value) {
+    public applyModelInValue() {
+        const value = _.get(Common.getScope(this.element).scope, this.attribute);
+        if (this.element.value !== value) {
             switch (this.element.type) {
                 case 'date':
                     this.element.valueAsDate = value || null;
@@ -41,7 +41,7 @@ export class CPModel {
         }
     }
 
-    applyValueInModel() {
+    public applyValueInModel() {
         switch (this.element.type) {
             case 'date':
                 _.set(Common.getScope(this.element).scope, this.attribute, this.element.valueAsDate);

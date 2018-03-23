@@ -1,7 +1,6 @@
 import * as _ from 'lodash';
-import { MapDom } from '../map-dom';
 import { Common } from '../../common';
-import { Constants } from '../../constants';
+import { MapDom } from '../map-dom';
 
 export class CPClass {
 
@@ -23,46 +22,50 @@ export class CPClass {
         });
     }
 
-    init() {
+    public init() {
         try {
             this.attribute.split(',')
-                .map(attr => {
+                .map((attr) => {
                     return {
                         key: attr.substring(0, attr.indexOf(':')).replace(/'/g, "").replace(/"/, '').replace(/{/g, '').replace(/}/, ''),
-                        value: Common.evalInContext(attr.substring(attr.indexOf(':') + 1, attr.length).replace(/{/g, '').replace(/}/, ''), Common.getScope(this.element).scope)
-                    }
+                        value: Common.evalInContext(attr.substring(attr.indexOf(':') + 1, attr.length).replace(/{/g, '').replace(/}/, ''), Common.getScope(this.element).scope),
+                    };
                 })
-                .forEach(cpClass => {
-                    if (cpClass.value === true)
-                        this.addClass(this.element, cpClass.key.replace(/ /g, ''));
-                    else
-                        this.removeClass(this.element, cpClass.key.replace(/ /g, ''));
+                .forEach((cpClass) => {
+                    if (cpClass.value === true) {
+                        CPClass.addClass(this.element, cpClass.key.replace(/ /g, ''));
+                    } else {
+                        CPClass.removeClass(this.element, cpClass.key.replace(/ /g, ''));
+                    }
                 });
         } catch (e) {
             const result = Common.executeFunctionCallback(this.element, this.attribute);
             if (result && window['capivara'].isObject(result)) {
-                Object.keys(result).forEach(key => {
-                    if (result[key] === true)
-                        this.addClass(this.element, key.replace(/ /g, ''));
-                    else
-                        this.removeClass(this.element, key.replace(/ /g, ''));
+                Object.keys(result).forEach((key) => {
+                    if (result[key] === true) {
+                        CPClass.addClass(this.element, key.replace(/ /g, ''));
+                    } else {
+                        CPClass.removeClass(this.element, key.replace(/ /g, ''));
+                    }
                 });
             }
         }
     }
 
-    removeClass(el, className) {
-        if (el.classList && el.classList.contains(className))
+    public static removeClass(el, className) {
+        if (el.classList && el.classList.contains(className)) {
             el.classList.remove(className);
-        else if (!el.classList && el.className.indexOf(className) != -1)
+        } else if (!el.classList && el.className.indexOf(className) !== -1) {
             el.className = el.className.replace(className, '');
+             }
     }
 
-    addClass(el, className) {
-        if (el.classList && !el.classList.contains(className))
+    public static addClass(el, className) {
+        if (el.classList && !el.classList.contains(className)) {
             el.classList.add(className);
-        else if (!el.classList && el.className.indexOf(className) == -1)
-            el.className += " " + className
+        } else if (!el.classList && el.className.indexOf(className) === -1) {
+            el.className += " " + className;
+             }
     }
 
 }
