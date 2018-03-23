@@ -1,41 +1,61 @@
-22:30:05.691 INFO - Selenium build info: version: '3.0.1', revision: '1969d75'
-22:30:05.692 INFO - Launching a standalone Selenium Server
-2018-03-22 22:30:05.710:INFO::main: Logging initialized @291ms
-22:30:05.762 INFO - Driver provider org.openqa.selenium.ie.InternetExplorerDriver registration is skipped:
+10:56:52.424 INFO - Selenium build info: version: '3.0.1', revision: '1969d75'
+10:56:52.425 INFO - Launching a standalone Selenium Server
+2018-03-23 10:56:52.443:INFO::main: Logging initialized @257ms
+10:56:52.508 INFO - Driver provider org.openqa.selenium.ie.InternetExplorerDriver registration is skipped:
  registration capabilities Capabilities [{ensureCleanSession=true, browserName=internet explorer, version=, platform=WINDOWS}] does not match the current platform LINUX
-22:30:05.763 INFO - Driver provider org.openqa.selenium.edge.EdgeDriver registration is skipped:
+10:56:52.508 INFO - Driver provider org.openqa.selenium.edge.EdgeDriver registration is skipped:
  registration capabilities Capabilities [{browserName=MicrosoftEdge, version=, platform=WINDOWS}] does not match the current platform LINUX
-22:30:05.763 INFO - Driver class not found: com.opera.core.systems.OperaDriver
-22:30:05.763 INFO - Driver provider com.opera.core.systems.OperaDriver registration is skipped:
+10:56:52.508 INFO - Driver class not found: com.opera.core.systems.OperaDriver
+10:56:52.508 INFO - Driver provider com.opera.core.systems.OperaDriver registration is skipped:
 Unable to create new instances on this machine.
-22:30:05.764 INFO - Driver class not found: com.opera.core.systems.OperaDriver
-22:30:05.764 INFO - Driver provider com.opera.core.systems.OperaDriver is not registered
-22:30:05.765 INFO - Driver provider org.openqa.selenium.safari.SafariDriver registration is skipped:
+10:56:52.509 INFO - Driver class not found: com.opera.core.systems.OperaDriver
+10:56:52.509 INFO - Driver provider com.opera.core.systems.OperaDriver is not registered
+10:56:52.510 INFO - Driver provider org.openqa.selenium.safari.SafariDriver registration is skipped:
  registration capabilities Capabilities [{browserName=safari, version=, platform=MAC}] does not match the current platform LINUX
-2018-03-22 22:30:05.798:INFO:osjs.Server:main: jetty-9.2.15.v20160210
-2018-03-22 22:30:05.825:INFO:osjsh.ContextHandler:main: Started o.s.j.s.ServletContextHandler@9629756{/,null,AVAILABLE}
-2018-03-22 22:30:05.838:INFO:osjs.ServerConnector:main: Started ServerConnector@8bd1b6a{HTTP/1.1}{0.0.0.0:5555}
-2018-03-22 22:30:05.838:INFO:osjs.Server:main: Started @420ms
-22:30:05.838 INFO - Selenium Server is up and running
-22:30:06.061 INFO - SessionCleaner initialized with insideBrowserTimeout 0 and clientGoneTimeout 1800000 polling every 180000
-22:30:06.097 INFO - Executing: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]])
-22:30:06.115 INFO - Creating a new session for Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]
-Starting ChromeDriver 2.35.528139 (47ead77cb35ad2a9a83248b292151462a66cd881) on port 28705
+2018-03-23 10:56:52.547:INFO:osjs.Server:main: jetty-9.2.15.v20160210
+2018-03-23 10:56:52.572:INFO:osjsh.ContextHandler:main: Started o.s.j.s.ServletContextHandler@9629756{/,null,AVAILABLE}
+2018-03-23 10:56:52.586:INFO:osjs.ServerConnector:main: Started ServerConnector@8bd1b6a{HTTP/1.1}{0.0.0.0:5555}
+2018-03-23 10:56:52.586:INFO:osjs.Server:main: Started @399ms
+10:56:52.587 INFO - Selenium Server is up and running
+10:56:52.855 INFO - SessionCleaner initialized with insideBrowserTimeout 0 and clientGoneTimeout 1800000 polling every 180000
+10:56:52.885 INFO - Executing: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]])
+10:56:52.899 INFO - Creating a new session for Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]
+Starting ChromeDriver 2.35.528139 (47ead77cb35ad2a9a83248b292151462a66cd881) on port 9086
 Only local connections are allowed.
-22:30:06.499 INFO - Attempting bi-dialect session, assuming Postel's Law holds true on the remote end
-22:30:07.255 INFO - Detected dialect: OSS
-22:30:07.280 INFO - Done: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]]
-22:30:07.298 INFO - Executing: [set window size])
-22:30:07.418 INFO - Done: [set window size]
-22:30:07.428 INFO - Executing: [get: http://localhost:1111/test/e2e/cpStyle/template.html])
-22:30:08.726 INFO - Done: [get: http://localhost:1111/test/e2e/cpStyle/template.html]
-22:30:08.736 INFO - Executing: [find elements: By.cssSelector: h1])
-22:30:08.801 INFO - Done: [find elements: By.cssSelector: h1]
-22:30:08.806 INFO - Executing: [is displayed: 0 [[ChromeDriver: chrome on LINUX (aa19f91a20412804ef4abfb5fc3c094f)] -> css selector: h1]])
-22:30:08.830 INFO - Done: [is displayed: 0 [[ChromeDriver: chrome on LINUX (aa19f91a20412804ef4abfb5fc3c094f)] -> css selector: h1]]
-22:30:08.839 INFO - Executing: [find element: By.cssSelector: h1])
-22:30:08.865 INFO - Done: [find element: By.cssSelector: h1]
-22:30:08.878 INFO - Executing: [get value of css property: 0 [[ChromeDriver: chrome on LINUX (aa19f91a20412804ef4abfb5fc3c094f)] -> css selector: h1], background])
-22:30:08.903 INFO - Done: [get value of css property: 0 [[ChromeDriver: chrome on LINUX (aa19f91a20412804ef4abfb5fc3c094f)] -> css selector: h1], background]
-22:30:08.911 INFO - Executing: [delete session: 593e9f7f-8cad-4834-808c-4984c20f6862])
-22:30:08.987 INFO - Done: [delete session: 593e9f7f-8cad-4834-808c-4984c20f6862]
+10:56:53.483 INFO - Attempting bi-dialect session, assuming Postel's Law holds true on the remote end
+10:56:56.002 INFO - Detected dialect: OSS
+10:56:56.060 INFO - Done: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]]
+10:56:56.106 INFO - Executing: [set window size])
+10:56:56.230 INFO - Done: [set window size]
+10:56:56.237 INFO - Executing: [get: http://localhost:1111/test/e2e/cpStyle/template.html])
+10:56:57.632 INFO - Done: [get: http://localhost:1111/test/e2e/cpStyle/template.html]
+10:56:57.664 INFO - Executing: [find elements: By.cssSelector: h1])
+10:56:57.702 INFO - Done: [find elements: By.cssSelector: h1]
+10:56:57.708 INFO - Executing: [is displayed: 0 [[ChromeDriver: chrome on LINUX (66053eb36ba37d684d9097f589212f13)] -> css selector: h1]])
+10:56:57.739 INFO - Done: [is displayed: 0 [[ChromeDriver: chrome on LINUX (66053eb36ba37d684d9097f589212f13)] -> css selector: h1]]
+10:56:57.750 INFO - Executing: [find element: By.cssSelector: h1])
+10:56:57.772 INFO - Done: [find element: By.cssSelector: h1]
+10:56:57.777 INFO - Executing: [get value of css property: 0 [[ChromeDriver: chrome on LINUX (66053eb36ba37d684d9097f589212f13)] -> css selector: h1], background])
+10:56:57.791 INFO - Done: [get value of css property: 0 [[ChromeDriver: chrome on LINUX (66053eb36ba37d684d9097f589212f13)] -> css selector: h1], background]
+10:56:58.801 INFO - Executing: [find element: By.cssSelector: button[id="btn1"]])
+10:56:58.823 INFO - Done: [find element: By.cssSelector: button[id="btn1"]]
+10:56:58.828 INFO - Executing: [click: 1 [[ChromeDriver: chrome on LINUX (66053eb36ba37d684d9097f589212f13)] -> css selector: button[id="btn1"]]])
+10:56:58.878 INFO - Done: [click: 1 [[ChromeDriver: chrome on LINUX (66053eb36ba37d684d9097f589212f13)] -> css selector: button[id="btn1"]]]
+10:56:59.891 INFO - Executing: [find element: By.cssSelector: p[id="p1"]])
+10:56:59.908 INFO - Done: [find element: By.cssSelector: p[id="p1"]]
+10:56:59.912 INFO - Executing: [get value of css property: 2 [[ChromeDriver: chrome on LINUX (66053eb36ba37d684d9097f589212f13)] -> css selector: p[id="p1"]], background])
+10:56:59.924 INFO - Done: [get value of css property: 2 [[ChromeDriver: chrome on LINUX (66053eb36ba37d684d9097f589212f13)] -> css selector: p[id="p1"]], background]
+10:57:00.934 INFO - Executing: [find element: By.cssSelector: p[id="p1"]])
+10:57:00.951 INFO - Done: [find element: By.cssSelector: p[id="p1"]]
+10:57:00.957 INFO - Executing: [get value of css property: 2 [[ChromeDriver: chrome on LINUX (66053eb36ba37d684d9097f589212f13)] -> css selector: p[id="p1"]], background])
+10:57:00.965 INFO - Done: [get value of css property: 2 [[ChromeDriver: chrome on LINUX (66053eb36ba37d684d9097f589212f13)] -> css selector: p[id="p1"]], background]
+10:57:01.975 INFO - Executing: [find element: By.cssSelector: button[id="btn2"]])
+10:57:02.000 INFO - Done: [find element: By.cssSelector: button[id="btn2"]]
+10:57:02.003 INFO - Executing: [click: 3 [[ChromeDriver: chrome on LINUX (66053eb36ba37d684d9097f589212f13)] -> css selector: button[id="btn2"]]])
+10:57:02.052 INFO - Done: [click: 3 [[ChromeDriver: chrome on LINUX (66053eb36ba37d684d9097f589212f13)] -> css selector: button[id="btn2"]]]
+10:57:03.060 INFO - Executing: [find element: By.cssSelector: p[id="p1"]])
+10:57:03.075 INFO - Done: [find element: By.cssSelector: p[id="p1"]]
+10:57:03.080 INFO - Executing: [get value of css property: 2 [[ChromeDriver: chrome on LINUX (66053eb36ba37d684d9097f589212f13)] -> css selector: p[id="p1"]], background])
+10:57:03.091 INFO - Done: [get value of css property: 2 [[ChromeDriver: chrome on LINUX (66053eb36ba37d684d9097f589212f13)] -> css selector: p[id="p1"]], background]
+10:57:06.102 INFO - Executing: [delete session: fcf7c63d-5321-4ab9-8855-75b132326336])
+10:57:06.182 INFO - Done: [delete session: fcf7c63d-5321-4ab9-8855-75b132326336]
