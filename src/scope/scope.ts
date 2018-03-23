@@ -1,10 +1,10 @@
-import { MapDom } from '../map/map-dom';
-import { Constants } from '../constants';
 import { eventNames } from 'cluster';
+import { Constants } from '../constants';
+import { MapDom } from '../map/map-dom';
 
 export class Scope {
 
-    //Dados disponíveis nesse escopo
+    // Dados disponíveis nesse escopo
     public scope: any;
 
     public $parent: Scope;
@@ -13,22 +13,22 @@ export class Scope {
 
     public watchers;
 
-    constructor(_element: HTMLElement){
-        if(!_element || !_element.nodeName){
+    constructor(_element: HTMLElement) {
+        if (!_element || !_element.nodeName) {
             console.warn('Unable to create a scope, it is necessary to report an html element.');
         }
-        this.watchers = new Array();
-        this.addScope(_element, this)
+        this.watchers = [];
+        this.addScope(_element, this);
         this.mapDom = new MapDom(_element);
         this.scope = {};
         this.createWatcherScope();
     }
 
-    getScopeProxy(){
+    public getScopeProxy() {
         return this.scope;
     }
 
-    createWatcherScope(){
+    public createWatcherScope() {
         Object['observe'](this.scope, (changes) => this.mapDom.reload());
     }
 
@@ -37,20 +37,20 @@ export class Scope {
      * @param element Elemento que será aplicado o escopo
      * @param scope Escopo que será aplicado no elemento
      */
-    addScope(element: any, scope: Scope){
-        if(element && element.nodeName) element[Constants.SCOPE_ATTRIBUTE_NAME] = scope;
+    public addScope(element: any, scope: Scope) {
+        if (element && element.nodeName) { element[Constants.SCOPE_ATTRIBUTE_NAME] = scope; }
     }
-    
-    $on = (evtName, callback) => {
+
+    public $on = (evtName, callback) => {
         this.watchers.push({ evtName, callback });
     }
 
-    $emit = (evtName, ...args) => {
+    public $emit = (evtName, ...args) => {
         this.watchers
-        .filter(watcher => watcher.evtName == evtName)
-        .forEach(watcher => {
+        .filter((watcher) => watcher.evtName == evtName)
+        .forEach((watcher) => {
             watcher.callback.call(...args);
         });
     }
-    
+
 }
