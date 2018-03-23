@@ -62,3 +62,10 @@ describe('test method will test all the getAttribute functions', () => {
         expect(Common.getAttributeCpStyle(element)).toEqual('myVariable');
     });
 });
+
+describe('',() => {
+   let element = document.createElement('h1');
+   it('Should contain the getScope element', () => {
+        expect(Common.getScope(element)).toEqual(Common.getScope(element))
+   })
+});

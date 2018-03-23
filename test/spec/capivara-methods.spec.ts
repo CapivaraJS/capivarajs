@@ -98,11 +98,11 @@ describe('test method copy', () => {
     let person = {
         name: 'Bob',
         lastName: 'Smith'
-    }
+    };
     let otherPerson = {
         name: 'Mark',
         lastName: 'Smith'
-    }
+    };
     it('Should not be a copy', () => {
         expect(capivara.copy(person)).not.toEqual(otherPerson)
     });
@@ -114,10 +114,10 @@ describe('test method copy', () => {
 describe('test method merge', () => {
     let person = {
         name: 'Bob',
-    }
+    };
     let samePerson = {
         lastName: 'Smith'
-    }
+    };
     it('Should not be a merge, in this case the object will be attributed to the first object', () => {
         expect(capivara.merge(person, samePerson)).not.toEqual(samePerson)
     });

@@ -60,6 +60,7 @@ export namespace Common {
     }
 
     export function getScope(element) {
+        console.log(element);
         return element[Constants.SCOPE_ATTRIBUTE_NAME];
     }
 
