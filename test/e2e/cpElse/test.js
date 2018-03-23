@@ -18,7 +18,6 @@ module.exports = {
 								browser.pause(1000);
 								console.log('Falhou!!!');
 								browser.waitForElementVisible('div', 10);
-
 							}
 						});
 				}
