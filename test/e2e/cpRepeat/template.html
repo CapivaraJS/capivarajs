@@ -21,6 +21,8 @@
                     [[pessoa.nome]]
                 </li>
             </ul>
+            <button type="button" cp-click="$ctrl.add()">Adicionar Pessoa</button>
+            
         `,
             controller: function () {
                 const $ctrl = this;
@@ -29,6 +31,11 @@
                     { nome: 'João' },
                     { nome: 'Maria' }
                 ]
+                
+                $ctrl.add = function(){
+                    console.log($ctrl.pessoas)
+                $ctrl.pessoas.push({nome:'Jão'})
+                }
             }
         });
 

@@ -1,49 +1,101 @@
-19:26:52.373 INFO - Selenium build info: version: '3.0.1', revision: '1969d75'
-19:26:52.374 INFO - Launching a standalone Selenium Server
-2018-03-22 19:26:52.392:INFO::main: Logging initialized @286ms
-19:26:52.455 INFO - Driver provider org.openqa.selenium.ie.InternetExplorerDriver registration is skipped:
- registration capabilities Capabilities [{ensureCleanSession=true, browserName=internet explorer, version=, platform=WINDOWS}] does not match the current platform LINUX
-19:26:52.455 INFO - Driver provider org.openqa.selenium.edge.EdgeDriver registration is skipped:
- registration capabilities Capabilities [{browserName=MicrosoftEdge, version=, platform=WINDOWS}] does not match the current platform LINUX
-19:26:52.455 INFO - Driver class not found: com.opera.core.systems.OperaDriver
-19:26:52.455 INFO - Driver provider com.opera.core.systems.OperaDriver registration is skipped:
+20:49:08.067 INFO - Selenium build info: version: '3.0.1', revision: '1969d75'
+20:49:08.067 INFO - Launching a standalone Selenium Server
+2018-03-22 20:49:08.081:INFO::main: Logging initialized @196ms
+20:49:08.126 INFO - Driver class not found: com.opera.core.systems.OperaDriver
+20:49:08.127 INFO - Driver provider com.opera.core.systems.OperaDriver registration is skipped:
 Unable to create new instances on this machine.
-19:26:52.456 INFO - Driver class not found: com.opera.core.systems.OperaDriver
-19:26:52.456 INFO - Driver provider com.opera.core.systems.OperaDriver is not registered
-19:26:52.457 INFO - Driver provider org.openqa.selenium.safari.SafariDriver registration is skipped:
- registration capabilities Capabilities [{browserName=safari, version=, platform=MAC}] does not match the current platform LINUX
-2018-03-22 19:26:52.491:INFO:osjs.Server:main: jetty-9.2.15.v20160210
-2018-03-22 19:26:52.516:INFO:osjsh.ContextHandler:main: Started o.s.j.s.ServletContextHandler@9629756{/,null,AVAILABLE}
-2018-03-22 19:26:52.529:INFO:osjs.ServerConnector:main: Started ServerConnector@4f945033{HTTP/1.1}{0.0.0.0:5555}
-2018-03-22 19:26:52.530:INFO:osjs.Server:main: Started @424ms
-19:26:52.531 INFO - Selenium Server is up and running
-19:26:52.757 INFO - SessionCleaner initialized with insideBrowserTimeout 0 and clientGoneTimeout 1800000 polling every 180000
-19:26:52.795 INFO - Executing: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]])
-19:26:52.812 INFO - Creating a new session for Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]
-Starting ChromeDriver 2.35.528139 (47ead77cb35ad2a9a83248b292151462a66cd881) on port 27530
-Only local connections are allowed.
-19:26:53.189 INFO - Attempting bi-dialect session, assuming Postel's Law holds true on the remote end
-19:26:53.992 INFO - Detected dialect: OSS
-19:26:54.015 INFO - Done: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]]
-19:26:54.036 INFO - Executing: [set window size])
-19:26:54.162 INFO - Done: [set window size]
-19:26:54.171 INFO - Executing: [get: http://localhost:1111/test/e2e/cpShow/template.html])
-19:26:55.385 INFO - Done: [get: http://localhost:1111/test/e2e/cpShow/template.html]
-19:26:55.395 INFO - Executing: [find elements: By.cssSelector: button])
-19:26:55.454 INFO - Done: [find elements: By.cssSelector: button]
-19:26:55.458 INFO - Executing: [is displayed: 0 [[ChromeDriver: chrome on LINUX (81a3853a23452ecd26d95c27f2c00058)] -> css selector: button]])
-19:26:55.485 INFO - Done: [is displayed: 0 [[ChromeDriver: chrome on LINUX (81a3853a23452ecd26d95c27f2c00058)] -> css selector: button]]
-19:26:56.499 INFO - Executing: [find element: By.cssSelector: button])
-19:26:56.528 INFO - Done: [find element: By.cssSelector: button]
-19:26:56.539 INFO - Executing: [get text: 0 [[ChromeDriver: chrome on LINUX (81a3853a23452ecd26d95c27f2c00058)] -> css selector: button]])
-19:26:56.570 INFO - Done: [get text: 0 [[ChromeDriver: chrome on LINUX (81a3853a23452ecd26d95c27f2c00058)] -> css selector: button]]
-19:26:56.577 INFO - Executing: [find element: By.cssSelector: button])
-19:26:56.592 INFO - Done: [find element: By.cssSelector: button]
-19:26:56.598 INFO - Executing: [click: 0 [[ChromeDriver: chrome on LINUX (81a3853a23452ecd26d95c27f2c00058)] -> css selector: button]])
-19:26:56.673 INFO - Done: [click: 0 [[ChromeDriver: chrome on LINUX (81a3853a23452ecd26d95c27f2c00058)] -> css selector: button]]
-19:26:57.684 INFO - Executing: [find element: By.cssSelector: h1])
-19:26:57.713 INFO - Done: [find element: By.cssSelector: h1]
-19:26:57.719 INFO - Executing: [get text: 1 [[ChromeDriver: chrome on LINUX (81a3853a23452ecd26d95c27f2c00058)] -> css selector: h1]])
-19:26:57.751 INFO - Done: [get text: 1 [[ChromeDriver: chrome on LINUX (81a3853a23452ecd26d95c27f2c00058)] -> css selector: h1]]
-19:26:58.761 INFO - Executing: [delete session: fc2eb2a9-bc75-4957-ab97-edcbeb544267])
-19:26:58.834 INFO - Done: [delete session: fc2eb2a9-bc75-4957-ab97-edcbeb544267]
+20:49:08.127 INFO - Driver class not found: com.opera.core.systems.OperaDriver
+20:49:08.127 INFO - Driver provider com.opera.core.systems.OperaDriver is not registered
+20:49:08.132 INFO - Driver provider org.openqa.selenium.safari.SafariDriver registration is skipped:
+ registration capabilities Capabilities [{browserName=safari, version=, platform=MAC}] does not match the current platform VISTA
+2018-03-22 20:49:08.163:INFO:osjs.Server:main: jetty-9.2.15.v20160210
+2018-03-22 20:49:08.182:INFO:osjsh.ContextHandler:main: Started o.s.j.s.ServletContextHandler@9629756{/,null,AVAILABLE}
+2018-03-22 20:49:08.249:INFO:osjs.ServerConnector:main: Started ServerConnector@2c73f4ae{HTTP/1.1}{0.0.0.0:5555}
+2018-03-22 20:49:08.249:INFO:osjs.Server:main: Started @363ms
+20:49:08.249 INFO - Selenium Server is up and running
+20:49:08.442 INFO - SessionCleaner initialized with insideBrowserTimeout 0 and clientGoneTimeout 1800000 polling every 180000
+20:49:08.469 INFO - Executing: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]])
+20:49:08.474 INFO - Creating a new session for Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]
+20:49:28.714 ERROR - org.apache.commons.exec.ExecuteException: Execution failed (Exit value: -559038737. Caused by java.io.IOException: Cannot run program "C:\Users\Penis\Desktop\GitHub\capivarajs\bin\chromedriver" (in directory "."): CreateProcess error=193, %1 n�o � um aplicativo Win32 v�lido)
+20:49:28.717 WARN - Exception thrown
+java.util.concurrent.ExecutionException: org.openqa.selenium.WebDriverException: java.lang.reflect.InvocationTargetException
+Build info: version: '3.0.1', revision: '1969d75', time: '2016-10-18 09:48:19 -0700'
+System info: host: 'CAIO-PC', ip: '192.168.15.4', os.name: 'Windows 7', os.arch: 'amd64', os.version: '6.1', java.version: '1.8.0_121'
+Driver info: driver.version: unknown
+	at java.util.concurrent.FutureTask.report(Unknown Source)
+	at java.util.concurrent.FutureTask.get(Unknown Source)
+	at org.openqa.selenium.remote.server.DefaultSession.execute(DefaultSession.java:183)
+	at org.openqa.selenium.remote.server.DefaultSession.<init>(DefaultSession.java:119)
+	at org.openqa.selenium.remote.server.DefaultSession.createSession(DefaultSession.java:95)
+	at org.openqa.selenium.remote.server.DefaultDriverSessions.newSession(DefaultDriverSessions.java:131)
+	at org.openqa.selenium.remote.server.handler.NewSession.handle(NewSession.java:59)
+	at org.openqa.selenium.remote.server.handler.NewSession.handle(NewSession.java:36)
+	at org.openqa.selenium.remote.server.rest.ResultConfig.handle(ResultConfig.java:111)
+	at org.openqa.selenium.remote.server.JsonHttpCommandHandler.handleRequest(JsonHttpCommandHandler.java:189)
+	at org.openqa.selenium.remote.server.DriverServlet.handleRequest(DriverServlet.java:222)
+	at org.openqa.selenium.remote.server.DriverServlet.doPost(DriverServlet.java:184)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:707)
+	at org.openqa.selenium.remote.server.DriverServlet.service(DriverServlet.java:150)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:790)
+	at org.seleniumhq.jetty9.servlet.ServletHolder.handle(ServletHolder.java:808)
+	at org.seleniumhq.jetty9.servlet.ServletHandler.doHandle(ServletHandler.java:587)
+	at org.seleniumhq.jetty9.server.handler.ContextHandler.doHandle(ContextHandler.java:1127)
+	at org.seleniumhq.jetty9.servlet.ServletHandler.doScope(ServletHandler.java:515)
+	at org.seleniumhq.jetty9.server.handler.ContextHandler.doScope(ContextHandler.java:1061)
+	at org.seleniumhq.jetty9.server.handler.ScopedHandler.handle(ScopedHandler.java:141)
+	at org.seleniumhq.jetty9.server.handler.HandlerWrapper.handle(HandlerWrapper.java:97)
+	at org.seleniumhq.jetty9.server.Server.handle(Server.java:499)
+	at org.seleniumhq.jetty9.server.HttpChannel.handle(HttpChannel.java:310)
+	at org.seleniumhq.jetty9.server.HttpConnection.onFillable(HttpConnection.java:257)
+	at org.seleniumhq.jetty9.io.AbstractConnection$2.run(AbstractConnection.java:540)
+	at org.seleniumhq.jetty9.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:635)
+	at org.seleniumhq.jetty9.util.thread.QueuedThreadPool$3.run(QueuedThreadPool.java:555)
+	at java.lang.Thread.run(Unknown Source)
+Caused by: org.openqa.selenium.WebDriverException: java.lang.reflect.InvocationTargetException
+Build info: version: '3.0.1', revision: '1969d75', time: '2016-10-18 09:48:19 -0700'
+System info: host: 'CAIO-PC', ip: '192.168.15.4', os.name: 'Windows 7', os.arch: 'amd64', os.version: '6.1', java.version: '1.8.0_121'
+Driver info: driver.version: unknown
+	at org.openqa.selenium.remote.server.DefaultDriverProvider.callConstructor(DefaultDriverProvider.java:113)
+	at org.openqa.selenium.remote.server.DefaultDriverProvider.newInstance(DefaultDriverProvider.java:97)
+	at org.openqa.selenium.remote.server.DefaultDriverFactory.newInstance(DefaultDriverFactory.java:60)
+	at org.openqa.selenium.remote.server.DefaultSession$BrowserCreator.call(DefaultSession.java:222)
+	at org.openqa.selenium.remote.server.DefaultSession$BrowserCreator.call(DefaultSession.java:209)
+	at java.util.concurrent.FutureTask.run(Unknown Source)
+	at org.openqa.selenium.remote.server.DefaultSession$1.run(DefaultSession.java:176)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	... 1 more
+Caused by: java.lang.reflect.InvocationTargetException
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(Unknown Source)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(Unknown Source)
+	at java.lang.reflect.Constructor.newInstance(Unknown Source)
+	at org.openqa.selenium.remote.server.DefaultDriverProvider.callConstructor(DefaultDriverProvider.java:103)
+	... 9 more
+Caused by: org.openqa.selenium.WebDriverException: Timed out waiting for driver server to start.
+Build info: version: '3.0.1', revision: '1969d75', time: '2016-10-18 09:48:19 -0700'
+System info: host: 'CAIO-PC', ip: '192.168.15.4', os.name: 'Windows 7', os.arch: 'amd64', os.version: '6.1', java.version: '1.8.0_121'
+Driver info: driver.version: ChromeDriver
+	at org.openqa.selenium.remote.service.DriverService.waitUntilAvailable(DriverService.java:178)
+	at org.openqa.selenium.remote.service.DriverService.start(DriverService.java:166)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:78)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:601)
+	at org.openqa.selenium.remote.RemoteWebDriver.startSession(RemoteWebDriver.java:241)
+	at org.openqa.selenium.remote.RemoteWebDriver.<init>(RemoteWebDriver.java:128)
+	at org.openqa.selenium.remote.RemoteWebDriver.<init>(RemoteWebDriver.java:141)
+	at org.openqa.selenium.chrome.ChromeDriver.<init>(ChromeDriver.java:174)
+	at org.openqa.selenium.chrome.ChromeDriver.<init>(ChromeDriver.java:142)
+	... 14 more
+Caused by: org.openqa.selenium.net.UrlChecker$TimeoutException: Timed out waiting for [http://localhost:41543/status] to be available after 20001 ms
+	at org.openqa.selenium.net.UrlChecker.waitUntilAvailable(UrlChecker.java:107)
+	at org.openqa.selenium.remote.service.DriverService.waitUntilAvailable(DriverService.java:175)
+	... 22 more
+Caused by: com.google.common.util.concurrent.UncheckedTimeoutException: java.util.concurrent.TimeoutException
+	at com.google.common.util.concurrent.SimpleTimeLimiter.callWithTimeout(SimpleTimeLimiter.java:143)
+	at org.openqa.selenium.net.UrlChecker.waitUntilAvailable(UrlChecker.java:80)
+	... 23 more
+Caused by: java.util.concurrent.TimeoutException
+	at java.util.concurrent.FutureTask.get(Unknown Source)
+	at com.google.common.util.concurrent.SimpleTimeLimiter.callWithTimeout(SimpleTimeLimiter.java:130)
+	... 24 more
+20:49:28.725 WARN - Exception: null
