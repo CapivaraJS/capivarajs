@@ -13,7 +13,6 @@ describe('test method evalInContext', () => {
     it('Should return object first name and last name', () => {
         expect(Common.evalInContext('firstName + \' \' + lastName', person)).toEqual(person.firstName + ' ' + person.lastName);
     });
-
     it('Should return the sum of the values', () => {
         expect(Common.evalInContext('numberOne + numberTwo', { numberOne: 10, numberTwo: 20 })).toEqual(30);
     });
@@ -30,10 +29,9 @@ describe('test method evalInContext', () => {
     it('Should return the value of the math operation', () => {
         expect(Common.evalInContext('numberOne + ((10 * numberTwo) / 25)', { numberOne: 70, numberTwo: 80 })).toEqual(102);
     })
-
 });
 
-describe('test method getAttributeCpShow', () => {
+describe('test method will test all the getAttribute functions', () => {
     let element = document.createElement('div');
     element.setAttribute('cp-show', 'myVariable');
     it('Should contain the attribute cp-show', () => {
