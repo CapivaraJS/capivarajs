@@ -1,4 +1,3 @@
-import { eventNames } from 'cluster';
 import { Constants } from '../constants';
 import { MapDom } from '../map/map-dom';
 
@@ -29,7 +28,7 @@ export class Scope {
     }
 
     public createWatcherScope() {
-        Object['observe'](this.scope, (changes) => this.mapDom.reload());
+        Object['observe'](this.scope, () => this.mapDom.reload());
     }
 
     /** #Mudar não poderia ser adicionar a referencia do scope do componente no elemento do componente
@@ -47,7 +46,7 @@ export class Scope {
 
     public $emit = (evtName, ...args) => {
         this.watchers
-        .filter((watcher) => watcher.evtName == evtName)
+        .filter((watcher) => watcher.evtName === evtName)
         .forEach((watcher) => {
             watcher.callback.call(...args);
         });
