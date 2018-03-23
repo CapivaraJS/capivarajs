@@ -1,7 +1,6 @@
 import * as _ from 'lodash';
-import { MapDom } from '../map-dom';
 import { Common } from '../../common';
-import { Constants } from '../../constants';
+import { MapDom } from '../map-dom';
 
 export class CPStyle {
 
@@ -23,22 +22,22 @@ export class CPStyle {
         });
     }
 
-    init() {
+    public init() {
         try {
             this.attribute.split(',')
-                .map(attr => {
+                .map((attr) => {
                     return {
                         key: attr.substring(0, attr.indexOf(':')).replace(/'/g, "").replace(/"/, '').replace(/{/g, '').replace(/}/, ''),
-                        value: Common.evalInContext(attr.substring(attr.indexOf(':') + 1, attr.length).replace(/{/g, '').replace(/}/, ''), Common.getScope(this.element).scope)
-                    }
+                        value: Common.evalInContext(attr.substring(attr.indexOf(':') + 1, attr.length).replace(/{/g, '').replace(/}/, ''), Common.getScope(this.element).scope),
+                    };
                 })
-                .forEach(style => {
+                .forEach((style) => {
                     this.element.style.setProperty(style.key.replace(/ /g, ''), style.value);
                 });
         } catch (e) {
             const result = Common.executeFunctionCallback(this.element, this.attribute);
             if (result && window['capivara'].isObject(result)) {
-                Object.keys(result).forEach(key => {
+                Object.keys(result).forEach((key) => {
                     this.element.style.setProperty(key.replace(/ /g, ''), result[key]);
                 });
             }

@@ -2,14 +2,11 @@ import {Component} from "./component";
 import {Constants} from "./constants";
 import {Controller} from "./controller";
 
-// tslint:disable-next-line:no-var-requires
 const packageJson = require("../package.json");
 
-// tslint:disable-next-line:only-arrow-functions
 (function(capivara) {
     if (!capivara) {
 
-        // tslint:disable-next-line:no-string-literal
         window["capivara"] = {
             /**
              * @name capivara.components
@@ -34,17 +31,17 @@ const packageJson = require("../package.json");
              */
             componentBuilder(hashName) {
                 let elms = window["capivara"].isElement(hashName) ? [hashName] : Array.from(document.querySelectorAll("[\\#" + hashName + "]"));
-                if (elms.length == 0) console.error("CapivaraJS did not find its component with the hash " + hashName);
-                let instance = undefined;
+                if (elms.length === 0) { console.error("CapivaraJS did not find its component with the hash " + hashName); }
+                let instance;
                 const findElementAndCreateInstance = () => {
                     elms = window["capivara"].isElement(hashName) ? [hashName] : Array.from(document.querySelectorAll("[\\#" + hashName + "]"));
                     elms.forEach((elm) => {
-                        let component = window["capivara"].components[elm.nodeName];
+                        const component = window["capivara"].components[elm.nodeName];
                         if (!component) {
                             console.error("We did not find a registered entry under the name: " + elm.nodeName);
                             return;
                         }
-                        if (!instance) instance = component.createNewInstance(elm);
+                        if (!instance) { instance = component.createNewInstance(elm); }
                     });
                     return instance;
                 };
@@ -154,7 +151,6 @@ const packageJson = require("../package.json");
         };
         document.addEventListener("DOMNodeRemoved", (evt) => window["capivara"].$emit("DOMNodeRemoved", evt));
     } else {
-        // tslint:disable-next-line:no-console
         console.warn("CapivaraJS tried to load more than once.");
     }
 
