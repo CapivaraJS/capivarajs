@@ -1,3 +1,4 @@
+
 module.exports = {
 	'cpElse': function (browser) {
 		browser.resizeWindow(1920, 1080);
