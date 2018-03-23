@@ -5,9 +5,9 @@
 
   <testsuite name="index"
     errors="0" failures="0" hostname="" id="" package="index" skipped="0"
-    tests="1" time="5.051" timestamp="Thu, 22 Mar 2018 21:17:41 GMT">
+    tests="1" time="8.009" timestamp="Fri, 23 Mar 2018 15:16:13 GMT">
   
-    <testcase name="Hello" classname="index" time="5.051" assertions="1">
+    <testcase name="cpInit" classname="index" time="8.009" assertions="1">
 
     
     </testcase>

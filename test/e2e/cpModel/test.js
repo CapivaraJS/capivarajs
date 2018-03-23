@@ -4,12 +4,14 @@ module.exports = {
         browser
             .url('http://localhost:1111/test/e2e/cpModel/template.html')
             .waitForElementVisible('p', 10000)
+            .pause(1000)
             .getText('p', function (results) {
                 if (results.value === 'Mateus') {
                     browser
-                        .setValue('input', 'Ronaldo')
+                        .setValue('input', ' Ronaldo')
+                        .pause(1500)
                         .getText('p', function (results) {
-                            if (results.value === 'Ronaldo') {
+                            if (results.value === 'Mateus Ronaldo') {
                                 console.log('Passou no Teste');
                                 browser
                                     .pause(1000);
