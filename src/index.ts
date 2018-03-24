@@ -111,11 +111,11 @@ const packageJson = require("../package.json");
              * @description Faz a junção de objetos em um único objeto.
              */
             merge(...args) {
-                return (Object.assign.apply as any)(...args);
+                return (Object.assign as any)(...args);
             },
             /**
              * @name capivara,copy
-             * @description Faz a copia de um objeto para que seja perdida a referência.
+             * @description Faz a copia de um objeto para que seja criada a referência.
              */
             copy(value) {
                 return Object.assign(value);

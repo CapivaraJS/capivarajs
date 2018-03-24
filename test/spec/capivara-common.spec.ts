@@ -12,7 +12,6 @@ describe('test method evalInContext', () => {
     it('Should return object first name and last name', () => {
         expect(Common.evalInContext('firstName + \' \' + lastName', person)).toEqual(person.firstName + ' ' + person.lastName);
     });
-
     it('Should return the sum of the values', () => {
         expect(Common.evalInContext('numberOne + numberTwo', { numberOne: 10, numberTwo: 20 })).toEqual(30);
     });
@@ -32,8 +31,8 @@ describe('test method evalInContext', () => {
 
 });
 
-describe('test method getAttributeCpShow', () => {
-    const element = document.createElement('div');
+describe('test method will test all the getAttribute functions', () => {
+    let element = document.createElement('div');
     element.setAttribute('cp-show', 'myVariable');
     it('Should contain the attribute cp-show', () => {
         expect(Common.getAttributeCpShow(element)).toEqual('myVariable');
@@ -54,4 +53,33 @@ describe('test method getAttributeCpShow', () => {
     it('Should contain the attribute cp-init', () => {
         expect(Common.getAttributeCpInit(element)).toEqual('myVariable');
     });
+    element.setAttribute('cp-class', 'myVariable');
+    it('Should contain the attribute cp-class', () => {
+        expect(Common.getAttributeCpClass(element)).toEqual('myVariable');
+    });
+    element.setAttribute('cp-style', 'myVariable');
+    it('Should contain the attribute cp-style', () => {
+        expect(Common.getAttributeCpStyle(element)).toEqual('myVariable');
+    });
 });
+
+describe('This will test the scope function', () => {
+    let element = document.createElement('div');
+    element.id = 'elementDiv';
+    element.innerHTML = '<p>Sample example</p>';
+    document.body.appendChild(element);
+    let otherElement = document.createElement('div');
+    otherElement.id = 'otherElementDiv';
+    element.innerHTML = '<p>This is Other sample example</p>';
+    document.body.appendChild(otherElement);
+    
+    let scope = Common.getScope(element);
+
+    it('Should not contain the getScope element', () =>{
+        expect(Common.getScope(element)).not.toEqual(otherElement);
+    });
+    it('Should contain the getScope element', () => {
+        expect(Common.getScope(element)).toEqual(scope);
+    });
+});
+
