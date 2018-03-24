@@ -10,44 +10,34 @@
 
 <body>
 
-    <my-component #myComponent></my-component>
+<my-component #myComponent></my-component>
 
-    <script src="/dist/capivara.js"></script>
-    <script>
-        capivara.component('my-component', {
-            template: `
+<script src="/dist/capivara.js"></script>
+<script>
+    capivara.component('my-component', {
+        template: `
             <ul>
-                <li cp-repeat="pessoa in $ctrl.pessoas">
-                    <button cp-click="$ctrl.teste(pessoa)">[[pessoa.nome]]</button>
+                <li cp-repeat="person in $ctrl.persons">
+                    <p id="p3" >[[person.name]]</p>
                 </li>
             </ul>
-            <button type="button" cp-click="$ctrl.add()">Adicionar Pessoa</button>
-            
+            <button type="button" cp-click="$ctrl.add()">Add Anna</button>
         `,
-            controller: function (scope) {
-                const $ctrl = this;
-                
-                $ctrl.pessoas = [
-                    { nome: 'João' },
-                    { nome: 'Maria' }
-                ];
-                
-                $ctrl.entity = {
-                    pessoas: []
-                }
+        controller: function () {
+            const $ctrl = this;
 
-                $ctrl.teste = pessoa => {
-                    console.log(pessoa);
-                }
+            $ctrl.persons = [
+                { name: 'John' },
+                { name: 'Bob' }
+            ];
 
-                $ctrl.add = function(){
-                    $ctrl.pessoas.push({nome:'Jão'})
-                }
-            }
-        });
-
-        capivara.componentBuilder('myComponent').build();
-    </script>
+            $ctrl.add = function(){
+                $ctrl.persons.push({name:'Anna'});
+            };
+        }
+    });
+    capivara.componentBuilder('myComponent').build();
+</script>
 </body>
 
 </html>
