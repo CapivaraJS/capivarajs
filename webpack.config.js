@@ -20,7 +20,7 @@ if (isProduction()) {
 }
 
 module.exports = function (env) {
-    if(env.tests){
+    if(env && env.tests){
         plugins.push(
             new WebpackNightWatchPlugin({
                 url: './nightwatch.conf.js'

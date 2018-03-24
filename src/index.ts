@@ -1,3 +1,4 @@
+import 'object.observe';
 import {Component} from "./component";
 import {Constants} from "./constants";
 import {Controller} from "./controller";

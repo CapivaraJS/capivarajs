@@ -36,7 +36,7 @@ export class ComponentInstance {
         if (this.destroyed) {
             if (this.config.controller) {
                 this.componentScope[this.config.controllerAs] = new this.config.controller(this.componentScope);
-                WatchJS.watch(this.componentScope, this.config.controllerAs, () => {
+                Object['observe'](this.componentScope[this.config.controllerAs], (changes) => {
                     Common.getScope(this.element).mapDom.reload();
                 });
             }
