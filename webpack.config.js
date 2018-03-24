@@ -1,6 +1,5 @@
 const path = require('path');
 const WebpackNightWatchPlugin = require('./webpack-nightwatch-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const argv = require('yargs').argv;
 
@@ -8,12 +7,7 @@ const baseName = "capivara";
 
 const isProduction = () => process.env.NODE_ENV == 'production';
 
-const extractSass = new ExtractTextPlugin({
-    filename: isProduction() ? baseName + ".min.css" : baseName + ".css",
-    allChunks: true
-});
-
-let plugins = [extractSass];
+let plugins = [];
 
 if (isProduction()) {
     plugins.push(new UglifyJSPlugin());
@@ -46,29 +40,6 @@ module.exports = function (env) {
         module: {
             rules: [
                 {
-                    test: /\.(html)$/,
-                    use: {
-                        loader: 'html-loader'
-                    }
-                },
-                {
-                    test: /\.css$/,
-                    use: ExtractTextPlugin.extract({
-                        use: 'css-loader'
-                    })
-                },
-                {
-                    test: /\.scss$/,
-                    use: extractSass.extract({
-                        use: [{
-                            loader: "css-loader"
-                        }, {
-                            loader: "sass-loader"
-                        }],
-                        fallback: "style-loader"
-                    })
-                },
-                {
                     test: /\.tsx?$/,
                     use: 'ts-loader',
                     exclude: /node_modules/
@@ -81,10 +52,6 @@ module.exports = function (env) {
                             loader: 'babel-loader'
                         }
                     ]
-                },
-                {
-                    test: /\.(jpe?g|png|gif|svg|eot|woff2|woff|ttf)$/i,
-                    use: "file-loader?name=assets/[name].[ext]"
                 }
             ]
         }
