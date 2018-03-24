@@ -1,142 +1,256 @@
-15:32:07.500 INFO - Selenium build info: version: '3.0.1', revision: '1969d75'
-15:32:07.532 INFO - Launching a standalone Selenium Server
-2018-03-23 15:32:08.087:INFO::main: Logging initialized @3388ms
-15:32:08.691 INFO - Driver provider org.openqa.selenium.ie.InternetExplorerDriver registration is skipped:
+08:51:14.550 INFO - Selenium build info: version: '3.0.1', revision: '1969d75'
+08:51:14.550 INFO - Launching a standalone Selenium Server
+2018-03-24 08:51:14.569:INFO::main: Logging initialized @285ms
+08:51:14.622 INFO - Driver provider org.openqa.selenium.ie.InternetExplorerDriver registration is skipped:
  registration capabilities Capabilities [{ensureCleanSession=true, browserName=internet explorer, version=, platform=WINDOWS}] does not match the current platform LINUX
-15:32:08.692 INFO - Driver provider org.openqa.selenium.edge.EdgeDriver registration is skipped:
+08:51:14.623 INFO - Driver provider org.openqa.selenium.edge.EdgeDriver registration is skipped:
  registration capabilities Capabilities [{browserName=MicrosoftEdge, version=, platform=WINDOWS}] does not match the current platform LINUX
-15:32:08.692 INFO - Driver class not found: com.opera.core.systems.OperaDriver
-15:32:08.692 INFO - Driver provider com.opera.core.systems.OperaDriver registration is skipped:
+08:51:14.623 INFO - Driver class not found: com.opera.core.systems.OperaDriver
+08:51:14.623 INFO - Driver provider com.opera.core.systems.OperaDriver registration is skipped:
 Unable to create new instances on this machine.
-15:32:08.692 INFO - Driver class not found: com.opera.core.systems.OperaDriver
-15:32:08.693 INFO - Driver provider com.opera.core.systems.OperaDriver is not registered
-15:32:08.694 INFO - Driver provider org.openqa.selenium.safari.SafariDriver registration is skipped:
+08:51:14.623 INFO - Driver class not found: com.opera.core.systems.OperaDriver
+08:51:14.624 INFO - Driver provider com.opera.core.systems.OperaDriver is not registered
+08:51:14.625 INFO - Driver provider org.openqa.selenium.safari.SafariDriver registration is skipped:
  registration capabilities Capabilities [{browserName=safari, version=, platform=MAC}] does not match the current platform LINUX
-2018-03-23 15:32:09.180:INFO:osjs.Server:main: jetty-9.2.15.v20160210
-2018-03-23 15:32:09.303:INFO:osjsh.ContextHandler:main: Started o.s.j.s.ServletContextHandler@9629756{/,null,AVAILABLE}
-2018-03-23 15:32:09.439:INFO:osjs.ServerConnector:main: Started ServerConnector@8bd1b6a{HTTP/1.1}{0.0.0.0:5555}
-2018-03-23 15:32:09.440:INFO:osjs.Server:main: Started @4741ms
-15:32:09.441 INFO - Selenium Server is up and running
-15:32:11.149 INFO - SessionCleaner initialized with insideBrowserTimeout 0 and clientGoneTimeout 1800000 polling every 180000
-15:32:11.326 INFO - Executing: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]])
-15:32:11.510 INFO - Creating a new session for Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]
-Starting ChromeDriver 2.35.528139 (47ead77cb35ad2a9a83248b292151462a66cd881) on port 6435
+2018-03-24 08:51:14.660:INFO:osjs.Server:main: jetty-9.2.15.v20160210
+2018-03-24 08:51:14.693:INFO:osjsh.ContextHandler:main: Started o.s.j.s.ServletContextHandler@9629756{/,null,AVAILABLE}
+2018-03-24 08:51:14.705:INFO:osjs.ServerConnector:main: Started ServerConnector@4ca9ab13{HTTP/1.1}{0.0.0.0:5555}
+2018-03-24 08:51:14.705:INFO:osjs.Server:main: Started @422ms
+08:51:14.705 INFO - Selenium Server is up and running
+08:51:14.927 INFO - SessionCleaner initialized with insideBrowserTimeout 0 and clientGoneTimeout 1800000 polling every 180000
+08:51:14.958 INFO - Executing: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]])
+08:51:14.975 INFO - Creating a new session for Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]
+Starting ChromeDriver 2.35.528139 (47ead77cb35ad2a9a83248b292151462a66cd881) on port 25665
 Only local connections are allowed.
-15:32:14.060 INFO - Attempting bi-dialect session, assuming Postel's Law holds true on the remote end
-15:32:23.984 INFO - Detected dialect: OSS
-15:32:24.026 INFO - Done: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]]
-15:32:24.055 INFO - Executing: [set window size])
-15:32:24.220 INFO - Done: [set window size]
-15:32:24.229 INFO - Executing: [get: http://localhost:1111/test/e2e/cpClass/template.html])
-15:32:25.765 INFO - Done: [get: http://localhost:1111/test/e2e/cpClass/template.html]
-15:32:25.779 INFO - Executing: [find elements: By.cssSelector: p])
-15:32:25.837 INFO - Done: [find elements: By.cssSelector: p]
-15:32:25.843 INFO - Executing: [is displayed: 0 [[ChromeDriver: chrome on LINUX (9a76bc09a80f332ef8d977fd758e6cf8)] -> css selector: p]])
-15:32:25.862 INFO - Done: [is displayed: 0 [[ChromeDriver: chrome on LINUX (9a76bc09a80f332ef8d977fd758e6cf8)] -> css selector: p]]
-15:32:26.873 INFO - Executing: [find element: By.cssSelector: button])
-15:32:26.895 INFO - Done: [find element: By.cssSelector: button]
-15:32:26.899 INFO - Executing: [click: 1 [[ChromeDriver: chrome on LINUX (9a76bc09a80f332ef8d977fd758e6cf8)] -> css selector: button]])
-15:32:26.954 INFO - Done: [click: 1 [[ChromeDriver: chrome on LINUX (9a76bc09a80f332ef8d977fd758e6cf8)] -> css selector: button]]
-15:32:28.461 INFO - Executing: [find element: By.cssSelector: p.democlass])
-15:32:28.481 INFO - Done: [find element: By.cssSelector: p.democlass]
-15:32:28.484 INFO - Executing: [is displayed: 0 [[ChromeDriver: chrome on LINUX (9a76bc09a80f332ef8d977fd758e6cf8)] -> css selector: p]])
-15:32:28.496 INFO - Done: [is displayed: 0 [[ChromeDriver: chrome on LINUX (9a76bc09a80f332ef8d977fd758e6cf8)] -> css selector: p]]
-15:32:29.504 INFO - Executing: [delete session: 82542d3f-707b-4703-b0fd-f25085261159])
-15:32:29.641 INFO - Done: [delete session: 82542d3f-707b-4703-b0fd-f25085261159]
-15:32:29.660 INFO - Executing: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]])
-15:32:29.661 INFO - Creating a new session for Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]
-Starting ChromeDriver 2.35.528139 (47ead77cb35ad2a9a83248b292151462a66cd881) on port 21289
+08:51:15.360 INFO - Attempting bi-dialect session, assuming Postel's Law holds true on the remote end
+08:51:16.107 INFO - Detected dialect: OSS
+08:51:16.132 INFO - Done: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]]
+08:51:16.156 INFO - Executing: [set window size])
+08:51:16.278 INFO - Done: [set window size]
+08:51:16.287 INFO - Executing: [get: http://localhost:1111/test/e2e/cpClass/template.html])
+08:51:17.494 INFO - Done: [get: http://localhost:1111/test/e2e/cpClass/template.html]
+08:51:17.505 INFO - Executing: [find elements: By.cssSelector: p])
+08:51:17.565 INFO - Done: [find elements: By.cssSelector: p]
+08:51:17.572 INFO - Executing: [is displayed: 0 [[ChromeDriver: chrome on LINUX (19310ce0b5021fb3397ab2331ec499df)] -> css selector: p]])
+08:51:17.596 INFO - Done: [is displayed: 0 [[ChromeDriver: chrome on LINUX (19310ce0b5021fb3397ab2331ec499df)] -> css selector: p]]
+08:51:18.610 INFO - Executing: [find element: By.cssSelector: button])
+08:51:18.639 INFO - Done: [find element: By.cssSelector: button]
+08:51:18.651 INFO - Executing: [click: 1 [[ChromeDriver: chrome on LINUX (19310ce0b5021fb3397ab2331ec499df)] -> css selector: button]])
+08:51:18.723 INFO - Done: [click: 1 [[ChromeDriver: chrome on LINUX (19310ce0b5021fb3397ab2331ec499df)] -> css selector: button]]
+08:51:20.235 INFO - Executing: [find element: By.cssSelector: p.democlass])
+08:51:20.264 INFO - Done: [find element: By.cssSelector: p.democlass]
+08:51:20.269 INFO - Executing: [is displayed: 0 [[ChromeDriver: chrome on LINUX (19310ce0b5021fb3397ab2331ec499df)] -> css selector: p]])
+08:51:20.285 INFO - Done: [is displayed: 0 [[ChromeDriver: chrome on LINUX (19310ce0b5021fb3397ab2331ec499df)] -> css selector: p]]
+08:51:21.295 INFO - Executing: [delete session: 16a4f254-77cb-4ecf-986e-bc2eb433f937])
+08:51:21.372 INFO - Done: [delete session: 16a4f254-77cb-4ecf-986e-bc2eb433f937]
+08:51:21.382 INFO - Executing: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]])
+08:51:21.385 INFO - Creating a new session for Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]
+Starting ChromeDriver 2.35.528139 (47ead77cb35ad2a9a83248b292151462a66cd881) on port 12661
 Only local connections are allowed.
-15:32:29.679 INFO - Attempting bi-dialect session, assuming Postel's Law holds true on the remote end
-15:32:30.728 INFO - Detected dialect: OSS
-15:32:30.735 INFO - Done: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]]
-15:32:30.756 INFO - Executing: [set window size])
-15:32:30.900 INFO - Done: [set window size]
-15:32:30.908 INFO - Executing: [get: http://localhost:1111/test/e2e/cpClick/template.html])
-15:32:33.026 INFO - Done: [get: http://localhost:1111/test/e2e/cpClick/template.html]
-15:32:33.039 INFO - Executing: [find elements: By.cssSelector: button])
-15:32:33.056 INFO - Done: [find elements: By.cssSelector: button]
-15:32:33.060 INFO - Executing: [is displayed: 0 [[ChromeDriver: chrome on LINUX (8254a34d97f1cbe853f5b4a205379f9f)] -> css selector: button]])
-15:32:33.079 INFO - Done: [is displayed: 0 [[ChromeDriver: chrome on LINUX (8254a34d97f1cbe853f5b4a205379f9f)] -> css selector: button]]
-15:32:34.089 INFO - Executing: [find element: By.cssSelector: button])
-15:32:34.108 INFO - Done: [find element: By.cssSelector: button]
-15:32:34.113 INFO - Executing: [get text: 0 [[ChromeDriver: chrome on LINUX (8254a34d97f1cbe853f5b4a205379f9f)] -> css selector: button]])
-15:32:34.133 INFO - Done: [get text: 0 [[ChromeDriver: chrome on LINUX (8254a34d97f1cbe853f5b4a205379f9f)] -> css selector: button]]
-15:32:34.137 INFO - Executing: [find element: By.cssSelector: button])
-15:32:34.147 INFO - Done: [find element: By.cssSelector: button]
-15:32:34.151 INFO - Executing: [click: 0 [[ChromeDriver: chrome on LINUX (8254a34d97f1cbe853f5b4a205379f9f)] -> css selector: button]])
-15:32:34.202 INFO - Done: [click: 0 [[ChromeDriver: chrome on LINUX (8254a34d97f1cbe853f5b4a205379f9f)] -> css selector: button]]
-15:32:35.211 INFO - Executing: [find element: By.cssSelector: button])
-15:32:35.224 INFO - Done: [find element: By.cssSelector: button]
-15:32:35.228 INFO - Executing: [get text: 0 [[ChromeDriver: chrome on LINUX (8254a34d97f1cbe853f5b4a205379f9f)] -> css selector: button]])
-15:32:35.240 INFO - Done: [get text: 0 [[ChromeDriver: chrome on LINUX (8254a34d97f1cbe853f5b4a205379f9f)] -> css selector: button]]
-15:32:36.248 INFO - Executing: [delete session: 9f9856db-c584-4476-808e-4e0359c61e25])
-15:32:36.318 INFO - Done: [delete session: 9f9856db-c584-4476-808e-4e0359c61e25]
-15:32:36.327 INFO - Executing: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]])
-15:32:36.330 INFO - Creating a new session for Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]
-Starting ChromeDriver 2.35.528139 (47ead77cb35ad2a9a83248b292151462a66cd881) on port 31905
+08:51:21.401 INFO - Attempting bi-dialect session, assuming Postel's Law holds true on the remote end
+08:51:22.135 INFO - Detected dialect: OSS
+08:51:22.141 INFO - Done: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]]
+08:51:22.151 INFO - Executing: [set window size])
+08:51:22.271 INFO - Done: [set window size]
+08:51:22.276 INFO - Executing: [get: http://localhost:1111/test/e2e/cpClick/template.html])
+08:51:23.503 INFO - Done: [get: http://localhost:1111/test/e2e/cpClick/template.html]
+08:51:23.510 INFO - Executing: [find elements: By.cssSelector: button])
+08:51:23.551 INFO - Done: [find elements: By.cssSelector: button]
+08:51:23.556 INFO - Executing: [is displayed: 0 [[ChromeDriver: chrome on LINUX (5835ee19962e28a498128bf10e63652f)] -> css selector: button]])
+08:51:23.580 INFO - Done: [is displayed: 0 [[ChromeDriver: chrome on LINUX (5835ee19962e28a498128bf10e63652f)] -> css selector: button]]
+08:51:24.589 INFO - Executing: [find element: By.cssSelector: button])
+08:51:24.617 INFO - Done: [find element: By.cssSelector: button]
+08:51:24.623 INFO - Executing: [get text: 0 [[ChromeDriver: chrome on LINUX (5835ee19962e28a498128bf10e63652f)] -> css selector: button]])
+08:51:24.657 INFO - Done: [get text: 0 [[ChromeDriver: chrome on LINUX (5835ee19962e28a498128bf10e63652f)] -> css selector: button]]
+08:51:24.663 INFO - Executing: [find element: By.cssSelector: button])
+08:51:24.679 INFO - Done: [find element: By.cssSelector: button]
+08:51:24.683 INFO - Executing: [click: 0 [[ChromeDriver: chrome on LINUX (5835ee19962e28a498128bf10e63652f)] -> css selector: button]])
+08:51:24.752 INFO - Done: [click: 0 [[ChromeDriver: chrome on LINUX (5835ee19962e28a498128bf10e63652f)] -> css selector: button]]
+08:51:25.761 INFO - Executing: [find element: By.cssSelector: button])
+08:51:25.778 INFO - Done: [find element: By.cssSelector: button]
+08:51:25.783 INFO - Executing: [get text: 0 [[ChromeDriver: chrome on LINUX (5835ee19962e28a498128bf10e63652f)] -> css selector: button]])
+08:51:25.801 INFO - Done: [get text: 0 [[ChromeDriver: chrome on LINUX (5835ee19962e28a498128bf10e63652f)] -> css selector: button]]
+08:51:26.808 INFO - Executing: [delete session: 84978548-9ebb-42a7-8bc4-1c6b0a5c178b])
+08:51:26.887 INFO - Done: [delete session: 84978548-9ebb-42a7-8bc4-1c6b0a5c178b]
+08:51:26.894 INFO - Executing: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]])
+08:51:26.895 INFO - Creating a new session for Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]
+Starting ChromeDriver 2.35.528139 (47ead77cb35ad2a9a83248b292151462a66cd881) on port 8321
 Only local connections are allowed.
-15:32:36.375 INFO - Attempting bi-dialect session, assuming Postel's Law holds true on the remote end
-15:32:37.206 INFO - Detected dialect: OSS
-15:32:37.211 INFO - Done: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]]
-15:32:37.217 INFO - Executing: [set window size])
-15:32:37.340 INFO - Done: [set window size]
-15:32:37.349 INFO - Executing: [get: http://localhost:1111/test/e2e/cpElse/template.html])
-15:32:39.242 INFO - Done: [get: http://localhost:1111/test/e2e/cpElse/template.html]
-15:32:39.258 INFO - Executing: [find elements: By.cssSelector: button])
-15:32:39.295 INFO - Done: [find elements: By.cssSelector: button]
-15:32:39.298 INFO - Executing: [is displayed: 0 [[ChromeDriver: chrome on LINUX (5afe7864cb02a1cf2f74ea35233edee4)] -> css selector: button]])
-15:32:39.315 INFO - Done: [is displayed: 0 [[ChromeDriver: chrome on LINUX (5afe7864cb02a1cf2f74ea35233edee4)] -> css selector: button]]
-15:32:40.324 INFO - Executing: [find element: By.cssSelector: button])
-15:32:40.342 INFO - Done: [find element: By.cssSelector: button]
-15:32:40.346 INFO - Executing: [get text: 0 [[ChromeDriver: chrome on LINUX (5afe7864cb02a1cf2f74ea35233edee4)] -> css selector: button]])
-15:32:40.367 INFO - Done: [get text: 0 [[ChromeDriver: chrome on LINUX (5afe7864cb02a1cf2f74ea35233edee4)] -> css selector: button]]
-15:32:40.372 INFO - Executing: [find element: By.cssSelector: button])
-15:32:40.382 INFO - Done: [find element: By.cssSelector: button]
-15:32:40.386 INFO - Executing: [click: 0 [[ChromeDriver: chrome on LINUX (5afe7864cb02a1cf2f74ea35233edee4)] -> css selector: button]])
-15:32:40.433 INFO - Done: [click: 0 [[ChromeDriver: chrome on LINUX (5afe7864cb02a1cf2f74ea35233edee4)] -> css selector: button]]
-15:32:41.442 INFO - Executing: [find element: By.cssSelector: h1])
-15:32:41.462 INFO - Done: [find element: By.cssSelector: h1]
-15:32:41.466 INFO - Executing: [get text: 1 [[ChromeDriver: chrome on LINUX (5afe7864cb02a1cf2f74ea35233edee4)] -> css selector: h1]])
-15:32:41.489 INFO - Done: [get text: 1 [[ChromeDriver: chrome on LINUX (5afe7864cb02a1cf2f74ea35233edee4)] -> css selector: h1]]
-15:32:42.496 INFO - Executing: [delete session: 5e4fc712-2e37-40c1-9b6d-7d3b41ea389d])
-15:32:42.570 INFO - Done: [delete session: 5e4fc712-2e37-40c1-9b6d-7d3b41ea389d]
-15:32:42.584 INFO - Executing: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]])
-15:32:42.586 INFO - Creating a new session for Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]
-Starting ChromeDriver 2.35.528139 (47ead77cb35ad2a9a83248b292151462a66cd881) on port 4282
+08:51:26.910 INFO - Attempting bi-dialect session, assuming Postel's Law holds true on the remote end
+08:51:27.639 INFO - Detected dialect: OSS
+08:51:27.644 INFO - Done: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]]
+08:51:27.650 INFO - Executing: [set window size])
+08:51:27.765 INFO - Done: [set window size]
+08:51:27.771 INFO - Executing: [get: http://localhost:1111/test/e2e/cpElse/template.html])
+08:51:29.149 INFO - Done: [get: http://localhost:1111/test/e2e/cpElse/template.html]
+08:51:29.154 INFO - Executing: [find elements: By.cssSelector: button])
+08:51:29.186 INFO - Done: [find elements: By.cssSelector: button]
+08:51:29.191 INFO - Executing: [is displayed: 0 [[ChromeDriver: chrome on LINUX (e5e703f17e6b79fbf7eb9ed45dfbfdd3)] -> css selector: button]])
+08:51:29.217 INFO - Done: [is displayed: 0 [[ChromeDriver: chrome on LINUX (e5e703f17e6b79fbf7eb9ed45dfbfdd3)] -> css selector: button]]
+08:51:30.226 INFO - Executing: [find element: By.cssSelector: button])
+08:51:30.249 INFO - Done: [find element: By.cssSelector: button]
+08:51:30.254 INFO - Executing: [get text: 0 [[ChromeDriver: chrome on LINUX (e5e703f17e6b79fbf7eb9ed45dfbfdd3)] -> css selector: button]])
+08:51:30.285 INFO - Done: [get text: 0 [[ChromeDriver: chrome on LINUX (e5e703f17e6b79fbf7eb9ed45dfbfdd3)] -> css selector: button]]
+08:51:30.291 INFO - Executing: [find element: By.cssSelector: button])
+08:51:30.307 INFO - Done: [find element: By.cssSelector: button]
+08:51:30.311 INFO - Executing: [click: 0 [[ChromeDriver: chrome on LINUX (e5e703f17e6b79fbf7eb9ed45dfbfdd3)] -> css selector: button]])
+08:51:30.377 INFO - Done: [click: 0 [[ChromeDriver: chrome on LINUX (e5e703f17e6b79fbf7eb9ed45dfbfdd3)] -> css selector: button]]
+08:51:31.384 INFO - Executing: [find element: By.cssSelector: h1])
+08:51:31.411 INFO - Done: [find element: By.cssSelector: h1]
+08:51:31.414 INFO - Executing: [get text: 1 [[ChromeDriver: chrome on LINUX (e5e703f17e6b79fbf7eb9ed45dfbfdd3)] -> css selector: h1]])
+08:51:31.442 INFO - Done: [get text: 1 [[ChromeDriver: chrome on LINUX (e5e703f17e6b79fbf7eb9ed45dfbfdd3)] -> css selector: h1]]
+08:51:32.449 INFO - Executing: [delete session: 5b20ba63-372d-429e-a2e8-193d443cefc9])
+08:51:32.522 INFO - Done: [delete session: 5b20ba63-372d-429e-a2e8-193d443cefc9]
+08:51:32.531 INFO - Executing: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]])
+08:51:32.532 INFO - Creating a new session for Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]
+Starting ChromeDriver 2.35.528139 (47ead77cb35ad2a9a83248b292151462a66cd881) on port 5660
 Only local connections are allowed.
-15:32:42.600 INFO - Attempting bi-dialect session, assuming Postel's Law holds true on the remote end
-15:32:43.446 INFO - Detected dialect: OSS
-15:32:43.456 INFO - Done: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]]
-15:32:43.470 INFO - Executing: [set window size])
-15:32:43.596 INFO - Done: [set window size]
-15:32:43.605 INFO - Executing: [get: http://localhost:1111/test/e2e/cpElseIf/template.html])
-15:32:45.403 INFO - Done: [get: http://localhost:1111/test/e2e/cpElseIf/template.html]
-15:32:45.415 INFO - Executing: [find elements: By.cssSelector: button])
-15:32:45.455 INFO - Done: [find elements: By.cssSelector: button]
-15:32:45.459 INFO - Executing: [is displayed: 0 [[ChromeDriver: chrome on LINUX (98252d985b1cb79d96789f87ddb66c75)] -> css selector: button]])
-15:32:45.480 INFO - Done: [is displayed: 0 [[ChromeDriver: chrome on LINUX (98252d985b1cb79d96789f87ddb66c75)] -> css selector: button]]
-15:32:46.489 INFO - Executing: [find element: By.cssSelector: button])
-15:32:46.507 INFO - Done: [find element: By.cssSelector: button]
-15:32:46.510 INFO - Executing: [get text: 0 [[ChromeDriver: chrome on LINUX (98252d985b1cb79d96789f87ddb66c75)] -> css selector: button]])
-15:32:46.532 INFO - Done: [get text: 0 [[ChromeDriver: chrome on LINUX (98252d985b1cb79d96789f87ddb66c75)] -> css selector: button]]
-15:32:46.535 INFO - Executing: [find element: By.cssSelector: button])
-15:32:46.545 INFO - Done: [find element: By.cssSelector: button]
-15:32:46.548 INFO - Executing: [click: 0 [[ChromeDriver: chrome on LINUX (98252d985b1cb79d96789f87ddb66c75)] -> css selector: button]])
-15:32:46.599 INFO - Done: [click: 0 [[ChromeDriver: chrome on LINUX (98252d985b1cb79d96789f87ddb66c75)] -> css selector: button]]
-15:32:47.607 INFO - Executing: [find element: By.cssSelector: button])
-15:32:47.621 INFO - Done: [find element: By.cssSelector: button]
-15:32:47.624 INFO - Executing: [get text: 0 [[ChromeDriver: chrome on LINUX (98252d985b1cb79d96789f87ddb66c75)] -> css selector: button]])
-15:32:47.636 INFO - Done: [get text: 0 [[ChromeDriver: chrome on LINUX (98252d985b1cb79d96789f87ddb66c75)] -> css selector: button]]
-15:32:47.641 INFO - Executing: [find element: By.cssSelector: button])
-15:32:47.653 INFO - Done: [find element: By.cssSelector: button]
-15:32:47.656 INFO - Executing: [click: 0 [[ChromeDriver: chrome on LINUX (98252d985b1cb79d96789f87ddb66c75)] -> css selector: button]])
-15:32:47.682 INFO - Done: [click: 0 [[ChromeDriver: chrome on LINUX (98252d985b1cb79d96789f87ddb66c75)] -> css selector: button]]
-15:32:48.690 INFO - Executing: [find element: By.cssSelector: h1])
-15:32:48.715 INFO - Done: [find element: By.cssSelector: h1]
-15:32:48.718 INFO - Executing: [get text: 1 [[ChromeDriver: chrome on LINUX (98252d985b1cb79d96789f87ddb66c75)] -> css selector: h1]])
-15:32:48.737 INFO - Done: [get text: 1 [[ChromeDriver: chrome on LINUX (98252d985b1cb79d96789f87ddb66c75)] -> css selector: h1]]
-15:32:49.747 INFO - Executing: [find elements: By.cssSelector: div])
-15:32:49.769 INFO - Done: [find elements: By.cssSelector: div]
-15:32:49.774 INFO - Executing: [delete session: 30bfec39-5b14-4927-b062-ccb192d34f8f])
-15:32:49.846 INFO - Done: [delete session: 30bfec39-5b14-4927-b062-ccb192d34f8f]
+08:51:32.547 INFO - Attempting bi-dialect session, assuming Postel's Law holds true on the remote end
+08:51:33.265 INFO - Detected dialect: OSS
+08:51:33.267 INFO - Done: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]]
+08:51:33.275 INFO - Executing: [set window size])
+08:51:33.395 INFO - Done: [set window size]
+08:51:33.400 INFO - Executing: [get: http://localhost:1111/test/e2e/cpIf/template.html])
+08:51:34.706 INFO - Done: [get: http://localhost:1111/test/e2e/cpIf/template.html]
+08:51:34.711 INFO - Executing: [find elements: By.cssSelector: button])
+08:51:34.747 INFO - Done: [find elements: By.cssSelector: button]
+08:51:34.751 INFO - Executing: [is displayed: 0 [[ChromeDriver: chrome on LINUX (3dc4696707a7a0f36d5d8893b7a4210a)] -> css selector: button]])
+08:51:34.776 INFO - Done: [is displayed: 0 [[ChromeDriver: chrome on LINUX (3dc4696707a7a0f36d5d8893b7a4210a)] -> css selector: button]]
+08:51:35.785 INFO - Executing: [find element: By.cssSelector: button])
+08:51:35.811 INFO - Done: [find element: By.cssSelector: button]
+08:51:35.815 INFO - Executing: [get text: 0 [[ChromeDriver: chrome on LINUX (3dc4696707a7a0f36d5d8893b7a4210a)] -> css selector: button]])
+08:51:35.843 INFO - Done: [get text: 0 [[ChromeDriver: chrome on LINUX (3dc4696707a7a0f36d5d8893b7a4210a)] -> css selector: button]]
+08:51:35.848 INFO - Executing: [find element: By.cssSelector: button])
+08:51:35.865 INFO - Done: [find element: By.cssSelector: button]
+08:51:35.868 INFO - Executing: [click: 0 [[ChromeDriver: chrome on LINUX (3dc4696707a7a0f36d5d8893b7a4210a)] -> css selector: button]])
+08:51:35.935 INFO - Done: [click: 0 [[ChromeDriver: chrome on LINUX (3dc4696707a7a0f36d5d8893b7a4210a)] -> css selector: button]]
+08:51:36.943 INFO - Executing: [find element: By.cssSelector: h1])
+08:51:36.971 INFO - Done: [find element: By.cssSelector: h1]
+08:51:36.975 INFO - Executing: [get text: 1 [[ChromeDriver: chrome on LINUX (3dc4696707a7a0f36d5d8893b7a4210a)] -> css selector: h1]])
+08:51:37.005 INFO - Done: [get text: 1 [[ChromeDriver: chrome on LINUX (3dc4696707a7a0f36d5d8893b7a4210a)] -> css selector: h1]]
+08:51:38.012 INFO - Executing: [delete session: 7be28a50-41f1-4051-8b14-593c1ae2736d])
+08:51:38.086 INFO - Done: [delete session: 7be28a50-41f1-4051-8b14-593c1ae2736d]
+08:51:38.094 INFO - Executing: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]])
+08:51:38.096 INFO - Creating a new session for Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]
+Starting ChromeDriver 2.35.528139 (47ead77cb35ad2a9a83248b292151462a66cd881) on port 25622
+Only local connections are allowed.
+08:51:38.109 INFO - Attempting bi-dialect session, assuming Postel's Law holds true on the remote end
+08:51:38.841 INFO - Detected dialect: OSS
+08:51:38.843 INFO - Done: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]]
+08:51:38.850 INFO - Executing: [set window size])
+08:51:38.971 INFO - Done: [set window size]
+08:51:38.977 INFO - Executing: [get: http://localhost:1111/test/e2e/cpInit/template.html])
+08:51:40.250 INFO - Done: [get: http://localhost:1111/test/e2e/cpInit/template.html]
+08:51:40.255 INFO - Executing: [find elements: By.cssSelector: h1])
+08:51:40.301 INFO - Done: [find elements: By.cssSelector: h1]
+08:51:40.304 INFO - Executing: [is displayed: 0 [[ChromeDriver: chrome on LINUX (ffa20cee0764e8881ffb273b8bf7ed5c)] -> css selector: h1]])
+08:51:40.329 INFO - Done: [is displayed: 0 [[ChromeDriver: chrome on LINUX (ffa20cee0764e8881ffb273b8bf7ed5c)] -> css selector: h1]]
+08:51:41.337 INFO - Executing: [find element: By.cssSelector: h1])
+08:51:41.364 INFO - Done: [find element: By.cssSelector: h1]
+08:51:41.367 INFO - Executing: [get text: 0 [[ChromeDriver: chrome on LINUX (ffa20cee0764e8881ffb273b8bf7ed5c)] -> css selector: h1]])
+08:51:41.396 INFO - Done: [get text: 0 [[ChromeDriver: chrome on LINUX (ffa20cee0764e8881ffb273b8bf7ed5c)] -> css selector: h1]]
+08:51:45.405 INFO - Executing: [find element: By.cssSelector: h1])
+08:51:45.422 INFO - Done: [find element: By.cssSelector: h1]
+08:51:45.425 INFO - Executing: [get text: 0 [[ChromeDriver: chrome on LINUX (ffa20cee0764e8881ffb273b8bf7ed5c)] -> css selector: h1]])
+08:51:45.441 INFO - Done: [get text: 0 [[ChromeDriver: chrome on LINUX (ffa20cee0764e8881ffb273b8bf7ed5c)] -> css selector: h1]]
+08:51:46.463 INFO - Executing: [delete session: 6ae6a6c4-919c-40c2-9e64-b78af7119a06])
+08:51:46.534 INFO - Done: [delete session: 6ae6a6c4-919c-40c2-9e64-b78af7119a06]
+08:51:46.540 INFO - Executing: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]])
+08:51:46.541 INFO - Creating a new session for Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]
+Starting ChromeDriver 2.35.528139 (47ead77cb35ad2a9a83248b292151462a66cd881) on port 32553
+Only local connections are allowed.
+08:51:46.554 INFO - Attempting bi-dialect session, assuming Postel's Law holds true on the remote end
+08:51:47.246 INFO - Detected dialect: OSS
+08:51:47.247 INFO - Done: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]]
+08:51:47.252 INFO - Executing: [set window size])
+08:51:47.377 INFO - Done: [set window size]
+08:51:47.383 INFO - Executing: [get: http://localhost:1111/test/e2e/cpModel/template.html])
+08:51:48.678 INFO - Done: [get: http://localhost:1111/test/e2e/cpModel/template.html]
+08:51:48.683 INFO - Executing: [find elements: By.cssSelector: p])
+08:51:48.732 INFO - Done: [find elements: By.cssSelector: p]
+08:51:48.735 INFO - Executing: [is displayed: 0 [[ChromeDriver: chrome on LINUX (a8ea293a9d06956c2639e5418375ccf9)] -> css selector: p]])
+08:51:48.760 INFO - Done: [is displayed: 0 [[ChromeDriver: chrome on LINUX (a8ea293a9d06956c2639e5418375ccf9)] -> css selector: p]]
+08:51:49.767 INFO - Executing: [find element: By.cssSelector: p])
+08:51:49.797 INFO - Done: [find element: By.cssSelector: p]
+08:51:49.800 INFO - Executing: [get text: 0 [[ChromeDriver: chrome on LINUX (a8ea293a9d06956c2639e5418375ccf9)] -> css selector: p]])
+08:51:49.829 INFO - Done: [get text: 0 [[ChromeDriver: chrome on LINUX (a8ea293a9d06956c2639e5418375ccf9)] -> css selector: p]]
+08:51:49.835 INFO - Executing: [find element: By.cssSelector: input])
+08:51:49.864 INFO - Done: [find element: By.cssSelector: input]
+08:51:49.869 INFO - Executing: [send keys: 1 [[ChromeDriver: chrome on LINUX (a8ea293a9d06956c2639e5418375ccf9)] -> css selector: input], [ , R, o, n, a, l, d, o]])
+08:51:49.955 INFO - Done: [send keys: 1 [[ChromeDriver: chrome on LINUX (a8ea293a9d06956c2639e5418375ccf9)] -> css selector: input], [ , R, o, n, a, l, d, o]]
+08:51:51.461 INFO - Executing: [find element: By.cssSelector: p])
+08:51:51.480 INFO - Done: [find element: By.cssSelector: p]
+08:51:51.483 INFO - Executing: [get text: 0 [[ChromeDriver: chrome on LINUX (a8ea293a9d06956c2639e5418375ccf9)] -> css selector: p]])
+08:51:51.500 INFO - Done: [get text: 0 [[ChromeDriver: chrome on LINUX (a8ea293a9d06956c2639e5418375ccf9)] -> css selector: p]]
+08:51:52.507 INFO - Executing: [delete session: 07ba9369-99eb-41ee-83a9-d0bd4bb7a2c5])
+08:51:52.579 INFO - Done: [delete session: 07ba9369-99eb-41ee-83a9-d0bd4bb7a2c5]
+08:51:52.586 INFO - Executing: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]])
+08:51:52.587 INFO - Creating a new session for Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]
+Starting ChromeDriver 2.35.528139 (47ead77cb35ad2a9a83248b292151462a66cd881) on port 15343
+Only local connections are allowed.
+08:51:52.600 INFO - Attempting bi-dialect session, assuming Postel's Law holds true on the remote end
+08:51:53.299 INFO - Detected dialect: OSS
+08:51:53.300 INFO - Done: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]]
+08:51:53.304 INFO - Executing: [set window size])
+08:51:53.436 INFO - Done: [set window size]
+08:51:53.440 INFO - Executing: [get: http://localhost:1111/test/e2e/cpShow/template.html])
+08:51:55.166 INFO - Done: [get: http://localhost:1111/test/e2e/cpShow/template.html]
+08:51:55.172 INFO - Executing: [find elements: By.cssSelector: button])
+08:51:55.196 INFO - Done: [find elements: By.cssSelector: button]
+08:51:55.199 INFO - Executing: [is displayed: 0 [[ChromeDriver: chrome on LINUX (6eb589f6501e385f5ea06add3732f3b6)] -> css selector: button]])
+08:51:55.224 INFO - Done: [is displayed: 0 [[ChromeDriver: chrome on LINUX (6eb589f6501e385f5ea06add3732f3b6)] -> css selector: button]]
+08:51:56.231 INFO - Executing: [find element: By.cssSelector: button])
+08:51:56.259 INFO - Done: [find element: By.cssSelector: button]
+08:51:56.262 INFO - Executing: [get text: 0 [[ChromeDriver: chrome on LINUX (6eb589f6501e385f5ea06add3732f3b6)] -> css selector: button]])
+08:51:56.286 INFO - Done: [get text: 0 [[ChromeDriver: chrome on LINUX (6eb589f6501e385f5ea06add3732f3b6)] -> css selector: button]]
+08:51:56.291 INFO - Executing: [find element: By.cssSelector: button])
+08:51:56.303 INFO - Done: [find element: By.cssSelector: button]
+08:51:56.306 INFO - Executing: [click: 0 [[ChromeDriver: chrome on LINUX (6eb589f6501e385f5ea06add3732f3b6)] -> css selector: button]])
+08:51:56.358 INFO - Done: [click: 0 [[ChromeDriver: chrome on LINUX (6eb589f6501e385f5ea06add3732f3b6)] -> css selector: button]]
+08:51:57.365 INFO - Executing: [find element: By.cssSelector: h1])
+08:51:57.393 INFO - Done: [find element: By.cssSelector: h1]
+08:51:57.397 INFO - Executing: [get text: 1 [[ChromeDriver: chrome on LINUX (6eb589f6501e385f5ea06add3732f3b6)] -> css selector: h1]])
+08:51:57.426 INFO - Done: [get text: 1 [[ChromeDriver: chrome on LINUX (6eb589f6501e385f5ea06add3732f3b6)] -> css selector: h1]]
+08:51:58.433 INFO - Executing: [delete session: 6125c87c-5195-4536-9f5a-a11601928d9c])
+08:51:58.506 INFO - Done: [delete session: 6125c87c-5195-4536-9f5a-a11601928d9c]
+08:51:58.512 INFO - Executing: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]])
+08:51:58.514 INFO - Creating a new session for Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]
+Starting ChromeDriver 2.35.528139 (47ead77cb35ad2a9a83248b292151462a66cd881) on port 8248
+Only local connections are allowed.
+08:51:58.528 INFO - Attempting bi-dialect session, assuming Postel's Law holds true on the remote end
+08:51:59.240 INFO - Detected dialect: OSS
+08:51:59.241 INFO - Done: [new session: Capabilities [{acceptSslCerts=true, name=Index, browserName=chrome, javascriptEnabled=true, platform=ANY}]]
+08:51:59.259 INFO - Executing: [set window size])
+08:51:59.375 INFO - Done: [set window size]
+08:51:59.379 INFO - Executing: [get: http://localhost:1111/test/e2e/cpStyle/template.html])
+08:52:00.723 INFO - Done: [get: http://localhost:1111/test/e2e/cpStyle/template.html]
+08:52:01.729 INFO - Executing: [find elements: By.cssSelector: h1])
+08:52:01.755 INFO - Done: [find elements: By.cssSelector: h1]
+08:52:01.758 INFO - Executing: [is displayed: 0 [[ChromeDriver: chrome on LINUX (8224796ccd0a94808ae99de56591f599)] -> css selector: h1]])
+08:52:01.785 INFO - Done: [is displayed: 0 [[ChromeDriver: chrome on LINUX (8224796ccd0a94808ae99de56591f599)] -> css selector: h1]]
+08:52:01.789 INFO - Executing: [find element: By.cssSelector: h1])
+08:52:01.811 INFO - Done: [find element: By.cssSelector: h1]
+08:52:01.814 INFO - Executing: [get value of css property: 0 [[ChromeDriver: chrome on LINUX (8224796ccd0a94808ae99de56591f599)] -> css selector: h1], color])
+08:52:01.829 INFO - Done: [get value of css property: 0 [[ChromeDriver: chrome on LINUX (8224796ccd0a94808ae99de56591f599)] -> css selector: h1], color]
+08:52:02.836 INFO - Executing: [find element: By.cssSelector: button[id="btn1"]])
+08:52:02.865 INFO - Done: [find element: By.cssSelector: button[id="btn1"]]
+08:52:02.868 INFO - Executing: [click: 1 [[ChromeDriver: chrome on LINUX (8224796ccd0a94808ae99de56591f599)] -> css selector: button[id="btn1"]]])
+08:52:02.943 INFO - Done: [click: 1 [[ChromeDriver: chrome on LINUX (8224796ccd0a94808ae99de56591f599)] -> css selector: button[id="btn1"]]]
+08:52:03.950 INFO - Executing: [find element: By.cssSelector: h1])
+08:52:03.967 INFO - Done: [find element: By.cssSelector: h1]
+08:52:03.971 INFO - Executing: [get value of css property: 0 [[ChromeDriver: chrome on LINUX (8224796ccd0a94808ae99de56591f599)] -> css selector: h1], color])
+08:52:03.984 INFO - Done: [get value of css property: 0 [[ChromeDriver: chrome on LINUX (8224796ccd0a94808ae99de56591f599)] -> css selector: h1], color]
+08:52:04.990 INFO - Executing: [find element: By.cssSelector: p#p1])
+08:52:05.019 INFO - Done: [find element: By.cssSelector: p#p1]
+08:52:05.022 INFO - Executing: [get value of css property: 2 [[ChromeDriver: chrome on LINUX (8224796ccd0a94808ae99de56591f599)] -> css selector: p#p1], background])
+08:52:05.041 INFO - Done: [get value of css property: 2 [[ChromeDriver: chrome on LINUX (8224796ccd0a94808ae99de56591f599)] -> css selector: p#p1], background]
+08:52:06.050 INFO - Executing: [find element: By.cssSelector: button[id="btn2"]])
+08:52:06.076 INFO - Done: [find element: By.cssSelector: button[id="btn2"]]
+08:52:06.079 INFO - Executing: [click: 3 [[ChromeDriver: chrome on LINUX (8224796ccd0a94808ae99de56591f599)] -> css selector: button[id="btn2"]]])
+08:52:06.142 INFO - Done: [click: 3 [[ChromeDriver: chrome on LINUX (8224796ccd0a94808ae99de56591f599)] -> css selector: button[id="btn2"]]]
+08:52:07.146 INFO - Executing: [find element: By.cssSelector: p#p1])
+08:52:07.163 INFO - Done: [find element: By.cssSelector: p#p1]
+08:52:07.166 INFO - Executing: [get value of css property: 2 [[ChromeDriver: chrome on LINUX (8224796ccd0a94808ae99de56591f599)] -> css selector: p#p1], background])
+08:52:07.177 INFO - Done: [get value of css property: 2 [[ChromeDriver: chrome on LINUX (8224796ccd0a94808ae99de56591f599)] -> css selector: p#p1], background]
+08:52:08.185 INFO - Executing: [delete session: cbba2584-2eab-4fab-86ab-aa68001505e1])
+08:52:08.257 INFO - Done: [delete session: cbba2584-2eab-4fab-86ab-aa68001505e1]
