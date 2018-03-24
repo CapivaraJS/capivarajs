@@ -1,5 +1,5 @@
 module.exports = {
-	'Hello': function (browser) {
+	'cpShow': function (browser) {
 		browser.resizeWindow(1920, 1080);
 		browser
 			.url('http://localhost:1111/test/e2e/cpShow/template.html')
