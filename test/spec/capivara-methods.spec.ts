@@ -94,13 +94,13 @@ describe('test method replaceAll', () => {
 });
 
 describe('test method copy', () => {
-    let person = {
+    const person = {
         name: 'Bob',
-        lastName: 'Smith'
+        lastName: 'Smith',
     };
-    let otherPerson = {
+    const otherPerson = {
         name: 'Mark',
-        lastName: 'Smith'
+        lastName: 'Smith',
     };
     it('Should not be a copy', () => {
         expect(capivara.copy(person)).not.toEqual(otherPerson)
@@ -111,16 +111,16 @@ describe('test method copy', () => {
 });
 
 describe('test method merge', () => {
-    let person = {
+    const person = {
         name: 'Bob',
     };
-    let samePerson = {
-        lastName: 'Smith'
+    const samePerson = {
+        lastName: 'Smith',
     };
     it('Should not be a merge, in this case the object will be attributed to the first object', () => {
-        expect(capivara.merge(person, samePerson)).not.toEqual(samePerson)
+        expect(capivara.merge(person, samePerson)).not.toEqual(samePerson);
     });
     it('Should be a merge, the same here', () => {
-        expect(capivara.merge(person, samePerson)).toEqual(person)
+        expect(capivara.merge(person, samePerson)).toEqual(person);
    });
 });

@@ -15,7 +15,9 @@ export namespace Common {
                 if (firstKey && word && context && context.hasOwnProperty(firstKey)) {
                     word = word.split('(').join('').split(')').join('').replace(/!/g, '');
                     const value = _.get(context, word.replace(/ /g, ''));
-                    if (window['capivara'].isString(value)) {
+                    if (window['capivara'].isObject(value)) {
+                        source = value;
+                    } else if (window['capivara'].isString(value)) {
                         source = source.replace(word, value != null ? "'" + value + "'" : null);
                     } else {
                         source = source.replace(word, value != null ? value : null);
@@ -23,7 +25,10 @@ export namespace Common {
                 }
             });
         }
-        return eval(source.replace(/NaN/, 0));
+        if (window['capivara'].isString(source)) {
+            return eval(source.replace(/NaN/, 0));
+        }
+        return source;
     }
 
     export function getFirstKey(str: string) {
@@ -76,12 +81,15 @@ export namespace Common {
         const callback = getCallbackClick(element, attribute);
         if (callback && !isNative(callback)) {
             const params = attribute.substring(attribute.indexOf('(') + 1, attribute.length - 1), args = [];
-            const context = getScope(element);
+            let context = getScope(element);
             params.split(',').forEach((param) => {
                 const valueScope = evalInContext(param, context.scope);
                 args.push(valueScope === undefined ? evalInContext(param, context.scope) : valueScope);
             });
-            return callback.call(context.scope[context.mapDom.element.$instance.config.controllerAs], ...args);
+            if (context.mapDom.element.$instance) {
+                context = context.scope[context.mapDom.element.$instance.config.controllerAs];
+            }
+            return callback.call(context, ...args);
         }
     }
 

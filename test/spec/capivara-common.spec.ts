@@ -32,7 +32,7 @@ describe('test method evalInContext', () => {
 });
 
 describe('test method will test all the getAttribute functions', () => {
-    let element = document.createElement('div');
+    const element = document.createElement('div');
     element.setAttribute('cp-show', 'myVariable');
     it('Should contain the attribute cp-show', () => {
         expect(Common.getAttributeCpShow(element)).toEqual('myVariable');
@@ -64,22 +64,20 @@ describe('test method will test all the getAttribute functions', () => {
 });
 
 describe('This will test the scope function', () => {
-    let element = document.createElement('div');
+    const element = document.createElement('div');
     element.id = 'elementDiv';
     element.innerHTML = '<p>Sample example</p>';
     document.body.appendChild(element);
-    let otherElement = document.createElement('div');
+    const otherElement = document.createElement('div');
     otherElement.id = 'otherElementDiv';
     element.innerHTML = '<p>This is Other sample example</p>';
     document.body.appendChild(otherElement);
-    
-    let scope = Common.getScope(element);
+    const scope = Common.getScope(element);
 
-    it('Should not contain the getScope element', () =>{
+    it('Should not contain the getScope element', () => {
         expect(Common.getScope(element)).not.toEqual(otherElement);
     });
     it('Should contain the getScope element', () => {
         expect(Common.getScope(element)).toEqual(scope);
     });
 });
-

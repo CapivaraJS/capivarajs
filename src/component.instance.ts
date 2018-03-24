@@ -1,6 +1,5 @@
 import * as _ from 'lodash';
 import WatchJS from 'melanke-watchjs';
-import 'object.observe';
 import { Common } from './common';
 import { ComponentConfig } from './component.config';
 import { Constants } from './constants';
@@ -37,7 +36,7 @@ export class ComponentInstance {
         if (this.destroyed) {
             if (this.config.controller) {
                 this.componentScope[this.config.controllerAs] = new this.config.controller(this.componentScope);
-                Object['observe'](this.componentScope[this.config.controllerAs], () => {
+                WatchJS.watch(this.componentScope, this.config.controllerAs, () => {
                     Common.getScope(this.element).mapDom.reload();
                 });
             }

@@ -1,10 +1,10 @@
 import { Constants } from '../constants';
 import { MapDom } from '../map/map-dom';
-
+import { ScopeProxy } from './scope.proxy';
 export class Scope {
 
     // Dados disponíveis nesse escopo
-    public scope: any;
+    public scope: ScopeProxy;
 
     public $parent: Scope;
 
@@ -19,16 +19,11 @@ export class Scope {
         this.watchers = [];
         this.addScope(_element, this);
         this.mapDom = new MapDom(_element);
-        this.scope = {};
-        this.createWatcherScope();
+        this.scope = new ScopeProxy(this, this.mapDom, _element);
     }
 
     public getScopeProxy() {
         return this.scope;
-    }
-
-    public createWatcherScope() {
-        Object['observe'](this.scope, () => this.mapDom.reload());
     }
 
     /** #Mudar não poderia ser adicionar a referencia do scope do componente no elemento do componente
@@ -46,10 +41,10 @@ export class Scope {
 
     public $emit = (evtName, ...args) => {
         this.watchers
-        .filter((watcher) => watcher.evtName === evtName)
-        .forEach((watcher) => {
-            watcher.callback.call(...args);
-        });
+            .filter((watcher) => watcher.evtName === evtName)
+            .forEach((watcher) => {
+                watcher.callback.call(...args);
+            });
     }
 
 }
