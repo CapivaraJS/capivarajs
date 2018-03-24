@@ -18,17 +18,31 @@
             template: `
             <ul>
                 <li cp-repeat="pessoa in $ctrl.pessoas">
-                    [[pessoa.nome]]
+                    <button cp-click="$ctrl.teste(pessoa)">[[pessoa.nome]]</button>
                 </li>
             </ul>
+            <button type="button" cp-click="$ctrl.add()">Adicionar Pessoa</button>
+            
         `,
-            controller: function () {
+            controller: function (scope) {
                 const $ctrl = this;
-
+                
                 $ctrl.pessoas = [
                     { nome: 'João' },
                     { nome: 'Maria' }
-                ]
+                ];
+                
+                $ctrl.entity = {
+                    pessoas: []
+                }
+
+                $ctrl.teste = pessoa => {
+                    console.log(pessoa);
+                }
+
+                $ctrl.add = function(){
+                    $ctrl.pessoas.push({nome:'Jão'})
+                }
             }
         });
 

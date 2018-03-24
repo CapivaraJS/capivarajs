@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
-import {MapDom} from '../map-dom';
 import {Common} from '../../common';
 import {Constants} from '../../constants';
+import {MapDom} from '../map-dom';
 
 export class CPElse {
 
@@ -15,13 +15,13 @@ export class CPElse {
         Common.getScope(_element).$on('$onInit', () => {
             this.element = _element;
             if (Common.getAttributeCpElse(this.element)) {
-                throw `${Constants.ELSE_ATTRIBUTE_NAME} don't expect arguments`;
+                throw new Error(`${Constants.ELSE_ATTRIBUTE_NAME} don't expect arguments`);
             }
             this.prevElement = _element.previousSibling;
             this.parentCondition = Common.getScope(this.element).parentCondition;
             if (!this.parentCondition) {
-                throw `syntax error ${Constants.ELSE_ATTRIBUTE_NAME} used on element ` +
-                `<${this.element.nodeName.toLowerCase()}> without corresponding ${Constants.IF_ATTRIBUTE_NAME}.`;
+                throw new Error(`syntax error ${Constants.ELSE_ATTRIBUTE_NAME} used on element ` +
+                `<${this.element.nodeName.toLowerCase()}> without corresponding ${Constants.IF_ATTRIBUTE_NAME}.`);
 
             }
             this.map = _map;
@@ -30,9 +30,9 @@ export class CPElse {
         });
     }
 
-    hasValidCondition(_element, conditions) {
-        if (_element && ((_element.hasAttribute && _element.hasAttribute(Constants.IF_ATTRIBUTE_NAME)) || (_element.nodeType == 8 && _element.data.indexOf('cpIf') != -1))) {
-            return !((_element.nodeType == 8 && _element.data.indexOf('cpIf') != -1) && conditions.length == 0);
+    public hasValidCondition(_element, conditions) {
+        if (_element && ((_element.hasAttribute && _element.hasAttribute(Constants.IF_ATTRIBUTE_NAME)) || (_element.nodeType === 8 && _element.data.indexOf('cpIf') !== -1))) {
+            return !((_element.nodeType === 8 && _element.data.indexOf('cpIf') !== -1) && conditions.length === 0);
 
         }
         if (_element && _element.previousSibling) {
@@ -43,14 +43,14 @@ export class CPElse {
         }
     }
 
-    init() {
+    public init() {
         if (!this.element) {
             return;
         }
         try {
             Common.createElement(this.element, this.elementComment);
             if (this.hasValidCondition(this.element, [])) {
-                Common.destroyElement(this.element, this.elementComment)
+                Common.destroyElement(this.element, this.elementComment);
             }
         } catch (ex) {
             Common.destroyElement(this.element, this.elementComment);

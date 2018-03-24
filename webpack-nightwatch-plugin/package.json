@@ -1,0 +1,69 @@
+{
+  "_from": "webpack-nightwatch-plugin",
+  "_id": "webpack-nightwatch-plugin@1.0.0",
+  "_inBundle": false,
+  "_integrity": "sha1-xatQte+SyDHi406R1TZhf2tra40=",
+  "_location": "/webpack-nightwatch-plugin",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "webpack-nightwatch-plugin",
+    "name": "webpack-nightwatch-plugin",
+    "escapedName": "webpack-nightwatch-plugin",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#DEV:/",
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/webpack-nightwatch-plugin/-/webpack-nightwatch-plugin-1.0.0.tgz",
+  "_shasum": "c5ab50b5ef92c831e2e34e91d536617f6b6b6b8d",
+  "_spec": "webpack-nightwatch-plugin",
+  "_where": "/home/mateus/capivara/capivarajs",
+  "author": {
+    "name": "Mike wi2"
+  },
+  "bugs": {
+    "url": "https://github.com/wi2/webpack-nightwatch-plugin/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "nightwatch": "^0.9.8"
+  },
+  "deprecated": false,
+  "description": "Webpack plugin, Browser Automation with Nightwatch.js",
+  "devDependencies": {
+    "ava": "^0.16.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-runtime": "^6.15.0",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-es2015-rollup": "^1.2.0",
+    "chromedriver": "^2.24.1",
+    "rollup-plugin-babel": "^2.6.1",
+    "rollup-plugin-json": "^2.0.2",
+    "selenium-server-standalone-jar": "^3.0.1",
+    "webpack": "^1.13.3"
+  },
+  "homepage": "https://github.com/wi2/webpack-nightwatch-plugin#readme",
+  "keywords": [
+    "webpack",
+    "plugin",
+    "Nightwatch"
+  ],
+  "license": "MIT",
+  "main": "lib/index.js",
+  "name": "webpack-nightwatch-plugin",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/wi2/webpack-nightwatch-plugin.git"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "test": "npm run build && ava -v test/*.spec.js"
+  },
+  "version": "1.0.0"
+}

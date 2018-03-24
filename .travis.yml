@@ -4,7 +4,7 @@ node_js:
 before_script: 
  - npm install
 script:
- - npm run test-once
+ - npm run test-single
 branches:
   only:
   - master 

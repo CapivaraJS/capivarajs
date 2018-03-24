@@ -15,4 +15,3 @@ export const Constants = {
     START_INTERPOLATION      : '[[',
     END_INTERPOLATION        : ']]',
 };
-
