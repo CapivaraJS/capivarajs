@@ -26,7 +26,8 @@ export namespace Common {
             });
         }
         if (window['capivara'].isString(source)) {
-            return eval(source.replace(/NaN/, 0));
+            const value = eval(source.replace(/NaN/, 0));
+            return (value == null || value === undefined ? '' : value);
         }
         return source;
     }

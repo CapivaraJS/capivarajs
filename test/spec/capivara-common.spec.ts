@@ -1,5 +1,6 @@
 import {} from 'jasmine';
 import { Common } from '../../src/common';
+import capivara from '../../src/index';
 
 describe('test method evalInContext', () => {
     const person = { firstName: 'Mateus', lastName: 'Miranda de Almeida', idade: 22 };
@@ -24,11 +25,9 @@ describe('test method evalInContext', () => {
     it('Should return the multiplication of values', () => {
         expect(Common.evalInContext('numberOne * numberTwo', { numberOne: 100, numberTwo: 50 })).toEqual(5000);
     });
-
     it('Should return the value of the math operation', () => {
         expect(Common.evalInContext('numberOne + ((10 * numberTwo) / 25)', { numberOne: 70, numberTwo: 80 })).toEqual(102);
     });
-
 });
 
 describe('test method will test all the getAttribute functions', () => {
@@ -73,6 +72,10 @@ describe('This will test the scope function', () => {
     element.innerHTML = '<p>This is Other sample example</p>';
     document.body.appendChild(otherElement);
     const scope = Common.getScope(element);
+
+    // capivara.controller(element, ($scope) => {
+    //     console.log($scope);
+    // });
 
     it('Should not contain the getScope element', () => {
         expect(Common.getScope(element)).not.toEqual(otherElement);

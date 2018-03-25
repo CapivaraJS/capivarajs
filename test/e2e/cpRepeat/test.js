@@ -9,8 +9,8 @@ module.exports = {
 				if (result.value === 'Add Anna') {
 					browser.click('button')
 						.pause(1000);
-					browser.getText('p', function(result) {
-						if( result.value === 'John'){
+					browser.getText('li:nth-child(3) p', function(result) {
+						if( result.value === 'Anna'){
 							console.log('Passou no teste');
 							browser
 								.pause(1000)
