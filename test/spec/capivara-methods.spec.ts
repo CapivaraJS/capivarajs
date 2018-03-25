@@ -103,10 +103,10 @@ describe('test method copy', () => {
         lastName: 'Smith',
     };
     it('Should not be a copy', () => {
-        expect(capivara.copy(person)).not.toEqual(otherPerson)
+        expect(capivara.copy(person)).not.toEqual(otherPerson);
     });
     it('Should be a copy', () => {
-        expect(capivara.copy(person)).toEqual(person)
+        expect(capivara.copy(person)).toEqual(person);
     });
 });
 

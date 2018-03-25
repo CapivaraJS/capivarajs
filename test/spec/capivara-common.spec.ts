@@ -1,4 +1,4 @@
-import {} from 'jasmine';
+import { } from 'jasmine';
 import { Common } from '../../src/common';
 import capivara from '../../src/index';
 
@@ -71,16 +71,14 @@ describe('This will test the scope function', () => {
     otherElement.id = 'otherElementDiv';
     element.innerHTML = '<p>This is Other sample example</p>';
     document.body.appendChild(otherElement);
-    const scope = Common.getScope(element);
-
-    // capivara.controller(element, ($scope) => {
-    //     console.log($scope);
-    // });
-
-    it('Should not contain the getScope element', () => {
-        expect(Common.getScope(element)).not.toEqual(otherElement);
+    capivara.controller(element, function() {
+        const $ctrl = this;
+        $ctrl.$onInit = function() {
+            $ctrl.nome = "Test";
+            it('Should get the scope with value of the name', () => {
+                expect(Common.getScope(element).scope.$ctrl.nome).toEqual($ctrl.nome);
+            });
+        };
     });
-    it('Should contain the getScope element', () => {
-        expect(Common.getScope(element)).toEqual(scope);
-    });
+
 });
