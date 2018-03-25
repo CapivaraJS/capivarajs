@@ -2,6 +2,7 @@ import 'object.observe';
 import {Component} from "./component";
 import {Constants} from "./constants";
 import {Controller} from "./controller";
+import { ComponentInstance } from './component.instance';
 
 const packageJson = require("../package.json");
 
@@ -53,8 +54,8 @@ const packageJson = require("../package.json");
              * @name capivara.controller
              * @description Cria um novo controller para fazer manipulação de um determinado elemento.
              */
-            controller() {
-                Controller.apply(this, arguments);
+            controller(elm, callback) {
+                new ComponentInstance(elm, { controller: callback }).build();
             },
             /**
              * @name capivara,isArray

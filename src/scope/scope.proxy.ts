@@ -18,9 +18,6 @@ export class ScopeProxy {
     public createWatcherScope(objectObserve) {
         if (this.element['$instance']) {
             WatchJS.watch(objectObserve, this.element['$instance'].config.controllerAs, () => this.mapDom.reload());
-        } else {
-            const data = { scope: this };
-            // WatchJS.watch(data, 'scope', () => this.mapDom.reload());
         }
     }
 

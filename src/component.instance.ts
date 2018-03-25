@@ -3,6 +3,7 @@ import WatchJS from 'melanke-watchjs';
 import { Common } from './common';
 import { ComponentConfig } from './component.config';
 import { Constants } from './constants';
+import { Controller } from './controller';
 
 export class ComponentInstance {
 
@@ -21,13 +22,15 @@ export class ComponentInstance {
         this.element.$instance = this;
         this.config = _config;
         this.config.controller = this.config.controller || function() {};
-        this.element.innerHTML = this.config.template;
+        if (this.config.template) {
+            this.element.innerHTML = this.config.template;
+        }
         this.destroyed = true;
         this.registerController();
     }
 
     public registerController() {
-        window['capivara'].controller(this.element, (scope) => {
+        new Controller(this.element, (scope) => {
             this.componentScope = scope;
         });
     }

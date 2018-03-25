@@ -1,5 +1,13 @@
-capivara.componentBuilder('meuMarcador')
-.constants({
-    nome: 'Mateus Miranda'
-})
-.build();
+capivara.controller(document.body, function() {
+    const $ctrl = this;
+
+    $ctrl.$onInit = () => {
+        $ctrl.nome = 'Mateus Miranda';
+        capivara.componentBuilder('meuMarcador').build();
+    }
+
+    $ctrl.clicar = () => {
+        $ctrl.nome = 'Felipe sabadini';
+    }
+
+});

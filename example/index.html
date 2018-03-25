@@ -15,9 +15,11 @@
     </style>
 </head>
 
-<body ng-controller="ctrl">
+<body>
 
     <div class="text-center">
+
+        <h3>[[ $ctrl.nome ]] <button cp-click="$ctrl.clicar()">Clique-me</button></h3>
 
         <my-component #meuMarcador></my-component>
 
