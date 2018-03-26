@@ -4,3 +4,5 @@ package-lock.json
 coverage/
 selenium-debug.log
 reports/
+.nyc_output
+coverage.lcov

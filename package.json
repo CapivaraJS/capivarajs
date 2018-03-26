@@ -12,7 +12,9 @@
     "prod": "npm run test-single && webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js",
     "test": "karma start",
     "test-single": "karma start --single-run",
-    "e2e": "webpack-dev-server --config ./webpack.config.js --env.tests true"
+    "e2e": "webpack-dev-server --config ./webpack.config.js --env.tests true",
+    "generate-report": "nyc --report-dir coverage npm run test && nyc report --reporter=text",
+    "coverage": "npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "author": "Capivara Team.",
   "license": "LGPL-3.0",
@@ -34,28 +36,48 @@
     "javascript",
     "framework"
   ],
+  "nyc": {
+    "include": [
+      "src/ts/*.ts",
+      "src/ts/**/*.ts"
+    ],
+    "exclude": [
+      "typings"
+    ],
+    "extension": [
+      ".ts",
+      ".js"
+    ],
+    "reporter": [
+      "json",
+      "html"
+    ],
+    "all": true
+  },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.42",
     "@babel/preset-env": "^7.0.0-beta.42",
-    "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "@types/jasmine": "^2.6.3",
     "@types/node": "^9.4.6",
     "babel-loader": "^7.1.4",
     "babel-preset-stage-0": "^6.24.1",
+    "codecov": "^3.0.0",
     "css-loader": "^0.28.7",
     "eslint": "^4.19.1",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "file-loader": "^1.1.5",
     "html-loader": "^0.5.1",
     "jasmine": "^3.1.0",
     "jasmine-core": "^3.1.0",
     "karma": "^2.0.0",
     "karma-cli": "^1.0.1",
+    "karma-es6-shim": "^1.0.0",
     "karma-jasmine": "^1.1.1",
     "karma-phantomjs-launcher": "^1.0.4",
     "karma-typescript": "^3.0.8",
-    "karma-es6-shim": "^1.0.0",
     "nightwatch": "^0.9.20",
     "node-sass": "^4.7.2",
+    "nyc": "^11.6.0",
     "style-loader": "^0.19.0",
     "ts-loader": "^3.2.0",
     "tslint": "^5.9.1",
