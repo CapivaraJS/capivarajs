@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "sourceMap": true,
         "allowSyntheticDefaultImports": true,
         "declaration": false,
         "types": ["node"],
@@ -11,7 +12,6 @@
         ],
         "module": "es2015",
         "moduleResolution": "node",
-        "sourceMap": true,
         "target": "es5"
     },
     "include": [
