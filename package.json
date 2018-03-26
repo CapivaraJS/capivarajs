@@ -14,7 +14,7 @@
     "test-single": "karma start --single-run",
     "e2e": "webpack-dev-server --config ./webpack.config.js --env.tests true",
     "generate-report": "nyc --report-dir coverage npm run test && nyc report --reporter=text",
-    "coverage": "npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"
+    "coverage": "npm run generate-report && nyc report --reporter=json && codecov -f coverage/*.json"
   },
   "author": "Capivara Team.",
   "license": "LGPL-3.0",
