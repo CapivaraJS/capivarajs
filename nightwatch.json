@@ -23,11 +23,18 @@
             "selenium_host": "localhost",
             "silent": true,
             "screenshots": {
-                "enabled": false,
+                "enabled": true,
                 "path": "./screenshots"
             },
             "desiredCapabilities": {
-                "browserName": "chrome"
+                "browserName" : "chrome"
+            },
+            "phantom": {
+                "browserName" : "phantomjs",
+                "javascriptEnabled" : true,
+                "acceptSslCerts" : true,
+                "phantomjs.binary.path" : "./bin/phantomjs",
+                "phantomjs.cli.args" : ["--ignore-ssl-errors=true"]
             },
             "chrome": {
                 "browserName": "chrome",

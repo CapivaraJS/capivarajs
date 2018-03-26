@@ -1,42 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Test</title>
 </head>
+
 <body>
 
     <style>
-        .democlass{
+        .democlass {
             background: red;
         }
     </style>
 
-    <my-component #myComponent></my-component>
-    
-    <script src="/dist/capivara.js"></script>
+    <my-component id="myComponent"></my-component>
+
+    <script src="/dist/capivara.min.js"></script>
     <script>
         capivara.component('my-component', {
             template: `        
-                <p cp-class="{ democlass: $ctrl.visible }">Um simples exemplo</p> 
-                <button cp-click="$ctrl.toogleClass()">Mudar cor</button>
-            `,
+        <p cp-class="{ democlass: $ctrl.visible }">Um simples exemplo</p> 
+        <button cp-click="$ctrl.toogleClass()">Mudar cor</button>
+    `,
             controller: function () {
                 let $ctrl = this;
-                
-                $ctrl.$onInit = function(){
+
+                $ctrl.$onInit = function () {
                     $ctrl.visible = false;
                 };
-                $ctrl.toogleClass = function(){
+                $ctrl.toogleClass = function () {
                     $ctrl.visible = !$ctrl.visible;
                     console.log($ctrl);
                 };
             }
-        });    
+        });
 
-        capivara.componentBuilder('myComponent').build();
+        capivara.componentBuilder(document.getElementById('myComponent')).build();
     </script>
 </body>
+
 </html>
