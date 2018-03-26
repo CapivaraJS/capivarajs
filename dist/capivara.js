@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "dist";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -126,7 +126,8 @@ var Common;
             });
         }
         if (window['capivara'].isString(source)) {
-            return eval(source.replace(/NaN/, 0));
+            var value = eval(source.replace(/NaN/, 0));
+            return (value == null || value === undefined ? '' : value);
         }
         return source;
     }
@@ -17345,6 +17346,190 @@ var Common;
 
 /***/ }),
 /* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ComponentInstance; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_melanke_watchjs__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_melanke_watchjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_melanke_watchjs__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__common__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__constants__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__controller__ = __webpack_require__(5);
+
+
+
+
+
+var ComponentInstance = /** @class */ (function () {
+    function ComponentInstance(_element, _config) {
+        this.constantsValue = {};
+        this.functionsValue = {};
+        this.bindingsValue = {};
+        _config.controllerAs = _config.controllerAs || '$ctrl';
+        this.element = _element;
+        this.element.$instance = this;
+        this.config = _config;
+        this.config.controller = this.config.controller || function () { };
+        if (this.config.template) {
+            this.element.innerHTML = this.config.template;
+        }
+        this.destroyed = true;
+        this.registerController();
+    }
+    ComponentInstance.prototype.registerController = function () {
+        var _this = this;
+        new __WEBPACK_IMPORTED_MODULE_4__controller__["a" /* Controller */](this.element, function (scope) {
+            _this.componentScope = scope;
+        });
+    };
+    ComponentInstance.prototype.initController = function () {
+        var _this = this;
+        if (this.destroyed) {
+            if (this.config.controller) {
+                this.componentScope[this.config.controllerAs] = new this.config.controller(this.componentScope);
+                Object['observe'](this.componentScope[this.config.controllerAs], function (changes) {
+                    __WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(_this.element).mapDom.reload();
+                });
+            }
+            this.applyContains();
+            this.applyFunctions();
+            this.applyBindings();
+            if (this.componentScope[this.config.controllerAs] && this.componentScope[this.config.controllerAs].$onInit) {
+                this.componentScope[this.config.controllerAs].$onInit();
+            }
+            this.destroyed = false;
+            __WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(this.element).$emit('$onInit');
+        }
+    };
+    /**
+     * @description Renderiza o template no elemento.
+     */
+    ComponentInstance.prototype.build = function () {
+        var _this = this;
+        if (!this.element.hasAttribute(__WEBPACK_IMPORTED_MODULE_3__constants__["a" /* Constants */].IF_ATTRIBUTE_NAME)) {
+            this.initController();
+        }
+        /**
+         * @description Olhamos o evento global para ser possível desparar o evento destroy nos controllers.
+         */
+        window['capivara'].$on('DOMNodeRemoved', function () { return setTimeout(function () { if (!document.body.contains(_this.element)) {
+            _this.destroy();
+        } }, 0); });
+    };
+    /**
+     * @description Função executada quando o elemento é destruído do documento.
+     */
+    ComponentInstance.prototype.destroy = function () {
+        this.destroyed = true;
+        if (this.componentScope[this.config.controllerAs] && this.componentScope[this.config.controllerAs].$destroy) {
+            this.componentScope[this.config.controllerAs].$destroy();
+        }
+    };
+    /**
+     * @description
+     * @param obj Contexto dos bindings, o contexto é o objeto que possui os valores dos bindings
+     */
+    ComponentInstance.prototype.context = function (obj) {
+        this.contextObj = obj;
+        return this;
+    };
+    /**
+     * @description Cria os bindings que o componente espera.
+     * @param _bindings Objeto com o nome dos bindings
+     */
+    ComponentInstance.prototype.bindings = function (_bindings) {
+        if (_bindings === void 0) { _bindings = {}; }
+        if (!this.contextObj) {
+            console.error('Bindings ainda não aplicados. Primeiro, é necessário informar o contexto.');
+            return this;
+        }
+        this.bindingsValue = _bindings;
+        return this;
+    };
+    ComponentInstance.prototype.applyBindings = function () {
+        var _this = this;
+        (this.config.bindings || []).forEach(function (key) {
+            if (_this.bindingsValue[key]) {
+                _this.setAttributeValue(_this.bindingsValue, key);
+                _this.createObserverContext(_this.bindingsValue, key);
+                _this.createObserverScope(_this.bindingsValue, key);
+            }
+        });
+    };
+    /**
+    * @description Observa o componente quando houver alteração é modificado o contexto
+    */
+    ComponentInstance.prototype.createObserverScope = function (_bindings, key) {
+        var _this = this;
+        __WEBPACK_IMPORTED_MODULE_1_melanke_watchjs___default.a.watch(__WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(this.element).scope[this.config.controllerAs]['$bindings'], key, function () {
+            __WEBPACK_IMPORTED_MODULE_0_lodash__["set"](_this.contextObj, _bindings[key], __WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(_this.element).scope[_this.config.controllerAs]['$bindings'][key]);
+            __WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(_this.element).mapDom.reload();
+        });
+        // Mantém compatibilidade
+        __WEBPACK_IMPORTED_MODULE_1_melanke_watchjs___default.a.watch(__WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(this.element).scope['$bindings'], key, function () {
+            __WEBPACK_IMPORTED_MODULE_0_lodash__["set"](_this.contextObj, _bindings[key], __WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(_this.element).scope['$bindings'][key]);
+            __WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(_this.element).mapDom.reload();
+        });
+    };
+    /**
+     * @description Observa o contexto, quando houver alteração é modificado no escopo do componente
+     */
+    ComponentInstance.getFirstAttribute = function (_bindings, key) {
+        return _bindings[key].indexOf('.') !== -1 ? _bindings[key].substring(0, _bindings[key].indexOf('.')) : _bindings[key];
+    };
+    ComponentInstance.prototype.createObserverContext = function (_bindings, key) {
+        var _this = this;
+        __WEBPACK_IMPORTED_MODULE_1_melanke_watchjs___default.a.watch(this.contextObj, ComponentInstance.getFirstAttribute(_bindings, key), function () {
+            _this.setAttributeValue(_bindings, key);
+        });
+    };
+    ComponentInstance.prototype.setAttributeValue = function (_bindings, key) {
+        __WEBPACK_IMPORTED_MODULE_0_lodash__["set"](__WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(this.element).scope, this.config.controllerAs + '.$bindings.' + key, __WEBPACK_IMPORTED_MODULE_0_lodash__["get"](this.contextObj, _bindings[key]));
+        // Mantém compatibilidade
+        __WEBPACK_IMPORTED_MODULE_0_lodash__["set"](__WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(this.element).scope, '$bindings.' + key, __WEBPACK_IMPORTED_MODULE_0_lodash__["get"](this.contextObj, _bindings[key]));
+        __WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(this.element).mapDom.reload();
+    };
+    /**
+     * @description Crie valores sem referências
+     * @param _constants Objeto com o nome das constants
+     */
+    ComponentInstance.prototype.constants = function (_constants) {
+        this.constantsValue = _constants;
+        return this;
+    };
+    ComponentInstance.prototype.applyContains = function () {
+        var _this = this;
+        (this.config.constants || []).forEach(function (key) {
+            if (_this.constantsValue[key]) {
+                __WEBPACK_IMPORTED_MODULE_0_lodash__["set"](__WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(_this.element).scope, _this.config.controllerAs + '.$constants.' + key, _this.constantsValue[key]);
+                // Mantém compatibilidade
+                __WEBPACK_IMPORTED_MODULE_0_lodash__["set"](__WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(_this.element).scope, '$constants.' + key, _this.constantsValue[key]);
+            }
+        });
+    };
+    ComponentInstance.prototype.functions = function (_functions) {
+        this.functionsValue = _functions;
+        return this;
+    };
+    ComponentInstance.prototype.applyFunctions = function () {
+        var _this = this;
+        (this.config.functions || []).forEach(function (key) {
+            if (_this.functionsValue[key]) {
+                __WEBPACK_IMPORTED_MODULE_0_lodash__["set"](__WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(_this.element).scope, _this.config.controllerAs + '.$functions.' + key, _this.functionsValue[key]);
+                // Mantém compatibilidade
+                __WEBPACK_IMPORTED_MODULE_0_lodash__["set"](__WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(_this.element).scope, '$functions.' + key, _this.functionsValue[key]);
+            }
+        });
+    };
+    return ComponentInstance;
+}());
+
+
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17359,8 +17544,6 @@ var Common;
  *
  * FORK:
  * https://github.com/melanke/Watch.JS
- *
- * LICENSE: MIT
  */
 
 
@@ -17419,28 +17602,28 @@ var Common;
 
         if(!(typeof a == "string") && !(typeof b == "string")){
 
-            if (isArray(a) && b) {
+            if (isArray(a)) {
                 for (var i=0; i<a.length; i++) {
                     if (b[i] === undefined) aplus.push(i);
                 }
             } else {
                 for(var i in a){
                     if (a.hasOwnProperty(i)) {
-                        if(b && !b.hasOwnProperty(i)) {
+                        if(b[i] === undefined) {
                             aplus.push(i);
                         }
                     }
                 }
             }
 
-            if (isArray(b) && a) {
+            if (isArray(b)) {
                 for (var j=0; j<b.length; j++) {
                     if (a[j] === undefined) bplus.push(j);
                 }
             } else {
                 for(var j in b){
                     if (b.hasOwnProperty(j)) {
-                        if(a && !a.hasOwnProperty(j)) {
+                        if(a[j] === undefined) {
                             bplus.push(j);
                         }
                     }
@@ -17472,28 +17655,38 @@ var Common;
 
     var defineGetAndSet = function (obj, propName, getter, setter) {
         try {
-            Object.defineProperty(obj, propName, {
-                get: getter,
-                set: function(value) {
-                    setter.call(this,value,true); // coalesce changes
-                },
-                enumerable: true,
-                configurable: true
-            });
-        }
-        catch(e1) {
-            try{
-                Object.prototype.__defineGetter__.call(obj, propName, getter);
-                Object.prototype.__defineSetter__.call(obj, propName, function(value) {
-                    setter.call(this,value,true); // coalesce changes
+            Object.observe(obj, function(changes) {
+                changes.forEach(function(change) {
+                    if (change.name === propName) {
+                        setter(change.object[change.name]);
+                    }
                 });
-            }
+            });            
+        } 
+        catch(e) {
+            try {
+                Object.defineProperty(obj, propName, {
+                    get: getter,
+                    set: function(value) {        
+                        setter.call(this,value,true); // coalesce changes
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+            } 
             catch(e2) {
-                observeDirtyChanges(obj,propName,setter);
-                //throw new Error("watchJS error: browser not supported :/")
+                try{
+                    Object.prototype.__defineGetter__.call(obj, propName, getter);
+                    Object.prototype.__defineSetter__.call(obj, propName, function(value) {
+                        setter.call(this,value,true); // coalesce changes
+                    });
+                } 
+                catch(e3) {
+                    observeDirtyChanges(obj,propName,setter);
+                    //throw new Error("watchJS error: browser not supported :/")
+                }
             }
         }
-
     };
 
     var defineProp = function (obj, propName, value) {
@@ -17919,12 +18112,12 @@ var Common;
 
     var unwatchOne = function (obj, prop, watcher) {
         if (prop) {
-            if (obj.watchers && obj.watchers[prop]) {
-                if (watcher === undefined) {
+            if (obj.watchers[prop]) {
+                if (watcher===undefined) {
                     delete obj.watchers[prop]; // remove all property watchers
                 }
                 else {
-                    for (var i = 0; i < obj.watchers[prop].length; i++) {
+                    for (var i=0; i<obj.watchers[prop].length; i++) {
                         var w = obj.watchers[prop][i];
                         if (w == watcher) {
                             obj.watchers[prop].splice(i, 1);
@@ -17932,10 +18125,11 @@ var Common;
                     }
                 }
             }
-        } else {
+        }
+        else
+        {
             delete obj.watchers;
         }
-
         removeFromLengthSubjects(obj, prop, watcher);
         removeFromDirtyChecklist(obj, prop);
     };
@@ -18138,7 +18332,7 @@ var Common;
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18161,16 +18355,16 @@ var Controller = /** @class */ (function () {
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_object_observe__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_object_observe__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_object_observe___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_object_observe__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__component__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__component__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__constants__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__controller__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__component_instance__ = __webpack_require__(3);
 
 
 
@@ -18226,8 +18420,8 @@ var packageJson = __webpack_require__(24);
              * @name capivara.controller
              * @description Cria um novo controller para fazer manipulação de um determinado elemento.
              */
-            controller: function () {
-                __WEBPACK_IMPORTED_MODULE_3__controller__["a" /* Controller */].apply(this, arguments);
+            controller: function (elm, callback) {
+                new __WEBPACK_IMPORTED_MODULE_3__component_instance__["a" /* ComponentInstance */](elm, { controller: callback }).build();
             },
             /**
              * @name capivara,isArray
@@ -18343,7 +18537,7 @@ var packageJson = __webpack_require__(24);
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports) {
 
 /*!
@@ -19090,12 +19284,12 @@ Object.observe || (function(O, A, root, _undefined) {
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Component; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__component_instance__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__component_instance__ = __webpack_require__(3);
 
 var Component = /** @class */ (function () {
     function Component(_componentName, config) {
@@ -19106,186 +19300,6 @@ var Component = /** @class */ (function () {
         return new __WEBPACK_IMPORTED_MODULE_0__component_instance__["a" /* ComponentInstance */](elm, this.config);
     };
     return Component;
-}());
-
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ComponentInstance; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_melanke_watchjs__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_melanke_watchjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_melanke_watchjs__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__common__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__constants__ = __webpack_require__(0);
-
-
-
-
-var ComponentInstance = /** @class */ (function () {
-    function ComponentInstance(_element, _config) {
-        this.constantsValue = {};
-        this.functionsValue = {};
-        this.bindingsValue = {};
-        _config.controllerAs = _config.controllerAs || '$ctrl';
-        this.element = _element;
-        this.element.$instance = this;
-        this.config = _config;
-        this.config.controller = this.config.controller || function () { };
-        this.element.innerHTML = this.config.template;
-        this.destroyed = true;
-        this.registerController();
-    }
-    ComponentInstance.prototype.registerController = function () {
-        var _this = this;
-        window['capivara'].controller(this.element, function (scope) {
-            _this.componentScope = scope;
-        });
-    };
-    ComponentInstance.prototype.initController = function () {
-        var _this = this;
-        if (this.destroyed) {
-            if (this.config.controller) {
-                this.componentScope[this.config.controllerAs] = new this.config.controller(this.componentScope);
-                Object['observe'](this.componentScope[this.config.controllerAs], function (changes) {
-                    __WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(_this.element).mapDom.reload();
-                });
-            }
-            this.applyContains();
-            this.applyFunctions();
-            this.applyBindings();
-            if (this.componentScope[this.config.controllerAs] && this.componentScope[this.config.controllerAs].$onInit) {
-                this.componentScope[this.config.controllerAs].$onInit();
-            }
-            this.destroyed = false;
-            __WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(this.element).$emit('$onInit');
-        }
-    };
-    /**
-     * @description Renderiza o template no elemento.
-     */
-    ComponentInstance.prototype.build = function () {
-        var _this = this;
-        if (!this.element.hasAttribute(__WEBPACK_IMPORTED_MODULE_3__constants__["a" /* Constants */].IF_ATTRIBUTE_NAME)) {
-            this.initController();
-        }
-        /**
-         * @description Olhamos o evento global para ser possível desparar o evento destroy nos controllers.
-         */
-        window['capivara'].$on('DOMNodeRemoved', function () { return setTimeout(function () { if (!document.body.contains(_this.element)) {
-            _this.destroy();
-        } }, 0); });
-    };
-    /**
-     * @description Função executada quando o elemento é destruído do documento.
-     */
-    ComponentInstance.prototype.destroy = function () {
-        this.destroyed = true;
-        if (this.componentScope[this.config.controllerAs] && this.componentScope[this.config.controllerAs].$destroy) {
-            this.componentScope[this.config.controllerAs].$destroy();
-        }
-    };
-    /**
-     * @description
-     * @param obj Contexto dos bindings, o contexto é o objeto que possui os valores dos bindings
-     */
-    ComponentInstance.prototype.context = function (obj) {
-        this.contextObj = obj;
-        return this;
-    };
-    /**
-     * @description Cria os bindings que o componente espera.
-     * @param _bindings Objeto com o nome dos bindings
-     */
-    ComponentInstance.prototype.bindings = function (_bindings) {
-        if (_bindings === void 0) { _bindings = {}; }
-        if (!this.contextObj) {
-            console.error('Bindings ainda não aplicados. Primeiro, é necessário informar o contexto.');
-            return this;
-        }
-        this.bindingsValue = _bindings;
-        return this;
-    };
-    ComponentInstance.prototype.applyBindings = function () {
-        var _this = this;
-        (this.config.bindings || []).forEach(function (key) {
-            if (_this.bindingsValue[key]) {
-                _this.setAttributeValue(_this.bindingsValue, key);
-                _this.createObserverContext(_this.bindingsValue, key);
-                _this.createObserverScope(_this.bindingsValue, key);
-            }
-        });
-    };
-    /**
-    * @description Observa o componente quando houver alteração é modificado o contexto
-    */
-    ComponentInstance.prototype.createObserverScope = function (_bindings, key) {
-        var _this = this;
-        __WEBPACK_IMPORTED_MODULE_1_melanke_watchjs___default.a.watch(__WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(this.element).scope[this.config.controllerAs]['$bindings'], key, function () {
-            __WEBPACK_IMPORTED_MODULE_0_lodash__["set"](_this.contextObj, _bindings[key], __WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(_this.element).scope[_this.config.controllerAs]['$bindings'][key]);
-            __WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(_this.element).mapDom.reload();
-        });
-        // Mantém compatibilidade
-        __WEBPACK_IMPORTED_MODULE_1_melanke_watchjs___default.a.watch(__WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(this.element).scope['$bindings'], key, function () {
-            __WEBPACK_IMPORTED_MODULE_0_lodash__["set"](_this.contextObj, _bindings[key], __WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(_this.element).scope['$bindings'][key]);
-            __WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(_this.element).mapDom.reload();
-        });
-    };
-    /**
-     * @description Observa o contexto, quando houver alteração é modificado no escopo do componente
-     */
-    ComponentInstance.getFirstAttribute = function (_bindings, key) {
-        return _bindings[key].indexOf('.') !== -1 ? _bindings[key].substring(0, _bindings[key].indexOf('.')) : _bindings[key];
-    };
-    ComponentInstance.prototype.createObserverContext = function (_bindings, key) {
-        var _this = this;
-        __WEBPACK_IMPORTED_MODULE_1_melanke_watchjs___default.a.watch(this.contextObj, ComponentInstance.getFirstAttribute(_bindings, key), function () {
-            _this.setAttributeValue(_bindings, key);
-        });
-    };
-    ComponentInstance.prototype.setAttributeValue = function (_bindings, key) {
-        __WEBPACK_IMPORTED_MODULE_0_lodash__["set"](__WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(this.element).scope, this.config.controllerAs + '.$bindings.' + key, __WEBPACK_IMPORTED_MODULE_0_lodash__["get"](this.contextObj, _bindings[key]));
-        // Mantém compatibilidade
-        __WEBPACK_IMPORTED_MODULE_0_lodash__["set"](__WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(this.element).scope, '$bindings.' + key, __WEBPACK_IMPORTED_MODULE_0_lodash__["get"](this.contextObj, _bindings[key]));
-        __WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(this.element).mapDom.reload();
-    };
-    /**
-     * @description Crie valores sem referências
-     * @param _constants Objeto com o nome das constants
-     */
-    ComponentInstance.prototype.constants = function (_constants) {
-        this.constantsValue = _constants;
-        return this;
-    };
-    ComponentInstance.prototype.applyContains = function () {
-        var _this = this;
-        (this.config.constants || []).forEach(function (key) {
-            if (_this.constantsValue[key]) {
-                __WEBPACK_IMPORTED_MODULE_0_lodash__["set"](__WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(_this.element).scope, _this.config.controllerAs + '.$constants.' + key, _this.constantsValue[key]);
-                // Mantém compatibilidade
-                __WEBPACK_IMPORTED_MODULE_0_lodash__["set"](__WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(_this.element).scope, '$constants.' + key, _this.constantsValue[key]);
-            }
-        });
-    };
-    ComponentInstance.prototype.functions = function (_functions) {
-        this.functionsValue = _functions;
-        return this;
-    };
-    ComponentInstance.prototype.applyFunctions = function () {
-        var _this = this;
-        (this.config.functions || []).forEach(function (key) {
-            if (_this.functionsValue[key]) {
-                __WEBPACK_IMPORTED_MODULE_0_lodash__["set"](__WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(_this.element).scope, _this.config.controllerAs + '.$functions.' + key, _this.functionsValue[key]);
-                // Mantém compatibilidade
-                __WEBPACK_IMPORTED_MODULE_0_lodash__["set"](__WEBPACK_IMPORTED_MODULE_2__common__["a" /* Common */].getScope(_this.element).scope, '$functions.' + key, _this.functionsValue[key]);
-            }
-        });
-    };
-    return ComponentInstance;
 }());
 
 
@@ -20074,7 +20088,7 @@ var CPModel = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__common__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__constants__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__controller__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__controller__ = __webpack_require__(5);
 
 
 
@@ -20230,7 +20244,7 @@ var CPStyle = /** @class */ (function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ScopeProxy; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_melanke_watchjs__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_melanke_watchjs__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_melanke_watchjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_melanke_watchjs__);
 
 var ScopeProxy = /** @class */ (function () {
@@ -20245,10 +20259,6 @@ var ScopeProxy = /** @class */ (function () {
         if (this.element['$instance']) {
             __WEBPACK_IMPORTED_MODULE_0_melanke_watchjs___default.a.watch(objectObserve, this.element['$instance'].config.controllerAs, function () { return _this.mapDom.reload(); });
         }
-        else {
-            var data = { scope: this };
-            // WatchJS.watch(data, 'scope', () => this.mapDom.reload());
-        }
     };
     return ScopeProxy;
 }());
@@ -20259,7 +20269,7 @@ var ScopeProxy = /** @class */ (function () {
 /* 24 */
 /***/ (function(module, exports) {
 
-module.exports = {"name":"capivarajs","version":"1.9.0-rc.6","description":"Um framework para criação de componentes.","main":"index.js","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"npm run test-single && webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./webpack.config.js --env.tests true"},"author":"Capivara Team.","license":"LGPL-3.0","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1","object.observe":"^0.2.6"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","extract-text-webpack-plugin":"^4.0.0-beta.0","@types/jasmine":"^2.6.3","@types/node":"^9.4.6","babel-loader":"^7.1.4","babel-preset-stage-0":"^6.24.1","css-loader":"^0.28.7","eslint":"^4.19.1","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.0","karma-cli":"^1.0.1","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.8","karma-es6-shim":"^1.0.0","nightwatch":"^0.9.20","node-sass":"^4.7.2","style-loader":"^0.19.0","ts-loader":"^3.2.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^3.9.1","webpack-dev-server":"^2.9.5"}}
+module.exports = {"name":"capivarajs","version":"1.9.0-rc.7","description":"Um framework para criação de componentes.","main":"index.js","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"npm run test-single && webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./webpack.config.js --env.tests true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1","object.observe":"^0.2.6"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^9.4.6","babel-loader":"^7.1.4","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.0","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.8","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.19.0","ts-loader":"^3.2.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^3.9.1","webpack-dev-server":"^2.9.5"}}
 
 /***/ })
 /******/ ]);
