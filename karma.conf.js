@@ -16,6 +16,15 @@ module.exports = function (config) {
             'test/spec/*spec.ts'
         ],
 
+        // Configure code coverage reporter
+        coverageReporter: {
+            reporters: [
+                // generates ./coverage/lcov.info
+                {type:'lcovonly', subdir: '.'},
+                // generates ./coverage/coverage-final.json
+                {type:'json', subdir: '.'},
+            ]
+        },
 
         // list of files to exclude
         exclude: [],
@@ -36,7 +45,7 @@ module.exports = function (config) {
         // test results reporter to use
         // possible values: 'dots', 'progress'
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: ['progress', 'karma-typescript'],
+        reporters: ['progress', 'karma-typescript', 'coverage'],
 
 
         // web server port
@@ -63,7 +72,7 @@ module.exports = function (config) {
 
         // Continuous Integration mode
         // if true, Karma captures browsers, runs the tests and exits
-        singleRun: false,
+        singleRun: true,
 
         // Concurrency level
         // how many browser should be started simultaneous
