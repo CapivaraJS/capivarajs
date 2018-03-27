@@ -2,11 +2,12 @@ capivara.controller(document.body, function() {
     const $ctrl = this;
 
     $ctrl.$onInit = () => {
-        $ctrl.nome = 'Mateus Miranda';
-        capivara.componentBuilder('meuMarcador').build();
+        $ctrl.numberOne = 90;
+        $ctrl.numberTwo = 10;
+        // capivara.componentBuilder('meuMarcador').build();
     }
 
-    $ctrl.clicar = () => {
+    $ctrl.clicar = (pessoa, pessoa2) => {
         $ctrl.nome = 'Felipe sabadini';
     }
 

@@ -101,6 +101,11 @@ var Constants = {
 
 var Common;
 (function (Common) {
+    function regexIndexOf(str, regex, startpos) {
+        var indexOf = str.substring(startpos || 0).search(regex);
+        return (indexOf >= 0) ? (indexOf + (startpos || 0)) : indexOf;
+    }
+    Common.regexIndexOf = regexIndexOf;
     /**
      * @description Executa o eval alterando as propriedades do source para seus determinados valores dentro do contexto.
      * @param source
@@ -108,28 +113,51 @@ var Common;
      */
     function evalInContext(source, context) {
         if (source) {
-            source.split(' ').forEach(function (word) {
-                var firstKey = getFirstKey(word);
-                if (firstKey && word && context && context.hasOwnProperty(firstKey)) {
-                    word = word.split('(').join('').split(')').join('').replace(/!/g, '');
-                    var value = __WEBPACK_IMPORTED_MODULE_0_lodash__["get"](context, word.replace(/ /g, ''));
-                    if (window['capivara'].isObject(value)) {
-                        source = value;
-                    }
-                    else if (window['capivara'].isString(value)) {
-                        source = source.replace(word, value != null ? "'" + value + "'" : null);
-                    }
-                    else {
-                        source = source.replace(word, value != null ? value : null);
-                    }
+            var replacerSource_1 = function (str, arrFinal) {
+                if (!arrFinal) {
+                    arrFinal = [];
                 }
+                var index = regexIndexOf(str, /(?!^-)[+*\/-](\s?-)?/g);
+                var sourceToReplace = (index !== -1 ? str.substring(0, index) : str);
+                if ((sourceToReplace
+                    .replace(/ /g, '')
+                    .replace(/'/g, '')
+                    .replace(/"/g, '')) !== '') {
+                    sourceToReplace.split(' ').forEach(function (word) {
+                        word = word.split('(').join('').split(')').join('').replace(/!/g, '');
+                        var sourceValue = __WEBPACK_IMPORTED_MODULE_0_lodash__["get"](context, word.replace('(', '').replace(')', '').replace(/ /g, ''));
+                        if (sourceValue === undefined) {
+                            sourceValue = word.replace(/"/g, '').replace(/'/g, '');
+                        }
+                        var firstKey = getFirstKey(word);
+                        if (firstKey && word && context && context.hasOwnProperty(firstKey)) {
+                            arrFinal.push({
+                                key: word.replace('(', '').replace(')', '').replace(/ /g, ''),
+                                value: window['capivara'].isString(sourceValue) ? "'" + sourceValue + "'" : sourceValue,
+                            });
+                        }
+                    });
+                }
+                str = str.replace(sourceToReplace, '');
+                if (index !== -1) {
+                    str = str.slice(1);
+                }
+                if (str.replace(/ /g, '').length > 0) {
+                    return replacerSource_1(str, arrFinal);
+                }
+                return arrFinal;
+            };
+            var values = replacerSource_1(source);
+            if (values.length === 1 && window['capivara'].isObjectConstructor(values[0].value)) {
+                return values[0].value;
+            }
+            values.forEach(function (sourceValue) {
+                source = source.replace(sourceValue.key, sourceValue.value);
             });
-        }
-        if (window['capivara'].isString(source)) {
             var value = eval(source.replace(/NaN/, 0));
             return (value == null || value === undefined ? '' : value);
         }
-        return source;
+        return '';
     }
     Common.evalInContext = evalInContext;
     function getFirstKey(str) {
@@ -207,14 +235,18 @@ var Common;
     }
     Common.isNative = isNative;
     function destroyElement(element, elementComment) {
-        element.replaceWith(elementComment);
+        if (element.replaceWith) {
+            element.replaceWith(elementComment);
+        }
         if (element.$instance) {
             element.$instance.destroy();
         }
     }
     Common.destroyElement = destroyElement;
     function createElement(element, elementComment) {
-        elementComment.replaceWith(element);
+        if (elementComment.replaceWith) {
+            elementComment.replaceWith(element);
+        }
         if (element.$instance) {
             element.$instance.initController();
         }
@@ -18363,8 +18395,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_object_observe__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_object_observe___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_object_observe__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__component__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__constants__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__component_instance__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__component_instance__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__constants__ = __webpack_require__(0);
 
 
 
@@ -18421,7 +18453,7 @@ var packageJson = __webpack_require__(24);
              * @description Cria um novo controller para fazer manipulação de um determinado elemento.
              */
             controller: function (elm, callback) {
-                new __WEBPACK_IMPORTED_MODULE_3__component_instance__["a" /* ComponentInstance */](elm, { controller: callback }).build();
+                new __WEBPACK_IMPORTED_MODULE_2__component_instance__["a" /* ComponentInstance */](elm, { controller: callback }).build();
             },
             /**
              * @name capivara,isArray
@@ -18436,6 +18468,12 @@ var packageJson = __webpack_require__(24);
              */
             isObject: function (value) {
                 return value !== null && typeof value === "object";
+            },
+            isObjectConstructor: function (obj) {
+                if (!obj) {
+                    return false;
+                }
+                return obj.__proto__.constructor.name === 'Object';
             },
             /**
              * @name capivara,isDate
@@ -18505,8 +18543,8 @@ var packageJson = __webpack_require__(24);
              */
             constants: function (obj) {
                 Object.keys(obj).forEach(function (key) {
-                    if (__WEBPACK_IMPORTED_MODULE_2__constants__["a" /* Constants */][key]) {
-                        __WEBPACK_IMPORTED_MODULE_2__constants__["a" /* Constants */][key] = obj[key];
+                    if (__WEBPACK_IMPORTED_MODULE_3__constants__["a" /* Constants */][key]) {
+                        __WEBPACK_IMPORTED_MODULE_3__constants__["a" /* Constants */][key] = obj[key];
                     }
                 });
             },
@@ -20269,7 +20307,7 @@ var ScopeProxy = /** @class */ (function () {
 /* 24 */
 /***/ (function(module, exports) {
 
-module.exports = {"name":"capivarajs","version":"1.9.0-rc.7","description":"Um framework para criação de componentes.","main":"index.js","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"npm run test-single && webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./webpack.config.js --env.tests true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1","object.observe":"^0.2.6"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^9.4.6","babel-loader":"^7.1.4","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.0","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.8","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.19.0","ts-loader":"^3.2.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^3.9.1","webpack-dev-server":"^2.9.5"}}
+module.exports = {"name":"capivarajs","version":"1.9.0-rc.8","description":"Um framework para criação de componentes.","main":"index.js","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"npm run test-single && webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./webpack.config.js --env.tests true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1","object.observe":"^0.2.6"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^9.4.6","babel-loader":"^7.1.4","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.0","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.8","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.19.0","ts-loader":"^3.2.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^3.9.1","webpack-dev-server":"^2.9.5"}}
 
 /***/ })
 /******/ ]);

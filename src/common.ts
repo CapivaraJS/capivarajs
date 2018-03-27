@@ -3,6 +3,11 @@ import { Constants } from './constants';
 
 export namespace Common {
 
+    export function regexIndexOf(str, regex, startpos?) {
+        const indexOf = str.substring(startpos || 0).search(regex);
+        return (indexOf >= 0) ? (indexOf + (startpos || 0)) : indexOf;
+    }
+
     /**
      * @description Executa o eval alterando as propriedades do source para seus determinados valores dentro do contexto.
      * @param source
@@ -10,26 +15,52 @@ export namespace Common {
      */
     export function evalInContext(source, context) {
         if (source) {
-            source.split(' ').forEach((word) => {
-                const firstKey = getFirstKey(word);
-                if (firstKey && word && context && context.hasOwnProperty(firstKey)) {
-                    word = word.split('(').join('').split(')').join('').replace(/!/g, '');
-                    const value = _.get(context, word.replace(/ /g, ''));
-                    if (window['capivara'].isObject(value)) {
-                        source = value;
-                    } else if (window['capivara'].isString(value)) {
-                        source = source.replace(word, value != null ? "'" + value + "'" : null);
-                    } else {
-                        source = source.replace(word, value != null ? value : null);
-                    }
+            const replacerSource = (str, arrFinal?) => {
+                if (!arrFinal) { arrFinal = []; }
+                const index = regexIndexOf(str, /(?!^-)[+*\/-](\s?-)?/g);
+                const sourceToReplace = (index !== -1 ? str.substring(0, index) : str);
+                if ((
+                    sourceToReplace
+                        .replace(/ /g, '')
+                        .replace(/'/g, '')
+                        .replace(/"/g, '')
+                ) !== '') {
+                    sourceToReplace.split(' ').forEach((word) => {
+                        word = word.split('(').join('').split(')').join('').replace(/!/g, '');
+                        let sourceValue = _.get(context, word.replace('(', '').replace(')', '').replace(/ /g, ''));
+                        if (sourceValue === undefined) {
+                            sourceValue = word.replace(/"/g, '').replace(/'/g, '');
+                        }
+                        const firstKey = getFirstKey(word);
+                        if (firstKey && word && context && context.hasOwnProperty(firstKey)) {
+                            arrFinal.push({
+                                key: word.replace('(', '').replace(')', '').replace(/ /g, ''),
+                                value: window['capivara'].isString(sourceValue) ? "'" + sourceValue + "'" : sourceValue,
+                            });
+                        }
+                    });
                 }
+                str = str.replace(sourceToReplace, '');
+                if (index !== -1) { str = str.slice(1); }
+                if (str.replace(/ /g, '').length > 0) {
+                    return replacerSource(str, arrFinal);
+                }
+                return arrFinal;
+            };
+
+            const values = replacerSource(source);
+
+            if (values.length === 1 && window['capivara'].isObjectConstructor(values[0].value)) {
+                return values[0].value;
+            }
+
+            values.forEach((sourceValue) => {
+                source = source.replace(sourceValue.key, sourceValue.value);
             });
-        }
-        if (window['capivara'].isString(source)) {
             const value = eval(source.replace(/NaN/, 0));
             return (value == null || value === undefined ? '' : value);
         }
-        return source;
+        return '';
     }
 
     export function getFirstKey(str: string) {
