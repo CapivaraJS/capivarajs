@@ -2,13 +2,13 @@ capivara.controller(document.body, function() {
     const $ctrl = this;
 
     $ctrl.$onInit = () => {
-        $ctrl.numberOne = 90;
-        $ctrl.numberTwo = 10;
         // capivara.componentBuilder('meuMarcador').build();
+        $ctrl.componentName = 'Mateus Miranda';
+        $ctrl.teste2 = 'de Almeida';
     }
 
-    $ctrl.clicar = (pessoa, pessoa2) => {
-        $ctrl.nome = 'Felipe sabadini';
+    $ctrl.toogleMessage = () => {
+        $ctrl.visibleMessage = !$ctrl.visibleMessage;
     }
 
 });

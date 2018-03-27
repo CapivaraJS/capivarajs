@@ -27,10 +27,7 @@ export namespace Common {
                 ) !== '') {
                     sourceToReplace.split(' ').forEach((word) => {
                         word = word.split('(').join('').split(')').join('').replace(/!/g, '');
-                        let sourceValue = _.get(context, word.replace('(', '').replace(')', '').replace(/ /g, ''));
-                        if (sourceValue === undefined) {
-                            sourceValue = word.replace(/"/g, '').replace(/'/g, '');
-                        }
+                        const sourceValue = _.get(context, word.replace('(', '').replace(')', '').replace(/ /g, ''));
                         const firstKey = getFirstKey(word);
                         if (firstKey && word && context && context.hasOwnProperty(firstKey)) {
                             arrFinal.push({
@@ -47,13 +44,10 @@ export namespace Common {
                 }
                 return arrFinal;
             };
-
             const values = replacerSource(source);
-
             if (values.length === 1 && window['capivara'].isObjectConstructor(values[0].value)) {
                 return values[0].value;
             }
-
             values.forEach((sourceValue) => {
                 source = source.replace(sourceValue.key, sourceValue.value);
             });

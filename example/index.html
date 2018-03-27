@@ -18,10 +18,18 @@
 <body>
 
     <div class="text-center">
+        <h1>Componente [[$ctrl.componentName + ' teste '  +$ctrl.teste2]]</h1>
 
-        [[ $ctrl.numberOne + ((10 * $ctrl.numberTwo) / 25) ]]
+        <p cp-show="$ctrl.visibleMessage">
+            Você criou esse incrível componente, acesse a sessão 
+            <a href="http://capivarajs.github.io/apiReference.html">API Reference</a> 
+            e veja as funcionalidades que o capivara te oferece. 
+        </p>
 
-
+        <button cp-click="$ctrl.toogleMessage()">
+            [[ $ctrl.visibleMessage ? 'Fechar' : 'Abrir' ]]
+        </button>
+        
     </div>
     
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script> -->
