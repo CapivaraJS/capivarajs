@@ -1,8 +1,8 @@
 import 'object.observe';
 import {Component} from "./component";
+import { ComponentInstance } from './component.instance';
 import {Constants} from "./constants";
 import {Controller} from "./controller";
-import { ComponentInstance } from './component.instance';
 
 const packageJson = require("../package.json");
 
