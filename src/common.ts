@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import {Constants} from './constants';
+import { Constants } from './constants';
 
 export namespace Common {
 
@@ -114,7 +114,9 @@ export namespace Common {
     }
 
     export function createElement(element, elementComment) {
-        elementComment.replaceWith(element);
+        if (elementComment.replaceWith) {
+            elementComment.replaceWith(element);
+        }
         if (element.$instance) { element.$instance.initController(); }
     }
 
