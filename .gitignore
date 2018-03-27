@@ -6,3 +6,4 @@ selenium-debug.log
 reports/
 .nyc_output
 coverage.lcov
+phantomjsdriver.log

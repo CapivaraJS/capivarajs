@@ -22,6 +22,7 @@ module.exports = function (env) {
         );
     }
     return {
+        mode: isProduction() ? 'production' : 'development',
         entry: path.join(__dirname, 'src', 'index'),
         output: {
             path: path.join(__dirname, 'dist'),
@@ -32,7 +33,7 @@ module.exports = function (env) {
             inline: true,
             port: 1111
         },
-        devtool: 'source-map',
+        devtool: isProduction() ? '' : 'source-map',
         resolve: {
             extensions: [".ts", ".tsx", ".js"]
         },
