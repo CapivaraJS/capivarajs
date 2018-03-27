@@ -71,6 +71,12 @@ const packageJson = require("../package.json");
             isObject(value) {
                 return value !== null && typeof value === "object";
             },
+            isObjectConstructor(obj) {
+                if (!obj) {
+                    return false;
+                }
+                return obj.__proto__.constructor.name === 'Object';
+            },
             /**
              * @name capivara,isDate
              * @description Verifica se um valor é uma Data.
