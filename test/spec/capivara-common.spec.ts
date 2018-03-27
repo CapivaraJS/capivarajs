@@ -110,15 +110,16 @@ describe('This will test the isNative function', () => {
     });
 });
 
-// describe('This will test the destroy and create element function', () => {
-//     const element = document.createElement('div');
-//     const elementComment = document.createComment("Sample Comment");
-//     capivara.controller(document.body, function() { });
-//     Common.destroyElement(element, elementComment);
-//     it('Should get the destory element', () => {
-//         expect(element.$instance.destroyed).toEqual(true);
-//     });
-// });
+describe('This will test the destroy and create element function', () => {
+    const element = document.createElement('div');
+    element.id = 'demo';
+    const elementComment = document.createComment("Sample Comment");
+    capivara.controller(element, function() { });
+    Common.destroyElement(element, elementComment);
+    it('Should get the destory element', () => {
+        expect(element['$instance'].destroyed).toEqual(true);
+    });
+});
 
 describe('This will test the destroy and create element function', () => {
     it('Should get the destory element', () => {

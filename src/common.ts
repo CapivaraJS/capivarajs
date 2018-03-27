@@ -107,7 +107,9 @@ export namespace Common {
     }
 
     export function destroyElement(element, elementComment) {
-        element.replaceWith(elementComment);
+        if (element.replaceWith) {
+            element.replaceWith(elementComment);
+        }
         if (element.$instance) { element.$instance.destroy(); }
     }
 
