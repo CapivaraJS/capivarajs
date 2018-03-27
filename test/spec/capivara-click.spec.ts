@@ -1,5 +1,4 @@
 import { } from 'jasmine';
-import { Common } from '../../src/common';
 import capivara from '../../src/index';
 
 describe('test of click without parameters', () => {
@@ -8,7 +7,7 @@ describe('test of click without parameters', () => {
     `;
     const element = document.createElement('div');
     element.innerHTML = template;
-    capivara.controller(element, function () {
+    capivara.controller(element, function() {
         const $ctrl = this;
 
         $ctrl.$onInit = () => {
