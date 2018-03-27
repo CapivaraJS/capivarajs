@@ -67,10 +67,6 @@ describe('This will test the scope function', () => {
     element.id = 'elementDiv';
     element.innerHTML = '<p>Sample example</p>';
     document.body.appendChild(element);
-    const otherElement = document.createElement('div');
-    otherElement.id = 'otherElementDiv';
-    element.innerHTML = '<p>This is Other sample example</p>';
-    document.body.appendChild(otherElement);
     capivara.controller(element, function() {
         const $ctrl = this;
         $ctrl.$onInit = function() {
@@ -80,5 +76,52 @@ describe('This will test the scope function', () => {
             });
         };
     });
+});
 
+describe('This will test the append function', () => {
+    const element = document.createElement('div');
+    element.id = 'elementDiv';
+    element.innerHTML = '<p id="pDemo">Sample example</p>';
+    document.body.appendChild(element);
+    const pElement = document.getElementById('pDemo');
+    const pSibling = document.createElement('p');
+    pSibling.innerHTML = 'Hello';
+    Common.appendBefore(pElement, pSibling);
+    it('Should get the before element', () => {
+        expect(pElement.previousElementSibling).toEqual(pSibling);
+    });
+    it('Should get the after element', () => {
+        expect(pSibling.nextElementSibling).toEqual(pElement);
+    });
+});
+
+describe('This will test the isNative function', () => {
+    const element = document.createElement('div');
+    element.id = 'elementDiv';
+    element.innerHTML = '<p id="pDemo">Sample example</p>';
+    document.body.appendChild(element);
+    const pElement = document.getElementById('pDemo');
+    const pAttr = pElement.getAttributeNode;
+    it('Should get the native element', () => {
+        expect(Common.isNative(pAttr)).toEqual(true);
+    });
+    it('Should get the native element', () => {
+        expect(Common.isNative(pElement)).not.toEqual(true);
+    });
+});
+
+// describe('This will test the destroy and create element function', () => {
+//     const element = document.createElement('div');
+//     const elementComment = document.createComment("Sample Comment");
+//     capivara.controller(document.body, function() { });
+//     Common.destroyElement(element, elementComment);
+//     it('Should get the destory element', () => {
+//         expect(element.$instance.destroyed).toEqual(true);
+//     });
+// });
+
+describe('This will test the destroy and create element function', () => {
+    it('Should get the destory element', () => {
+        expect(Common.getFirstKey('Some Random: (text)')).toEqual('SomeRandom:text');
+    });
 });
