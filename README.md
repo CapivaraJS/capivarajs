@@ -21,3 +21,6 @@ CapivaraJS é compatível com todos frameworks. Experimente!
 [Seja um contribuidor][contributing]
 
 [contributing]: https://github.com/CapivaraJS/capivarajs/blob/master/CONTRIBUTING.md
+
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/CapivaraJS/capivarajs.svg)](https://greenkeeper.io/)
