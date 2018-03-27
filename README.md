@@ -10,6 +10,11 @@
     <a href="https://www.npmjs.com/package/capivarajs"><img src="https://img.shields.io/npm/l/capivarajs.svg" alt="License"></a>
 </p>
 
+<p align="center">
+    <a href="https://greenkeeper.io/"><img src="https://badges.greenkeeper.io/CapivaraJS/capivarajs.svg" alt="Greenkeeper badge"></a>
+    <a href="https://gitter.im/capivarajs/Lobby"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Join the chat"></a>
+</p>
+
 Atualmente existem vários frameworks que possibilitam a criação de componentes, entretanto tais componentes acabam ficando isolados em determinada tecnologia, fazendo com que uma possível migração seja mais complexa. 
 
 Criamos um framework híbrido e suas diretivas são totalmente personalizáveis, tornando assim os componentes independentes da tecnologia utilizada.
@@ -21,6 +26,3 @@ CapivaraJS é compatível com todos frameworks. Experimente!
 [Seja um contribuidor][contributing]
 
 [contributing]: https://github.com/CapivaraJS/capivarajs/blob/master/CONTRIBUTING.md
-
-
-[![Greenkeeper badge](https://badges.greenkeeper.io/CapivaraJS/capivarajs.svg)](https://greenkeeper.io/)
