@@ -191,8 +191,8 @@ export class MapDom {
      * @param capivaraBind Tipo de bind que será monitorado.
      */
     public addCpModels(capivaraBind) {
-        this.cpModels[capivaraBind.atribute] = this.cpModels[capivaraBind.atribute] || [];
-        this.cpModels[capivaraBind.atribute].push(capivaraBind);
+        this.cpModels[capivaraBind.attribute] = this.cpModels[capivaraBind.attribute] || [];
+        this.cpModels[capivaraBind.attribute].push(capivaraBind);
     }
 
     /**
