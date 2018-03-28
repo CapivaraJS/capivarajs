@@ -116,7 +116,7 @@ describe('This will test the destroy and create element function', () => {
     const elementComment = document.createComment("Sample Comment");
     capivara.controller(element, function() { });
     Common.destroyElement(element, elementComment);
-    it('Should get the destory element', () => {
+    it('Should destroy the element', () => {
         expect(element['$instance'].destroyed).toEqual(true);
     });
 });
@@ -128,13 +128,13 @@ describe('This will test the destroy and create element function', () => {
     capivara.controller(element, function() { });
     Common.destroyElement(element, elementComment);
     Common.createElement(element, elementComment);
-    it('Should get the destory element', () => {
+    it('Should create the element', () => {
         expect(element['$instance'].destroyed).toEqual(false);
     });
 });
 
-describe('This will test the destroy and create element function', () => {
-    it('Should get the destory element', () => {
+describe('This will test the getFirstKey function', () => {
+    it('Should get the first key', () => {
         expect(Common.getFirstKey('Some Random: (text)')).toEqual('SomeRandom:text');
     });
 });
