@@ -1,44 +1,44 @@
 import { } from 'jasmine';
 import capivara from '../../src/index';
 
-describe('test of class with fixed object', () => {
+describe('test of style with fixed object', () => {
     const template = `
-        <h1 cp-class="{'demo' : $ctrl.activeClass}"></h1>
+        <h1 cp-style="{ background-color : $ctrl.activeStyle }"> Sample HTML text</h1>
     `;
     const element = document.createElement('div');
     element.innerHTML = template;
     capivara.controller(element, function() {
         const $ctrl = this;
-        $ctrl.activeClass = true;
+        $ctrl.activeStyle = 'red';
 
         $ctrl.$onInit = () => {
-            it('Expected to add the class', () => {
-                expect(element.querySelector('h1').classList.contains('demo')).toEqual(true);
+            it('Expected to add the style', () => {
+                expect(element.querySelector('h1').style.background).toEqual('red');
             });
         };
-
     });
 });
 
-describe('test of class with dynamic object', () => {
+describe('test of style with dynamic object', () => {
     const template = `
-        <h1 cp-class="$ctrl.getClass()"></h1>
+        <h1 cp-class="$ctrl.getStyle()">Sample HTML text</h1>
     `;
     const element = document.createElement('div');
     element.innerHTML = template;
     capivara.controller(element, function() {
         const $ctrl = this;
+        $ctrl.color = 'blue';
 
-        $ctrl.getClass = () => {
+        $ctrl.getStyle = () => {
             return {
-                ['demo'] : true,
+                ['background-color'] : $ctrl.color,
             };
         };
 
         $ctrl.$onInit = () => {
             it("Expected to add the class", function(done) {
                 setTimeout(function() {
-                    expect(element.querySelector('h1').classList.contains('demo')).toEqual(true);
+                    expect(element.querySelector('h1').style.background).toEqual('blue');
                     done();
                 });
             });
