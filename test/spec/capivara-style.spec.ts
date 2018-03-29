@@ -21,7 +21,8 @@ describe('test of style with fixed object', () => {
 
 describe('test of style with dynamic object', () => {
     const template = `
-        <h1 cp-class="$ctrl.getStyle()">Sample HTML text</h1>
+        <h1 cp-style="{background-color: $ctrl.color}">Sample HTML text</h1>
+        <button id="click-btn" class="btn btn-primary" cp-click="$ctrl.click()">Clica me!</button>
     `;
     const element = document.createElement('div');
     element.innerHTML = template;
@@ -29,18 +30,17 @@ describe('test of style with dynamic object', () => {
         const $ctrl = this;
         $ctrl.color = 'blue';
 
-        $ctrl.getStyle = () => {
-            return {
-                ['background-color'] : $ctrl.color,
-            };
+        $ctrl.click = () => {
+            $ctrl.color = 'red';
         };
 
         $ctrl.$onInit = () => {
             it("Expected to add the class", function(done) {
+                setTimeout(function() { element.querySelector('button').click(); }, 1000);
                 setTimeout(function() {
-                    expect(element.querySelector('h1').style.background).toEqual('blue');
+                    expect(element.querySelector('h1').style.background).toEqual('red');
                     done();
-                });
+                }, 2000);
             });
         };
     });
