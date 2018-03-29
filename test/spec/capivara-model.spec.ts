@@ -31,10 +31,10 @@ describe('test model field to scope', () => {
     element.innerHTML = template;
     capivara.controller(element, function() {
         const $ctrl = this;
-        $ctrl.$onInit = () => {
+        $ctrl.$onViewInit = () => {
             element.querySelector('input').setAttribute('value', 'Mateus Miranda');
-            Object.keys(element['$scope'].mapDom.cpModels).forEach((key) => {
-                element['$scope'].mapDom.cpModels[key].forEach((elm) => elm.applyValueInModel());
+            Object.keys(element['$scope'].mapDom.directives.cpModelsElements).forEach((key) => {
+                element['$scope'].mapDom.directives.cpModelsElements[key].forEach((elm) => elm.applyValueInModel());
             });
             it("Expected field value is equal to scope", function(done) {
                 setTimeout(function() {

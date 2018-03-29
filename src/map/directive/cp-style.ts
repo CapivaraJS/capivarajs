@@ -1,8 +1,9 @@
 import * as _ from 'lodash';
 import { Common } from '../../common';
 import { MapDom } from '../map-dom';
+import { Directive } from './directive.interface';
 
-export class CPStyle {
+export class CPStyle implements Directive {
 
     private element: any;
     private map: MapDom;
@@ -17,9 +18,10 @@ export class CPStyle {
         this.attribute = Common.getAttributeCpStyle(this.element);
         this.elementComment = document.createComment('cpStyle ' + this.attribute);
         this.elmScope = Common.getScope(_element);
-        this.elmScope.$on('$onInit', () => {
-            this.init();
-        });
+    }
+
+    public create() {
+        this.init();
     }
 
     public init() {

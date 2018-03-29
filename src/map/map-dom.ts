@@ -19,40 +19,44 @@ export class MapDom {
      */
     private element: HTMLElement;
 
-    /**
-     * Mapa de atributos com os elementos que os observam.
-     */
-    private cpModels = {};
-
-    /**
-     * Array com os ng repeat
-     */
-    private repeats = [];
-
-    private cpShows = [];
-
-    private cpIfs = [];
-
-    private cpElses = [];
-
-    private cpElseIfs = [];
-
-    private cpStyles = [];
-
-    private cpClasses = [];
+    private directives = {
+        /**
+         * Mapa de atributos com os elementos que os observam.
+         */
+        cpModelsElements: {},
+        /**
+         * Array com os ng repeat
+         */
+        cpModels: [],
+        repeats: [],
+        cpShows: [],
+        cpIfs: [],
+        cpElses: [],
+        cpElseIfs: [],
+        cpStyles: [],
+        cpClasses: [],
+        cpClicks: [],
+        cpInits: [],
+    };
 
     private regexInterpolation;
 
+    /**
+     * @description variavel boleana que define se o HTML está renderizado na página.
+     */
+    private renderedView: boolean;
+
     constructor(_element: HTMLElement) {
+        this.renderedView = false;
         this.element = _element;
         this.regexInterpolation = new RegExp(/({{).*?(}})/g);
-        if (this.element) { this.addScope(); }
+        if (this.element) { this.$addScope(); }
     }
 
     /**
      * @method void Percorre os elementos filhos do elemento principal criando os binds.
      */
-    public addScope() {
+    public $addScope() {
         this.createDirectives(this.element);
         const recursiveBind = (element) => {
             Array.from(element.children).forEach((child: any) => {
@@ -62,6 +66,28 @@ export class MapDom {
             });
         };
         recursiveBind(this.element);
+        this.$viewInit();
+    }
+
+    public $viewInit() {
+        const scope = Common.getScope(this.element);
+        scope.$on('$onInit', () => {
+            Object.keys(this.directives).forEach((key) => {
+                const directives = this.directives[key];
+                if (Array.isArray(directives)) {
+                    directives.forEach((directive) => {
+                        directive.create();
+                    });
+                }
+            });
+            this.renderedView = true;
+            if (this.element['$instance']) {
+                const ctrl = scope.scope[this.element['$instance'].config.controllerAs];
+                if (ctrl && ctrl['$onViewInit']) {
+                    ctrl['$onViewInit']();
+                }
+            }
+        });
     }
 
     /**
@@ -95,31 +121,31 @@ export class MapDom {
 
     public reloadDirectives() {
         // Update input values
-        Object.keys(this.cpModels)
+        Object.keys(this.directives.cpModelsElements)
             .forEach((key) => {
-                this.cpModels[key]
+                this.directives.cpModelsElements[key]
                     .forEach((bind) => bind.applyModelInValue());
             });
         // Update cp repeats
-        this.repeats.forEach((repeat) => repeat.applyLoop());
+        this.directives.repeats.forEach((repeat) => repeat.applyLoop());
 
         // Update cp show
-        this.cpShows.forEach((cpShow) => cpShow.init());
+        this.directives.cpShows.forEach((cpShow) => cpShow.init());
 
         // Update cp if
-        this.cpIfs.forEach((cpIf) => cpIf.init());
+        this.directives.cpIfs.forEach((cpIf) => cpIf.init());
 
         // Update cp else-if
-        this.cpElseIfs.forEach((cpElseIf) => cpElseIf.init());
+        this.directives.cpElseIfs.forEach((cpElseIf) => cpElseIf.init());
 
         // Update cp else
-        this.cpElses.forEach((cpElse) => cpElse.init());
+        this.directives.cpElses.forEach((cpElse) => cpElse.init());
 
         // Update cp style
-        this.cpStyles.forEach((cpStyle) => cpStyle.init());
+        this.directives.cpStyles.forEach((cpStyle) => cpStyle.init());
 
         // Update cp style
-        this.cpClasses.forEach((cpClass) => cpClass.init());
+        this.directives.cpClasses.forEach((cpClass) => cpClass.init());
 
         this.processInterpolation(this.element);
     }
@@ -128,6 +154,7 @@ export class MapDom {
      * @method void Atualiza os valores dos elementos HTML de acordo com o atributo que está sendo observado.
      */
     public reload() {
+        if (!this.renderedView) { return; }
         this.reloadElementChildes(this.element);
         this.reloadDirectives();
     }
@@ -183,7 +210,7 @@ export class MapDom {
      * @method void Retorna um mapa de atributos e elementos escutando alterações desse atributo.
      */
     public getCpModels() {
-        return this.cpModels;
+        return this.directives.cpModels;
     }
 
     /**
@@ -191,8 +218,8 @@ export class MapDom {
      * @param capivaraBind Tipo de bind que será monitorado.
      */
     public addCpModels(capivaraBind) {
-        this.cpModels[capivaraBind.attribute] = this.cpModels[capivaraBind.attribute] || [];
-        this.cpModels[capivaraBind.attribute].push(capivaraBind);
+        this.directives.cpModelsElements[capivaraBind.attribute] = this.directives.cpModels[capivaraBind.attribute] || [];
+        this.directives.cpModelsElements[capivaraBind.attribute].push(capivaraBind);
     }
 
     /**
@@ -200,7 +227,7 @@ export class MapDom {
      * @param child Elemento que está sendo criado o bind de model
      */
     public createCPModel(child) {
-        return new CPModel(child, this);
+        this.directives.cpModels.push(new CPModel(child, this));
     }
 
     /**
@@ -208,7 +235,7 @@ export class MapDom {
      * @param child Elemento que está sendo criado o bind de click
      */
     public createCPClick(child) {
-        return new CPClick(child, this);
+        this.directives.cpClicks.push(new CPClick(child, this));
     }
 
     /**
@@ -216,7 +243,7 @@ export class MapDom {
      * @param child Elemento que está sendo criado o bind de show
      */
     public createCPShow(child) {
-        this.cpShows.push(new CPShow(child, this));
+        this.directives.cpShows.push(new CPShow(child, this));
     }
 
     /**
@@ -224,7 +251,7 @@ export class MapDom {
      * @param child Elemento que está sendo criado o bind do if
      */
     public createCPIf(child) {
-        this.cpIfs.push(new CPIf(child, this));
+        this.directives.cpIfs.push(new CPIf(child, this));
     }
 
     /**
@@ -232,7 +259,7 @@ export class MapDom {
      * @param child Elemento que está sendo criado o bind do else
      */
     public createCPElse(child) {
-        this.cpElses.push(new CPElse(child, this));
+        this.directives.cpElses.push(new CPElse(child, this));
     }
 
     /**
@@ -240,7 +267,7 @@ export class MapDom {
      * @param child Elemento que está sendo criado o bind do else if
      */
     public createCPElseIf(child) {
-        this.cpElseIfs.push(new CPElseIf(child, this));
+        this.directives.cpElseIfs.push(new CPElseIf(child, this));
     }
 
     /**
@@ -248,7 +275,7 @@ export class MapDom {
      * @param child Elemento que está sendo criado o bind de repeat.
      */
     public createCPRepeat(child) {
-        this.repeats.push(new CPRepeat(child, this));
+        this.directives.repeats.push(new CPRepeat(child, this));
     }
 
     /**
@@ -256,7 +283,7 @@ export class MapDom {
      * @param child Elemento que está sendo criado o bind do init.
      */
     public createCPInit(child) {
-       new CPInit(child, this);
+        this.directives.cpInits.push(new CPInit(child, this));
     }
 
     /**
@@ -264,7 +291,7 @@ export class MapDom {
      * @param child Elemento que está sendo criado o bind do style.
      */
     public createCPStyle(child) {
-        this.cpStyles.push(new CPStyle(child, this));
+        this.directives.cpStyles.push(new CPStyle(child, this));
     }
 
     /**
@@ -272,6 +299,6 @@ export class MapDom {
      * @param child Elemento que está sendo criado o bind do style.
      */
     public createCPClass(child) {
-        this.cpClasses.push(new CPClass(child, this));
+        this.directives.cpClasses.push(new CPClass(child, this));
     }
 }

@@ -1,8 +1,9 @@
 import { Common } from '../../common';
 import { Constants } from '../../constants';
 import { MapDom } from '../map-dom';
+import { Directive } from './directive.interface';
 
-export class CPShow {
+export class CPShow  implements Directive {
 
     private element: any;
     private map: MapDom;
@@ -17,7 +18,10 @@ export class CPShow {
         if (!this.attribute) {
             throw new Error(`syntax error ${Constants.SHOW_ATTRIBUTE_NAME} expected arguments`);
         }
-        Common.getScope(this.element).$on('$onInit', () => this.init());
+    }
+
+    public create() {
+        this.init();
     }
 
     public init() {

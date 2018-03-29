@@ -3,8 +3,9 @@ import { Common } from '../../common';
 import { Constants } from '../../constants';
 import { Controller } from '../../controller';
 import { MapDom } from '../map-dom';
+import { Directive } from './directive.interface';
 
-export class CPRepeat {
+export class CPRepeat implements Directive {
 
     private map: MapDom;
     private attribute;
@@ -26,7 +27,10 @@ export class CPRepeat {
         }
         this.referenceNode = document.createComment('start repeat ' + this.attribute);
         this.originalElement.replaceWith(this.referenceNode);
-        Common.getScope(this.originalElement).$on('$onInit', () => this.applyLoop());
+    }
+
+    public create() {
+        this.applyLoop();
     }
 
     public applyLoop() {
