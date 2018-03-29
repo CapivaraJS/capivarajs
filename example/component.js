@@ -1,21 +1,21 @@
-
 capivara.component('my-component', {
 	template: `
-        <h1 cp-style="$ctrl.getStyle()" cp-click="$ctrl.teste()">String de teste</h1>
+        <h1 cp-init="$ctrl.inicializa()">[[$ctrl.frase]]</h1>
     `,
 	controller: function () {
 		const $ctrl = this;
-		$ctrl.color = 'red';
+		$ctrl.frase = 'Ola abigos';
 
-		$ctrl.getStyle = () => {
-			return {
-				['background-color'] : $ctrl.color,
-			};
+		$ctrl.inicializa = function () {
+			console.log('Inicializou');
+			console.log(store);
 		};
 
-		$ctrl.teste = () => {
-			$ctrl.color = 'blue';
+		let store = [];
+		let oldf = console.log;
+		console.log = function(){
+			store.push(arguments);
+			oldf.apply(console, arguments);
 		};
-
 	}
 });
