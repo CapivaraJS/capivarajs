@@ -1,24 +1,18 @@
 capivara.component('my-component', {
-	template: `        
-		<p cp-style="{background-color: $ctrl.red}">Sample text</p>
-		<button id="button" class="btn btn-primary" cp-click="$ctrl.click()">Click me</button>
+	template: `
+        <h1 cp-if="$ctrl.contador == 2">H1 com IF tem a soma igual a [[$ctrl.contador]].</h1>
+        <h1 cp-else-if="$ctrl.contador == 3">H1 com ELSE IF tem a soma igual a [[$ctrl.contador]].</h1>
+        <h1 cp-else>H1 com ELSE tem a soma igual a [[$ctrl.contador]].</h1>
+
+        <button cp-click="$ctrl.somar()">Clique para Somar</button>
     `,
-	controller: function () {
-		let $ctrl = this;
+	controller: function(){
+		const $ctrl = this;
 
-		$ctrl.red = 'blue';
+		$ctrl.contador = 1;
 
-		$ctrl.click = () => {
-			$ctrl.red = 'red';
+		$ctrl.somar = function(){
+			$ctrl.contador +=1;
 		};
-	
-		setTimeout(function(){ document.getElementById('button').click(); }, 3000);
-
-		// button.form.submit();
-		// $ctrl.getStyle = () => {
-		// 	return 	{
-		// 		['backgroundColor'] : $ctrl.red,
-		// 	};
-		// };
 	}
 });
