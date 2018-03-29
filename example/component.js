@@ -1,17 +1,7 @@
 capivara.component('my-component', {
 	template: `
-        <ul id="some">
-            <li cp-repeat="pessoa in $ctrl.pessoas">
-                [[pessoa.nome]]
-            </li>
-        </ul>
-    `,
-	controller: function(){
-		const $ctrl = this;
-
-		$ctrl.pessoas = [
-			{ nome: 'João' },
-			{ nome: 'Maria' }
-		];
-	}
+	<h1 cp-if="$ctrl.isActive">Show this</h1>
+	<h1 cp-else > Not Show this</h1>
+	<button cp-click="$ctrl.click()">Click me!</button>
+    `
 });
