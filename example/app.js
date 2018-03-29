@@ -4,15 +4,15 @@ capivara.controller(document.body, function() {
 	$ctrl.getClass = () => {
 		return {
 			'demo' : $ctrl.active
-		}
-	}
+		};
+	};
 
 	$ctrl.toogle = () => {
 		$ctrl.active = !$ctrl.active;
-	}
+	};
     
 	$ctrl.teste = () => {
-		console.log($ctrl)
-	}
+		console.log($ctrl);
+	};
 
 });

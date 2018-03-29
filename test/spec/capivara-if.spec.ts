@@ -17,15 +17,7 @@ describe('test of if with fixed object', () => {
         };
 
         $ctrl.$onInit = () => {
-            it('Expected none html h1 tag', () => {
-                expect(element.querySelector('h1')).toEqual(null);
-            });
-            setTimeout(function() { element.querySelector('button').click(); }, 1000);
-            it('Expected html h1 tag', () => {
-                setTimeout(function() {
-                    expect(element.querySelector('h1')).not.toEqual(null);
-                }, 3000);
-            });
+
         };
     });
 });
