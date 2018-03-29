@@ -1,18 +1,19 @@
-capivara.controller(document.body, function() {
-    const $ctrl = this;
-
-    $ctrl.getClass = () => {
-        return {
-            'demo' : $ctrl.active
-        }
-    }
-
-    $ctrl.toogle = () => {
-        $ctrl.active = !$ctrl.active;
-    }
+capivara.controller(document.body, function(){
+  const $ctrl = this;
     
-    $ctrl.teste = () => {
-        console.log($ctrl)
+  $ctrl.getClass = () => {
+    return {
+      ['my-class']: true
     }
+  }
 
-});
+  $ctrl.getStyle = () => {
+    return {
+      ['color']: 'red'
+    }
+  }
+
+  $ctrl.$onInit = () => {
+    // console.log(this);
+  }
+})
