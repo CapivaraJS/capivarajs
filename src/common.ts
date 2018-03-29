@@ -147,9 +147,9 @@ export namespace Common {
 
     export function isValidCondition(element, condition) {
         let scope = getScope(element);
-        if (!(element.parentNode && element.parentNode.classList.contains('binding-repeat')) && scope.$parent) {
-            scope = scope.$parent;
-        }
+        // if (!(element.parentNode && element.parentNode.classList.contains('binding-repeat')) && scope.$parent) {
+        //     scope = scope.$parent;
+        // }
         return evalInContext(condition, scope.scope);
     }
 
