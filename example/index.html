@@ -18,16 +18,14 @@
 <body>
     
     <div class="text-center">
-        <my-component id="some"></my-component>
+        <h1 cp-if="$ctrl.isActive">Show this</h1>
+        <button cp-click="$ctrl.click()">Click me!</button>
     </div>
     
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script> -->
     <script src="../dist/capivara.js"></script>
     <script src="component.js"></script>
     <script src="app.js"></script>
-    <script>
-        capivara.componentBuilder(document.getElementById("some")).build();
-    </script>
 </body>
 
 </html>
