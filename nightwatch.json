@@ -23,7 +23,7 @@
             "selenium_host": "localhost",
             "silent": true,
             "screenshots": {
-                "enabled": true,
+                "enabled": false,
                 "path": "./screenshots"
             },
             "desiredCapabilities": {

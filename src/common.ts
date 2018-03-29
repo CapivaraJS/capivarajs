@@ -13,7 +13,7 @@ export namespace Common {
      * @param source
      * @param context
      */
-    export function evalInContext(source, context) {
+    export function evalInContext(source, context: any) {
         if (source) {
             const replacerSource = (str, arrFinal?) => {
                 if (!arrFinal) { arrFinal = []; }
@@ -146,11 +146,10 @@ export namespace Common {
     }
 
     export function isValidCondition(element, condition) {
-        let scope = getScope(element);
-        if (!(element.parentNode && element.parentNode.classList.contains('binding-repeat')) && scope.$parent) {
-            scope = scope.$parent;
-        }
-        return evalInContext(condition, scope.scope);
+        // if (!(element.parentNode && element.parentNode.classList.contains('binding-repeat')) && scope.$parent) {
+        //     scope = scope.$parent;
+        // }
+        return evalInContext(condition, getScope(element).scope);
     }
 
     export function appendBefore(element, elementToInsert) {

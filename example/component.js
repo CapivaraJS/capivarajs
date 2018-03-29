@@ -1,3 +1,4 @@
+
 capivara.component('my-component', {
 	template: `
         <h1 cp-style="$ctrl.getStyle()">String de teste</h1>
