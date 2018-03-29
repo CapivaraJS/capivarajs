@@ -4,7 +4,6 @@ import capivara from '../../src/index';
 describe('test of class with fixed object', () => {
     const template = `
         <h1 cp-class="{'demo' : $ctrl.activeClass}"></h1>
-        <button cp-click="$ctrl.toogleActiveClass()"></button>
     `;
     const element = document.createElement('div');
     element.innerHTML = template;
@@ -44,6 +43,5 @@ describe('test of class with dynamic object', () => {
                 });
             });
         };
-
     });
 });

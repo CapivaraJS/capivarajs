@@ -1,1 +1,0 @@
-capivara.componentBuilder('demo').build();
