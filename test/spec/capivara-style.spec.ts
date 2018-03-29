@@ -36,7 +36,7 @@ describe('test of style with dynamic object', () => {
         };
 
         $ctrl.$onInit = () => {
-            it("Expected to add the class", function(done) {
+            it("Expected to add the style", function(done) {
                 setTimeout(function() {
                     expect(element.querySelector('h1').style.backgroundColor).toEqual('red');
                     done();
@@ -62,7 +62,7 @@ describe('test of style with dynamic object', () => {
         };
 
         $ctrl.$onInit = () => {
-            it("Expected to add the class", function(done) {
+            it("Expected to add the style", function(done) {
                 setTimeout(function() { element.querySelector('button').click(); }, 1000);
                 setTimeout(function() {
                     expect(element.querySelector('h1').style.background).toEqual('red');

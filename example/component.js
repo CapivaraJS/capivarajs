@@ -1,21 +1,7 @@
-
 capivara.component('my-component', {
 	template: `
-        <h1 cp-style="$ctrl.getStyle()" cp-click="$ctrl.teste()">String de teste</h1>
-    `,
-	controller: function () {
-		const $ctrl = this;
-		$ctrl.color = 'red';
-
-		$ctrl.getStyle = () => {
-			return {
-				['background-color'] : $ctrl.color,
-			};
-		};
-
-		$ctrl.teste = () => {
-			$ctrl.color = 'blue';
-		};
-
-	}
+	<h1 cp-if="$ctrl.isActive">Show this</h1>
+	<h1 cp-else > Not Show this</h1>
+	<button cp-click="$ctrl.click()">Click me!</button>
+    `
 });

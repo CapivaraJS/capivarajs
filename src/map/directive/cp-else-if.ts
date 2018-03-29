@@ -2,8 +2,9 @@ import * as _ from 'lodash';
 import { Common } from '../../common';
 import { Constants } from '../../constants';
 import { MapDom } from '../map-dom';
+import { Directive } from './directive.interface';
 
-export class CPElseIf {
+export class CPElseIf implements Directive {
 
     private element: any;
     private map: MapDom;
@@ -14,29 +15,30 @@ export class CPElseIf {
     private cpElseIf;
 
     constructor(_element: HTMLElement, _map: MapDom) {
-        Common.getScope(_element).$on('$onInit', () => {
-            this.element = _element;
-            this.element['cpElseIf'] = this;
-            this.integrationCpElse();
-            this.attribute = Common.getAttributeCpElseIf(this.element);
-            if (!this.attribute) {
-                throw new Error(`syntax error ${Constants.ELSE_IF_ATTRIBUTE_NAME} expected arguments`);
-            }
-            this.prevElement = _element.previousSibling;
-            this.parentCondition = Common.getScope(this.element).parentCondition;
-            if (!this.parentCondition) {
-                throw new Error(`syntax error ${Constants.ELSE_IF_ATTRIBUTE_NAME} used on element ` +
+        this.element = _element;
+        this.element['cpElseIf'] = this;
+        this.attribute = Common.getAttributeCpElseIf(this.element);
+        if (!this.attribute) {
+            throw new Error(`syntax error ${Constants.ELSE_IF_ATTRIBUTE_NAME} expected arguments`);
+        }
+        this.prevElement = _element.previousSibling;
+        this.map = _map;
+        this.elementComment = document.createComment('CPElseIf ' + this.attribute);
+    }
+
+    public create() {
+        this.integrationCpElse();
+        this.parentCondition = Common.getScope(this.element).parentCondition;
+        if (!this.parentCondition) {
+            throw new Error(`syntax error ${Constants.ELSE_IF_ATTRIBUTE_NAME} used on element ` +
                 `<${this.element.nodeName.toLowerCase()}> without corresponding ${Constants.IF_ATTRIBUTE_NAME}.`);
-            }
-            this.map = _map;
-            this.elementComment = document.createComment('CPElseIf ' + this.attribute);
-            this.init();
-        });
+        }
+        this.init();
     }
 
     public integrationCpElse() {
         const nextElement = this.element.nextElementSibling;
-        if (nextElement && (nextElement.hasAttribute(Constants.ELSE_ATTRIBUTE_NAME) || nextElement.hasAttribute(Constants.ELSE_IF_ATTRIBUTE_NAME)) ) {
+        if (nextElement && (nextElement.hasAttribute(Constants.ELSE_ATTRIBUTE_NAME) || nextElement.hasAttribute(Constants.ELSE_IF_ATTRIBUTE_NAME))) {
             Common.getScope(nextElement).parentCondition = this;
         }
     }

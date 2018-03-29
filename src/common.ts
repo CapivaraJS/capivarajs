@@ -132,6 +132,7 @@ export namespace Common {
     }
 
     export function destroyElement(element, elementComment) {
+        element.$$cpDestroyed = true;
         if (element.replaceWith) {
             element.replaceWith(elementComment);
         }
@@ -139,6 +140,7 @@ export namespace Common {
     }
 
     export function createElement(element, elementComment) {
+        element.$$cpDestroyed = false;
         if (elementComment.replaceWith) {
             elementComment.replaceWith(element);
         }

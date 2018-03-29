@@ -2,8 +2,9 @@ import * as _ from 'lodash';
 import { Common } from '../../common';
 import { Constants } from '../../constants';
 import { MapDom } from '../map-dom';
+import { Directive } from './directive.interface';
 
-export class CPModel {
+export class CPModel implements Directive {
 
     private element: any;
     private map: MapDom;
@@ -16,8 +17,11 @@ export class CPModel {
         if (!this.attribute) {
             throw new Error(`syntax error ${Constants.MODEL_ATTRIBUTE_NAME} expected arguments`);
         }
+    }
+
+    public create() {
         this.init();
-        this.applyValueInModel();
+        this.applyModelInValue();
     }
 
     public init() {
