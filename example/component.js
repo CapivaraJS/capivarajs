@@ -1,7 +1,7 @@
 
 capivara.component('my-component', {
 	template: `
-        <h1 cp-style="$ctrl.getStyle()">String de teste</h1>
+        <h1 cp-style="$ctrl.getStyle()" cp-click="$ctrl.teste()">String de teste</h1>
     `,
 	controller: function () {
 		const $ctrl = this;
@@ -12,5 +12,10 @@ capivara.component('my-component', {
 				['background-color'] : $ctrl.color,
 			};
 		};
+
+		$ctrl.teste = () => {
+			$ctrl.color = 'blue';
+		};
+
 	}
 });
