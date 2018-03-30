@@ -47,9 +47,9 @@ export class MapDom {
     private renderedView: boolean;
 
     constructor(_element: HTMLElement) {
-        this.renderedView = false;
         this.element = _element;
         this.regexInterpolation = new RegExp(/({{).*?(}})/g);
+        this.setRenderedView(false);
         if (this.element) { this.$addScope(); }
     }
 
@@ -66,12 +66,15 @@ export class MapDom {
             });
         };
         recursiveBind(this.element);
-        this.$viewInit();
+        this.$directivesInit();
     }
 
-    public $viewInit() {
-        const scope = Common.getScope(this.element);
-        scope.$on('$onInit', () => {
+    private setRenderedView(value: boolean) {
+        this.renderedView = value;
+    }
+
+    public $directivesInit() {
+        Common.getScope(this.element).$on('$onInit', () => {
             Object.keys(this.directives).forEach((key) => {
                 const directives = this.directives[key];
                 if (Array.isArray(directives)) {
@@ -80,14 +83,18 @@ export class MapDom {
                     });
                 }
             });
-            this.renderedView = true;
-            if (this.element['$instance']) {
-                const ctrl = scope.scope[this.element['$instance'].config.controllerAs];
-                if (ctrl && ctrl['$onViewInit']) {
-                    ctrl['$onViewInit']();
-                }
-            }
+            this.$viewInit();
         });
+    }
+
+    private $viewInit() {
+        this.setRenderedView(true);
+        if (this.element['$instance']) {
+            const ctrl = Common.getScope(this.element).scope[this.element['$instance'].config.controllerAs];
+            if (ctrl && ctrl['$onViewInit']) {
+                ctrl['$onViewInit']();
+            }
+        }
     }
 
     /**
@@ -107,14 +114,14 @@ export class MapDom {
         if (child.hasAttribute(Constants.CLASS_ATTRIBUTE_NAME)) { this.createCPClass(child); }
     }
 
-    public reloadElementChildes(element) {
+    public reloadElementChildes(element, initialScope) {
         if (element.children) {
             Array.from(element.children).forEach((child: any) => {
                 const childScope = Common.getScope(child);
-                if (childScope && childScope.mapDom) {
+                if (childScope.id !== initialScope.id && childScope && childScope.mapDom) {
                     childScope.mapDom.reloadDirectives();
-                    this.reloadElementChildes(child);
                 }
+                this.reloadElementChildes(child, initialScope);
             });
         }
     }
@@ -155,8 +162,8 @@ export class MapDom {
      */
     public reload() {
         if (!this.renderedView) { return; }
-        this.reloadElementChildes(this.element);
         this.reloadDirectives();
+        this.reloadElementChildes(this.element, Common.getScope(this.element));
     }
 
     /**

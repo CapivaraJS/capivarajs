@@ -12,14 +12,21 @@ export class Scope {
 
     public watchers;
 
+    public id;
+
     constructor(_element: HTMLElement) {
         if (!_element || !_element.nodeName) {
             console.warn('Unable to create a scope, it is necessary to report an html element.');
         }
+        window['capivara'].scopes.push(this);
+        this.id = window['capivara'].scopes.length;
         this.watchers = [];
         this.addScope(_element, this);
         this.mapDom = new MapDom(_element);
         this.scope = new ScopeProxy(this, this.mapDom, _element);
+        if (!_element['$instance']) {
+            this.$emit('$onInit');
+        }
     }
 
     public getScopeProxy() {
