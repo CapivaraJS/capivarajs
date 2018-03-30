@@ -24,6 +24,14 @@ export class CPStyle implements Directive {
         this.init();
     }
 
+    public setStyleByObject(style) {
+        if (style && window['capivara'].isObject(style)) {
+            Object.keys(style).forEach((key) => {
+                this.element.style.setProperty(key.replace(/ /g, ''), style[key]);
+            });
+        }
+    }
+
     public init() {
         try {
             this.attribute.split(',')
@@ -34,15 +42,14 @@ export class CPStyle implements Directive {
                     };
                 })
                 .forEach((style) => {
-                    this.element.style.setProperty(style.key.replace(/ /g, ''), style.value);
+                    if  (window['capivara'].isString(style.value)) {
+                        this.element.style.setProperty(style.key.replace(/ /g, ''), style.value);
+                    } else {
+                        this.setStyleByObject(style.value);
+                    }
                 });
         } catch (e) {
-            const result = Common.executeFunctionCallback(this.element, this.attribute);
-            if (result && window['capivara'].isObject(result)) {
-                Object.keys(result).forEach((key) => {
-                    this.element.style.setProperty(key.replace(/ /g, ''), result[key]);
-                });
-            }
+            this.setStyleByObject(Common.executeFunctionCallback(this.element, this.attribute));
         }
     }
 }

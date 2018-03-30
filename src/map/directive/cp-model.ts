@@ -38,7 +38,7 @@ export class CPModel implements Directive {
                 }
                 break;
             case 'number':
-                if (value !== this.element.valueAsNumber) {
+                if (value !== this.element.valueAsNumber && value !== undefined) {
                     this.element.valueAsNumber = value || null;
                 }
                 break;
@@ -55,7 +55,7 @@ export class CPModel implements Directive {
                 _.set(Common.getScope(this.element).scope, this.attribute, this.element.valueAsDate);
                 break;
             case 'number':
-                _.set(Common.getScope(this.element).scope, this.attribute, this.element.valueAsNumber);
+                _.set(Common.getScope(this.element).scope, this.attribute, isNaN(this.element.valueAsNumber) ? undefined : this.element.valueAsNumber);
                 break;
             default:
                 _.set(Common.getScope(this.element).scope, this.attribute, this.element.value);

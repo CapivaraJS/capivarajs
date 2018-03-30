@@ -1,6 +1,8 @@
 import { Constants } from '../constants';
+import evalContext from '../eval';
 import { MapDom } from '../map/map-dom';
 import { ScopeProxy } from './scope.proxy';
+
 export class Scope {
 
     // Dados disponíveis nesse escopo
@@ -52,6 +54,10 @@ export class Scope {
             .forEach((watcher) => {
                 watcher.callback.call(...args);
             });
+    }
+
+    public $eval = (source) => {
+        return evalContext(this.scope, source);
     }
 
 }

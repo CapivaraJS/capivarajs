@@ -20,8 +20,12 @@
                 <p cp-style="{ background: 'red', padding: '10px'}">Exemplo 1</p>
                 <p id="p1" cp-style="{ background: $ctrl.blue, padding: '10px'}">Exemplo 2</p>
 
+
+                <p id="p3" cp-style="$ctrl.getStyleExemplo3();">Exemplo 3</p>
+
                 <button type="button" id="btn1" cp-click="$ctrl.changeNumberOne()">Trocar Numero 1</button>
                 <button type="button" id="btn2" cp-click="$ctrl.changeBackground()">Trocar Fundo Ex2</button>
+                <button type="button" id="btn3" cp-click="$ctrl.changeBackground3()">Trocar Fundo Ex3</button>
             `,
             controller: function () {
                 let $ctrl = this;
@@ -29,6 +33,7 @@
                 $ctrl.$onInit = function(){
                     $ctrl.numberOne = 50;
                     $ctrl.numberTwo = 80;
+                    $ctrl.bg3 = "yellow";
                     $ctrl.blue = "blue";
                 };
                 $ctrl.changeNumberOne = function() {
@@ -36,6 +41,16 @@
                 };
                 $ctrl.changeBackground = function(){
                     $ctrl.blue = "gray";
+                }
+
+                $ctrl.changeBackground3 = function(){
+                    $ctrl.bg3 = "green";
+                }
+
+                $ctrl.getStyleExemplo3 = function(){
+                    return {
+                        'background': $ctrl.bg3
+                    };
                 }
             }
         });

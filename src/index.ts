@@ -3,13 +3,14 @@ import {Component} from "./component";
 import { ComponentInstance } from './component.instance';
 import {Constants} from "./constants";
 import {Controller} from "./controller";
-
+import evalContext from './eval';
 const packageJson = require("../package.json");
 
 (function(capivara) {
     if (!capivara) {
 
         window["capivara"] = {
+            $eval: evalContext,
             /**
              * @name capivara.components
              * @description Armazena os componentes criados
