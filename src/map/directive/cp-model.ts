@@ -19,7 +19,7 @@ export class CPModel implements Directive {
         }
     }
 
-    public create() {
+    public create(_element?) {
         this.init();
         this.applyModelInValue();
     }
@@ -31,17 +31,21 @@ export class CPModel implements Directive {
 
     public applyModelInValue() {
         const value = _.get(Common.getScope(this.element).scope, this.attribute);
-        if (this.element.value !== value) {
-            switch (this.element.type) {
-                case 'date':
+        switch (this.element.type) {
+            case 'date':
+                if (this.element.valueAsDate.getTime() !== value.getTime()) {
                     this.element.valueAsDate = value || null;
-                    break;
-                case 'number':
+                }
+                break;
+            case 'number':
+                if (value !== this.element.valueAsNumber) {
                     this.element.valueAsNumber = value || null;
-                    break;
-                default:
+                }
+                break;
+            default:
+                if (this.element.value !== value) {
                     this.element.value = value  || null;
-            }
+                }
         }
     }
 

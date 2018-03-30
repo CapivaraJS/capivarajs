@@ -1,3 +1,3 @@
 export interface Directive {
-    create();
+    create(_element?);
 }

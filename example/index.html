@@ -16,12 +16,23 @@
 </head>
 
 <body>
-    
-    <div class="text-center" cp-click="$ctrl.teste()">
-        <h1 cp-if="$ctrl.isActive">Show this</h1>
-        <h2 cp-else>Not show this</h2>
+
+    <div class="text-center">
+        <ul cp-init="$ctrl.mateus()">
+            <li cp-repeat="pessoa in $ctrl.pessoas">
+                [[ pessoa.nome ]]
+                <br> [[ pessoa.idade ]]
+                <br>
+                <input type="number" cp-model="pessoa.idade">
+                <hr/>
+            </li>
+        </ul>
+        <div cp-click="$ctrl.teste()">
+            <h1 cp-if="$ctrl.isActive">Show this</h1>
+            <h2 cp-else>Not show this</h2>
+        </div>
     </div>
-    
+
     <script src="../dist/capivara.js"></script>
     <script src="component.js"></script>
     <script src="app.js"></script>

@@ -14,6 +14,7 @@ const packageJson = require("../package.json");
              * @name capivara.components
              * @description Armazena os componentes criados
              */
+            scopes: [],
             components: {},
             $watchers: [],
             /**
