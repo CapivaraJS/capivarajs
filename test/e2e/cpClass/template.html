@@ -14,27 +14,46 @@
         .democlass {
             background: red;
         }
+        .democlass2 {
+            background: blue;
+        }
     </style>
 
     <my-component id="myComponent"></my-component>
 
-    <script src="/dist/capivara.min.js"></script>
+    <script src="/dist/capivara.js"></script>
     <script>
         capivara.component('my-component', {
             template: `        
-        <p cp-class="{ democlass: $ctrl.visible }">Um simples exemplo</p> 
-        <button cp-click="$ctrl.toogleClass()">Mudar cor</button>
-    `,
+                <p id="p1" cp-class="{ democlass: $ctrl.classDemoActive }">Um simples exemplo</p> <br/>
+
+                <p id="p2" cp-class="$ctrl.getClass()">Exemplo 2</p> 
+
+
+                <br/>
+                
+                <button id="btn1" cp-click="$ctrl.toogleClass()">Mudar cor 1</button>
+                <button id="btn2" cp-click="$ctrl.toogleClass2()">Mudar cor 2</button>
+            `,
             controller: function () {
                 let $ctrl = this;
-
                 $ctrl.$onInit = function () {
-                    $ctrl.visible = false;
+                    $ctrl.classDemoActive = false;
                 };
+                
                 $ctrl.toogleClass = function () {
-                    $ctrl.visible = !$ctrl.visible;
-                    console.log($ctrl);
+                    $ctrl.classDemoActive = !$ctrl.classDemoActive;
                 };
+
+                $ctrl.toogleClass2 = function () {
+                    $ctrl.classDemoActive2 = !$ctrl.classDemoActive2;
+                };
+
+                $ctrl.getClass = function(){
+                    return {
+                        'democlass2' : $ctrl.classDemoActive2
+                    };
+                }
             }
         });
 

@@ -22,9 +22,6 @@ module.exports = {
 						.getCssProperty('p#p1', 'background', function (result) {
 							if (result.value.substring(0, result.value.indexOf(')') + 1) === 'rgb(128, 128, 128)') {
 								console.log('Passou no teste');
-								browser
-									.pause(1000)
-									.end();
 							} else {
 								console.log('Falhou no Teste')
 									.waitForElementVisible('div', 10);
@@ -32,5 +29,21 @@ module.exports = {
 						});
 				}
 			});
+		browser
+			.pause(1000)
+			.click('button[id="btn3"]')
+			.pause(1000);
+		browser
+			.getCssProperty('p#p3', 'background', function (result) {
+				if (result.value.substring(0, result.value.indexOf(')') + 1) === 'rgb(0, 128, 0)') {
+					console.log('Passou no teste');
+					browser
+					.pause(1000)
+					.end();
+				} else {
+					console.log('Falhou no Teste')
+						.waitForElementVisible('div', 10);
+				}
+			})
 	}
 };

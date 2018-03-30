@@ -176,6 +176,10 @@ export class MapDom {
         });
     }
 
+    public removeWordFromStr(str, word) {
+        return (str + '').replace(new RegExp(`\\s+${word}\\s+|${word}\\s+|\\s+${word}|${word}$`, 'gi'), '');
+    }
+
     /**
      * @description Função que modifica o texto da interpolação pelo determinado valor.
      * @param childNode
@@ -193,7 +197,10 @@ export class MapDom {
                 let value = '';
 
                 try {
-                    const evalValue = Common.evalInContext(content, Common.getScopeParent(childNode));
+                    let evalValue = Common.evalInContext(content, Common.getScopeParent(childNode));
+                    evalValue = this.removeWordFromStr(evalValue, 'null');
+                    evalValue = this.removeWordFromStr(evalValue, 'undefined');
+                    evalValue = this.removeWordFromStr(evalValue, 'NaN');
                     value = evalValue !== undefined ? evalValue : '';
                 } catch (e) { }
 

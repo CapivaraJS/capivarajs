@@ -3,8 +3,7 @@ capivara.controller(document.body, function() {
 	$ctrl.isActive = false;
 
 	$ctrl.teste = () => {
-		// $ctrl.isActive = !$ctrl.isActive;
-		$ctrl.pessoas[1].idade = 30;
+		$ctrl.isActive = !$ctrl.isActive;
 	}
 
 	$ctrl.pessoas = [
@@ -13,5 +12,13 @@ capivara.controller(document.body, function() {
 			idade: 21
 		}
 	];
+
+	$ctrl.nome = 'Mateus'
+	$ctrl.nome2 = 'Miranda'
+	$ctrl.nome3 = 'de Almeida'
+
+	$ctrl.teste = function(scope){
+		console.log(scope);
+	}
 
 });

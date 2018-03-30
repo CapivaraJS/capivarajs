@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+    <script src="../dist/capivara.js"></script>
+    <script>
+        var scope = {
+            $ctrl: {
+                n1: 10,
+                n2: 10,
+                n3: function(num, n4){
+                    return num;
+                }
+            }
+        }
+        console.log(capivara.$eval('$ctrl.n1+$ctrl.n1+$ctrl.n2+$ctrl.n3(50, $ctrl.n4)', scope));
+    </script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import { Constants } from './constants';
-
+import evalContext from './eval';
 export namespace Common {
 
     export function regexIndexOf(str, regex, startpos?) {
@@ -15,46 +15,8 @@ export namespace Common {
      */
     export function evalInContext(source, context: any) {
         if (source) {
-            const replacerSource = (str, arrFinal?) => {
-                if (!arrFinal) { arrFinal = []; }
-                const index = regexIndexOf(str, /(?!^-)[+*\/-](\s?-)?/g);
-                const sourceToReplace = (index !== -1 ? str.substring(0, index) : str);
-                if ((
-                    sourceToReplace
-                        .replace(/ /g, '')
-                        .replace(/'/g, '')
-                        .replace(/"/g, '')
-                ) !== '') {
-                    sourceToReplace.split(' ').forEach((word) => {
-                        word = word.split('(').join('').split(')').join('').replace(/!/g, '');
-                        const sourceValue = _.get(context, word.replace('(', '').replace(')', '').replace(/ /g, ''));
-                        const firstKey = getFirstKey(word);
-                        if (firstKey && word && context && context.hasOwnProperty(firstKey)) {
-                            arrFinal.push({
-                                key: word.replace('(', '').replace(')', '').replace(/ /g, ''),
-                                value: window['capivara'].isString(sourceValue) ? "'" + sourceValue + "'" : sourceValue,
-                            });
-                        }
-                    });
-                }
-                str = str.replace(sourceToReplace, '');
-                if (index !== -1) { str = str.slice(1); }
-                if (str.replace(/ /g, '').length > 0) {
-                    return replacerSource(str, arrFinal);
-                }
-                return arrFinal;
-            };
-            const values = replacerSource(source);
-            if (values.length === 1 && window['capivara'].isObjectConstructor(values[0].value)) {
-                return values[0].value;
-            }
-            values.forEach((sourceValue) => {
-                source = source.replace(sourceValue.key, sourceValue.value);
-            });
-            const value = eval(source.replace(/NaN/, 0));
-            return (value == null || value === undefined ? '' : value);
+            return evalContext(source, context);
         }
-        return '';
     }
 
     export function getFirstKey(str: string) {
