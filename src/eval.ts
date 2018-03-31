@@ -33,7 +33,6 @@ export default function(source, context) {
     });
 
     return function(str) {
-        const value =  eval(str);
-        return value;
+        return eval(str);
     }.call(context, source);
 }

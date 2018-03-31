@@ -21,8 +21,8 @@ export class CPRepeat implements Directive {
         this.map = _map;
         this.attribute = _element.getAttribute(Constants.REPEAT_ATTRIBUTE_NAME).replace(/\s+/g, ' ');
         this.regex = new RegExp('^[\\s*|\\S]+\\s+in\\s+\\S+\\s*', 'g');
-        const matchs = this.attribute.match(this.regex);
-        if (!this.attribute || (!matchs || matchs.length === 0)) {
+        const matches = this.attribute.match(this.regex);
+        if (!this.attribute || (!matches || matches.length === 0)) {
             throw new Error(`syntax error invalid ${Constants.REPEAT_ATTRIBUTE_NAME} expresion: ${this.attribute}`);
         }
         this.referenceNode = document.createComment('start repeat ' + this.attribute);

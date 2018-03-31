@@ -176,7 +176,7 @@ export class MapDom {
         });
     }
 
-    public removeWordFromStr(str, word) {
+    public static removeWordFromStr(str, word) {
         return (str + '').replace(new RegExp(`\\s+${word}\\s+|${word}\\s+|\\s+${word}|${word}$`, 'gi'), '');
     }
 
@@ -198,9 +198,9 @@ export class MapDom {
 
                 try {
                     let evalValue = Common.evalInContext(content, Common.getScopeParent(childNode));
-                    evalValue = this.removeWordFromStr(evalValue, 'null');
-                    evalValue = this.removeWordFromStr(evalValue, 'undefined');
-                    evalValue = this.removeWordFromStr(evalValue, 'NaN');
+                    evalValue = MapDom.removeWordFromStr(evalValue, 'null');
+                    evalValue = MapDom.removeWordFromStr(evalValue, 'undefined');
+                    evalValue = MapDom.removeWordFromStr(evalValue, 'NaN');
                     value = evalValue !== undefined ? evalValue : '';
                 } catch (e) { }
 
