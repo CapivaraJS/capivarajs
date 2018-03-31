@@ -24,7 +24,7 @@ export class CPClass implements Directive {
         this.init();
     }
 
-    public setStyleByObject(classObj) {
+    public setClassByObject(classObj) {
         if (classObj && window['capivara'].isObject(classObj)) {
             Object.keys(classObj).forEach((key) => {
                 if (classObj[key] === true) {
@@ -47,7 +47,7 @@ export class CPClass implements Directive {
                 })
                 .forEach((cpClass) => {
                     if (window['capivara'].isObject(cpClass.value)) {
-                        this.setStyleByObject(cpClass.value);
+                        this.setClassByObject(cpClass.value);
                     } else {
                         if (cpClass.value === true) {
                             CPClass.addClass(this.element, cpClass.key.replace(/ /g, ''));
@@ -57,7 +57,7 @@ export class CPClass implements Directive {
                     }
                 });
         } catch (e) {
-            this.setStyleByObject(Common.executeFunctionCallback(this.element, this.attribute));
+            this.setClassByObject(Common.executeFunctionCallback(this.element, this.attribute));
         }
     }
 
@@ -76,5 +76,4 @@ export class CPClass implements Directive {
             el.className += " " + className;
              }
     }
-
 }

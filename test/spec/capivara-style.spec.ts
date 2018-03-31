@@ -49,7 +49,7 @@ describe('test of style with dynamic object', () => {
 describe('test of style with dynamic object', () => {
     const template = `
         <h1 cp-style="{background-color: $ctrl.color}">Sample HTML text</h1>
-        <button id="click-btn" class="btn btn-primary" cp-click="$ctrl.click()">Clica me!</button>
+        <button id="click-btn" class="btn btn-primary" cp-click="$ctrl.click()">Click me!</button>
     `;
     const element = document.createElement('div');
     element.innerHTML = template;

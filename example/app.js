@@ -1,24 +1,9 @@
 capivara.controller(document.body, function() {
 	const $ctrl = this;
 	$ctrl.isActive = false;
+	$ctrl.src = 'https://avatars1.githubusercontent.com/u/33517395?s=200&v=4';
 
-	$ctrl.teste = () => {
-		$ctrl.isActive = !$ctrl.isActive;
-	}
-
-	$ctrl.pessoas = [
-		{
-			nome: "Mateus Miranda",
-			idade: 21
-		}
-	];
-
-	$ctrl.nome = 'Mateus'
-	$ctrl.nome2 = 'Miranda'
-	$ctrl.nome3 = 'de Almeida'
-
-	$ctrl.teste = function(scope){
-		console.log(scope);
-	}
-
+	$ctrl.click = () => {
+		$ctrl.src = 'https://bit.ly/2pTjZnU';
+	};
 });
