@@ -17,19 +17,14 @@
 
 <body>
 
-    <div class="text-center">
-        <h1>
-            [[ 'Resultado: ' + ( $ctrl.n1 + $ctrl.n2 ) ]]
-        </h1>
-        <input type="number" cp-model="$ctrl.n1">
-        <input type="number" cp-model="$ctrl.n2">
-
-        <button cp-click="$ctrl.teste($ctrl)"></button>
-    </div>
+    <my-component id="kaka"></my-component>
 
     <script src="../dist/capivara.js"></script>
     <script src="component.js"></script>
     <script src="app.js"></script>
+    <script>
+        capivara.componentBuilder(document.getElementById("kaka")).build();
+    </script>
 </body>
 
 </html>
