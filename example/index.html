@@ -17,14 +17,14 @@
 
 <body>
 
-    <my-component id="kaka"></my-component>
-
+    <!-- <my-component id="kaka"></my-component> -->
+    <div id="parentDiv">
+        <h1 cp-repeat="person in $ctrl.persons">[[person.name]]</h1>
+    </div>
+    <button class="btn btn-primary"cp-click="$ctrl.add()">click</button>   
     <script src="../dist/capivara.js"></script>
     <script src="component.js"></script>
     <script src="app.js"></script>
-    <script>
-        capivara.componentBuilder(document.getElementById("kaka")).build();
-    </script>
 </body>
 
 </html>

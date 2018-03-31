@@ -26,8 +26,8 @@ export class CPRepeat implements Directive {
             throw new Error(`syntax error invalid ${Constants.REPEAT_ATTRIBUTE_NAME} expresion: ${this.attribute}`);
         }
         this.referenceNode = document.createComment('start repeat ' + this.attribute);
-        if (this.originalElement.replaceWith) {
-            this.originalElement.replaceWith(this.referenceNode);
+        if (this.originalElement.parentNode.replaceChild) {
+            this.originalElement.parentNode.replaceChild(this.referenceNode, this.originalElement);
         }
     }
 
