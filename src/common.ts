@@ -124,4 +124,12 @@ export namespace Common {
     export function appendAfter(element, elementToInsert) {
         element.parentNode.insertBefore(elementToInsert, element.nextSibling);
     }
+
+    export function setScopeId(scope) {
+        if (!scope.id) {
+            window['capivara'].scopes.push(scope);
+            scope.id = window['capivara'].scopes.length;
+        }
+    }
+
 }

@@ -118,7 +118,7 @@ export class MapDom {
         if (element.children) {
             Array.from(element.children).forEach((child: any) => {
                 const childScope = Common.getScope(child);
-                if (childScope.id !== initialScope.id && childScope && childScope.mapDom) {
+                if (childScope && childScope.mapDom && childScope.id !== initialScope.id) {
                     childScope.mapDom.reloadDirectives();
                 }
                 this.reloadElementChildes(child, initialScope);
