@@ -38,23 +38,21 @@ describe('test of repeat with dynamic object', () => {
         const $ctrl = this;
 
         $ctrl.persons = [
-{ name: 'John' },
-{ name: 'Bob' },
-{ name: 'Anna' },
-{ name: 'Kyle' },
-];
+            { name: 'John' },
+            { name: 'Bob' },
+            { name: 'Anna' },
+            { name: 'Kyle' },
+        ];
 
         $ctrl.add = function() {
-$ctrl.persons.push({name: 'Carlos'});
-};
+            $ctrl.persons.push({ name: 'Carlos' });
+        };
 
         $ctrl.$onViewInit = () => {
-            setTimeout(function() {
-                element.querySelector('button').click();
-            }, 3000);
+            element.querySelector('button').click();
             it("Expected find 5 children", function(done) {
                 setTimeout(function() {
-                    expect(element.childElementCount).toEqual($ctrl.persons.length);
+                    expect(element.querySelectorAll('h1').length).toEqual($ctrl.persons.length);
                     done();
                 });
             }, 7000);
