@@ -56,7 +56,7 @@ export class CPRepeat implements Directive {
     }
 
     public loop(array, attributeAlias) {
-        array.map((row, index) => {
+        const elms = array.map((row, index) => {
             const elm = this.element.cloneNode(true);
             elm.removeAttribute(Constants.REPEAT_ATTRIBUTE_NAME);
             elm.classList.add('binding-repeat');
@@ -66,7 +66,7 @@ export class CPRepeat implements Directive {
             Common.getScope(elm).scope[Constants.REPEAT_INDEX_NAME] = index;
             return elm;
         });
-        this.referenceNode.parentNode.appendChild(document.createComment('end repeat ' + this.attribute));
+        Common.appendAfter(elms.shift(), this.referenceNode.parentNode.appendChild(document.createComment('end repeat ' + this.attribute)));
     }
 
 }

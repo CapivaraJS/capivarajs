@@ -17,11 +17,19 @@
 
 <body>
 
-    <!-- <my-component id="kaka"></my-component> -->
-    <div id="parentDiv">
-        <h1 cp-repeat="person in $ctrl.persons">[[person.name]]</h1>
+    <div class="text-center">
+        <img width="100px" cp-src="$ctrl.src"> <br/>
+        <button cp-click="$ctrl.click()" class="btn btn-success">Random Image!</button>
+
+        <ul>
+            <li cp-repeat="item in $ctrl.items">
+                [[ item ]]
+            </li>
+        </ul>
+
+        <my-component #demo></my-component>
     </div>
-    <button class="btn btn-primary"cp-click="$ctrl.add()">click</button>   
+
     <script src="../dist/capivara.js"></script>
     <script src="component.js"></script>
     <script src="app.js"></script>
