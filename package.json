@@ -2,7 +2,7 @@
   "name": "capivarajs",
   "version": "1.10.0",
   "description": "Um framework para criação de componentes.",
-  "main": "./src/index.ts",
+  "main": "./index.js",
   "repository": {
     "url": "https://github.com/CapivaraJS/capivarajs",
     "type": "git"
