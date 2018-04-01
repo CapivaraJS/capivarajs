@@ -39,7 +39,7 @@ export class ComponentInstance {
         if (this.destroyed) {
             if (this.config.controller) {
                 this.componentScope[this.config.controllerAs] = new this.config.controller(this.componentScope);
-                Object['observe'](this.componentScope[this.config.controllerAs], (changes) => {
+                Object['observe'](this.componentScope[this.config.controllerAs], () => {
                     Common.getScope(this.element).mapDom.reload();
                 });
             }

@@ -1,5 +1,4 @@
 module.exports = Object.assign(
-	require('./cpSrc/test'),
 	require('./cpClass/test'),
 	require('./cpClick/test'),
 	require('./cpElse/test'),
@@ -7,7 +6,8 @@ module.exports = Object.assign(
 	require('./cpIf/test'),
 	require('./cpInit/test'),
 	require('./cpModel/test'),
+	require('./cpRepeat/test'),
 	require('./cpShow/test'),
+	require('./cpSrc/test'),
 	require('./cpStyle/test'),
-	require('./cpRepeat/test')
 );

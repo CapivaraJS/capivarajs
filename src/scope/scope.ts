@@ -1,3 +1,4 @@
+import { Common } from '../common';
 import { Constants } from '../constants';
 import evalContext from '../eval';
 import { MapDom } from '../map/map-dom';
@@ -20,10 +21,9 @@ export class Scope {
         if (!_element || !_element.nodeName) {
             console.warn('Unable to create a scope, it is necessary to report an html element.');
         }
-        window['capivara'].scopes.push(this);
-        this.id = window['capivara'].scopes.length;
+        Common.setScopeId(this);
         this.watchers = [];
-        this.addScope(_element, this);
+        Scope.addScope(_element, this);
         this.mapDom = new MapDom(_element);
         this.scope = new ScopeProxy(this, this.mapDom, _element);
         if (!_element['$instance']) {
@@ -40,7 +40,7 @@ export class Scope {
      * @param element Elemento que será aplicado o escopo
      * @param scope Escopo que será aplicado no elemento
      */
-    public addScope(element: any, scope: Scope) {
+    public static addScope(element: any, scope: Scope) {
         if (element && element.nodeName) { element[Constants.SCOPE_ATTRIBUTE_NAME] = scope; }
     }
 
