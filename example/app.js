@@ -1,24 +1,19 @@
 capivara.controller(document.body, function() {
 	const $ctrl = this;
 	$ctrl.isActive = false;
+	$ctrl.src = 'https://avatars1.githubusercontent.com/u/33517395?s=200&v=4';
 
-	$ctrl.teste = () => {
-		$ctrl.isActive = !$ctrl.isActive;
-	}
+	$ctrl.click = () => {
+		$ctrl.src = 'https://picsum.photos/200/300/?random&d='+new Date().getTime();
+	};
 
-	$ctrl.pessoas = [
-		{
-			nome: "Mateus Miranda",
-			idade: 21
-		}
+	$ctrl.items = [
+		"Mateus",
+		"Felipe"
 	];
 
-	$ctrl.nome = 'Mateus'
-	$ctrl.nome2 = 'Miranda'
-	$ctrl.nome3 = 'de Almeida'
-
-	$ctrl.teste = function(scope){
-		console.log(scope);
+	$ctrl.$onInit = function(){
+		capivara.componentBuilder('demo').build();
 	}
 
 });

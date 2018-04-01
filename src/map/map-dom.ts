@@ -10,6 +10,7 @@ import { CPInit } from "./directive/cp-init";
 import { CPModel } from './directive/cp-model';
 import { CPRepeat } from './directive/cp-repeat';
 import { CPShow } from './directive/cp-show';
+import { CPSrc } from './directive/cp-src';
 import { CPStyle } from "./directive/cp-style";
 
 export class MapDom {
@@ -37,6 +38,7 @@ export class MapDom {
         cpClasses: [],
         cpClicks: [],
         cpInits: [],
+        cpSrcs: [],
     };
 
     private regexInterpolation;
@@ -112,6 +114,7 @@ export class MapDom {
         if (child.hasAttribute(Constants.INIT_ATTRIBUTE_NAME)) { this.createCPInit(child); }
         if (child.hasAttribute(Constants.STYLE_ATTRIBUTE_NAME)) { this.createCPStyle(child); }
         if (child.hasAttribute(Constants.CLASS_ATTRIBUTE_NAME)) { this.createCPClass(child); }
+        if (child.hasAttribute(Constants.SRC_ATTRIBUTE_NAME)) { this.createCPSrc(child); }
     }
 
     public reloadElementChildes(element, initialScope) {
@@ -151,8 +154,11 @@ export class MapDom {
         // Update cp style
         this.directives.cpStyles.forEach((cpStyle) => cpStyle.init());
 
-        // Update cp style
+        // Update cp class
         this.directives.cpClasses.forEach((cpClass) => cpClass.init());
+
+        // Update cp src
+        this.directives.cpSrcs.forEach((cpSrc) => cpSrc.init());
 
         this.processInterpolation(this.element);
     }
@@ -314,5 +320,13 @@ export class MapDom {
      */
     public createCPClass(child) {
         this.directives.cpClasses.push(new CPClass(child, this));
+    }
+
+    /**
+     *
+     * @param child Elemento que está sendo criado o bind do style.
+     */
+    public createCPSrc(child) {
+        this.directives.cpSrcs.push(new CPSrc(child, this));
     }
 }
