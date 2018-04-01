@@ -26,6 +26,7 @@ export class CPSrc implements Directive {
 
     public init() {
         try {
+            this.element.src = '';
             const src = Common.evalInContext(this.attribute, Common.getScope(this.element).scope);
             this.addSrc(src);
         } catch (e) {
@@ -36,8 +37,6 @@ export class CPSrc implements Directive {
     public  addSrc(src) {
         if (this.element.src) {
             this.element.src = src;
-        } else {
-            this.element.src = '';
         }
     }
 }

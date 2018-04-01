@@ -18,8 +18,16 @@
 <body>
 
     <div class="text-center">
-        <img src="" cp-src="$ctrl.src">
-        <button cp-click="$ctrl.click()" class="btn btn-success">Click Me!</button>
+        <img width="100px" cp-src="$ctrl.src"> <br/>
+        <button cp-click="$ctrl.click()" class="btn btn-success">Random Image!</button>
+
+        <ul>
+            <li cp-repeat="item in $ctrl.items">
+                [[ item ]]
+            </li>
+        </ul>
+
+        <my-component #demo></my-component>
     </div>
 
     <script src="../dist/capivara.js"></script>
