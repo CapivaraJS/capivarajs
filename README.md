@@ -6,7 +6,7 @@
     <a href="https://travis-ci.org/CapivaraJS/capivarajs"><img src="https://travis-ci.org/CapivaraJS/capivarajs.svg" alt="Travis"></a>
     <a href="https://codecov.io/gh/CapivaraJS/capivarajs"><img src="https://codecov.io/gh/CapivaraJS/capivarajs/branch/master/graph/badge.svg" alt="Codecov"></a>
     <a href="https://www.npmjs.com/package/capivarajs"><img src="https://img.shields.io/npm/dm/capivarajs.svg" alt="Downloads"></a>
-    <a href="https://www.npmjs.com/package/capivarajs"><img src="https://img.shields.io/npm/v/capivarajs.svg" alt="Version"></a> 
+    <a href="https://www.npmjs.com/package/capivarajs"><img src="https://badge.fury.io/js/capivarajs.svg" alt="Version"></a> 
     <a href="https://www.npmjs.com/package/capivarajs"><img src="https://img.shields.io/npm/l/capivarajs.svg" alt="License"></a>
 </p>
 

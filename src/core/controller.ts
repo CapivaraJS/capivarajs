@@ -1,5 +1,5 @@
-import { Constants } from './constants';
-import { Scope } from './scope/scope';
+import { Constants } from '../constants';
+import { Scope } from '../scope/scope';
 
 export class Controller {
 

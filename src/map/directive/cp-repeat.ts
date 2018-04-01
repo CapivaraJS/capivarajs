@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import { Common } from '../../common';
 import { Constants } from '../../constants';
-import { Controller } from '../../controller';
+import { Controller } from '../../core/controller';
 import { MapDom } from '../map-dom';
 import { Directive } from './directive.interface';
 

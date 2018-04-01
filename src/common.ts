@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import { Constants } from './constants';
-import evalContext from './eval';
+import { Eval } from './core';
+
 export namespace Common {
 
     export function regexIndexOf(str, regex, startpos?) {
@@ -15,7 +16,7 @@ export namespace Common {
      */
     export function evalInContext(source, context: any) {
         if (source) {
-            return evalContext(source, context);
+            return Eval.exec(source, context);
         }
     }
 

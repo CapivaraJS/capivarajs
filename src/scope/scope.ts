@@ -1,6 +1,6 @@
 import { Common } from '../common';
 import { Constants } from '../constants';
-import evalContext from '../eval';
+import { Eval } from '../core/eval';
 import { MapDom } from '../map/map-dom';
 import { ScopeProxy } from './scope.proxy';
 
@@ -57,7 +57,7 @@ export class Scope {
     }
 
     public $eval = (source) => {
-        return evalContext(this.scope, source);
+        return Eval.exec(this.scope, source);
     }
 
 }

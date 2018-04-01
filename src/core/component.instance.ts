@@ -1,8 +1,8 @@
 import * as _ from 'lodash';
 import WatchJS from 'melanke-watchjs';
-import { Common } from './common';
+import { Common } from '../common';
+import { Constants } from '../constants';
 import { ComponentConfig } from './component.config';
-import { Constants } from './constants';
 import { Controller } from './controller';
 
 export class ComponentInstance {

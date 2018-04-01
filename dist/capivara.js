@@ -18785,7 +18785,7 @@ module.exports = function(module) {
 /*! exports provided: name, version, description, main, repository, scripts, author, license, dependencies, keywords, nyc, devDependencies, default */
 /***/ (function(module) {
 
-module.exports = {"name":"capivarajs","version":"1.10.0","description":"Um framework para criação de componentes.","main":"index.js","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"npm run test-single && webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./webpack.config.js --env.tests true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1","object.observe":"^0.2.6"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^9.4.6","babel-loader":"^7.1.4","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.0","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.8","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.20.3","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.3.0","webpack-cli":"^2.0.13","webpack-dev-server":"^3.1.1"}};
+module.exports = {"name":"capivarajs","version":"1.10.0","description":"Um framework para criação de componentes.","main":"./src/index.ts","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"npm run test-single && webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./webpack.config.js --env.tests true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1","object.observe":"^0.2.6"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^9.4.6","babel-loader":"^7.1.4","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.0","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.8","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.20.3","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.3.0","webpack-cli":"^2.0.13","webpack-dev-server":"^3.1.1"}};
 
 /***/ }),
 
@@ -18802,7 +18802,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./constants */ "./src/constants.ts");
-/* harmony import */ var _eval__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./eval */ "./src/eval.ts");
+/* harmony import */ var _core_eval__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./core/eval */ "./src/core/eval.ts");
 
 
 
@@ -18820,7 +18820,7 @@ var Common;
      */
     function evalInContext(source, context) {
         if (source) {
-            return Object(_eval__WEBPACK_IMPORTED_MODULE_2__["default"])(source, context);
+            return Object(_core_eval__WEBPACK_IMPORTED_MODULE_2__["default"])(source, context);
         }
     }
     Common.evalInContext = evalInContext;
@@ -18950,10 +18950,225 @@ var Common;
 
 /***/ }),
 
-/***/ "./src/component.instance.ts":
-/*!***********************************!*\
-  !*** ./src/component.instance.ts ***!
-  \***********************************/
+/***/ "./src/constants.ts":
+/*!**************************!*\
+  !*** ./src/constants.ts ***!
+  \**************************/
+/*! exports provided: Constants */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Constants", function() { return Constants; });
+var Constants = {
+    SCOPE_ATTRIBUTE_NAME: '$scope',
+    REPEAT_ATTRIBUTE_NAME: 'cp-repeat',
+    REPEAT_INDEX_NAME: '$index',
+    REPEAT_ATTRIBUTE_OPERATOR: ' in ',
+    MODEL_ATTRIBUTE_NAME: 'cp-model',
+    CLICK_ATTRIBUTE_NAME: 'cp-click',
+    SHOW_ATTRIBUTE_NAME: 'cp-show',
+    IF_ATTRIBUTE_NAME: 'cp-if',
+    ELSE_ATTRIBUTE_NAME: 'cp-else',
+    ELSE_IF_ATTRIBUTE_NAME: 'cp-else-if',
+    INIT_ATTRIBUTE_NAME: 'cp-init',
+    STYLE_ATTRIBUTE_NAME: 'cp-style',
+    CLASS_ATTRIBUTE_NAME: 'cp-class',
+    SRC_ATTRIBUTE_NAME: 'cp-src',
+    START_INTERPOLATION: '[[',
+    END_INTERPOLATION: ']]',
+};
+
+
+/***/ }),
+
+/***/ "./src/core/capivara.ts":
+/*!******************************!*\
+  !*** ./src/core/capivara.ts ***!
+  \******************************/
+/*! exports provided: Capivara */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Capivara", function() { return Capivara; });
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
+/* harmony import */ var _component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./component */ "./src/core/component.ts");
+/* harmony import */ var _component_instance__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./component.instance */ "./src/core/component.instance.ts");
+
+
+
+var packageJson = __webpack_require__(/*! ../../package.json */ "./package.json");
+var Capivara = /** @class */ (function () {
+    function Capivara() {
+        this.version = packageJson.version;
+        this.components = {};
+        this.scopes = [];
+        this.$watchers = [];
+    }
+    /**
+     * @name capivara.component
+     * @description Registra um novo componente capivara
+     */
+    Capivara.prototype.component = function (componentName, config) {
+        if (window["capivara"].components[componentName]) {
+            console.error("A registered component with this name already exists.");
+            return;
+        }
+        window["capivara"].components[componentName.toUpperCase()] = new _component__WEBPACK_IMPORTED_MODULE_1__["Component"](componentName, config);
+    };
+    /**
+     * @name capivara.componentBuilder
+     * @description Faz a inicialização de um componente.
+     */
+    Capivara.prototype.componentBuilder = function (hashName) {
+        var elms = window["capivara"].isElement(hashName) ? [hashName] : Array.from(document.querySelectorAll("[\\#" + hashName + "]"));
+        if (elms.length === 0) {
+            console.error("CapivaraJS did not find its component with the hash " + hashName);
+        }
+        var instance;
+        var findElementAndCreateInstance = function () {
+            elms = window["capivara"].isElement(hashName) ? [hashName] : Array.from(document.querySelectorAll("[\\#" + hashName + "]"));
+            elms.forEach(function (elm) {
+                var component = window["capivara"].components[elm.nodeName];
+                if (!component) {
+                    console.error("We did not find a registered entry under the name: " + elm.nodeName);
+                    return;
+                }
+                if (!instance) {
+                    instance = component.createNewInstance(elm);
+                }
+            });
+            return instance;
+        };
+        return findElementAndCreateInstance();
+    };
+    /**
+     * @name capivara.controller
+     * @description Cria um novo controller para fazer manipulação de um determinado elemento.
+     */
+    Capivara.prototype.controller = function (elm, callback) {
+        new _component_instance__WEBPACK_IMPORTED_MODULE_2__["ComponentInstance"](elm, { controller: callback }).build();
+    };
+    /**
+     * @name capivara,isArray
+     * @description Verifica se um valor é um Array.
+     */
+    Capivara.prototype.isArray = function (value) {
+        return Array.isArray(value) || value instanceof Array;
+    };
+    /**
+     * @name capivara,isObject
+     * @description Verifica se um valor é um Objeto.
+     */
+    Capivara.prototype.isObject = function (value) {
+        return value !== null && typeof value === "object";
+    };
+    Capivara.prototype.isObjectConstructor = function (obj) {
+        if (!obj) {
+            return false;
+        }
+        return obj.__proto__.constructor.name === 'Object';
+    };
+    /**
+     * @name capivara,isDate
+     * @description Verifica se um valor é uma Data.
+     */
+    Capivara.prototype.isDate = function (value) {
+        return toString.call(value) === "[object Date]";
+    };
+    /**
+     * @name capivara,isElement
+     * @description Verifica se um valor é um NodeElement.
+     */
+    Capivara.prototype.isElement = function (value) {
+        return !!(value &&
+            (value.nodeName // We are a direct element.
+                || (value.prop && value.attr && value.find)));
+    };
+    /**
+     * @name capivara,isFunction
+     * @description Verifica se um valor é uma função.
+     */
+    Capivara.prototype.isFunction = function (value) {
+        return typeof value === "function";
+    };
+    /**
+     * @name capivara,isNumber
+     * @description Verifica se um valor é um número.
+     */
+    Capivara.prototype.isNumber = function (value) {
+        return typeof value === "number";
+    };
+    /**
+     * @name capivara,isString
+     * @description Verifica se um valor é uma string.
+     */
+    Capivara.prototype.isString = function (value) {
+        return typeof value === "string";
+    };
+    /**
+     * @name capivara,merge
+     * @description Faz a junção de objetos em um único objeto.
+     */
+    Capivara.prototype.merge = function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
+        }
+        return Object.assign.apply(Object, args);
+    };
+    /**
+     * @name capivara,copy
+     * @description Faz a copia de um objeto para que seja criada a referência.
+     */
+    Capivara.prototype.copy = function (value) {
+        return Object.assign(value);
+    };
+    /**
+     * @name capivara,replaceAll
+     * @description Faz a devida alteração em todas as  ocorrências
+     */
+    Capivara.prototype.replaceAll = function (str, needle, replacement) {
+        return str.split(needle).join(replacement);
+    };
+    /**
+     * @name capivara,constants
+     * @description Modifica o nome das diretivas que são criadas pelo capivara.
+     */
+    Capivara.prototype.constants = function (obj) {
+        Object.keys(obj).forEach(function (key) {
+            if (_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"][key]) {
+                _constants__WEBPACK_IMPORTED_MODULE_0__["Constants"][key] = obj[key];
+            }
+        });
+    };
+    Capivara.prototype.$on = function (evtName, callback) {
+        window["capivara"].$watchers.push({ evtName: evtName, callback: callback });
+    };
+    Capivara.prototype.$emit = function (evtName) {
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        window["capivara"]
+            .$watchers
+            .filter(function (watcher) { return watcher.evtName === evtName; })
+            .forEach(function (watcher) {
+            watcher.callback.apply(watcher, args);
+        });
+    };
+    return Capivara;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/core/component.instance.ts":
+/*!****************************************!*\
+  !*** ./src/core/component.instance.ts ***!
+  \****************************************/
 /*! exports provided: ComponentInstance */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -18964,9 +19179,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var melanke_watchjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! melanke-watchjs */ "./node_modules/melanke-watchjs/src/watch.js");
 /* harmony import */ var melanke_watchjs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(melanke_watchjs__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./common */ "./src/common.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./constants */ "./src/constants.ts");
-/* harmony import */ var _controller__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./controller */ "./src/controller.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../common */ "./src/common.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
+/* harmony import */ var _controller__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./controller */ "./src/core/controller.ts");
 
 
 
@@ -19140,17 +19355,17 @@ var ComponentInstance = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/component.ts":
-/*!**************************!*\
-  !*** ./src/component.ts ***!
-  \**************************/
+/***/ "./src/core/component.ts":
+/*!*******************************!*\
+  !*** ./src/core/component.ts ***!
+  \*******************************/
 /*! exports provided: Component */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Component", function() { return Component; });
-/* harmony import */ var _component_instance__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./component.instance */ "./src/component.instance.ts");
+/* harmony import */ var _component_instance__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./component.instance */ "./src/core/component.instance.ts");
 
 var Component = /** @class */ (function () {
     function Component(_componentName, config) {
@@ -19167,50 +19382,18 @@ var Component = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/constants.ts":
-/*!**************************!*\
-  !*** ./src/constants.ts ***!
-  \**************************/
-/*! exports provided: Constants */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Constants", function() { return Constants; });
-var Constants = {
-    SCOPE_ATTRIBUTE_NAME: '$scope',
-    REPEAT_ATTRIBUTE_NAME: 'cp-repeat',
-    REPEAT_INDEX_NAME: '$index',
-    REPEAT_ATTRIBUTE_OPERATOR: ' in ',
-    MODEL_ATTRIBUTE_NAME: 'cp-model',
-    CLICK_ATTRIBUTE_NAME: 'cp-click',
-    SHOW_ATTRIBUTE_NAME: 'cp-show',
-    IF_ATTRIBUTE_NAME: 'cp-if',
-    ELSE_ATTRIBUTE_NAME: 'cp-else',
-    ELSE_IF_ATTRIBUTE_NAME: 'cp-else-if',
-    INIT_ATTRIBUTE_NAME: 'cp-init',
-    STYLE_ATTRIBUTE_NAME: 'cp-style',
-    CLASS_ATTRIBUTE_NAME: 'cp-class',
-    SRC_ATTRIBUTE_NAME: 'cp-src',
-    START_INTERPOLATION: '[[',
-    END_INTERPOLATION: ']]',
-};
-
-
-/***/ }),
-
-/***/ "./src/controller.ts":
-/*!***************************!*\
-  !*** ./src/controller.ts ***!
-  \***************************/
+/***/ "./src/core/controller.ts":
+/*!********************************!*\
+  !*** ./src/core/controller.ts ***!
+  \********************************/
 /*! exports provided: Controller */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Controller", function() { return Controller; });
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./src/constants.ts");
-/* harmony import */ var _scope_scope__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./scope/scope */ "./src/scope/scope.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
+/* harmony import */ var _scope_scope__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../scope/scope */ "./src/scope/scope.ts");
 
 
 var Controller = /** @class */ (function () {
@@ -19228,16 +19411,16 @@ var Controller = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/eval.ts":
-/*!*********************!*\
-  !*** ./src/eval.ts ***!
-  \*********************/
+/***/ "./src/core/eval.ts":
+/*!**************************!*\
+  !*** ./src/core/eval.ts ***!
+  \**************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common */ "./src/common.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common */ "./src/common.ts");
 
 /* harmony default export */ __webpack_exports__["default"] = (function (source, context) {
     var referenceSelf = 'this.', regex = /\$*[a-z0-9.$]+\s*/gi, keys = source.match(regex);
@@ -19288,181 +19471,12 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var object_observe__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! object.observe */ "./node_modules/object.observe/dist/object-observe.js");
 /* harmony import */ var object_observe__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(object_observe__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./component */ "./src/component.ts");
-/* harmony import */ var _component_instance__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./component.instance */ "./src/component.instance.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./constants */ "./src/constants.ts");
-/* harmony import */ var _eval__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./eval */ "./src/eval.ts");
+/* harmony import */ var _core_capivara__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./core/capivara */ "./src/core/capivara.ts");
 
 
-
-
-
-var packageJson = __webpack_require__(/*! ../package.json */ "./package.json");
 (function (capivara) {
     if (!capivara) {
-        window["capivara"] = {
-            $eval: _eval__WEBPACK_IMPORTED_MODULE_4__["default"],
-            /**
-             * @name capivara.components
-             * @description Armazena os componentes criados
-             */
-            scopes: [],
-            components: {},
-            $watchers: [],
-            /**
-             * @name capivara.component
-             * @description Registra um novo componente capivara
-             */
-            component: function (componentName, config) {
-                if (window["capivara"].components[componentName]) {
-                    console.error("A registered component with this name already exists.");
-                    return;
-                }
-                window["capivara"].components[componentName.toUpperCase()] = new _component__WEBPACK_IMPORTED_MODULE_1__["Component"](componentName, config);
-            },
-            /**
-             * @name capivara.componentBuilder
-             * @description Faz a inicialização de um componente.
-             */
-            componentBuilder: function (hashName) {
-                var elms = window["capivara"].isElement(hashName) ? [hashName] : Array.from(document.querySelectorAll("[\\#" + hashName + "]"));
-                if (elms.length === 0) {
-                    console.error("CapivaraJS did not find its component with the hash " + hashName);
-                }
-                var instance;
-                var findElementAndCreateInstance = function () {
-                    elms = window["capivara"].isElement(hashName) ? [hashName] : Array.from(document.querySelectorAll("[\\#" + hashName + "]"));
-                    elms.forEach(function (elm) {
-                        var component = window["capivara"].components[elm.nodeName];
-                        if (!component) {
-                            console.error("We did not find a registered entry under the name: " + elm.nodeName);
-                            return;
-                        }
-                        if (!instance) {
-                            instance = component.createNewInstance(elm);
-                        }
-                    });
-                    return instance;
-                };
-                return findElementAndCreateInstance();
-            },
-            /**
-             * @name capivara.controller
-             * @description Cria um novo controller para fazer manipulação de um determinado elemento.
-             */
-            controller: function (elm, callback) {
-                new _component_instance__WEBPACK_IMPORTED_MODULE_2__["ComponentInstance"](elm, { controller: callback }).build();
-            },
-            /**
-             * @name capivara,isArray
-             * @description Verifica se um valor é um Array.
-             */
-            isArray: function (value) {
-                return Array.isArray(value) || value instanceof Array;
-            },
-            /**
-             * @name capivara,isObject
-             * @description Verifica se um valor é um Objeto.
-             */
-            isObject: function (value) {
-                return value !== null && typeof value === "object";
-            },
-            isObjectConstructor: function (obj) {
-                if (!obj) {
-                    return false;
-                }
-                return obj.__proto__.constructor.name === 'Object';
-            },
-            /**
-             * @name capivara,isDate
-             * @description Verifica se um valor é uma Data.
-             */
-            isDate: function (value) {
-                return toString.call(value) === "[object Date]";
-            },
-            /**
-             * @name capivara,isElement
-             * @description Verifica se um valor é um NodeElement.
-             */
-            isElement: function (value) {
-                return !!(value &&
-                    (value.nodeName // We are a direct element.
-                        || (value.prop && value.attr && value.find)));
-            },
-            /**
-             * @name capivara,isFunction
-             * @description Verifica se um valor é uma função.
-             */
-            isFunction: function (value) {
-                return typeof value === "function";
-            },
-            /**
-             * @name capivara,isNumber
-             * @description Verifica se um valor é um número.
-             */
-            isNumber: function (value) {
-                return typeof value === "number";
-            },
-            /**
-             * @name capivara,isString
-             * @description Verifica se um valor é uma string.
-             */
-            isString: function (value) {
-                return typeof value === "string";
-            },
-            /**
-             * @name capivara,merge
-             * @description Faz a junção de objetos em um único objeto.
-             */
-            merge: function () {
-                var args = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i] = arguments[_i];
-                }
-                return Object.assign.apply(Object, args);
-            },
-            /**
-             * @name capivara,copy
-             * @description Faz a copia de um objeto para que seja criada a referência.
-             */
-            copy: function (value) {
-                return Object.assign(value);
-            },
-            /**
-             * @name capivara,replaceAll
-             * @description Faz a devida alteração em todas as  ocorrências
-             */
-            replaceAll: function (str, needle, replacement) {
-                return str.split(needle).join(replacement);
-            },
-            /**
-             * @name capivara,constants
-             * @description Modifica o nome das diretivas que são criadas pelo capivara.
-             */
-            constants: function (obj) {
-                Object.keys(obj).forEach(function (key) {
-                    if (_constants__WEBPACK_IMPORTED_MODULE_3__["Constants"][key]) {
-                        _constants__WEBPACK_IMPORTED_MODULE_3__["Constants"][key] = obj[key];
-                    }
-                });
-            },
-            $on: function (evtName, callback) {
-                window["capivara"].$watchers.push({ evtName: evtName, callback: callback });
-            },
-            $emit: function (evtName) {
-                var args = [];
-                for (var _i = 1; _i < arguments.length; _i++) {
-                    args[_i - 1] = arguments[_i];
-                }
-                window["capivara"]
-                    .$watchers
-                    .filter(function (watcher) { return watcher.evtName === evtName; })
-                    .forEach(function (watcher) {
-                    watcher.callback.apply(watcher, args);
-                });
-            },
-            version: packageJson.version,
-        };
+        window["capivara"] = new _core_capivara__WEBPACK_IMPORTED_MODULE_1__["Capivara"]();
         document.addEventListener("DOMNodeRemoved", function (evt) { return window["capivara"].$emit("DOMNodeRemoved", evt); });
     }
     else {
@@ -19931,7 +19945,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../common */ "./src/common.ts");
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
-/* harmony import */ var _controller__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../controller */ "./src/controller.ts");
+/* harmony import */ var _core_controller__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../core/controller */ "./src/core/controller.ts");
 
 
 
@@ -19982,7 +19996,7 @@ var CPRepeat = /** @class */ (function () {
             elm.removeAttribute(_constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].REPEAT_ATTRIBUTE_NAME);
             elm.classList.add('binding-repeat');
             _common__WEBPACK_IMPORTED_MODULE_1__["Common"].appendAfter(_this.referenceNode, elm);
-            new _controller__WEBPACK_IMPORTED_MODULE_3__["Controller"](elm, function () { });
+            new _core_controller__WEBPACK_IMPORTED_MODULE_3__["Controller"](elm, function () { });
             _common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(elm).scope[attributeAlias] = row;
             _common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(elm).scope[_constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].REPEAT_INDEX_NAME] = index;
             return elm;
@@ -20538,7 +20552,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Scope", function() { return Scope; });
 /* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common */ "./src/common.ts");
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
-/* harmony import */ var _eval__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../eval */ "./src/eval.ts");
+/* harmony import */ var _core_eval__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../core/eval */ "./src/core/eval.ts");
 /* harmony import */ var _map_map_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../map/map-dom */ "./src/map/map-dom.ts");
 /* harmony import */ var _scope_proxy__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./scope.proxy */ "./src/scope/scope.proxy.ts");
 
@@ -20565,7 +20579,7 @@ var Scope = /** @class */ (function () {
             });
         };
         this.$eval = function (source) {
-            return Object(_eval__WEBPACK_IMPORTED_MODULE_2__["default"])(_this.scope, source);
+            return Object(_core_eval__WEBPACK_IMPORTED_MODULE_2__["default"])(_this.scope, source);
         };
         if (!_element || !_element.nodeName) {
             console.warn('Unable to create a scope, it is necessary to report an html element.');
