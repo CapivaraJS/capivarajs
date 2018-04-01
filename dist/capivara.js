@@ -18785,7 +18785,7 @@ module.exports = function(module) {
 /*! exports provided: name, version, description, main, repository, scripts, author, license, dependencies, keywords, nyc, devDependencies, default */
 /***/ (function(module) {
 
-module.exports = {"name":"capivarajs","version":"1.9.0-rc.12","description":"Um framework para criação de componentes.","main":"index.js","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"npm run test-single && webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./webpack.config.js --env.tests true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1","object.observe":"^0.2.6"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^9.4.6","babel-loader":"^7.1.4","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.0","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.8","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.20.3","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.3.0","webpack-cli":"^2.0.13","webpack-dev-server":"^3.1.1"}};
+module.exports = {"name":"capivarajs","version":"1.10.0","description":"Um framework para criação de componentes.","main":"index.js","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"npm run test-single && webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./webpack.config.js --env.tests true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1","object.observe":"^0.2.6"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^9.4.6","babel-loader":"^7.1.4","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.0","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.8","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.20.3","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.3.0","webpack-cli":"^2.0.13","webpack-dev-server":"^3.1.1"}};
 
 /***/ }),
 
@@ -18802,6 +18802,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./constants */ "./src/constants.ts");
+/* harmony import */ var _eval__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./eval */ "./src/eval.ts");
+
 
 
 var Common;
@@ -18818,48 +18820,8 @@ var Common;
      */
     function evalInContext(source, context) {
         if (source) {
-            var replacerSource_1 = function (str, arrFinal) {
-                if (!arrFinal) {
-                    arrFinal = [];
-                }
-                var index = regexIndexOf(str, /(?!^-)[+*\/-](\s?-)?/g);
-                var sourceToReplace = (index !== -1 ? str.substring(0, index) : str);
-                if ((sourceToReplace
-                    .replace(/ /g, '')
-                    .replace(/'/g, '')
-                    .replace(/"/g, '')) !== '') {
-                    sourceToReplace.split(' ').forEach(function (word) {
-                        word = word.split('(').join('').split(')').join('').replace(/!/g, '');
-                        var sourceValue = lodash__WEBPACK_IMPORTED_MODULE_0__["get"](context, word.replace('(', '').replace(')', '').replace(/ /g, ''));
-                        var firstKey = getFirstKey(word);
-                        if (firstKey && word && context && context.hasOwnProperty(firstKey)) {
-                            arrFinal.push({
-                                key: word.replace('(', '').replace(')', '').replace(/ /g, ''),
-                                value: window['capivara'].isString(sourceValue) ? "'" + sourceValue + "'" : sourceValue,
-                            });
-                        }
-                    });
-                }
-                str = str.replace(sourceToReplace, '');
-                if (index !== -1) {
-                    str = str.slice(1);
-                }
-                if (str.replace(/ /g, '').length > 0) {
-                    return replacerSource_1(str, arrFinal);
-                }
-                return arrFinal;
-            };
-            var values = replacerSource_1(source);
-            if (values.length === 1 && window['capivara'].isObjectConstructor(values[0].value)) {
-                return values[0].value;
-            }
-            values.forEach(function (sourceValue) {
-                source = source.replace(sourceValue.key, sourceValue.value);
-            });
-            var value = eval(source.replace(/NaN/, 0));
-            return (value == null || value === undefined ? '' : value);
+            return Object(_eval__WEBPACK_IMPORTED_MODULE_2__["default"])(source, context);
         }
-        return '';
     }
     Common.evalInContext = evalInContext;
     function getFirstKey(str) {
@@ -18895,6 +18857,10 @@ var Common;
         return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].CLASS_ATTRIBUTE_NAME);
     }
     Common.getAttributeCpClass = getAttributeCpClass;
+    function getAttributeCpSrc(element) {
+        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SRC_ATTRIBUTE_NAME);
+    }
+    Common.getAttributeCpSrc = getAttributeCpSrc;
     function getScope(element) {
         return element[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SCOPE_ATTRIBUTE_NAME];
     }
@@ -18972,6 +18938,13 @@ var Common;
         element.parentNode.insertBefore(elementToInsert, element.nextSibling);
     }
     Common.appendAfter = appendAfter;
+    function setScopeId(scope) {
+        if (!scope.id) {
+            window['capivara'].scopes.push(scope);
+            scope.id = window['capivara'].scopes.length;
+        }
+    }
+    Common.setScopeId = setScopeId;
 })(Common || (Common = {}));
 
 
@@ -19026,7 +18999,7 @@ var ComponentInstance = /** @class */ (function () {
         if (this.destroyed) {
             if (this.config.controller) {
                 this.componentScope[this.config.controllerAs] = new this.config.controller(this.componentScope);
-                Object['observe'](this.componentScope[this.config.controllerAs], function (changes) {
+                Object['observe'](this.componentScope[this.config.controllerAs], function () {
                     _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).mapDom.reload();
                 });
             }
@@ -19218,6 +19191,7 @@ var Constants = {
     INIT_ATTRIBUTE_NAME: 'cp-init',
     STYLE_ATTRIBUTE_NAME: 'cp-style',
     CLASS_ATTRIBUTE_NAME: 'cp-class',
+    SRC_ATTRIBUTE_NAME: 'cp-src',
     START_INTERPOLATION: '[[',
     END_INTERPOLATION: ']]',
 };
@@ -19254,6 +19228,55 @@ var Controller = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/eval.ts":
+/*!*********************!*\
+  !*** ./src/eval.ts ***!
+  \*********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common */ "./src/common.ts");
+
+/* harmony default export */ __webpack_exports__["default"] = (function (source, context) {
+    var referenceSelf = 'this.', regex = /\$*[a-z0-9.$]+\s*/gi, keys = source.match(regex);
+    var replaceAt = function (input, search, replace, start, end) {
+        return input.slice(0, start)
+            + input.slice(start, end).replace(search, replace)
+            + input.slice(end);
+    };
+    var getIndexStart = function (arr, currentIndex) {
+        if (currentIndex === 0) {
+            return 0;
+        }
+        var getPreviousSize = function (i, size) {
+            var index = i - 1;
+            if (index === -1) {
+                return size;
+            }
+            size += arr[index].length;
+            return getPreviousSize(index, size);
+        };
+        return getPreviousSize(currentIndex, 0);
+    };
+    keys.forEach(function (str, i) {
+        var key = str.replace(/\s/g, ''), indexStart = getIndexStart(keys, i);
+        var indexEnd = indexStart + source.substring(indexStart, source.length).indexOf(key) + key.length;
+        if (!key.includes(referenceSelf)) {
+            if (context.hasOwnProperty(_common__WEBPACK_IMPORTED_MODULE_0__["Common"].getFirstKey(key))) {
+                source = replaceAt(source, key, "this." + key, indexStart, indexEnd);
+            }
+        }
+    });
+    return function (str) {
+        return eval(str);
+    }.call(context, source);
+});
+
+
+/***/ }),
+
 /***/ "./src/index.ts":
 /*!**********************!*\
   !*** ./src/index.ts ***!
@@ -19268,6 +19291,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./component */ "./src/component.ts");
 /* harmony import */ var _component_instance__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./component.instance */ "./src/component.instance.ts");
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./constants */ "./src/constants.ts");
+/* harmony import */ var _eval__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./eval */ "./src/eval.ts");
+
 
 
 
@@ -19276,6 +19301,7 @@ var packageJson = __webpack_require__(/*! ../package.json */ "./package.json");
 (function (capivara) {
     if (!capivara) {
         window["capivara"] = {
+            $eval: _eval__WEBPACK_IMPORTED_MODULE_4__["default"],
             /**
              * @name capivara.components
              * @description Armazena os componentes criados
@@ -19472,6 +19498,19 @@ var CPClass = /** @class */ (function () {
     CPClass.prototype.create = function () {
         this.init();
     };
+    CPClass.prototype.setClassByObject = function (classObj) {
+        var _this = this;
+        if (classObj && window['capivara'].isObject(classObj)) {
+            Object.keys(classObj).forEach(function (key) {
+                if (classObj[key] === true) {
+                    CPClass.addClass(_this.element, key.replace(/ /g, ''));
+                }
+                else {
+                    CPClass.removeClass(_this.element, key.replace(/ /g, ''));
+                }
+            });
+        }
+    };
     CPClass.prototype.init = function () {
         var _this = this;
         try {
@@ -19483,26 +19522,21 @@ var CPClass = /** @class */ (function () {
                 };
             })
                 .forEach(function (cpClass) {
-                if (cpClass.value === true) {
-                    CPClass.addClass(_this.element, cpClass.key.replace(/ /g, ''));
+                if (window['capivara'].isObject(cpClass.value)) {
+                    _this.setClassByObject(cpClass.value);
                 }
                 else {
-                    CPClass.removeClass(_this.element, cpClass.key.replace(/ /g, ''));
+                    if (cpClass.value === true) {
+                        CPClass.addClass(_this.element, cpClass.key.replace(/ /g, ''));
+                    }
+                    else {
+                        CPClass.removeClass(_this.element, cpClass.key.replace(/ /g, ''));
+                    }
                 }
             });
         }
         catch (e) {
-            var result_1 = _common__WEBPACK_IMPORTED_MODULE_0__["Common"].executeFunctionCallback(this.element, this.attribute);
-            if (result_1 && window['capivara'].isObject(result_1)) {
-                Object.keys(result_1).forEach(function (key) {
-                    if (result_1[key] === true) {
-                        CPClass.addClass(_this.element, key.replace(/ /g, ''));
-                    }
-                    else {
-                        CPClass.removeClass(_this.element, key.replace(/ /g, ''));
-                    }
-                });
-            }
+            this.setClassByObject(_common__WEBPACK_IMPORTED_MODULE_0__["Common"].executeFunctionCallback(this.element, this.attribute));
         }
     };
     CPClass.removeClass = function (el, className) {
@@ -19853,7 +19887,7 @@ var CPModel = /** @class */ (function () {
                 }
                 break;
             case 'number':
-                if (value !== this.element.valueAsNumber) {
+                if (value !== this.element.valueAsNumber && value !== undefined) {
                     this.element.valueAsNumber = value || null;
                 }
                 break;
@@ -19869,7 +19903,7 @@ var CPModel = /** @class */ (function () {
                 lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(this.element).scope, this.attribute, this.element.valueAsDate);
                 break;
             case 'number':
-                lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(this.element).scope, this.attribute, this.element.valueAsNumber);
+                lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(this.element).scope, this.attribute, isNaN(this.element.valueAsNumber) ? undefined : this.element.valueAsNumber);
                 break;
             default:
                 lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(this.element).scope, this.attribute, this.element.value);
@@ -19910,12 +19944,14 @@ var CPRepeat = /** @class */ (function () {
         this.map = _map;
         this.attribute = _element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].REPEAT_ATTRIBUTE_NAME).replace(/\s+/g, ' ');
         this.regex = new RegExp('^[\\s*|\\S]+\\s+in\\s+\\S+\\s*', 'g');
-        var matchs = this.attribute.match(this.regex);
-        if (!this.attribute || (!matchs || matchs.length === 0)) {
+        var matches = this.attribute.match(this.regex);
+        if (!this.attribute || (!matches || matches.length === 0)) {
             throw new Error("syntax error invalid " + _constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].REPEAT_ATTRIBUTE_NAME + " expresion: " + this.attribute);
         }
         this.referenceNode = document.createComment('start repeat ' + this.attribute);
-        this.originalElement.replaceWith(this.referenceNode);
+        if (this.originalElement.parentNode.replaceChild) {
+            this.originalElement.parentNode.replaceChild(this.referenceNode, this.originalElement);
+        }
     }
     CPRepeat.prototype.create = function () {
         this.applyLoop();
@@ -19941,7 +19977,7 @@ var CPRepeat = /** @class */ (function () {
     };
     CPRepeat.prototype.loop = function (array, attributeAlias) {
         var _this = this;
-        array.map(function (row, index) {
+        var elms = array.map(function (row, index) {
             var elm = _this.element.cloneNode(true);
             elm.removeAttribute(_constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].REPEAT_ATTRIBUTE_NAME);
             elm.classList.add('binding-repeat');
@@ -19951,7 +19987,7 @@ var CPRepeat = /** @class */ (function () {
             _common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(elm).scope[_constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].REPEAT_INDEX_NAME] = index;
             return elm;
         });
-        this.referenceNode.parentNode.appendChild(document.createComment('end repeat ' + this.attribute));
+        _common__WEBPACK_IMPORTED_MODULE_1__["Common"].appendAfter(elms.shift(), this.referenceNode.parentNode.appendChild(document.createComment('end repeat ' + this.attribute)));
     };
     return CPRepeat;
 }());
@@ -20008,6 +20044,52 @@ var CPShow = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/map/directive/cp-src.ts":
+/*!*************************************!*\
+  !*** ./src/map/directive/cp-src.ts ***!
+  \*************************************/
+/*! exports provided: CPSrc */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CPSrc", function() { return CPSrc; });
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "./src/common.ts");
+
+var CPSrc = /** @class */ (function () {
+    function CPSrc(_element, _map) {
+        this.element = _element;
+        this.element['cpSrc'] = this;
+        this.map = _map;
+        this.attribute = _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getAttributeCpSrc(this.element);
+        this.elementComment = document.createComment('cpSrc ' + this.attribute);
+        this.elmScope = _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getScope(_element);
+    }
+    CPSrc.prototype.create = function () {
+        this.init();
+    };
+    CPSrc.prototype.init = function () {
+        try {
+            this.element.src = '';
+            var src = _common__WEBPACK_IMPORTED_MODULE_0__["Common"].evalInContext(this.attribute, _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getScope(this.element).scope);
+            this.addSrc(src);
+        }
+        catch (e) {
+            this.addSrc(_common__WEBPACK_IMPORTED_MODULE_0__["Common"].executeFunctionCallback(this.element, this.attribute));
+        }
+    };
+    CPSrc.prototype.addSrc = function (src) {
+        if (this.element.src) {
+            this.element.src = src;
+        }
+    };
+    return CPSrc;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/map/directive/cp-style.ts":
 /*!***************************************!*\
   !*** ./src/map/directive/cp-style.ts ***!
@@ -20032,6 +20114,14 @@ var CPStyle = /** @class */ (function () {
     CPStyle.prototype.create = function () {
         this.init();
     };
+    CPStyle.prototype.setStyleByObject = function (style) {
+        var _this = this;
+        if (style && window['capivara'].isObject(style)) {
+            Object.keys(style).forEach(function (key) {
+                _this.element.style.setProperty(key.replace(/ /g, ''), style[key]);
+            });
+        }
+    };
     CPStyle.prototype.init = function () {
         var _this = this;
         try {
@@ -20043,16 +20133,16 @@ var CPStyle = /** @class */ (function () {
                 };
             })
                 .forEach(function (style) {
-                _this.element.style.setProperty(style.key.replace(/ /g, ''), style.value);
+                if (window['capivara'].isString(style.value)) {
+                    _this.element.style.setProperty(style.key.replace(/ /g, ''), style.value);
+                }
+                else {
+                    _this.setStyleByObject(style.value);
+                }
             });
         }
         catch (e) {
-            var result_1 = _common__WEBPACK_IMPORTED_MODULE_0__["Common"].executeFunctionCallback(this.element, this.attribute);
-            if (result_1 && window['capivara'].isObject(result_1)) {
-                Object.keys(result_1).forEach(function (key) {
-                    _this.element.style.setProperty(key.replace(/ /g, ''), result_1[key]);
-                });
-            }
+            this.setStyleByObject(_common__WEBPACK_IMPORTED_MODULE_0__["Common"].executeFunctionCallback(this.element, this.attribute));
         }
     };
     return CPStyle;
@@ -20083,7 +20173,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _directive_cp_model__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./directive/cp-model */ "./src/map/directive/cp-model.ts");
 /* harmony import */ var _directive_cp_repeat__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./directive/cp-repeat */ "./src/map/directive/cp-repeat.ts");
 /* harmony import */ var _directive_cp_show__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./directive/cp-show */ "./src/map/directive/cp-show.ts");
-/* harmony import */ var _directive_cp_style__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./directive/cp-style */ "./src/map/directive/cp-style.ts");
+/* harmony import */ var _directive_cp_src__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./directive/cp-src */ "./src/map/directive/cp-src.ts");
+/* harmony import */ var _directive_cp_style__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./directive/cp-style */ "./src/map/directive/cp-style.ts");
+
 
 
 
@@ -20116,6 +20208,7 @@ var MapDom = /** @class */ (function () {
             cpClasses: [],
             cpClicks: [],
             cpInits: [],
+            cpSrcs: [],
         };
         this.element = _element;
         this.regexInterpolation = new RegExp(/({{).*?(}})/g);
@@ -20203,13 +20296,16 @@ var MapDom = /** @class */ (function () {
         if (child.hasAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].CLASS_ATTRIBUTE_NAME)) {
             this.createCPClass(child);
         }
+        if (child.hasAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SRC_ATTRIBUTE_NAME)) {
+            this.createCPSrc(child);
+        }
     };
     MapDom.prototype.reloadElementChildes = function (element, initialScope) {
         var _this = this;
         if (element.children) {
             Array.from(element.children).forEach(function (child) {
                 var childScope = _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getScope(child);
-                if (childScope.id !== initialScope.id && childScope && childScope.mapDom) {
+                if (childScope && childScope.mapDom && childScope.id !== initialScope.id) {
                     childScope.mapDom.reloadDirectives();
                 }
                 _this.reloadElementChildes(child, initialScope);
@@ -20236,8 +20332,10 @@ var MapDom = /** @class */ (function () {
         this.directives.cpElses.forEach(function (cpElse) { return cpElse.init(); });
         // Update cp style
         this.directives.cpStyles.forEach(function (cpStyle) { return cpStyle.init(); });
-        // Update cp style
+        // Update cp class
         this.directives.cpClasses.forEach(function (cpClass) { return cpClass.init(); });
+        // Update cp src
+        this.directives.cpSrcs.forEach(function (cpSrc) { return cpSrc.init(); });
         this.processInterpolation(this.element);
     };
     /**
@@ -20260,6 +20358,9 @@ var MapDom = /** @class */ (function () {
             _this.interpolation(childNode);
         });
     };
+    MapDom.removeWordFromStr = function (str, word) {
+        return (str + '').replace(new RegExp("\\s+" + word + "\\s+|" + word + "\\s+|\\s+" + word + "|" + word + "$", 'gi'), '');
+    };
     /**
      * @description Função que modifica o texto da interpolação pelo determinado valor.
      * @param childNode
@@ -20275,6 +20376,9 @@ var MapDom = /** @class */ (function () {
                 var value = '';
                 try {
                     var evalValue = _common__WEBPACK_IMPORTED_MODULE_0__["Common"].evalInContext(content, _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getScopeParent(childNode));
+                    evalValue = MapDom.removeWordFromStr(evalValue, 'null');
+                    evalValue = MapDom.removeWordFromStr(evalValue, 'undefined');
+                    evalValue = MapDom.removeWordFromStr(evalValue, 'NaN');
                     value = evalValue !== undefined ? evalValue : '';
                 }
                 catch (e) { }
@@ -20364,7 +20468,7 @@ var MapDom = /** @class */ (function () {
      * @param child Elemento que está sendo criado o bind do style.
      */
     MapDom.prototype.createCPStyle = function (child) {
-        this.directives.cpStyles.push(new _directive_cp_style__WEBPACK_IMPORTED_MODULE_11__["CPStyle"](child, this));
+        this.directives.cpStyles.push(new _directive_cp_style__WEBPACK_IMPORTED_MODULE_12__["CPStyle"](child, this));
     };
     /**
      *
@@ -20372,6 +20476,13 @@ var MapDom = /** @class */ (function () {
      */
     MapDom.prototype.createCPClass = function (child) {
         this.directives.cpClasses.push(new _directive_cp_class__WEBPACK_IMPORTED_MODULE_2__["CPClass"](child, this));
+    };
+    /**
+     *
+     * @param child Elemento que está sendo criado o bind do style.
+     */
+    MapDom.prototype.createCPSrc = function (child) {
+        this.directives.cpSrcs.push(new _directive_cp_src__WEBPACK_IMPORTED_MODULE_11__["CPSrc"](child, this));
     };
     return MapDom;
 }());
@@ -20425,9 +20536,13 @@ var ScopeProxy = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Scope", function() { return Scope; });
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
-/* harmony import */ var _map_map_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../map/map-dom */ "./src/map/map-dom.ts");
-/* harmony import */ var _scope_proxy__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./scope.proxy */ "./src/scope/scope.proxy.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common */ "./src/common.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
+/* harmony import */ var _eval__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../eval */ "./src/eval.ts");
+/* harmony import */ var _map_map_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../map/map-dom */ "./src/map/map-dom.ts");
+/* harmony import */ var _scope_proxy__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./scope.proxy */ "./src/scope/scope.proxy.ts");
+
+
 
 
 
@@ -20449,15 +20564,17 @@ var Scope = /** @class */ (function () {
                 var _a;
             });
         };
+        this.$eval = function (source) {
+            return Object(_eval__WEBPACK_IMPORTED_MODULE_2__["default"])(_this.scope, source);
+        };
         if (!_element || !_element.nodeName) {
             console.warn('Unable to create a scope, it is necessary to report an html element.');
         }
-        window['capivara'].scopes.push(this);
-        this.id = window['capivara'].scopes.length;
+        _common__WEBPACK_IMPORTED_MODULE_0__["Common"].setScopeId(this);
         this.watchers = [];
-        this.addScope(_element, this);
-        this.mapDom = new _map_map_dom__WEBPACK_IMPORTED_MODULE_1__["MapDom"](_element);
-        this.scope = new _scope_proxy__WEBPACK_IMPORTED_MODULE_2__["ScopeProxy"](this, this.mapDom, _element);
+        Scope.addScope(_element, this);
+        this.mapDom = new _map_map_dom__WEBPACK_IMPORTED_MODULE_3__["MapDom"](_element);
+        this.scope = new _scope_proxy__WEBPACK_IMPORTED_MODULE_4__["ScopeProxy"](this, this.mapDom, _element);
         if (!_element['$instance']) {
             this.$emit('$onInit');
         }
@@ -20470,9 +20587,9 @@ var Scope = /** @class */ (function () {
      * @param element Elemento que será aplicado o escopo
      * @param scope Escopo que será aplicado no elemento
      */
-    Scope.prototype.addScope = function (element, scope) {
+    Scope.addScope = function (element, scope) {
         if (element && element.nodeName) {
-            element[_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].SCOPE_ATTRIBUTE_NAME] = scope;
+            element[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SCOPE_ATTRIBUTE_NAME] = scope;
         }
     };
     return Scope;
