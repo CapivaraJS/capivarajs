@@ -55,6 +55,7 @@ describe('test methods', () => {
     element.innerHTML = template;
     capivara.controller(element, function() {});
     const cpClass = new CPClass(element.querySelector('h1'), null);
+    cpClass.create();
     it("Expected to add the class", function() {
         cpClass.addClass('demo');
         expect(element.querySelector('h1').classList.contains('demo')).toEqual(true);

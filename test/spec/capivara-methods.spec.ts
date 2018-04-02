@@ -146,8 +146,38 @@ describe('test method componentBuilder', () => {
     capivara.component('my-component', {
         template: '<h1 id="componentBuilder">Hello World</h1>',
     });
-    capivara.componentBuilder(document.getElementById('demo')).build();
+    capivara
+        .componentBuilder(document.getElementById('demo'))
+        .build();
     it('Test if the component was rendered', () => {
         expect(document.querySelector('h1#componentBuilder').innerHTML).toEqual('Hello World');
+    });
+});
+
+describe('test constants', () => {
+    const template = `
+        <h1>{{$ctrl.label}}</h1>
+    `;
+    const element = document.createElement('div');
+    element.innerHTML = template;
+
+    capivara.constants({
+        START_INTERPOLATION: '{{',
+        END_INTERPOLATION: '}}',
+    });
+
+    capivara.controller(element, function() {
+        const $ctrl = this;
+        $ctrl.label = 'Hello';
+
+        $ctrl.$onViewInit = () => {
+            it('Test if the component was rendered', (done) => {
+                setTimeout(() => {
+                    expect(element.querySelector('h1').innerHTML).toEqual($ctrl.label);
+                    done();
+                }, 1000);
+            });
+        };
+
     });
 });

@@ -1,5 +1,6 @@
 import { } from 'jasmine';
 import capivara from '../../src/index';
+import { CPClick } from '../../src/map/directive/cp-click';
 
 describe('test of click without parameters', () => {
     const template = `
@@ -7,7 +8,7 @@ describe('test of click without parameters', () => {
     `;
     const element = document.createElement('div');
     element.innerHTML = template;
-    capivara.controller(element, function() {
+    capivara.controller(element, function () {
         const $ctrl = this;
 
         $ctrl.$onInit = () => {
@@ -35,7 +36,7 @@ describe('test of click with parameters method sum', () => {
     const element = document.createElement('div');
     element.innerHTML = template;
 
-    capivara.controller(element, function() {
+    capivara.controller(element, function () {
         const $ctrl = this;
 
         $ctrl.$onInit = () => {
@@ -65,7 +66,7 @@ describe('test of click with parameters method subtract', () => {
     const element = document.createElement('div');
     element.innerHTML = template;
 
-    capivara.controller(element, function() {
+    capivara.controller(element, function () {
         const $ctrl = this;
 
         $ctrl.$onInit = () => {
@@ -93,7 +94,7 @@ describe('test of click with parameters object', () => {
     const element = document.createElement('div');
     element.innerHTML = template;
 
-    capivara.controller(element, function() {
+    capivara.controller(element, function () {
         const $ctrl = this;
 
         $ctrl.$onInit = () => {
@@ -111,6 +112,33 @@ describe('test of click with parameters object', () => {
     it('Must be the same object', () => {
         element.querySelector('button').click();
         expect(element['$instance'].componentScope.$ctrl.result).toEqual(element['$instance'].componentScope.$ctrl.person);
+    });
+
+});
+
+describe('test methods', () => {
+    const template = `
+        <button cp-click="$ctrl.save()"></button>
+    `;
+    const element = document.createElement('div');
+    element.innerHTML = template;
+    capivara.controller(element, function() {
+        const $ctrl = this;
+
+        $ctrl.save = function() {
+            $ctrl.clicked = true;
+        };
+    });
+
+    const cpClick = new CPClick(element.querySelector('button'), null);
+
+    it('Should create the click event', (done) => {
+        cpClick.create();
+        element.querySelector('button').click();
+        setTimeout(() => {
+            expect(element.querySelector('button')['$scope'].scope.$ctrl.clicked).toEqual(true);
+            done();
+        }, 1000);
     });
 
 });
