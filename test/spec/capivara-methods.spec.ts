@@ -1,5 +1,7 @@
 import { } from 'jasmine';
-import capivara from '../../src/index';
+import { Capivara } from '../../src/core/capivara';
+
+const capivara = new Capivara();
 
 describe('test method isArray', () => {
     it('Should not be an array', () => {
@@ -32,7 +34,7 @@ describe('test method isDate', () => {
     });
     it('Should be a Date', () => {
         expect(
-            capivara.isObject(new Date()),
+            capivara.isDate(new Date()),
         ).toBeTruthy();
     });
 });
@@ -123,4 +125,29 @@ describe('test method merge', () => {
     it('Should be a merge, the same here', () => {
         expect(capivara.merge(person, samePerson)).toEqual(person);
    });
+});
+
+describe('test method $emit and $on', () => {
+    capivara.$on('test', (param) => {
+        it('Test parameter value', () => {
+            expect(param).toEqual('Mateus');
+        });
+    });
+    capivara.$emit('test', 'Mateus');
+});
+
+describe('test method componentBuilder', () => {
+    const template = `
+        <my-component id="demo"></my-component>
+    `;
+    const element = document.createElement('div');
+    element.innerHTML = template;
+    document.body.appendChild(element);
+    capivara.component('my-component', {
+        template: '<h1 id="componentBuilder">Hello World</h1>',
+    });
+    capivara.componentBuilder(document.getElementById('demo')).build();
+    it('Test if the component was rendered', () => {
+        expect(document.querySelector('h1#componentBuilder').innerHTML).toEqual('Hello World');
+    });
 });
