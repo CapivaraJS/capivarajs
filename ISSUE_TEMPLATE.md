@@ -32,4 +32,16 @@
   // TODO(you): code here to reproduce the problem
   ```
   
+ * If you prefer, you can put your code on [JSFiddle][jsfiddle] or [Plunker][plunker] and send the link for us.
+ 
+### Step 4: Have the solution?
+
+* If you have the solution, make a [pull request] and send for us.
+  
 The issue template are based on this [GitHub](https://github.com/googlesamples/google-services).
+
+[jsfiddle]: http://jsfiddle.net/
+[plunker]: https://plnkr.co/
+[github]: https://github.com/CapivaraJS/capivarajs
+[google-github]: https://github.com/googlesamples/google-services
+[pull request]: https://github.com/CapivaraJS/capivarajs/compare

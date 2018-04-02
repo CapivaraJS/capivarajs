@@ -24,13 +24,12 @@
 #### Resultado Esperado:
 
   * Nos diga qual era a saída esperada do seu programa.
-  
 #### Seu código:
 
   ```
   // TODO(você): Coloque seu código para mostrar o problema
   ```
-  * Se você preferir, pode colocar o código no JSFiddle][jsfiddle] ouPlunker][plunker] e nos enviar o link.
+  * Se você preferir, pode colocar o código no [JSFiddle][jsfiddle] ou [Plunker][plunker] e nos enviar o link.
   
 ### Conseguiu desenvolver uma solução?
 
