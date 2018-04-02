@@ -1,4 +1,3 @@
-import 'object.observe';
 import { Capivara } from './core/capivara';
 
 (function(capivara) {

@@ -1,18 +1,19 @@
-capivara.controller(document.body, function() {
-	const $ctrl = this;
-	$ctrl.isActive = false;
+capivara.controller(document.body, function(){
+    const $ctrl = this;
 
-	$ctrl.click = () => {
-		$ctrl.isActive = !$ctrl.isActive;
-	}
+    $ctrl.pessoa = {
+        nome: 'Mateus'
+    }
 
-	$ctrl.pessoas = [
-		{
-			nome: 'Mateus'
-		},
-		{
-			nome: 'Felipe'
-		}
-	]
+    $ctrl.click = function(){
+        console.log($ctrl.pessoa);
+    }
+
+    capivara.componentBuilder('demo')
+        .context($ctrl)
+        .bindings({
+            pessoa: 'pessoa'
+        })
+        .build();
 
 });

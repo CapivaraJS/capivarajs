@@ -1,4 +1,4 @@
-import WatchJS from 'melanke-watchjs';
+import { Observe } from '../core/observer';
 import { MapDom } from '../map/map-dom';
 import { Scope } from './scope';
 
@@ -17,8 +17,10 @@ export class ScopeProxy {
 
     public createWatcherScope(objectObserve) {
         if (this.element['$instance']) {
-            WatchJS.watch(objectObserve, this.element['$instance'].config.controllerAs, () => {
-                this.mapDom.reload();
+            objectObserve.scope.$on('$onInit', () => {
+                Observe.observe(objectObserve[this.element['$instance'].config.controllerAs], () => {
+                    this.mapDom.reload();
+                });
             });
         }
     }

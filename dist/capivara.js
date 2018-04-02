@@ -17191,8 +17191,6 @@
  *
  * FORK:
  * https://github.com/melanke/Watch.JS
- *
- * LICENSE: MIT
  */
 
 
@@ -17242,28 +17240,28 @@
 
         if(!(typeof a == "string") && !(typeof b == "string")){
 
-            if (isArray(a) && b) {
+            if (isArray(a)) {
                 for (var i=0; i<a.length; i++) {
                     if (b[i] === undefined) aplus.push(i);
                 }
             } else {
                 for(var i in a){
                     if (a.hasOwnProperty(i)) {
-                        if(b && !b.hasOwnProperty(i)) {
+                        if(b[i] === undefined) {
                             aplus.push(i);
                         }
                     }
                 }
             }
 
-            if (isArray(b) && a) {
+            if (isArray(b)) {
                 for (var j=0; j<b.length; j++) {
                     if (a[j] === undefined) bplus.push(j);
                 }
             } else {
                 for(var j in b){
                     if (b.hasOwnProperty(j)) {
-                        if(a && !a.hasOwnProperty(j)) {
+                        if(a[j] === undefined) {
                             bplus.push(j);
                         }
                     }
@@ -17295,28 +17293,38 @@
 
     var defineGetAndSet = function (obj, propName, getter, setter) {
         try {
-            Object.defineProperty(obj, propName, {
-                get: getter,
-                set: function(value) {
-                    setter.call(this,value,true); // coalesce changes
-                },
-                enumerable: true,
-                configurable: true
-            });
-        }
-        catch(e1) {
-            try{
-                Object.prototype.__defineGetter__.call(obj, propName, getter);
-                Object.prototype.__defineSetter__.call(obj, propName, function(value) {
-                    setter.call(this,value,true); // coalesce changes
+            Object.observe(obj, function(changes) {
+                changes.forEach(function(change) {
+                    if (change.name === propName) {
+                        setter(change.object[change.name]);
+                    }
                 });
-            }
+            });            
+        } 
+        catch(e) {
+            try {
+                Object.defineProperty(obj, propName, {
+                    get: getter,
+                    set: function(value) {        
+                        setter.call(this,value,true); // coalesce changes
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+            } 
             catch(e2) {
-                observeDirtyChanges(obj,propName,setter);
-                //throw new Error("watchJS error: browser not supported :/")
+                try{
+                    Object.prototype.__defineGetter__.call(obj, propName, getter);
+                    Object.prototype.__defineSetter__.call(obj, propName, function(value) {
+                        setter.call(this,value,true); // coalesce changes
+                    });
+                } 
+                catch(e3) {
+                    observeDirtyChanges(obj,propName,setter);
+                    //throw new Error("watchJS error: browser not supported :/")
+                }
             }
         }
-
     };
 
     var defineProp = function (obj, propName, value) {
@@ -17742,12 +17750,12 @@
 
     var unwatchOne = function (obj, prop, watcher) {
         if (prop) {
-            if (obj.watchers && obj.watchers[prop]) {
-                if (watcher === undefined) {
+            if (obj.watchers[prop]) {
+                if (watcher===undefined) {
                     delete obj.watchers[prop]; // remove all property watchers
                 }
                 else {
-                    for (var i = 0; i < obj.watchers[prop].length; i++) {
+                    for (var i=0; i<obj.watchers[prop].length; i++) {
                         var w = obj.watchers[prop][i];
                         if (w == watcher) {
                             obj.watchers[prop].splice(i, 1);
@@ -17755,10 +17763,11 @@
                     }
                 }
             }
-        } else {
+        }
+        else
+        {
             delete obj.watchers;
         }
-
         removeFromLengthSubjects(obj, prop, watcher);
         removeFromDirtyChecklist(obj, prop);
     };
@@ -17962,758 +17971,6 @@
 
 /***/ }),
 
-/***/ "./node_modules/object.observe/dist/object-observe.js":
-/*!************************************************************!*\
-  !*** ./node_modules/object.observe/dist/object-observe.js ***!
-  \************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-/*!
- * Object.observe polyfill - v0.2.4
- * by Massimo Artizzu (MaxArt2501)
- *
- * https://github.com/MaxArt2501/object-observe
- *
- * Licensed under the MIT License
- * See LICENSE for details
- */
-
-// Some type definitions
-/**
- * This represents the data relative to an observed object
- * @typedef  {Object}                     ObjectData
- * @property {Map<Handler, HandlerData>}  handlers
- * @property {String[]}                   properties
- * @property {*[]}                        values
- * @property {Descriptor[]}               descriptors
- * @property {Notifier}                   notifier
- * @property {Boolean}                    frozen
- * @property {Boolean}                    extensible
- * @property {Object}                     proto
- */
-/**
- * Function definition of a handler
- * @callback Handler
- * @param {ChangeRecord[]}                changes
-*/
-/**
- * This represents the data relative to an observed object and one of its
- * handlers
- * @typedef  {Object}                     HandlerData
- * @property {Map<Object, ObservedData>}  observed
- * @property {ChangeRecord[]}             changeRecords
- */
-/**
- * @typedef  {Object}                     ObservedData
- * @property {String[]}                   acceptList
- * @property {ObjectData}                 data
-*/
-/**
- * Type definition for a change. Any other property can be added using
- * the notify() or performChange() methods of the notifier.
- * @typedef  {Object}                     ChangeRecord
- * @property {String}                     type
- * @property {Object}                     object
- * @property {String}                     [name]
- * @property {*}                          [oldValue]
- * @property {Number}                     [index]
- */
-/**
- * Type definition for a notifier (what Object.getNotifier returns)
- * @typedef  {Object}                     Notifier
- * @property {Function}                   notify
- * @property {Function}                   performChange
- */
-/**
- * Function called with Notifier.performChange. It may optionally return a
- * ChangeRecord that gets automatically notified, but `type` and `object`
- * properties are overridden.
- * @callback Performer
- * @returns {ChangeRecord|undefined}
- */
-
-Object.observe || (function(O, A, root, _undefined) {
-    "use strict";
-
-        /**
-         * Relates observed objects and their data
-         * @type {Map<Object, ObjectData}
-         */
-    var observed,
-        /**
-         * List of handlers and their data
-         * @type {Map<Handler, Map<Object, HandlerData>>}
-         */
-        handlers,
-
-        defaultAcceptList = [ "add", "update", "delete", "reconfigure", "setPrototype", "preventExtensions" ];
-
-    // Functions for internal usage
-
-        /**
-         * Checks if the argument is an Array object. Polyfills Array.isArray.
-         * @function isArray
-         * @param {?*} object
-         * @returns {Boolean}
-         */
-    var isArray = A.isArray || (function(toString) {
-            return function (object) { return toString.call(object) === "[object Array]"; };
-        })(O.prototype.toString),
-
-        /**
-         * Returns the index of an item in a collection, or -1 if not found.
-         * Uses the generic Array.indexOf or Array.prototype.indexOf if available.
-         * @function inArray
-         * @param {Array} array
-         * @param {*} pivot           Item to look for
-         * @param {Number} [start=0]  Index to start from
-         * @returns {Number}
-         */
-        inArray = A.prototype.indexOf ? A.indexOf || function(array, pivot, start) {
-            return A.prototype.indexOf.call(array, pivot, start);
-        } : function(array, pivot, start) {
-            for (var i = start || 0; i < array.length; i++)
-                if (array[i] === pivot)
-                    return i;
-            return -1;
-        },
-
-        /**
-         * Returns an instance of Map, or a Map-like object is Map is not
-         * supported or doesn't support forEach()
-         * @function createMap
-         * @returns {Map}
-         */
-        createMap = root.Map === _undefined || !Map.prototype.forEach ? function() {
-            // Lightweight shim of Map. Lacks clear(), entries(), keys() and
-            // values() (the last 3 not supported by IE11, so can't use them),
-            // it doesn't handle the constructor's argument (like IE11) and of
-            // course it doesn't support for...of.
-            // Chrome 31-35 and Firefox 13-24 have a basic support of Map, but
-            // they lack forEach(), so their native implementation is bad for
-            // this polyfill. (Chrome 36+ supports Object.observe.)
-            var keys = [], values = [];
-
-            return {
-                size: 0,
-                has: function(key) { return inArray(keys, key) > -1; },
-                get: function(key) { return values[inArray(keys, key)]; },
-                set: function(key, value) {
-                    var i = inArray(keys, key);
-                    if (i === -1) {
-                        keys.push(key);
-                        values.push(value);
-                        this.size++;
-                    } else values[i] = value;
-                },
-                "delete": function(key) {
-                    var i = inArray(keys, key);
-                    if (i > -1) {
-                        keys.splice(i, 1);
-                        values.splice(i, 1);
-                        this.size--;
-                    }
-                },
-                forEach: function(callback/*, thisObj*/) {
-                    for (var i = 0; i < keys.length; i++)
-                        callback.call(arguments[1], values[i], keys[i], this);
-                }
-            };
-        } : function() { return new Map(); },
-
-        /**
-         * Simple shim for Object.getOwnPropertyNames when is not available
-         * Misses checks on object, don't use as a replacement of Object.keys/getOwnPropertyNames
-         * @function getProps
-         * @param {Object} object
-         * @returns {String[]}
-         */
-        getProps = O.getOwnPropertyNames ? (function() {
-            var func = O.getOwnPropertyNames;
-            try {
-                arguments.callee;
-            } catch (e) {
-                // Strict mode is supported
-
-                // In strict mode, we can't access to "arguments", "caller" and
-                // "callee" properties of functions. Object.getOwnPropertyNames
-                // returns [ "prototype", "length", "name" ] in Firefox; it returns
-                // "caller" and "arguments" too in Chrome and in Internet
-                // Explorer, so those values must be filtered.
-                var avoid = (func(inArray).join(" ") + " ").replace(/prototype |length |name /g, "").slice(0, -1).split(" ");
-                if (avoid.length) func = function(object) {
-                    var props = O.getOwnPropertyNames(object);
-                    if (typeof object === "function")
-                        for (var i = 0, j; i < avoid.length;)
-                            if ((j = inArray(props, avoid[i++])) > -1)
-                                props.splice(j, 1);
-
-                    return props;
-                };
-            }
-            return func;
-        })() : function(object) {
-            // Poor-mouth version with for...in (IE8-)
-            var props = [], prop, hop;
-            if ("hasOwnProperty" in object) {
-                for (prop in object)
-                    if (object.hasOwnProperty(prop))
-                        props.push(prop);
-            } else {
-                hop = O.hasOwnProperty;
-                for (prop in object)
-                    if (hop.call(object, prop))
-                        props.push(prop);
-            }
-
-            // Inserting a common non-enumerable property of arrays
-            if (isArray(object))
-                props.push("length");
-
-            return props;
-        },
-
-        /**
-         * Return the prototype of the object... if defined.
-         * @function getPrototype
-         * @param {Object} object
-         * @returns {Object}
-         */
-        getPrototype = O.getPrototypeOf,
-
-        /**
-         * Return the descriptor of the object... if defined.
-         * IE8 supports a (useless) Object.getOwnPropertyDescriptor for DOM
-         * nodes only, so defineProperties is checked instead.
-         * @function getDescriptor
-         * @param {Object} object
-         * @param {String} property
-         * @returns {Descriptor}
-         */
-        getDescriptor = O.defineProperties && O.getOwnPropertyDescriptor,
-
-        /**
-         * Sets up the next check and delivering iteration, using
-         * requestAnimationFrame or a (close) polyfill.
-         * @function nextFrame
-         * @param {function} func
-         * @returns {number}
-         */
-        nextFrame = root.requestAnimationFrame || root.webkitRequestAnimationFrame || (function() {
-            var initial = +new Date,
-                last = initial;
-            return function(func) {
-                return setTimeout(function() {
-                    func((last = +new Date) - initial);
-                }, 17);
-            };
-        })(),
-
-        /**
-         * Sets up the observation of an object
-         * @function doObserve
-         * @param {Object} object
-         * @param {Handler} handler
-         * @param {String[]} [acceptList]
-         */
-        doObserve = function(object, handler, acceptList) {
-            var data = observed.get(object);
-
-            if (data) {
-                performPropertyChecks(data, object);
-                setHandler(object, data, handler, acceptList);
-            } else {
-                data = createObjectData(object);
-                setHandler(object, data, handler, acceptList);
-
-                if (observed.size === 1)
-                    // Let the observation begin!
-                    nextFrame(runGlobalLoop);
-            }
-        },
-
-        /**
-         * Creates the initial data for an observed object
-         * @function createObjectData
-         * @param {Object} object
-         */
-        createObjectData = function(object, data) {
-            var props = getProps(object),
-                values = [], descs, i = 0,
-                data = {
-                    handlers: createMap(),
-                    frozen: O.isFrozen ? O.isFrozen(object) : false,
-                    extensible: O.isExtensible ? O.isExtensible(object) : true,
-                    proto: getPrototype && getPrototype(object),
-                    properties: props,
-                    values: values,
-                    notifier: retrieveNotifier(object, data)
-                };
-
-            if (getDescriptor) {
-                descs = data.descriptors = [];
-                while (i < props.length) {
-                    descs[i] = getDescriptor(object, props[i]);
-                    values[i] = object[props[i++]];
-                }
-            } else while (i < props.length)
-                values[i] = object[props[i++]];
-
-            observed.set(object, data);
-
-            return data;
-        },
-
-        /**
-         * Performs basic property value change checks on an observed object
-         * @function performPropertyChecks
-         * @param {ObjectData} data
-         * @param {Object} object
-         * @param {String} [except]  Doesn't deliver the changes to the
-         *                           handlers that accept this type
-         */
-        performPropertyChecks = (function() {
-            var updateCheck = getDescriptor ? function(object, data, idx, except, descr) {
-                var key = data.properties[idx],
-                    value = object[key],
-                    ovalue = data.values[idx],
-                    odesc = data.descriptors[idx];
-
-                if ("value" in descr && (ovalue === value
-                        ? ovalue === 0 && 1/ovalue !== 1/value
-                        : ovalue === ovalue || value === value)) {
-                    addChangeRecord(object, data, {
-                        name: key,
-                        type: "update",
-                        object: object,
-                        oldValue: ovalue
-                    }, except);
-                    data.values[idx] = value;
-                }
-                if (odesc.configurable && (!descr.configurable
-                        || descr.writable !== odesc.writable
-                        || descr.enumerable !== odesc.enumerable
-                        || descr.get !== odesc.get
-                        || descr.set !== odesc.set)) {
-                    addChangeRecord(object, data, {
-                        name: key,
-                        type: "reconfigure",
-                        object: object,
-                        oldValue: ovalue
-                    }, except);
-                    data.descriptors[idx] = descr;
-                }
-            } : function(object, data, idx, except) {
-                var key = data.properties[idx],
-                    value = object[key],
-                    ovalue = data.values[idx];
-
-                if (ovalue === value ? ovalue === 0 && 1/ovalue !== 1/value
-                        : ovalue === ovalue || value === value) {
-                    addChangeRecord(object, data, {
-                        name: key,
-                        type: "update",
-                        object: object,
-                        oldValue: ovalue
-                    }, except);
-                    data.values[idx] = value;
-                }
-            };
-
-            // Checks if some property has been deleted
-            var deletionCheck = getDescriptor ? function(object, props, proplen, data, except) {
-                var i = props.length, descr;
-                while (proplen && i--) {
-                    if (props[i] !== null) {
-                        descr = getDescriptor(object, props[i]);
-                        proplen--;
-
-                        // If there's no descriptor, the property has really
-                        // been deleted; otherwise, it's been reconfigured so
-                        // that's not enumerable anymore
-                        if (descr) updateCheck(object, data, i, except, descr);
-                        else {
-                            addChangeRecord(object, data, {
-                                name: props[i],
-                                type: "delete",
-                                object: object,
-                                oldValue: data.values[i]
-                            }, except);
-                            data.properties.splice(i, 1);
-                            data.values.splice(i, 1);
-                            data.descriptors.splice(i, 1);
-                        }
-                    }
-                }
-            } : function(object, props, proplen, data, except) {
-                var i = props.length;
-                while (proplen && i--)
-                    if (props[i] !== null) {
-                        addChangeRecord(object, data, {
-                            name: props[i],
-                            type: "delete",
-                            object: object,
-                            oldValue: data.values[i]
-                        }, except);
-                        data.properties.splice(i, 1);
-                        data.values.splice(i, 1);
-                        proplen--;
-                    }
-            };
-
-            return function(data, object, except) {
-                if (!data.handlers.size || data.frozen) return;
-
-                var props, proplen, keys,
-                    values = data.values,
-                    descs = data.descriptors,
-                    i = 0, idx,
-                    key, value,
-                    proto, descr;
-
-                // If the object isn't extensible, we don't need to check for new
-                // or deleted properties
-                if (data.extensible) {
-
-                    props = data.properties.slice();
-                    proplen = props.length;
-                    keys = getProps(object);
-
-                    if (descs) {
-                        while (i < keys.length) {
-                            key = keys[i++];
-                            idx = inArray(props, key);
-                            descr = getDescriptor(object, key);
-
-                            if (idx === -1) {
-                                addChangeRecord(object, data, {
-                                    name: key,
-                                    type: "add",
-                                    object: object
-                                }, except);
-                                data.properties.push(key);
-                                values.push(object[key]);
-                                descs.push(descr);
-                            } else {
-                                props[idx] = null;
-                                proplen--;
-                                updateCheck(object, data, idx, except, descr);
-                            }
-                        }
-                        deletionCheck(object, props, proplen, data, except);
-
-                        if (!O.isExtensible(object)) {
-                            data.extensible = false;
-                            addChangeRecord(object, data, {
-                                type: "preventExtensions",
-                                object: object
-                            }, except);
-
-                            data.frozen = O.isFrozen(object);
-                        }
-                    } else {
-                        while (i < keys.length) {
-                            key = keys[i++];
-                            idx = inArray(props, key);
-                            value = object[key];
-
-                            if (idx === -1) {
-                                addChangeRecord(object, data, {
-                                    name: key,
-                                    type: "add",
-                                    object: object
-                                }, except);
-                                data.properties.push(key);
-                                values.push(value);
-                            } else {
-                                props[idx] = null;
-                                proplen--;
-                                updateCheck(object, data, idx, except);
-                            }
-                        }
-                        deletionCheck(object, props, proplen, data, except);
-                    }
-
-                } else if (!data.frozen) {
-
-                    // If the object is not extensible, but not frozen, we just have
-                    // to check for value changes
-                    for (; i < props.length; i++) {
-                        key = props[i];
-                        updateCheck(object, data, i, except, getDescriptor(object, key));
-                    }
-
-                    if (O.isFrozen(object))
-                        data.frozen = true;
-                }
-
-                if (getPrototype) {
-                    proto = getPrototype(object);
-                    if (proto !== data.proto) {
-                        addChangeRecord(object, data, {
-                            type: "setPrototype",
-                            name: "__proto__",
-                            object: object,
-                            oldValue: data.proto
-                        });
-                        data.proto = proto;
-                    }
-                }
-            };
-        })(),
-
-        /**
-         * Sets up the main loop for object observation and change notification
-         * It stops if no object is observed.
-         * @function runGlobalLoop
-         */
-        runGlobalLoop = function() {
-            if (observed.size) {
-                observed.forEach(performPropertyChecks);
-                handlers.forEach(deliverHandlerRecords);
-                nextFrame(runGlobalLoop);
-            }
-        },
-
-        /**
-         * Deliver the change records relative to a certain handler, and resets
-         * the record list.
-         * @param {HandlerData} hdata
-         * @param {Handler} handler
-         */
-        deliverHandlerRecords = function(hdata, handler) {
-            var records = hdata.changeRecords;
-            if (records.length) {
-                hdata.changeRecords = [];
-                handler(records);
-            }
-        },
-
-        /**
-         * Returns the notifier for an object - whether it's observed or not
-         * @function retrieveNotifier
-         * @param {Object} object
-         * @param {ObjectData} [data]
-         * @returns {Notifier}
-         */
-        retrieveNotifier = function(object, data) {
-            if (arguments.length < 2)
-                data = observed.get(object);
-
-            /** @type {Notifier} */
-            return data && data.notifier || {
-                /**
-                 * @method notify
-                 * @see http://arv.github.io/ecmascript-object-observe/#notifierprototype._notify
-                 * @memberof Notifier
-                 * @param {ChangeRecord} changeRecord
-                 */
-                notify: function(changeRecord) {
-                    changeRecord.type; // Just to check the property is there...
-
-                    // If there's no data, the object has been unobserved
-                    var data = observed.get(object);
-                    if (data) {
-                        var recordCopy = { object: object }, prop;
-                        for (prop in changeRecord)
-                            if (prop !== "object")
-                                recordCopy[prop] = changeRecord[prop];
-                        addChangeRecord(object, data, recordCopy);
-                    }
-                },
-
-                /**
-                 * @method performChange
-                 * @see http://arv.github.io/ecmascript-object-observe/#notifierprototype_.performchange
-                 * @memberof Notifier
-                 * @param {String} changeType
-                 * @param {Performer} func     The task performer
-                 * @param {*} [thisObj]        Used to set `this` when calling func
-                 */
-                performChange: function(changeType, func/*, thisObj*/) {
-                    if (typeof changeType !== "string")
-                        throw new TypeError("Invalid non-string changeType");
-
-                    if (typeof func !== "function")
-                        throw new TypeError("Cannot perform non-function");
-
-                    // If there's no data, the object has been unobserved
-                    var data = observed.get(object),
-                        prop, changeRecord,
-                        thisObj = arguments[2],
-                        result = thisObj === _undefined ? func() : func.call(thisObj);
-
-                    data && performPropertyChecks(data, object, changeType);
-
-                    // If there's no data, the object has been unobserved
-                    if (data && result && typeof result === "object") {
-                        changeRecord = { object: object, type: changeType };
-                        for (prop in result)
-                            if (prop !== "object" && prop !== "type")
-                                changeRecord[prop] = result[prop];
-                        addChangeRecord(object, data, changeRecord);
-                    }
-                }
-            };
-        },
-
-        /**
-         * Register (or redefines) an handler in the collection for a given
-         * object and a given type accept list.
-         * @function setHandler
-         * @param {Object} object
-         * @param {ObjectData} data
-         * @param {Handler} handler
-         * @param {String[]} acceptList
-         */
-        setHandler = function(object, data, handler, acceptList) {
-            var hdata = handlers.get(handler);
-            if (!hdata)
-                handlers.set(handler, hdata = {
-                    observed: createMap(),
-                    changeRecords: []
-                });
-            hdata.observed.set(object, {
-                acceptList: acceptList.slice(),
-                data: data
-            });
-            data.handlers.set(handler, hdata);
-        },
-
-        /**
-         * Adds a change record in a given ObjectData
-         * @function addChangeRecord
-         * @param {Object} object
-         * @param {ObjectData} data
-         * @param {ChangeRecord} changeRecord
-         * @param {String} [except]
-         */
-        addChangeRecord = function(object, data, changeRecord, except) {
-            data.handlers.forEach(function(hdata) {
-                var acceptList = hdata.observed.get(object).acceptList;
-                // If except is defined, Notifier.performChange has been
-                // called, with except as the type.
-                // All the handlers that accepts that type are skipped.
-                if ((typeof except !== "string"
-                        || inArray(acceptList, except) === -1)
-                        && inArray(acceptList, changeRecord.type) > -1)
-                    hdata.changeRecords.push(changeRecord);
-            });
-        };
-
-    observed = createMap();
-    handlers = createMap();
-
-    /**
-     * @function Object.observe
-     * @see http://arv.github.io/ecmascript-object-observe/#Object.observe
-     * @param {Object} object
-     * @param {Handler} handler
-     * @param {String[]} [acceptList]
-     * @throws {TypeError}
-     * @returns {Object}               The observed object
-     */
-    O.observe = function observe(object, handler, acceptList) {
-        if (!object || typeof object !== "object" && typeof object !== "function")
-            throw new TypeError("Object.observe cannot observe non-object");
-
-        if (typeof handler !== "function")
-            throw new TypeError("Object.observe cannot deliver to non-function");
-
-        if (O.isFrozen && O.isFrozen(handler))
-            throw new TypeError("Object.observe cannot deliver to a frozen function object");
-
-        if (acceptList === _undefined)
-            acceptList = defaultAcceptList;
-        else if (!acceptList || typeof acceptList !== "object")
-            throw new TypeError("Third argument to Object.observe must be an array of strings.");
-
-        doObserve(object, handler, acceptList);
-
-        return object;
-    };
-
-    /**
-     * @function Object.unobserve
-     * @see http://arv.github.io/ecmascript-object-observe/#Object.unobserve
-     * @param {Object} object
-     * @param {Handler} handler
-     * @throws {TypeError}
-     * @returns {Object}         The given object
-     */
-    O.unobserve = function unobserve(object, handler) {
-        if (object === null || typeof object !== "object" && typeof object !== "function")
-            throw new TypeError("Object.unobserve cannot unobserve non-object");
-
-        if (typeof handler !== "function")
-            throw new TypeError("Object.unobserve cannot deliver to non-function");
-
-        var hdata = handlers.get(handler), odata;
-
-        if (hdata && (odata = hdata.observed.get(object))) {
-            hdata.observed.forEach(function(odata, object) {
-                performPropertyChecks(odata.data, object);
-            });
-            nextFrame(function() {
-                deliverHandlerRecords(hdata, handler);
-            });
-
-            // In Firefox 13-18, size is a function, but createMap should fall
-            // back to the shim for those versions
-            if (hdata.observed.size === 1 && hdata.observed.has(object))
-                handlers["delete"](handler);
-            else hdata.observed["delete"](object);
-
-            if (odata.data.handlers.size === 1)
-                observed["delete"](object);
-            else odata.data.handlers["delete"](handler);
-        }
-
-        return object;
-    };
-
-    /**
-     * @function Object.getNotifier
-     * @see http://arv.github.io/ecmascript-object-observe/#GetNotifier
-     * @param {Object} object
-     * @throws {TypeError}
-     * @returns {Notifier}
-     */
-    O.getNotifier = function getNotifier(object) {
-        if (object === null || typeof object !== "object" && typeof object !== "function")
-            throw new TypeError("Object.getNotifier cannot getNotifier non-object");
-
-        if (O.isFrozen && O.isFrozen(object)) return null;
-
-        return retrieveNotifier(object);
-    };
-
-    /**
-     * @function Object.deliverChangeRecords
-     * @see http://arv.github.io/ecmascript-object-observe/#Object.deliverChangeRecords
-     * @see http://arv.github.io/ecmascript-object-observe/#DeliverChangeRecords
-     * @param {Handler} handler
-     * @throws {TypeError}
-     */
-    O.deliverChangeRecords = function deliverChangeRecords(handler) {
-        if (typeof handler !== "function")
-            throw new TypeError("Object.deliverChangeRecords cannot deliver to non-function");
-
-        var hdata = handlers.get(handler);
-        if (hdata) {
-            hdata.observed.forEach(function(odata, object) {
-                performPropertyChecks(odata.data, object);
-            });
-            deliverHandlerRecords(hdata, handler);
-        }
-    };
-
-})(Object, Array, this);
-
-
-/***/ }),
-
 /***/ "./node_modules/webpack/buildin/global.js":
 /*!***********************************!*\
   !*** (webpack)/buildin/global.js ***!
@@ -18785,7 +18042,7 @@ module.exports = function(module) {
 /*! exports provided: name, version, description, main, repository, scripts, author, license, dependencies, keywords, nyc, devDependencies, default */
 /***/ (function(module) {
 
-module.exports = {"name":"capivarajs","version":"1.10.0","description":"Um framework para criação de componentes.","main":"./src/index.ts","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"npm run test-single && webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./webpack.config.js --env.tests true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1","object.observe":"^0.2.6"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^9.4.6","babel-loader":"^7.1.4","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.0","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.8","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.20.3","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.3.0","webpack-cli":"^2.0.13","webpack-dev-server":"^3.1.1"}};
+module.exports = {"name":"capivarajs","version":"1.10.0","description":"Um framework para criação de componentes.","main":"./index.js","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"npm run test-single && webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./webpack.config.js --env.tests true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^9.4.6","babel-loader":"^7.1.4","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.0","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.8","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.20.3","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.3.0","webpack-cli":"^2.0.13","webpack-dev-server":"^3.1.1"}};
 
 /***/ }),
 
@@ -18802,7 +18059,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./constants */ "./src/constants.ts");
-/* harmony import */ var _core_eval__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./core/eval */ "./src/core/eval.ts");
+/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./core */ "./src/core/index.ts");
 
 
 
@@ -18820,7 +18077,7 @@ var Common;
      */
     function evalInContext(source, context) {
         if (source) {
-            return Object(_core_eval__WEBPACK_IMPORTED_MODULE_2__["default"])(source, context);
+            return _core__WEBPACK_IMPORTED_MODULE_2__["Eval"].exec(source, context);
         }
     }
     Common.evalInContext = evalInContext;
@@ -19210,13 +18467,9 @@ var ComponentInstance = /** @class */ (function () {
         });
     };
     ComponentInstance.prototype.initController = function () {
-        var _this = this;
         if (this.destroyed) {
             if (this.config.controller) {
                 this.componentScope[this.config.controllerAs] = new this.config.controller(this.componentScope);
-                Object['observe'](this.componentScope[this.config.controllerAs], function () {
-                    _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).mapDom.reload();
-                });
             }
             this.applyContains();
             this.applyFunctions();
@@ -19226,6 +18479,7 @@ var ComponentInstance = /** @class */ (function () {
             }
             this.destroyed = false;
             _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(this.element).$emit('$onInit');
+            _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(this.element).mapDom.reload();
         }
     };
     /**
@@ -19415,21 +18669,23 @@ var Controller = /** @class */ (function () {
 /*!**************************!*\
   !*** ./src/core/eval.ts ***!
   \**************************/
-/*! exports provided: default */
+/*! exports provided: Eval */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Eval", function() { return Eval; });
 /* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common */ "./src/common.ts");
 
-/* harmony default export */ __webpack_exports__["default"] = (function (source, context) {
-    var referenceSelf = 'this.', regex = /\$*[a-z0-9.$]+\s*/gi, keys = source.match(regex);
-    var replaceAt = function (input, search, replace, start, end) {
+var Eval;
+(function (Eval) {
+    function replaceAt(input, search, replace, start, end) {
         return input.slice(0, start)
             + input.slice(start, end).replace(search, replace)
             + input.slice(end);
-    };
-    var getIndexStart = function (arr, currentIndex) {
+    }
+    Eval.replaceAt = replaceAt;
+    function getIndexStart(arr, currentIndex) {
         if (currentIndex === 0) {
             return 0;
         }
@@ -19442,20 +18698,304 @@ __webpack_require__.r(__webpack_exports__);
             return getPreviousSize(index, size);
         };
         return getPreviousSize(currentIndex, 0);
-    };
-    keys.forEach(function (str, i) {
-        var key = str.replace(/\s/g, ''), indexStart = getIndexStart(keys, i);
-        var indexEnd = indexStart + source.substring(indexStart, source.length).indexOf(key) + key.length;
-        if (!key.includes(referenceSelf)) {
-            if (context.hasOwnProperty(_common__WEBPACK_IMPORTED_MODULE_0__["Common"].getFirstKey(key))) {
-                source = replaceAt(source, key, "this." + key, indexStart, indexEnd);
+    }
+    Eval.getIndexStart = getIndexStart;
+    function exec(source, context) {
+        var referenceSelf = 'this.', regex = /\$*[a-z0-9.$]+\s*/gi, keys = source.match(regex);
+        keys.forEach(function (str, i) {
+            var key = str.replace(/\s/g, ''), indexStart = getIndexStart(keys, i);
+            var indexEnd = indexStart + source.substring(indexStart, source.length).indexOf(key) + key.length;
+            if (!key.includes(referenceSelf)) {
+                if (context.hasOwnProperty(_common__WEBPACK_IMPORTED_MODULE_0__["Common"].getFirstKey(key))) {
+                    source = replaceAt(source, key, "this." + key, indexStart, indexEnd);
+                }
+            }
+        });
+        return function (str) {
+            return eval(str);
+        }.call(context, source);
+    }
+    Eval.exec = exec;
+})(Eval || (Eval = {}));
+
+
+/***/ }),
+
+/***/ "./src/core/index.ts":
+/*!***************************!*\
+  !*** ./src/core/index.ts ***!
+  \***************************/
+/*! exports provided: Capivara, Controller, ComponentInstance, Component, Eval, Observe */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _capivara__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./capivara */ "./src/core/capivara.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Capivara", function() { return _capivara__WEBPACK_IMPORTED_MODULE_0__["Capivara"]; });
+
+/* harmony import */ var _controller__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./controller */ "./src/core/controller.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Controller", function() { return _controller__WEBPACK_IMPORTED_MODULE_1__["Controller"]; });
+
+/* harmony import */ var _component_instance__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./component.instance */ "./src/core/component.instance.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ComponentInstance", function() { return _component_instance__WEBPACK_IMPORTED_MODULE_2__["ComponentInstance"]; });
+
+/* harmony import */ var _component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./component */ "./src/core/component.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Component", function() { return _component__WEBPACK_IMPORTED_MODULE_3__["Component"]; });
+
+/* harmony import */ var _eval__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./eval */ "./src/core/eval.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Eval", function() { return _eval__WEBPACK_IMPORTED_MODULE_4__["Eval"]; });
+
+/* harmony import */ var _observer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./observer */ "./src/core/observer/index.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Observe", function() { return _observer__WEBPACK_IMPORTED_MODULE_5__["Observe"]; });
+
+
+
+
+
+
+
+
+
+/***/ }),
+
+/***/ "./src/core/observer/index.ts":
+/*!************************************!*\
+  !*** ./src/core/observer/index.ts ***!
+  \************************************/
+/*! exports provided: Observe */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Observe", function() { return Observe; });
+/* harmony import */ var _polyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./polyfill */ "./src/core/observer/polyfill.ts");
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./util */ "./src/core/observer/util.ts");
+
+
+var Observe;
+(function (Observe) {
+    function observe(obj, handler) {
+        var props = _util__WEBPACK_IMPORTED_MODULE_1__["Util"].keys(obj);
+        var propsL = props.length;
+        for (var i = 0; i < propsL; i++) {
+            if (Object.prototype.toString.call(obj[props[i]]) === '[object Object]' || Array.isArray(obj[props[i]])) {
+                this.observe(obj[props[i]], handler);
+            }
+            else {
+                _polyfill__WEBPACK_IMPORTED_MODULE_0__["Polyfill"].watchProperty(obj, props[i], handler);
             }
         }
-    });
-    return function (str) {
-        return eval(str);
-    }.call(context, source);
-});
+        function updateProperties() {
+            if (!_util__WEBPACK_IMPORTED_MODULE_1__["Util"].compare(props, _util__WEBPACK_IMPORTED_MODULE_1__["Util"].keys(obj))) {
+                _polyfill__WEBPACK_IMPORTED_MODULE_0__["Polyfill"].updateProperties(_util__WEBPACK_IMPORTED_MODULE_1__["Util"].diff(props, _util__WEBPACK_IMPORTED_MODULE_1__["Util"].keys(obj)), obj, handler);
+                props = _util__WEBPACK_IMPORTED_MODULE_1__["Util"].keys(obj);
+            }
+        }
+        _polyfill__WEBPACK_IMPORTED_MODULE_0__["Polyfill"].setDirtyCheck(obj, 50, updateProperties);
+    }
+    Observe.observe = observe;
+    function unobserve(obj) {
+        if (!obj || !obj.__interval__) {
+            return false;
+        }
+        var props = Object.keys(obj), propsL = props.length;
+        for (var i = 0; i < propsL; i++) {
+            if (Object.prototype.toString.call(obj[props[i]]) === '[object Object]' || Array.isArray(obj[props[i]])) {
+                this.unobserve(obj[props[i]]);
+            }
+            else {
+                _polyfill__WEBPACK_IMPORTED_MODULE_0__["Polyfill"].unWatchProperty(obj, props[i]);
+            }
+        }
+        _polyfill__WEBPACK_IMPORTED_MODULE_0__["Polyfill"].clearDirtyCheck(obj);
+    }
+    Observe.unobserve = unobserve;
+})(Observe || (Observe = {}));
+
+
+/***/ }),
+
+/***/ "./src/core/observer/polyfill.ts":
+/*!***************************************!*\
+  !*** ./src/core/observer/polyfill.ts ***!
+  \***************************************/
+/*! exports provided: Polyfill */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Polyfill", function() { return Polyfill; });
+var Polyfill;
+(function (Polyfill) {
+    function watchProperty(obj, prop, handler) {
+        var oldval = obj[prop];
+        var newval = oldval;
+        var getter = function () {
+            return newval;
+        };
+        var setter = function (val) {
+            oldval = newval;
+            var value = (newval = val);
+            if (oldval !== val) {
+                handler([{
+                        type: 'update',
+                        object: obj,
+                        name: prop,
+                        oldValue: oldval,
+                    }]);
+            }
+            return value;
+        };
+        if (delete obj[prop]) {
+            Object.defineProperty(obj, prop, {
+                get: getter,
+                set: setter,
+                enumerable: true,
+                configurable: true,
+            });
+        }
+    }
+    Polyfill.watchProperty = watchProperty;
+    function updateProperties(delta, obj, handler) {
+        var added = delta.added, deleted = delta.deleted, hasAdded = !!added.length, hasDeleted = !!deleted.length, all = delta.all, allL = all.length, response = [];
+        for (var i = 0; i < allL; i++) {
+            watchProperty(obj, all[i], handler);
+            if (hasAdded && i <= added.length) {
+                response.push({
+                    type: 'add',
+                    object: obj,
+                    name: added[i],
+                });
+            }
+            if (hasDeleted && i <= deleted.length) {
+                response.push({
+                    type: 'deleted',
+                    object: obj,
+                    name: deleted[i],
+                });
+            }
+        }
+        handler(response);
+    }
+    Polyfill.updateProperties = updateProperties;
+    function unWatchProperty(obj, prop) {
+        var val = obj[prop];
+        /* tslint:disable */
+        delete obj[prop];
+        obj[prop] = val;
+        /* tslint:enable */
+    }
+    Polyfill.unWatchProperty = unWatchProperty;
+    function setDirtyCheck(obj, time, fn) {
+        Object.defineProperty(obj, '__interval__', {
+            enumerable: false,
+            configurable: true,
+            writable: false,
+            value: setInterval(fn, time),
+        });
+    }
+    Polyfill.setDirtyCheck = setDirtyCheck;
+    function clearDirtyCheck(obj) {
+        clearInterval(obj.__interval__);
+        /* tslint:disable */
+        delete obj.__interval__;
+        /* tslint:enable */
+    }
+    Polyfill.clearDirtyCheck = clearDirtyCheck;
+})(Polyfill || (Polyfill = {}));
+
+
+/***/ }),
+
+/***/ "./src/core/observer/util.ts":
+/*!***********************************!*\
+  !*** ./src/core/observer/util.ts ***!
+  \***********************************/
+/*! exports provided: Util */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Util", function() { return Util; });
+var Util;
+(function (Util) {
+    function compare(arr1, arr2) {
+        if (!(arr1 instanceof Array) || !(arr2 instanceof Array)) {
+            throw new TypeError('#compare accepts two parameters, both being Arrays.');
+        }
+        if (arr1.length !== arr2.length) {
+            return false;
+        }
+        for (var i = 0, l = arr1.length; i < l; i++) {
+            if (arr1[i] instanceof Array && arr2[i] instanceof Array) {
+                if (!this.compare(arr1[i], arr2[i])) {
+                    return false;
+                }
+            }
+            else if (arr1[i] !== arr2[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+    Util.compare = compare;
+    function diff(arr1, arr2) {
+        if (!arr1 || !arr2 || !(arr1 instanceof Array) || !(arr2 instanceof Array)) {
+            throw new TypeError('#diff accepts two parameters, both being Arrays.');
+        }
+        var a = [], diffValue = {}, a1L = arr1.length, a2L = arr2.length;
+        diffValue.added = [];
+        diffValue.deleted = [];
+        diffValue.all = [];
+        for (var i = 0; i < a1L; i++) {
+            a[arr1[i]] = 1;
+        }
+        for (var j = 0; j < a2L; j++) {
+            if (a[arr2[j]]) {
+                delete a[arr2[j]];
+            }
+            else {
+                a[arr2[j]] = 2;
+            }
+        }
+        for (var k in a) {
+            if (k) {
+                diffValue.all.push(k);
+                if (a[k] === 1) {
+                    diffValue.deleted.push(k);
+                }
+                else {
+                    diffValue.added.push(k);
+                }
+            }
+        }
+        return diffValue;
+    }
+    Util.diff = diff;
+    function keys(obj) {
+        if (Object.prototype.toString.call(obj) !== '[object Object]' && !Array.isArray(obj)) {
+            throw new TypeError('#keys only accepts objects and arrays');
+        }
+        var props = [];
+        for (var prop in obj) {
+            if (prop) {
+                props.push(prop);
+            }
+        }
+        return props;
+    }
+    Util.keys = keys;
+    function clone(obj) {
+        var a = [];
+        for (var prop in obj) {
+            if (prop) {
+                a[prop] = obj[prop];
+            }
+        }
+        return a;
+    }
+    Util.clone = clone;
+})(Util || (Util = {}));
 
 
 /***/ }),
@@ -19469,14 +19009,11 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var object_observe__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! object.observe */ "./node_modules/object.observe/dist/object-observe.js");
-/* harmony import */ var object_observe__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(object_observe__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _core_capivara__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./core/capivara */ "./src/core/capivara.ts");
-
+/* harmony import */ var _core_capivara__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./core/capivara */ "./src/core/capivara.ts");
 
 (function (capivara) {
     if (!capivara) {
-        window["capivara"] = new _core_capivara__WEBPACK_IMPORTED_MODULE_1__["Capivara"]();
+        window["capivara"] = new _core_capivara__WEBPACK_IMPORTED_MODULE_0__["Capivara"]();
         document.addEventListener("DOMNodeRemoved", function (evt) { return window["capivara"].$emit("DOMNodeRemoved", evt); });
     }
     else {
@@ -19517,10 +19054,10 @@ var CPClass = /** @class */ (function () {
         if (classObj && window['capivara'].isObject(classObj)) {
             Object.keys(classObj).forEach(function (key) {
                 if (classObj[key] === true) {
-                    CPClass.addClass(_this.element, key.replace(/ /g, ''));
+                    _this.addClass(key.replace(/ /g, ''));
                 }
                 else {
-                    CPClass.removeClass(_this.element, key.replace(/ /g, ''));
+                    _this.removeClass(key.replace(/ /g, ''));
                 }
             });
         }
@@ -19541,10 +19078,10 @@ var CPClass = /** @class */ (function () {
                 }
                 else {
                     if (cpClass.value === true) {
-                        CPClass.addClass(_this.element, cpClass.key.replace(/ /g, ''));
+                        _this.addClass(cpClass.key.replace(/ /g, ''));
                     }
                     else {
-                        CPClass.removeClass(_this.element, cpClass.key.replace(/ /g, ''));
+                        _this.removeClass(cpClass.key.replace(/ /g, ''));
                     }
                 }
             });
@@ -19553,20 +19090,20 @@ var CPClass = /** @class */ (function () {
             this.setClassByObject(_common__WEBPACK_IMPORTED_MODULE_0__["Common"].executeFunctionCallback(this.element, this.attribute));
         }
     };
-    CPClass.removeClass = function (el, className) {
-        if (el.classList && el.classList.contains(className)) {
-            el.classList.remove(className);
+    CPClass.prototype.removeClass = function (className) {
+        if (this.element.classList && this.element.classList.contains(className)) {
+            this.element.classList.remove(className);
         }
-        else if (!el.classList && el.className.indexOf(className) !== -1) {
-            el.className = el.className.replace(className, '');
+        else if (!this.element.classList && this.element.className.indexOf(className) !== -1) {
+            this.element.className = this.element.className.replace(className, '');
         }
     };
-    CPClass.addClass = function (el, className) {
-        if (el.classList && !el.classList.contains(className)) {
-            el.classList.add(className);
+    CPClass.prototype.addClass = function (className) {
+        if (this.element.classList && !this.element.classList.contains(className)) {
+            this.element.classList.add(className);
         }
-        else if (!el.classList && el.className.indexOf(className) === -1) {
-            el.className += " " + className;
+        else if (!this.element.classList && this.element.className.indexOf(className) === -1) {
+            this.element.className += " " + className;
         }
     };
     return CPClass;
@@ -20359,6 +19896,7 @@ var MapDom = /** @class */ (function () {
         if (!this.renderedView) {
             return;
         }
+        console.log('dsa');
         this.reloadDirectives();
         this.reloadElementChildes(this.element, _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getScope(this.element));
     };
@@ -20515,8 +20053,7 @@ var MapDom = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ScopeProxy", function() { return ScopeProxy; });
-/* harmony import */ var melanke_watchjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! melanke-watchjs */ "./node_modules/melanke-watchjs/src/watch.js");
-/* harmony import */ var melanke_watchjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(melanke_watchjs__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _core_observer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../core/observer */ "./src/core/observer/index.ts");
 
 var ScopeProxy = /** @class */ (function () {
     function ScopeProxy(_scope, _mapDom, _element) {
@@ -20528,8 +20065,10 @@ var ScopeProxy = /** @class */ (function () {
     ScopeProxy.prototype.createWatcherScope = function (objectObserve) {
         var _this = this;
         if (this.element['$instance']) {
-            melanke_watchjs__WEBPACK_IMPORTED_MODULE_0___default.a.watch(objectObserve, this.element['$instance'].config.controllerAs, function () {
-                _this.mapDom.reload();
+            objectObserve.scope.$on('$onInit', function () {
+                _core_observer__WEBPACK_IMPORTED_MODULE_0__["Observe"].observe(objectObserve[_this.element['$instance'].config.controllerAs], function () {
+                    _this.mapDom.reload();
+                });
             });
         }
     };
@@ -20579,7 +20118,7 @@ var Scope = /** @class */ (function () {
             });
         };
         this.$eval = function (source) {
-            return Object(_core_eval__WEBPACK_IMPORTED_MODULE_2__["default"])(_this.scope, source);
+            return _core_eval__WEBPACK_IMPORTED_MODULE_2__["Eval"].exec(_this.scope, source);
         };
         if (!_element || !_element.nodeName) {
             console.warn('Unable to create a scope, it is necessary to report an html element.');
