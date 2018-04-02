@@ -1,5 +1,6 @@
 import { } from 'jasmine';
 import capivara from '../../src/index';
+import { CPClass } from '../../src/map/directive/cp-class';
 
 describe('test of class with fixed object', () => {
     const template = `
@@ -43,5 +44,23 @@ describe('test of class with dynamic object', () => {
                 });
             });
         };
+    });
+});
+
+describe('test methods', () => {
+    const template = `
+        <h1 cp-class="{}"></h1>
+    `;
+    const element = document.createElement('div');
+    element.innerHTML = template;
+    capivara.controller(element, function() {});
+    const cpClass = new CPClass(element.querySelector('h1'), null);
+    it("Expected to add the class", function() {
+        cpClass.addClass('demo');
+        expect(element.querySelector('h1').classList.contains('demo')).toEqual(true);
+    });
+    it("Expected to remove the class", function() {
+        cpClass.removeClass('demo');
+        expect(element.querySelector('h1').classList.contains('demo')).toEqual(false);
     });
 });

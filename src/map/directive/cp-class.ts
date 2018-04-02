@@ -28,9 +28,9 @@ export class CPClass implements Directive {
         if (classObj && window['capivara'].isObject(classObj)) {
             Object.keys(classObj).forEach((key) => {
                 if (classObj[key] === true) {
-                    CPClass.addClass(this.element, key.replace(/ /g, ''));
+                    this.addClass(key.replace(/ /g, ''));
                 } else {
-                    CPClass.removeClass(this.element, key.replace(/ /g, ''));
+                    this.removeClass(key.replace(/ /g, ''));
                 }
             });
         }
@@ -50,9 +50,9 @@ export class CPClass implements Directive {
                         this.setClassByObject(cpClass.value);
                     } else {
                         if (cpClass.value === true) {
-                            CPClass.addClass(this.element, cpClass.key.replace(/ /g, ''));
+                            this.addClass(cpClass.key.replace(/ /g, ''));
                         } else {
-                            CPClass.removeClass(this.element, cpClass.key.replace(/ /g, ''));
+                            this.removeClass(cpClass.key.replace(/ /g, ''));
                         }
                     }
                 });
@@ -61,19 +61,19 @@ export class CPClass implements Directive {
         }
     }
 
-    public static removeClass(el, className) {
-        if (el.classList && el.classList.contains(className)) {
-            el.classList.remove(className);
-        } else if (!el.classList && el.className.indexOf(className) !== -1) {
-            el.className = el.className.replace(className, '');
-             }
+    public removeClass(className) {
+        if (this.element.classList && this.element.classList.contains(className)) {
+            this.element.classList.remove(className);
+        } else if (!this.element.classList && this.element.className.indexOf(className) !== -1) {
+            this.element.className = this.element.className.replace(className, '');
+        }
     }
 
-    public static addClass(el, className) {
-        if (el.classList && !el.classList.contains(className)) {
-            el.classList.add(className);
-        } else if (!el.classList && el.className.indexOf(className) === -1) {
-            el.className += " " + className;
-             }
+    public addClass(className) {
+        if (this.element.classList && !this.element.classList.contains(className)) {
+            this.element.classList.add(className);
+        } else if (!this.element.classList && this.element.className.indexOf(className) === -1) {
+            this.element.className += " " + className;
+        }
     }
 }
