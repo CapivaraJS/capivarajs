@@ -35,7 +35,7 @@
 
 Abra um [pull request] e faça a submissão do seu código.
 
-#### Esse template de issue foi baseado no template desse [Github](google-github).
+#### Esse template de issue foi baseado no template desse [Github](https://github.com/googlesamples/google-services).
 
 [jsfiddle]: http://jsfiddle.net/
 [plunker]: https://plnkr.co/
