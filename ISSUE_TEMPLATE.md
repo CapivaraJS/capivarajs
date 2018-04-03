@@ -1,11 +1,10 @@
 ### Step 1: Are you in the right place?
 
-  * For issues or feature requests related to the code **in this repository** file a Github issue.
+  * For issues or feature requests related to the code in [this repository](github) file a Github issue.
   * For general technical questions, post a question on [Google Groups](https://groups.google.com/forum/#!forum/capivarajs) tagged appropriately.
 
 ### Step 2: Describe your environment
 
-  * Device: _____
   * OS version: _____
   * CapivaraJS version: _____
   * Npm Version: _____
@@ -31,14 +30,13 @@
   ```
   // TODO(you): code here to reproduce the problem
   ```
+  * If you prefer, you put the code on [JSFiddle][jsfiddle] or [Plunker][plunker].
   
- * If you prefer, you can put your code on [JSFiddle][jsfiddle] or [Plunker][plunker] and send the link for us.
- 
-### Step 4: Have the solution?
+### Have the solution?
+Open a [pull request] and submit your code.
+  
 
-* If you have the solution, make a [pull request] and send for us.
-  
-The issue template are based on this [GitHub](https://github.com/googlesamples/google-services).
+#### The issue template are based on this [GitHub](google-github).
 
 [jsfiddle]: http://jsfiddle.net/
 [plunker]: https://plnkr.co/
