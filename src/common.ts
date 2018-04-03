@@ -135,4 +135,9 @@ export namespace Common {
         }
     }
 
+    export function parentHasIgnore(element){
+        if (element.hasAttribute && element.hasAttribute(Constants.IGNORE_BINGINGS)) { return true }
+        if (element.parentNode) { return parentHasIgnore(element.parentNode); }
+    }
+
 }

@@ -191,31 +191,33 @@ export class MapDom {
      * @param childNode
      */
     public interpolation(childNode) {
-        if (childNode.nodeName === '#text') {
+        if (childNode.nodeName === '#text' && !Common.parentHasIgnore(childNode)) {
+            childNode.$immutableInterpolation = childNode.$immutableInterpolation || false;
+            if(childNode.$immutableInterpolation) { return; }
+
             childNode.originalValue = childNode.originalValue || childNode.nodeValue;
-            let nodeModified = childNode.originalValue;
-
-            let str = window['capivara'].replaceAll(childNode.originalValue, Constants.START_INTERPOLATION, '{{');
+            let nodeModified = childNode.originalValue, str = childNode.originalValue;
+            str = window['capivara'].replaceAll(str, Constants.START_INTERPOLATION, '{{');
             str = window['capivara'].replaceAll(str, Constants.END_INTERPOLATION, '}}');
-
+            
             (str.match(this.regexInterpolation) || []).forEach((key) => {
                 const content = key.replace('{{', '').replace('}}', '');
-                let value = '';
-
-                try {
-                    let evalValue = Common.evalInContext(content, Common.getScopeParent(childNode));
-                    evalValue = MapDom.removeWordFromStr(evalValue, 'null');
-                    evalValue = MapDom.removeWordFromStr(evalValue, 'undefined');
-                    evalValue = MapDom.removeWordFromStr(evalValue, 'NaN');
-                    value = evalValue !== undefined ? evalValue : '';
-                } catch (e) { }
-
-                key = window['capivara'].replaceAll(key, '{{', Constants.START_INTERPOLATION);
-                key = window['capivara'].replaceAll(key, '}}', Constants.END_INTERPOLATION);
-
-                nodeModified = nodeModified.replace(key, value);
-                childNode.nodeValue = nodeModified;
-
+                if(!childNode.$immutableInterpolation) {
+                    try {
+                        let evalValue = Common.evalInContext(content.trim().startsWith(':') ? content.trim().slice(1) : content, Common.getScopeParent(childNode));
+                        evalValue = MapDom.removeWordFromStr(evalValue, 'null');
+                        evalValue = MapDom.removeWordFromStr(evalValue, 'undefined');
+                        evalValue = MapDom.removeWordFromStr(evalValue, 'NaN');
+                        let value = evalValue !== undefined ? evalValue : '';
+                        key = window['capivara'].replaceAll(key, '{{', Constants.START_INTERPOLATION);
+                        key = window['capivara'].replaceAll(key, '}}', Constants.END_INTERPOLATION);
+                        nodeModified = nodeModified.replace(key, value);
+                        childNode.nodeValue = nodeModified;
+                    } catch (e) { }
+                }
+                if(content.trim().startsWith(':') && !childNode.$immutableInterpolation) {
+                    childNode.$immutableInterpolation = true;
+                }
             });
 
             childNode.nodeValue = childNode.nodeValue.replace(this.regexInterpolation, '');
