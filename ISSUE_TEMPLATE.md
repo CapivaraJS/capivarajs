@@ -36,10 +36,10 @@
 Open a [pull request] and submit your code.
   
 
-#### The issue template are based on this [GitHub](google-github).
+#### The issue template are based on this [GitHub](https://github.com/googlesamples/google-services).
 
 [jsfiddle]: http://jsfiddle.net/
 [plunker]: https://plnkr.co/
 [github]: https://github.com/CapivaraJS/capivarajs
-[google-github]: https://github.com/googlesamples/google-services
+[google]: https://github.com/googlesamples/google-services
 [pull request]: https://github.com/CapivaraJS/capivarajs/compare
