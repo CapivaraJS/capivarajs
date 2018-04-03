@@ -32,7 +32,7 @@
   ```
   * If you prefer, you put the code on [JSFiddle][jsfiddle] or [Plunker][plunker].
   
-### Have the solution?
+### Did you develop a solution?
 Open a [pull request] and submit your code.
   
 
