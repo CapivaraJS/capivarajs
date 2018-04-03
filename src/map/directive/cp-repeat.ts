@@ -64,9 +64,13 @@ export class CPRepeat implements Directive {
             new Controller(elm, () => { });
             Common.getScope(elm).scope[attributeAlias] = row;
             Common.getScope(elm).scope[Constants.REPEAT_INDEX_NAME] = index;
+            Common.getScope(elm).mapDom.reload();
             return elm;
         });
-        Common.appendAfter(elms.shift(), this.referenceNode.parentNode.appendChild(document.createComment('end repeat ' + this.attribute)));
+        const shift = elms.shift();
+        if (shift) {
+            Common.appendAfter(shift, this.referenceNode.parentNode.appendChild(document.createComment('end repeat ' + this.attribute)));
+        }
     }
 
 }

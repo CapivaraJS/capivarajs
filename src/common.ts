@@ -116,10 +116,8 @@ export namespace Common {
 
     export function isValidCondition(element, condition) {
         const scope = getScope(element).scope;
-        // if (!(element.parentNode && element.parentNode.classList.contains('binding-repeat')) && scope.$parent) {
-        //     scope = scope.$parent;
-        // }
-        return evalInContext(condition, scope);
+        const result = evalInContext(condition, scope);
+        return result;
     }
 
     export function appendBefore(element, elementToInsert) {
