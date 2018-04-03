@@ -1,7 +1,7 @@
 ### Passo 1: Você está no local correto?
   
   * Para submter isssues ou features relacionadas com o código, adicione uma [issue](github) em nosso Github.
-  * Para dúvidas ou questões sobre utilização utilize o [Google Groups](https://groups.google.com/forum/#!forum/capivarajs) que nós responderemos.
+  * Para dúvidas ou questões sobre utilização, utilize o [Google Groups](https://groups.google.com/forum/#!forum/capivarajs) que nós responderemos.
 
 ### Passo 2: Descreva seu ambiente
 
