@@ -23,6 +23,9 @@ export class CPElse implements Directive {
     }
 
     public create() {
+        if (this.element.hasAttribute(Constants.REPEAT_ATTRIBUTE_NAME)) {
+            return;
+        }
         this.parentCondition = Common.getScope(this.element).parentCondition;
         if (!this.parentCondition) {
             throw new Error(`syntax error ${Constants.ELSE_ATTRIBUTE_NAME} used on element ` +
@@ -46,7 +49,7 @@ export class CPElse implements Directive {
     }
 
     public init() {
-        if (!this.element) {
+        if (!this.element || this.element.hasAttribute(Constants.REPEAT_ATTRIBUTE_NAME)) {
             return;
         }
         try {

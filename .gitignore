@@ -7,3 +7,4 @@ reports/
 .nyc_output
 coverage.lcov
 phantomjsdriver.log
+div/

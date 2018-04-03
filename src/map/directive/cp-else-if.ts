@@ -27,6 +27,9 @@ export class CPElseIf implements Directive {
     }
 
     public create() {
+        if (this.element.hasAttribute(Constants.REPEAT_ATTRIBUTE_NAME)) {
+            return;
+        }
         this.integrationCpElse();
         this.parentCondition = Common.getScope(this.element).parentCondition;
         if (!this.parentCondition) {
@@ -44,7 +47,7 @@ export class CPElseIf implements Directive {
     }
 
     public init() {
-        if (!this.element) {
+        if (!this.element || this.element.hasAttribute(Constants.REPEAT_ATTRIBUTE_NAME)) {
             return;
         }
         try {

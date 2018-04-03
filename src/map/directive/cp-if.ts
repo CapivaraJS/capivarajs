@@ -23,6 +23,9 @@ export class CPIf implements Directive {
     }
 
     public create() {
+        if (this.element.hasAttribute(Constants.REPEAT_ATTRIBUTE_NAME)) {
+            return;
+        }
         this.integrationCpElse();
         this.init();
     }
@@ -35,7 +38,7 @@ export class CPIf implements Directive {
     }
 
     public init() {
-        if (!this.element) {
+        if (!this.element || this.element.hasAttribute(Constants.REPEAT_ATTRIBUTE_NAME)) {
             return;
         }
         try {
