@@ -54,7 +54,7 @@ export namespace Util {
 
     export function keys(obj) {
         if (Object.prototype.toString.call(obj) !== '[object Object]' && !Array.isArray(obj)) {
-            throw new TypeError('#keys only accepts objects and arrays');
+            return [];
         }
         const props = [];
         for (const prop in obj) {

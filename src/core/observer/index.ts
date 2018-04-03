@@ -4,6 +4,9 @@ import { Util } from './util';
 export namespace Observe {
 
     export function observe(obj, handler) {
+        if (obj.__observer__) {
+            return;
+        }
         let props = Util.keys(obj);
         const propsL = props.length;
         for (let i = 0; i < propsL; i++) {
@@ -23,7 +26,7 @@ export namespace Observe {
     }
 
     export function unobserve(obj) {
-        if (!obj || !obj.__interval__) {
+        if (!obj || !obj.__observer__) {
             return false;
         }
         const props = Object.keys(obj),

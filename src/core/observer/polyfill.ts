@@ -1,4 +1,5 @@
 export namespace Polyfill {
+    const keyObserver = '__observer__';
 
     export function watchProperty(obj, prop, handler) {
         let oldval = obj[prop];
@@ -70,7 +71,7 @@ export namespace Polyfill {
     }
 
     export function setDirtyCheck(obj, time, fn) {
-        Object.defineProperty(obj, '__interval__', {
+        Object.defineProperty(obj, keyObserver, {
             enumerable: false,
             configurable: true,
             writable: false,
@@ -79,9 +80,9 @@ export namespace Polyfill {
     }
 
     export function clearDirtyCheck(obj) {
-        clearInterval(obj.__interval__);
+        clearInterval(obj[keyObserver]);
         /* tslint:disable */
-        delete obj.__interval__;
+        delete obj[keyObserver];
         /* tslint:enable */
     }
 

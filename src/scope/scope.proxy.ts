@@ -18,8 +18,12 @@ export class ScopeProxy {
     public createWatcherScope(objectObserve) {
         if (this.element['$instance']) {
             objectObserve.scope.$on('$onInit', () => {
-                Observe.observe(objectObserve[this.element['$instance'].config.controllerAs], () => {
+                Observe.observe(objectObserve[this.element['$instance'].config.controllerAs], (changes) => {
                     this.mapDom.reload();
+                    objectObserve.scope.$emit('$onChanges', changes);
+                    if (objectObserve[this.element['$instance'].config.controllerAs]['$onChanges']) {
+                        objectObserve[this.element['$instance'].config.controllerAs]['$onChanges'](changes);
+                    }
                 });
             });
         }
