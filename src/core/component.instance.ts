@@ -113,24 +113,17 @@ export class ComponentInstance {
     * @description Observa o componente quando houver alteração é modificado o contexto
     */
     public createObserverScope(_bindings, key) {
-        // WatchJS.watch(Common.getScope(this.element).scope[this.config.controllerAs]['$bindings'], key,
-        //     () => {
-        //         _.set(this.contextObj, _bindings[key], Common.getScope(this.element).scope[this.config.controllerAs]['$bindings'][key]);
-        //         Common.getScope(this.element).mapDom.reload();
-        //     });
+        WatchJS.watch(Common.getScope(this.element).scope[this.config.controllerAs]['$bindings'], key,
+            () => {
+                _.set(this.contextObj, _bindings[key], Common.getScope(this.element).scope[this.config.controllerAs]['$bindings'][key]);
+                Common.getScope(this.element).mapDom.reload();
+            });
 
-        // Mantém compatibilidade
-        // WatchJS.watch(Common.getScope(this.element).scope['$bindings'], key,
-        //     () => {
-        //         _.set(this.contextObj, _bindings[key], Common.getScope(this.element).scope['$bindings'][key]);
-        //         Common.getScope(this.element).mapDom.reload();
-        //     });
-        const scope = this.element.parentNode ? (Common.getScope(this.element.parentNode) || Common.getScope(this.element)) : Common.getScope(this.element);
-
-        scope.$on('$onChanges', (changes) => {
-            // console.log(changes);
-        });
-
+        WatchJS.watch(Common.getScope(this.element).scope['$bindings'], key,
+            () => {
+                _.set(this.contextObj, _bindings[key], Common.getScope(this.element).scope['$bindings'][key]);
+                Common.getScope(this.element).mapDom.reload();
+            });
     }
 
     /**
@@ -141,10 +134,10 @@ export class ComponentInstance {
     }
 
     public createObserverContext(_bindings, key) {
-        // WatchJS.watch(this.contextObj, ComponentInstance.getFirstAttribute(_bindings, key),
-        //     () => {
-        //         this.setAttributeValue(_bindings, key);
-        //     });
+        WatchJS.watch(this.contextObj, ComponentInstance.getFirstAttribute(_bindings, key),
+            () => {
+                this.setAttributeValue(_bindings, key);
+            });
     }
 
     public setAttributeValue(_bindings, key) {
