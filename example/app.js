@@ -9,6 +9,10 @@ capivara.controller(document.body, function(){
         console.log($ctrl.pessoa);
     }
 
+    $ctrl.n1 = 30;
+    $ctrl.n2 = 10;
+
+
     capivara.componentBuilder('demo')
         .context($ctrl)
         .bindings({
