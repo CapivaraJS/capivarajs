@@ -8,3 +8,4 @@ reports/
 coverage.lcov
 phantomjsdriver.log
 div/
+dev/
