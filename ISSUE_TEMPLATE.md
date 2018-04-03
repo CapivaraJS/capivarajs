@@ -30,7 +30,7 @@
   ```
   // TODO(you): code here to reproduce the problem
   ```
-  * If you prefer, you put the code on [JSFiddle][jsfiddle] or [Plunker][plunker].
+  * If you prefer, you can put the code on [JSFiddle][jsfiddle] or [Plunker][plunker].
   
 ### Did you develop a solution?
 Open a [pull request] and submit your code.
