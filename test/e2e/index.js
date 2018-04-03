@@ -10,4 +10,6 @@ module.exports = Object.assign(
 	require('./cpShow/test'),
 	require('./cpSrc/test'),
 	require('./cpStyle/test'),
+	require('./interpolation/test'),
+	require('./noBind/test'),
 );
