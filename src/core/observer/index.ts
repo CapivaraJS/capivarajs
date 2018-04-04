@@ -22,7 +22,7 @@ export namespace Observe {
         Polyfill.setDirtyCheck(obj, 50, updateProperties);
     }
 
-    export function unobserve(obj) {
+    export function unObserve(obj) {
         if (!obj || !obj.__observer__) {
             return false;
         }
@@ -31,7 +31,7 @@ export namespace Observe {
 
         for (let i = 0; i < propsL; i++) {
             if (Object.prototype.toString.call(obj[props[i]]) === '[object Object]' || Array.isArray(obj[props[i]])) {
-                this.unobserve(obj[props[i]]);
+                this.unObserve(obj[props[i]]);
             } else {
                 Polyfill.unWatchProperty(obj, props[i]);
             }

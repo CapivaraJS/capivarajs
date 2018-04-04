@@ -64,10 +64,8 @@ export namespace Polyfill {
 
     export function unWatchProperty(obj, prop) {
         const val = obj[prop];
-        /* tslint:disable */
         delete obj[prop];
         obj[prop] = val;
-        /* tslint:enable */
     }
 
     export function setDirtyCheck(obj, time, fn) {
