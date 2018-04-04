@@ -8,7 +8,7 @@ describe('test of click without parameters', () => {
     `;
     const element = document.createElement('div');
     element.innerHTML = template;
-    capivara.controller(element, function () {
+    capivara.controller(element, function() {
         const $ctrl = this;
 
         $ctrl.$onInit = () => {
@@ -36,7 +36,7 @@ describe('test of click with parameters method sum', () => {
     const element = document.createElement('div');
     element.innerHTML = template;
 
-    capivara.controller(element, function () {
+    capivara.controller(element, function() {
         const $ctrl = this;
 
         $ctrl.$onInit = () => {
@@ -66,7 +66,7 @@ describe('test of click with parameters method subtract', () => {
     const element = document.createElement('div');
     element.innerHTML = template;
 
-    capivara.controller(element, function () {
+    capivara.controller(element, function() {
         const $ctrl = this;
 
         $ctrl.$onInit = () => {
@@ -94,7 +94,7 @@ describe('test of click with parameters object', () => {
     const element = document.createElement('div');
     element.innerHTML = template;
 
-    capivara.controller(element, function () {
+    capivara.controller(element, function() {
         const $ctrl = this;
 
         $ctrl.$onInit = () => {

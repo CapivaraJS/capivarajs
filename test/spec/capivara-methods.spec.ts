@@ -1,5 +1,5 @@
 import { } from 'jasmine';
-import { Capivara } from '../../src/core/capivara';
+import { Capivara } from '../../src/core';
 
 const capivara = new Capivara();
 
