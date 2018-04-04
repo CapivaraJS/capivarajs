@@ -116,8 +116,7 @@ export namespace Common {
 
     export function isValidCondition(element, condition) {
         const scope = getScope(element).scope;
-        const result = evalInContext(condition, scope);
-        return result;
+        return evalInContext(condition, scope);
     }
 
     export function appendBefore(element, elementToInsert) {
@@ -135,8 +134,8 @@ export namespace Common {
         }
     }
 
-    export function parentHasIgnore(element){
-        if (element.hasAttribute && element.hasAttribute(Constants.IGNORE_BINGINGS)) { return true }
+    export function parentHasIgnore(element) {
+        if (element.hasAttribute && element.hasAttribute(Constants.IGNORE_BINDINGS)) { return true; }
         if (element.parentNode) { return parentHasIgnore(element.parentNode); }
     }
 
