@@ -139,7 +139,7 @@ describe('This will test the getFirstKey function', () => {
     });
 });
 
-describe('This will test the getAttributeCpIf function', () => {
+describe('This will test the getAttributeCpIf/ElseIf/Else function', () => {
     const template = `
         <h1 cp-if="$ctrl.isActive"> Show this </h1>
         <h2 cp-else-if="!$ctrl.isActive"> Show this </h2>
