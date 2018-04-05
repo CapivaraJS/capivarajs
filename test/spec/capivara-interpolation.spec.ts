@@ -14,8 +14,8 @@ describe('test interpolation', () => {
             $ctrl.name = 'Felipe';
 
             $ctrl.$onInit = () => {
-                $ctrl.name = 'Felipe Sabadini';    
-            }
+                $ctrl.name = 'Felipe Sabadini';
+            };
 
             $ctrl.$onViewInit = () => {
                 it("Expected field name is equal to scope", function(done) {
@@ -30,9 +30,7 @@ describe('test interpolation', () => {
                         done();
                     });
                 });
-            }
+            };
         };
     });
 });
-
-

@@ -4,14 +4,13 @@ import capivara from '../../src/index';
 describe('test no bind', () => {
     const template = `
 
-    <div cp-non-bindable> 
+    <div cp-non-bindable>
         <h1>[[4+4]]</h1>
     </div>
     `;
     const element = document.createElement('div');
     element.innerHTML = template;
     capivara.controller(element, function() {
-        const $ctrl = this;
 
         it("Expected ignore interpolation", function(done) {
             setTimeout(function() {
@@ -22,5 +21,3 @@ describe('test no bind', () => {
 
     });
 });
-
-

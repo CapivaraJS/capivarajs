@@ -15,5 +15,5 @@ export const Constants = {
     SRC_ATTRIBUTE_NAME       : 'cp-src',
     START_INTERPOLATION      : '[[',
     END_INTERPOLATION        : ']]',
-    IGNORE_BINGINGS          : 'cp-non-bindable',
+    IGNORE_BINDINGS          : 'cp-non-bindable',
 };
