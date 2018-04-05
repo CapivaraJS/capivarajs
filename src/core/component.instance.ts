@@ -70,7 +70,7 @@ export class ComponentInstance {
      * @description Função executada quando o elemento é destruído do documento.
      */
     public destroy() {
-        Observe.unObserve(this.componentScope[this.config.controllerAs]);
+        Observe.unobserve(this.componentScope[this.config.controllerAs]);
         this.destroyed = true;
         if (this.componentScope[this.config.controllerAs] && this.componentScope[this.config.controllerAs].$destroy) {
             this.componentScope[this.config.controllerAs].$destroy();
