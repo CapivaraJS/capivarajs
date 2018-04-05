@@ -22,7 +22,7 @@ export namespace Observe {
         Polyfill.setDirtyCheck(obj, 50, updateProperties);
     }
 
-    export function unobserve(obj) {
+    export function unObserve(obj) {
         if (!obj || !obj.__observer__) {
             return false;
         }
