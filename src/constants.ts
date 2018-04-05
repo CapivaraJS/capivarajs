@@ -13,6 +13,7 @@ export const Constants = {
     STYLE_ATTRIBUTE_NAME     : 'cp-style',
     CLASS_ATTRIBUTE_NAME     : 'cp-class',
     SRC_ATTRIBUTE_NAME       : 'cp-src',
+    KEY_ATTRIBUTE_NAME       : 'cp-key',
     START_INTERPOLATION      : '[[',
     END_INTERPOLATION        : ']]',
     IGNORE_BINDINGS          : 'cp-non-bindable',

@@ -7,6 +7,7 @@ import { CPElse } from "./directive/cp-else";
 import { CPElseIf } from "./directive/cp-else-if";
 import { CPIf } from "./directive/cp-if";
 import { CPInit } from "./directive/cp-init";
+import { CPKey } from "./directive/cp-key";
 import { CPModel } from './directive/cp-model';
 import { CPRepeat } from './directive/cp-repeat';
 import { CPShow } from './directive/cp-show';
@@ -39,6 +40,7 @@ export class MapDom {
         cpClicks: [],
         cpInits: [],
         cpSrcs: [],
+        cpKeys: [],
     };
 
     private regexInterpolation;
@@ -115,6 +117,7 @@ export class MapDom {
         if (child.hasAttribute(Constants.STYLE_ATTRIBUTE_NAME)) { this.createCPStyle(child); }
         if (child.hasAttribute(Constants.CLASS_ATTRIBUTE_NAME)) { this.createCPClass(child); }
         if (child.hasAttribute(Constants.SRC_ATTRIBUTE_NAME)) { this.createCPSrc(child); }
+        if (child.hasAttribute(Constants.KEY_ATTRIBUTE_NAME)) { this.createCPKey(child); }
     }
 
     public reloadElementChildes(element, initialScope) {
@@ -159,6 +162,9 @@ export class MapDom {
 
         // Update cp src
         this.directives.cpSrcs.forEach((cpSrc) => cpSrc.init());
+
+        // Update cp key
+        this.directives.cpKeys.forEach((cpKey) => cpKey.init());
 
         this.processInterpolation(this.element);
     }
@@ -326,9 +332,17 @@ export class MapDom {
 
     /**
      *
-     * @param child Elemento que está sendo criado o bind do style.
+     * @param child Elemento que está sendo criado o bind do src.
      */
     public createCPSrc(child) {
         this.directives.cpSrcs.push(new CPSrc(child, this));
+    }
+
+    /**
+     *
+     * @param child Elemento que está sendo criado o bind do key.
+     */
+    public createCPKey(child) {
+        this.directives.cpKeys.push(new CPKey(child, this));
     }
 }
