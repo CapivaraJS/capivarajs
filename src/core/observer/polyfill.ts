@@ -2,22 +2,22 @@ export namespace Polyfill {
     const keyObserver = '__observer__';
 
     export function watchProperty(obj, prop, handler) {
-        let oldval = obj[prop];
-        let newval = oldval;
+        let oldVal = obj[prop];
+        let newVal = oldVal;
 
         const getter = () => {
-            return newval;
+            return newVal;
         };
 
         const setter = (val) => {
-            oldval = newval;
-            const value = (newval = val);
-            if (oldval !== val) {
+            oldVal = newVal;
+            const value = (newVal = val);
+            if (oldVal !== val) {
                 handler([{
                     type: 'update',
                     object: obj,
                     name: prop,
-                    oldValue: oldval,
+                    oldValue: oldVal,
                 }]);
             }
             return value;
@@ -64,10 +64,8 @@ export namespace Polyfill {
 
     export function unWatchProperty(obj, prop) {
         const val = obj[prop];
-        /* tslint:disable */
         delete obj[prop];
         obj[prop] = val;
-        /* tslint:enable */
     }
 
     export function setDirtyCheck(obj, time, fn) {
@@ -81,9 +79,6 @@ export namespace Polyfill {
 
     export function clearDirtyCheck(obj) {
         clearInterval(obj[keyObserver]);
-        /* tslint:disable */
         delete obj[keyObserver];
-        /* tslint:enable */
     }
-
 }

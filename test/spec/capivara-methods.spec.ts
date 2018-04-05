@@ -28,6 +28,16 @@ describe('test method isObject', () => {
     });
 });
 
+describe('test method isObject', () => {
+    const person = {
+      name: 'John',
+      lastName: "Smith",
+    };
+    it('Should be return true by person', () => {
+        expect(capivara.isObjectConstructor(person)).toEqual(true);
+    });
+});
+
 describe('test method isDate', () => {
     it('Should not be a Date', () => {
         expect(capivara.isDate(Array(10))).toBe(false);

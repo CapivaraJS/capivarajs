@@ -9,7 +9,7 @@ describe('test of init with fixed object', () => {
   element.innerHTML = template;
   capivara.controller(element, function() {
     const $ctrl = this;
-    $ctrl.value;
+    $ctrl.value = '';
 
     $ctrl.initialize = (value) => {
       $ctrl.value = value;
