@@ -1,6 +1,6 @@
 import { Common } from '../common';
 import { Constants } from '../constants';
-import { Eval } from '../core';
+import { Eval } from '../core/eval';
 import { MapDom } from '../map/map-dom';
 import { ScopeProxy } from './scope.proxy';
 

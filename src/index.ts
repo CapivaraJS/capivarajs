@@ -1,4 +1,4 @@
-import { Capivara } from './core';
+import { Capivara } from './core/capivara';
 
 (function(capivara) {
     if (!capivara) {
