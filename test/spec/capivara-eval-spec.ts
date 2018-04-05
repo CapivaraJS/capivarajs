@@ -1,5 +1,5 @@
 import { } from 'jasmine';
-import {Eval} from '../../src/core';
+import {Eval} from '../../src/core/eval';
 
 describe('This will be test the eval method', () => {
     const array = 'simple text';
