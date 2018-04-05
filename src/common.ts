@@ -116,7 +116,8 @@ export namespace Common {
 
     export function isValidCondition(element, condition) {
         const scope = getScope(element).scope;
-        return evalInContext(condition, scope);
+        const result = evalInContext(condition, scope);
+        return result;
     }
 
     export function appendBefore(element, elementToInsert) {
