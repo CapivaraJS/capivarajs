@@ -62,20 +62,18 @@ describe('test cpIf with first dynamic elements', () => {
             $ctrl.isActive = !$ctrl.isActive;
         };
         $ctrl.$onInit = () => {
-            it("Expected h1 found and h2 not found", function(done) {
-                setTimeout(function() {
-                    expect(element.querySelector('h1')['$$cpDestroyed']).toEqual(false);
-                    expect(element.querySelector('h2')['$$cpDestroyed']).toEqual(true);
-                    done();
-                });
-            });
             it("Expected h2 found and h1 not found", function(done) {
                 setTimeout(function() {
                     element.querySelector('button').click();
                     expect(element.querySelector('h1')['$$cpDestroyed']).toEqual(true);
                     expect(element.querySelector('h2')['$$cpDestroyed']).toEqual(false);
                     done();
-                }, 3000);
+                    setTimeout(function() {
+                        element.querySelector('button').click();
+                        expect(element.querySelector('h1')['$$cpDestroyed']).not.toEqual(true);
+                        expect(element.querySelector('h2')['$$cpDestroyed']).not.toEqual(false);
+                    });
+                });
             });
         };
     });
@@ -97,20 +95,16 @@ describe('test cpIf with second dynamic elements', () => {
         };
 
         $ctrl.$onInit = () => {
-            it("Expected h2 found and h1 not found", function(done) {
-                setTimeout(function() {
-                    expect(element.querySelector('h1')['$$cpDestroyed']).toEqual(true);
-                    expect(element.querySelector('h2')['$$cpDestroyed']).toEqual(false);
-                    done();
-                });
-            });
             it("Expected h1 found and h2 not found", function(done) {
+                element.querySelector('button').click();
+                expect(element.querySelector('h1')['$$cpDestroyed']).toEqual(false);
+                expect(element.querySelector('h2')['$$cpDestroyed']).toEqual(true);
+                done();
                 setTimeout(function() {
                     element.querySelector('button').click();
-                    expect(element.querySelector('h1')['$$cpDestroyed']).toEqual(false);
-                    expect(element.querySelector('h2')['$$cpDestroyed']).toEqual(true);
-                    done();
-                }, 3000);
+                    expect(element.querySelector('h1')['$$cpDestroyed']).not.toEqual(false);
+                    expect(element.querySelector('h2')['$$cpDestroyed']).not.toEqual(true);
+                });
             });
         };
     });
