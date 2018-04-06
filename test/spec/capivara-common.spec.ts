@@ -3,7 +3,7 @@ import { Common } from '../../src/common';
 import capivara from '../../src/index';
 
 describe('test method evalInContext', () => {
-    const person = { firstName: 'Mateus', lastName: 'Miranda de Almeida', idade: 22 };
+    const person = { firstName: 'Mateus', lastName: 'Miranda de Almeida', age: 22 };
     it('Should return object first name', () => {
         expect(Common.evalInContext('firstName', person)).toEqual(person.firstName);
     });
@@ -65,7 +65,7 @@ describe('test method will test all the getAttribute functions', () => {
 describe('This will test the scope function', () => {
     const element = document.createElement('div');
     element.id = 'elementDiv';
-    element.innerHTML = '<p>Sample example</p>';
+    element.innerHTML = '<p>Simple example</p>';
     document.body.appendChild(element);
     capivara.controller(element, function() {
         const $ctrl = this;
