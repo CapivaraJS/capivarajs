@@ -218,3 +218,12 @@ describe('This will test the getAttributeCpClass function', () => {
         expect(Common.getAttributeCpClass(element.querySelector('h1'))).toEqual('some random class');
     });
 });
+
+describe('This will test the regexIndexOf function', () => {
+    it('Should get machs with this regex', () => {
+        expect(Common.regexIndexOf('abc', '[a-d]+', 0)).toEqual(0);
+    });
+    it('Should get no machs with this regex', () => {
+        expect(Common.regexIndexOf('afg', '[a-d]+', 1)).not.toEqual(0);
+    });
+});
