@@ -27,15 +27,23 @@ export class CPKey implements Directive {
     }
 
     public init() {
+        Array.prototype.forEach.call(this.element.attributes, (attr) => {
+            if (attr.nodeName.startsWith(Constants.KEY_ATTRIBUTE_NAME)) {
+                 // const value = this.element.replace(Constants.KEY_ATTRIBUTE_NAME, '');
+                 // console.log(value);
+                console.log(attr.nodeName);
+            }
+        });
+
         const onKeyPress = (e) => {
-            if (e.key === "Enter") {
+            if (e.keyCode === 13) {
                 this.attribute = this.attribute.replace(/ /g, '');
                 Common.executeFunctionCallback(this.element, this.attribute);
             }
         };
         // Remove the old element
-        window.removeEventListener("keydown", onKeyPress);
+        window.removeEventListener("keypress", onKeyPress);
         // Add a new element
-        window.addEventListener("keydown", onKeyPress);
+        window.addEventListener("keypress", onKeyPress);
     }
 }
