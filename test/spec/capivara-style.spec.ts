@@ -27,11 +27,15 @@ describe('test of style with dynamic object', () => {
     element.innerHTML = template;
     capivara.controller(element, function() {
         const $ctrl = this;
-        $ctrl.activeStyle = 'red';
+        $ctrl.backGround = 'red';
+        $ctrl.fontColor = 'blue';
+        $ctrl.sizeFont = '20px';
 
         $ctrl.getStyle = () => {
             return {
-                ['background-color']: $ctrl.activeStyle,
+                ['background-color']: $ctrl.backGround,
+                [' color: ']: $ctrl.fontColor,
+                ['font-size']: $ctrl.sizeFont,
             };
         };
 

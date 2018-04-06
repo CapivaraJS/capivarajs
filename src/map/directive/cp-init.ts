@@ -6,9 +6,9 @@ import { Directive } from './directive.interface';
 
 export class CPInit implements Directive {
 
+    private attribute;
     private element: any;
     private map: MapDom;
-    private attribute;
 
     constructor(_element: HTMLElement, _map: MapDom) {
         this.element = _element;
