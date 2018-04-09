@@ -18,18 +18,9 @@
 
 <body>
 
-    <my-component #demo></my-component>
+    <!--<my-component #demo></my-component>-->
 
-    <h1> [[ $ctrl.n1 + $ctrl.n2 + 10 ]] </h1>
-    <p cp-key="$ctrl.click()">Click</p>
-    <button cp-click="$ctrl.click()">Ok</button>
-    <h1>Com: [[$ctrl.pessoa.nome]]</h1>
-    <h1>Sem: [[:$ctrl.pessoa.nome]]</h1>
-
-    <div cp-non-bindable> 
-        
-        <h1>[[$ctrl.pessoa.nome]]</h1>
-    </div>
+    <p cp-key.enter="$ctrl.click()">Click</p>
 
     <script src="../dist/capivara.js"></script>
     <script src="component.js"></script>

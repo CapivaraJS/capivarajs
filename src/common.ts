@@ -4,9 +4,9 @@ import { Eval } from './core';
 
 export namespace Common {
 
-    export function regexIndexOf(str, regex, startpos?) {
-        const indexOf = str.substring(startpos || 0).search(regex);
-        return (indexOf >= 0) ? (indexOf + (startpos || 0)) : indexOf;
+    export function regexIndexOf(str, regex, startPos?) {
+        const indexOf = str.substring(startPos || 0).search(regex);
+        return (indexOf >= 0) ? (indexOf + (startPos || 0)) : indexOf;
     }
 
     /**
@@ -57,8 +57,10 @@ export namespace Common {
         return element.getAttribute(Constants.SRC_ATTRIBUTE_NAME);
     }
 
-    export function getAttributeCpKey(element) {
-        return element.getAttribute(Constants.KEY_ATTRIBUTE_NAME);
+    export function getAttributeCpKey(element, attributeName) {
+        if (element.attributes['0'].name.startsWith(Constants.KEY_ATTRIBUTE_NAME)) {
+            return element.getAttribute(attributeName);
+        }
     }
 
     export function getScope(element) {

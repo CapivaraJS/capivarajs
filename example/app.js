@@ -13,11 +13,11 @@ capivara.controller(document.body, function(){
 	$ctrl.n2 = 10;
 
 
-	capivara.componentBuilder('demo')
-		.context($ctrl)
-		.bindings({
-			pessoa: 'pessoa'
-		})
-		.build();
+	// capivara.componentBuilder('demo')
+	// 	.context($ctrl)
+	// 	.bindings({
+	// 		pessoa: 'pessoa'
+	// 	})
+	// 	.build();
 
 });
