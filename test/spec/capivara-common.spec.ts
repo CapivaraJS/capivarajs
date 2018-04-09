@@ -60,6 +60,10 @@ describe('test method will test all the getAttribute functions', () => {
     it('Should contain the attribute cp-style', () => {
         expect(Common.getAttributeCpStyle(element)).toEqual('myVariable');
     });
+    element.setAttribute('cp-src', 'myVariable');
+    it('Should contain the attribute cp-src', () => {
+        expect(Common.getAttributeCpSrc(element)).toEqual('myVariable');
+    });
 });
 
 describe('This will test the scope function', () => {
@@ -110,7 +114,7 @@ describe('This will test the isNative function', () => {
     });
 });
 
-describe('This will test the destroy and create element function', () => {
+describe('This will test the destroy element function', () => {
     const element = document.createElement('div');
     element.id = 'demo';
     const elementComment = document.createComment("Sample Comment");
@@ -121,7 +125,7 @@ describe('This will test the destroy and create element function', () => {
     });
 });
 
-describe('This will test the destroy and create element function', () => {
+describe('This will test create element function', () => {
     const element = document.createElement('div');
     element.id = 'demo';
     const elementComment = document.createComment("Sample Comment");
@@ -136,86 +140,6 @@ describe('This will test the destroy and create element function', () => {
 describe('This will test the getFirstKey function', () => {
     it('Should get the first key', () => {
         expect(Common.getFirstKey('Some Random: (text)')).toEqual('SomeRandom:text');
-    });
-});
-
-describe('This will test the getAttributeCpIf/ElseIf/Else function', () => {
-    const template = `
-        <h1 cp-if="$ctrl.isActive"> Show this </h1>
-        <h2 cp-else-if="!$ctrl.isActive"> Show this </h2>
-        <h3 cp-else> Show this </h3>
-    `;
-    const element = document.createElement('div');
-    element.innerHTML = template;
-
-    it('Should get attributes of cp-if', () => {
-        expect(Common.getAttributeCpIf(element.querySelector('h1'))).toEqual('$ctrl.isActive');
-    });
-    it('Should get attributes of cp-else-if', () => {
-        expect(Common.getAttributeCpElseIf(element.querySelector('h2'))).toEqual('!$ctrl.isActive');
-    });
-    it('Should get attributes of cp-else', () => {
-        expect(Common.getAttributeCpElse(element.querySelector('h3'))).toEqual('');
-    });
-});
-
-describe('This will test the getAttributeCpShow function', () => {
-    const template = `
-        <h1 cp-show="$ctrl.isActive"> Show this </h1>
-    `;
-    const element = document.createElement('div');
-    element.innerHTML = template;
-
-    it('Should get attributes of cp-show', () => {
-        expect(Common.getAttributeCpShow(element.querySelector('h1'))).toEqual('$ctrl.isActive');
-    });
-});
-
-describe('This will test the getAttributeCpInit function', () => {
-    const template = `
-        <h1 cp-init="$ctrl.isActive"> Show this </h1>
-    `;
-    const element = document.createElement('div');
-    element.innerHTML = template;
-
-    it('Should get attributes of cp-init', () => {
-        expect(Common.getAttributeCpInit(element.querySelector('h1'))).toEqual('$ctrl.isActive');
-    });
-});
-
-describe('This will test the getAttributeCpStyle function', () => {
-    const template = `
-        <h1 cp-style="some random style"> Show this </h1>
-    `;
-    const element = document.createElement('div');
-    element.innerHTML = template;
-
-    it('Should get attributes of cp-style', () => {
-        expect(Common.getAttributeCpStyle(element.querySelector('h1'))).toEqual('some random style');
-    });
-});
-
-describe('This will test the getAttributeCpSrc function', () => {
-    const template = `
-        <img cp-src="some random link" src=""> Show this </img>
-    `;
-    const element = document.createElement('div');
-    element.innerHTML = template;
-
-    it('Should get attributes of cp-src', () => {
-        expect(Common.getAttributeCpSrc(element.querySelector('img'))).toEqual('some random link');
-    });
-});
-
-describe('This will test the getAttributeCpClass function', () => {
-    const template = `
-        <h1 cp-class="some random class"> Show this </h1>
-    `;
-    const element = document.createElement('div');
-    element.innerHTML = template;
-
-    it('Should get attributes of cp-src', () => {
-        expect(Common.getAttributeCpClass(element.querySelector('h1'))).toEqual('some random class');
     });
 });
 
