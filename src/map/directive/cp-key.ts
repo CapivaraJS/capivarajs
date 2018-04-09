@@ -60,6 +60,7 @@ export class CPKey implements Directive {
         const final = parseInt(keyPressed, 10);
         const onKeyPress = (e) => {
             if (e.keyCode === final) {
+
                 this.attribute = this.attribute.replace(/ /g, '');
                 Common.executeFunctionCallback(this.element, this.attribute);
             }
