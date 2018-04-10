@@ -1,5 +1,6 @@
 export const Constants = {
     SCOPE_ATTRIBUTE_NAME     : '$scope',
+    EVENT_ATTRIBUTE_NAME     : '$event',
     REPEAT_ATTRIBUTE_NAME    : 'cp-repeat',
     REPEAT_INDEX_NAME        : '$index',
     REPEAT_ATTRIBUTE_OPERATOR: ' in ',

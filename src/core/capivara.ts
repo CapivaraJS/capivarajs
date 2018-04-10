@@ -1,3 +1,4 @@
+import { Common } from '../common';
 import { Constants } from '../constants';
 import { Component } from './component';
 import { ComponentInstance } from './component.instance';
@@ -20,6 +21,15 @@ export class Capivara {
         this.components = {};
         this.scopes = [];
         this.$watchers = [];
+        if (!Element.prototype.hasOwnProperty('hasAttributeStartingWith')) {
+            Object.defineProperty(Element.prototype, 'hasAttributeStartingWith', {
+                value: function hasAttributeStartingWith(attr) {
+                    return Array.from(this.attributes).filter((attributeNode: any) => {
+                        return attributeNode.nodeName.indexOf(attr) === 0;
+                    }).length > 0;
+                },
+            });
+        }
     }
     /**
      * @name capivara.component

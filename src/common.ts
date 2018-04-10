@@ -76,14 +76,18 @@ export namespace Common {
         }
     }
 
-    export function executeFunctionCallback(element, attribute) {
+    export function executeFunctionCallback(element, attribute, evt?) {
         const callback = getCallbackClick(element, attribute);
         if (callback && !isNative(callback)) {
             const params = attribute.substring(attribute.indexOf('(') + 1, attribute.length - 1), args = [];
             let context = getScope(element);
             params.split(',').forEach((param) => {
-                const valueScope = evalInContext(param, context.scope);
-                args.push(valueScope === undefined ? evalInContext(param, context.scope) : valueScope);
+                if (param === Constants.EVENT_ATTRIBUTE_NAME) {
+                    args.push(evt);
+                } else {
+                    const valueScope = evalInContext(param, context.scope);
+                    args.push(valueScope === undefined ? evalInContext(param, context.scope) : valueScope);
+                }
             });
             if (context.mapDom.element.$instance) {
                 context = context.scope[context.mapDom.element.$instance.config.controllerAs];

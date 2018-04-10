@@ -5,19 +5,12 @@ capivara.controller(document.body, function(){
 		nome: 'Mateus'
 	};
 
-	$ctrl.click = function(){
-		console.log($ctrl.pessoa);
+	$ctrl.onEnter = function(evt){
+		console.log('Apertou a tecla ENTER', evt);
 	};
 
-	$ctrl.n1 = 30;
-	$ctrl.n2 = 10;
-
-
-	// capivara.componentBuilder('demo')
-	// 	.context($ctrl)
-	// 	.bindings({
-	// 		pessoa: 'pessoa'
-	// 	})
-	// 	.build();
+	$ctrl.onCtrl = function(evt){
+		console.log('Apertou a tecla onCtrl', evt);
+	};
 
 });
