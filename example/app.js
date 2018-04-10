@@ -1,11 +1,11 @@
-capivara.controller(document.body, function(){
+capivara.controller(document.body, function () {
 	const $ctrl = this;
 
 	$ctrl.pessoa = {
 		nome: 'Mateus'
 	};
 
-	$ctrl.click = function(){
+	$ctrl.click = function () {
 		console.log($ctrl.pessoa);
 	};
 

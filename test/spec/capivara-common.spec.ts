@@ -151,3 +151,10 @@ describe('This will test the regexIndexOf function', () => {
         expect(Common.regexIndexOf('afg', '[a-d]+', 1)).not.toEqual(0);
     });
 });
+
+describe('This will test the getFunctionArgs function', () => {
+    it('Should get the parameter of function', () => {
+        const myFunction = (firstName, lastName) => {};
+        expect(Common.getFunctionArgs(myFunction)).toEqual(["firstName", "lastName"]);
+    });
+});
