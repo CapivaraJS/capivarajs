@@ -9,8 +9,4 @@ capivara.controller(document.body, function(){
 		console.log('Apertou a tecla ENTER', evt);
 	};
 
-	$ctrl.onCtrl = function(evt){
-		console.log('Apertou a tecla onCtrl', evt);
-	};
-
 });
