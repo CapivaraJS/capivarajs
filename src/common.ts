@@ -58,7 +58,7 @@ export namespace Common {
     }
 
     export function getAttributeCpKey(element, attributeName) {
-        if (element.attributes['0'].name.startsWith(Constants.KEY_ATTRIBUTE_NAME)) {
+        if (element.attributes["0"].name.substring(0, 6) === Constants.KEY_ATTRIBUTE_NAME) {
             return element.getAttribute(attributeName);
         }
     }

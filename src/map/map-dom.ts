@@ -117,7 +117,7 @@ export class MapDom {
         if (child.hasAttribute(Constants.STYLE_ATTRIBUTE_NAME)) { this.createCPStyle(child); }
         if (child.hasAttribute(Constants.CLASS_ATTRIBUTE_NAME)) { this.createCPClass(child); }
         if (child.hasAttribute(Constants.SRC_ATTRIBUTE_NAME)) { this.createCPSrc(child); }
-        if (child.attributes["0"] !== undefined && child.attributes["0"].name.startsWith(Constants.KEY_ATTRIBUTE_NAME)) { this.createCPKey(child); }
+        if (child.attributes["0"] !== undefined && child.attributes["0"].name.substring(0, 6) === Constants.KEY_ATTRIBUTE_NAME) { this.createCPKey(child); }
     }
 
     public reloadElementChildes(element, initialScope) {

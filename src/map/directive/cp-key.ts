@@ -11,6 +11,8 @@ export class CPKey implements Directive {
     private attribute;
     private elementComment;
     private directiveName;
+    private keyEvent;
+    private keyPressed;
     private keyCodes = {
         esc: 27,
         tab: 9,
@@ -37,6 +39,7 @@ export class CPKey implements Directive {
     }
 
     public create() {
+        this.keyPressed = '';
         this.init();
     }
 
@@ -49,25 +52,28 @@ export class CPKey implements Directive {
     }
 
     public init() {
-        let keyPressed = '';
-        const value = this.directiveName.replace(Constants.KEY_ATTRIBUTE_NAME, '').replace(/ /g, '').split('.');
+        let finalKeyCode = 0, value;
+
+        this.keyEvent = this.directiveName.split('-')[1].split('.')[0];
+        value = this.directiveName.replace('cp-' + this.keyEvent, '').replace(/ /g, '').split('.');
         value.forEach( (attr) => {
             const actualKeyCode =  this.getKeyCode(attr);
             if (actualKeyCode !== undefined) {
-                keyPressed += actualKeyCode;
+                this.keyPressed += actualKeyCode;
             }
         });
-        const final = parseInt(keyPressed, 10);
-        const onKeyPress = (e) => {
-            if (e.keyCode === final) {
 
+        finalKeyCode = parseInt(this.keyPressed, 10);
+        const onKeyPress = (e) => {
+            if (e.keyCode === finalKeyCode) {
                 this.attribute = this.attribute.replace(/ /g, '');
                 Common.executeFunctionCallback(this.element, this.attribute);
             }
         };
+
         // Remove the old element
-        window.removeEventListener("keypress", onKeyPress);
+        window.removeEventListener(this.keyEvent, onKeyPress);
         // Add a new element
-        window.addEventListener("keypress", onKeyPress);
+        window.addEventListener(this.keyEvent, onKeyPress);
     }
 }
