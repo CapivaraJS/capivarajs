@@ -57,12 +57,6 @@ export namespace Common {
         return element.getAttribute(Constants.SRC_ATTRIBUTE_NAME);
     }
 
-    export function getAttributeCpKey(element, attributeName) {
-        if (element.attributes["0"].name.substring(0, 6) === Constants.KEY_ATTRIBUTE_NAME) {
-            return element.getAttribute(attributeName);
-        }
-    }
-
     export function getScope(element) {
         return element[Constants.SCOPE_ATTRIBUTE_NAME];
     }

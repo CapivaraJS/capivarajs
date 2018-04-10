@@ -33,10 +33,15 @@ export class CPKey implements Directive {
     public onKeyPress(evt) {
         if (evt.target && evt.target['cpKey']) {
             evt.target['cpKey'].attributes.forEach((attribute) => {
-                const watchKeyName = attribute.substring(attribute.lastIndexOf('.') + 1);
-                const watchKey = KeyCode[(watchKeyName || '').toUpperCase()];
-                if (watchKey !== undefined && evt.keyCode === watchKey) {
+                const indexSeparator = attribute.lastIndexOf('.');
+                if (indexSeparator === -1) {
                     Common.executeFunctionCallback(evt.target['cpKey'].element, evt.target['cpKey'].element.getAttribute(attribute), evt);
+                } else {
+                    const watchKeyName = attribute.substring(attribute.lastIndexOf('.') + 1);
+                    const watchKey = !isNaN(watchKeyName) ? Number(watchKeyName) : KeyCode[(watchKeyName || '').toUpperCase()];
+                    if (watchKey !== undefined && evt.keyCode === watchKey) {
+                        Common.executeFunctionCallback(evt.target['cpKey'].element, evt.target['cpKey'].element.getAttribute(attribute), evt);
+                    }
                 }
             });
         }
@@ -44,7 +49,8 @@ export class CPKey implements Directive {
 
     public init() {
         this.attributes.forEach((attribute) => {
-            const keyType = attribute.substring(0, attribute.lastIndexOf('.')).replace(Constants.KEY_ATTRIBUTE_NAME, '');
+            const indexSeparator = attribute.lastIndexOf('.');
+            const keyType = attribute.substring(0, (indexSeparator === -1 ? attribute.length : indexSeparator)).replace(Constants.KEY_ATTRIBUTE_NAME, '');
             // Remove old event
             this.element.removeEventListener(`key${keyType}`, this.onKeyPress);
             // Add new event
