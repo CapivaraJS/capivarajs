@@ -75,6 +75,9 @@ export class ComponentInstance {
         if (this.componentScope[this.config.controllerAs] && this.componentScope[this.config.controllerAs].$destroy) {
             this.componentScope[this.config.controllerAs].$destroy();
         }
+        window['capivara'].scopes = window['capivara'].scopes.filter((scope) => {
+            return scope.id !== this.componentScope.scope.id;
+        });
     }
 
     /**
