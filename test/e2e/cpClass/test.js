@@ -9,14 +9,14 @@ module.exports = {
 			.click('button#btn1')
 			.pause(1500)
 			.isVisible('p#p1.democlass', function () {
-				console.log('Passou no teste p1!');
+				console.log('Accepted on the p1 test!');
 			})
 			.waitForElementVisible('p#p2', 10000)
 			.pause(1000)
 			.click('button#btn2')
 			.pause(1500)
 			.isVisible('p#p2.democlass2', function () {
-				console.log('Passou no teste p2!');
+				console.log('Accepted on the p2 test!');
 				browser
 					.pause(1000)
 					.end();

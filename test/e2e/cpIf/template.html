@@ -14,17 +14,16 @@
     <script>
         capivara.component('my-component', {
             template: `
-                <h1 cp-if="$ctrl.mostrarTexto">Esse é um texto de exemplo.</h1>
+                <h1 cp-if="$ctrl.isVisible">This is a simple text.</h1>
         
-                <button cp-click="$ctrl.alterar()">Clique para Mostrar</button>
+                <button cp-click="$ctrl.toggle()">Clique to Show</button>
             `,
             controller: function(){
                 const $ctrl = this;
+                $ctrl.isVisible = false;
         
-                $ctrl.mostrarTexto = false;
-        
-                $ctrl.alterar = function(){
-                    $ctrl.mostrarTexto = !$ctrl.mostrarTexto;
+                $ctrl.toggle = function(){
+                    $ctrl.isVisible = !$ctrl.isVisible;
                 }
             }
         });
