@@ -18,7 +18,6 @@ describe('test of click without parameters', () => {
         $ctrl.toggleClicked = () => {
             $ctrl.clicked = !$ctrl.clicked;
         };
-
     });
 
     it('The value of the variable must be true', () => {
