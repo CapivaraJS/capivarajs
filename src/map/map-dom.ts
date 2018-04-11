@@ -324,7 +324,7 @@ export class MapDom {
 
     /**
      *
-     * @param child Elemento que está sendo criado o bind do style.
+     * @param child Elemento que está sendo criado o bind do class.
      */
     public createCPClass(child) {
         this.directives.cpClasses.push(new CPClass(child, this));

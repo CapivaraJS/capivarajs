@@ -4,7 +4,7 @@ import { CPClick } from '../../src/map/directive/cp-click';
 
 describe('test of click without parameters', () => {
     const template = `
-        <button cp-click="$ctrl.toogleClicked()"></button>
+        <button cp-click="$ctrl.toggleClicked()"></button>
     `;
     const element = document.createElement('div');
     element.innerHTML = template;
@@ -15,7 +15,7 @@ describe('test of click without parameters', () => {
             $ctrl.clicked = false;
         };
 
-        $ctrl.toogleClicked = () => {
+        $ctrl.toggleClicked = () => {
             $ctrl.clicked = !$ctrl.clicked;
         };
 

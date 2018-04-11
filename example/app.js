@@ -1,4 +1,4 @@
-capivara.controller(document.body, function(){
+capivara.controller(document.body, function () {
 	const $ctrl = this;
 
 	$ctrl.pessoa = {

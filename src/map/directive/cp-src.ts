@@ -34,8 +34,8 @@ export class CPSrc implements Directive {
         }
     }
 
-    public  addSrc(src) {
-        if (this.element.src) {
+    public addSrc(src) {
+        if (src) {
             this.element.src = src;
         }
     }

@@ -17191,6 +17191,8 @@
  *
  * FORK:
  * https://github.com/melanke/Watch.JS
+ *
+ * LICENSE: MIT
  */
 
 
@@ -17240,28 +17242,28 @@
 
         if(!(typeof a == "string") && !(typeof b == "string")){
 
-            if (isArray(a)) {
+            if (isArray(a) && b) {
                 for (var i=0; i<a.length; i++) {
                     if (b[i] === undefined) aplus.push(i);
                 }
             } else {
                 for(var i in a){
                     if (a.hasOwnProperty(i)) {
-                        if(b[i] === undefined) {
+                        if(b && !b.hasOwnProperty(i)) {
                             aplus.push(i);
                         }
                     }
                 }
             }
 
-            if (isArray(b)) {
+            if (isArray(b) && a) {
                 for (var j=0; j<b.length; j++) {
                     if (a[j] === undefined) bplus.push(j);
                 }
             } else {
                 for(var j in b){
                     if (b.hasOwnProperty(j)) {
-                        if(a[j] === undefined) {
+                        if(a && !a.hasOwnProperty(j)) {
                             bplus.push(j);
                         }
                     }
@@ -17293,38 +17295,28 @@
 
     var defineGetAndSet = function (obj, propName, getter, setter) {
         try {
-            Object.observe(obj, function(changes) {
-                changes.forEach(function(change) {
-                    if (change.name === propName) {
-                        setter(change.object[change.name]);
-                    }
+            Object.defineProperty(obj, propName, {
+                get: getter,
+                set: function(value) {
+                    setter.call(this,value,true); // coalesce changes
+                },
+                enumerable: true,
+                configurable: true
+            });
+        }
+        catch(e1) {
+            try{
+                Object.prototype.__defineGetter__.call(obj, propName, getter);
+                Object.prototype.__defineSetter__.call(obj, propName, function(value) {
+                    setter.call(this,value,true); // coalesce changes
                 });
-            });            
-        } 
-        catch(e) {
-            try {
-                Object.defineProperty(obj, propName, {
-                    get: getter,
-                    set: function(value) {        
-                        setter.call(this,value,true); // coalesce changes
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-            } 
+            }
             catch(e2) {
-                try{
-                    Object.prototype.__defineGetter__.call(obj, propName, getter);
-                    Object.prototype.__defineSetter__.call(obj, propName, function(value) {
-                        setter.call(this,value,true); // coalesce changes
-                    });
-                } 
-                catch(e3) {
-                    observeDirtyChanges(obj,propName,setter);
-                    //throw new Error("watchJS error: browser not supported :/")
-                }
+                observeDirtyChanges(obj,propName,setter);
+                //throw new Error("watchJS error: browser not supported :/")
             }
         }
+
     };
 
     var defineProp = function (obj, propName, value) {
@@ -17750,12 +17742,12 @@
 
     var unwatchOne = function (obj, prop, watcher) {
         if (prop) {
-            if (obj.watchers[prop]) {
-                if (watcher===undefined) {
+            if (obj.watchers && obj.watchers[prop]) {
+                if (watcher === undefined) {
                     delete obj.watchers[prop]; // remove all property watchers
                 }
                 else {
-                    for (var i=0; i<obj.watchers[prop].length; i++) {
+                    for (var i = 0; i < obj.watchers[prop].length; i++) {
                         var w = obj.watchers[prop][i];
                         if (w == watcher) {
                             obj.watchers[prop].splice(i, 1);
@@ -17763,11 +17755,10 @@
                     }
                 }
             }
-        }
-        else
-        {
+        } else {
             delete obj.watchers;
         }
+
         removeFromLengthSubjects(obj, prop, watcher);
         removeFromDirtyChecklist(obj, prop);
     };
@@ -18042,7 +18033,7 @@ module.exports = function(module) {
 /*! exports provided: name, version, description, main, repository, scripts, author, license, dependencies, keywords, nyc, devDependencies, default */
 /***/ (function(module) {
 
-module.exports = {"name":"capivarajs","version":"1.10.0","description":"Um framework para criação de componentes.","main":"./index.js","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"npm run test-single && webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./webpack.config.js --env.tests true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^9.4.6","babel-loader":"^7.1.4","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.0","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.8","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.20.3","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.3.0","webpack-cli":"^2.0.13","webpack-dev-server":"^3.1.1"}};
+module.exports = {"name":"capivarajs","version":"1.10.1","description":"Um framework para criação de componentes.","main":"./index.js","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"npm run test-single && webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./webpack.config.js --env.tests true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^9.4.6","babel-loader":"^7.1.4","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.0","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.8","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.20.3","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.3.0","webpack-cli":"^2.0.13","webpack-dev-server":"^3.1.1"}};
 
 /***/ }),
 
@@ -18181,10 +18172,8 @@ var Common;
     Common.createElement = createElement;
     function isValidCondition(element, condition) {
         var scope = getScope(element).scope;
-        // if (!(element.parentNode && element.parentNode.classList.contains('binding-repeat')) && scope.$parent) {
-        //     scope = scope.$parent;
-        // }
-        return evalInContext(condition, scope);
+        var result = evalInContext(condition, scope);
+        return result;
     }
     Common.isValidCondition = isValidCondition;
     function appendBefore(element, elementToInsert) {
@@ -18202,6 +18191,25 @@ var Common;
         }
     }
     Common.setScopeId = setScopeId;
+    function parentHasIgnore(element) {
+        if (element.hasAttribute && element.hasAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].IGNORE_BINDINGS)) {
+            return true;
+        }
+        if (element.parentNode) {
+            return parentHasIgnore(element.parentNode);
+        }
+    }
+    Common.parentHasIgnore = parentHasIgnore;
+    function getFunctionArgs(func) {
+        return (func + '')
+            .replace(/[/][/].*$/mg, '') // strip single-line comments
+            .replace(/\s+/g, '') // strip white space
+            .replace(/[/][*][^/*]*[*][/]/g, '') // strip multi-line comments
+            .split('){', 1)[0].replace(/^[^(]*[(]/, '') // extract the parameters
+            .replace(/=[^,]+/g, '') // strip any ES6 defaults
+            .split(',').filter(Boolean); // split & filter [""]
+    }
+    Common.getFunctionArgs = getFunctionArgs;
 })(Common || (Common = {}));
 
 
@@ -18234,6 +18242,7 @@ var Constants = {
     SRC_ATTRIBUTE_NAME: 'cp-src',
     START_INTERPOLATION: '[[',
     END_INTERPOLATION: ']]',
+    IGNORE_BINDINGS: 'cp-non-bindable',
 };
 
 
@@ -18439,6 +18448,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../common */ "./src/common.ts");
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
 /* harmony import */ var _controller__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./controller */ "./src/core/controller.ts");
+/* harmony import */ var _observer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./observer */ "./src/core/observer/index.ts");
+
 
 
 
@@ -18501,6 +18512,7 @@ var ComponentInstance = /** @class */ (function () {
      * @description Função executada quando o elemento é destruído do documento.
      */
     ComponentInstance.prototype.destroy = function () {
+        _observer__WEBPACK_IMPORTED_MODULE_5__["Observe"].unobserve(this.componentScope[this.config.controllerAs]);
         this.destroyed = true;
         if (this.componentScope[this.config.controllerAs] && this.componentScope[this.config.controllerAs].$destroy) {
             this.componentScope[this.config.controllerAs].$destroy();
@@ -18546,7 +18558,6 @@ var ComponentInstance = /** @class */ (function () {
             lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_this.contextObj, _bindings[key], _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).scope[_this.config.controllerAs]['$bindings'][key]);
             _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).mapDom.reload();
         });
-        // Mantém compatibilidade
         melanke_watchjs__WEBPACK_IMPORTED_MODULE_1___default.a.watch(_common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(this.element).scope['$bindings'], key, function () {
             lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_this.contextObj, _bindings[key], _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).scope['$bindings'][key]);
             _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).mapDom.reload();
@@ -18795,7 +18806,7 @@ var Observe;
     }
     Observe.observe = observe;
     function unobserve(obj) {
-        if (!obj || !obj.__interval__) {
+        if (!obj || !obj.__observer__) {
             return false;
         }
         var props = Object.keys(obj), propsL = props.length;
@@ -18827,21 +18838,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Polyfill", function() { return Polyfill; });
 var Polyfill;
 (function (Polyfill) {
+    var keyObserver = '__observer__';
     function watchProperty(obj, prop, handler) {
-        var oldval = obj[prop];
-        var newval = oldval;
+        var oldVal = obj[prop];
+        var newVal = oldVal;
         var getter = function () {
-            return newval;
+            return newVal;
         };
         var setter = function (val) {
-            oldval = newval;
-            var value = (newval = val);
-            if (oldval !== val) {
+            oldVal = newVal;
+            var value = (newVal = val);
+            if (oldVal !== val) {
                 handler([{
                         type: 'update',
                         object: obj,
                         name: prop,
-                        oldValue: oldval,
+                        oldValue: oldVal,
                     }]);
             }
             return value;
@@ -18880,14 +18892,12 @@ var Polyfill;
     Polyfill.updateProperties = updateProperties;
     function unWatchProperty(obj, prop) {
         var val = obj[prop];
-        /* tslint:disable */
         delete obj[prop];
         obj[prop] = val;
-        /* tslint:enable */
     }
     Polyfill.unWatchProperty = unWatchProperty;
     function setDirtyCheck(obj, time, fn) {
-        Object.defineProperty(obj, '__interval__', {
+        Object.defineProperty(obj, keyObserver, {
             enumerable: false,
             configurable: true,
             writable: false,
@@ -18896,10 +18906,8 @@ var Polyfill;
     }
     Polyfill.setDirtyCheck = setDirtyCheck;
     function clearDirtyCheck(obj) {
-        clearInterval(obj.__interval__);
-        /* tslint:disable */
-        delete obj.__interval__;
-        /* tslint:enable */
+        clearInterval(obj[keyObserver]);
+        delete obj[keyObserver];
     }
     Polyfill.clearDirtyCheck = clearDirtyCheck;
 })(Polyfill || (Polyfill = {}));
@@ -18974,7 +18982,7 @@ var Util;
     Util.diff = diff;
     function keys(obj) {
         if (Object.prototype.toString.call(obj) !== '[object Object]' && !Array.isArray(obj)) {
-            throw new TypeError('#keys only accepts objects and arrays');
+            return [];
         }
         var props = [];
         for (var prop in obj) {
@@ -19194,6 +19202,9 @@ var CPElseIf = /** @class */ (function () {
         this.elementComment = document.createComment('CPElseIf ' + this.attribute);
     }
     CPElseIf.prototype.create = function () {
+        if (this.element.hasAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].REPEAT_ATTRIBUTE_NAME)) {
+            return;
+        }
         this.integrationCpElse();
         this.parentCondition = _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getScope(this.element).parentCondition;
         if (!this.parentCondition) {
@@ -19209,7 +19220,7 @@ var CPElseIf = /** @class */ (function () {
         }
     };
     CPElseIf.prototype.init = function () {
-        if (!this.element) {
+        if (!this.element || this.element.hasAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].REPEAT_ATTRIBUTE_NAME)) {
             return;
         }
         try {
@@ -19259,6 +19270,9 @@ var CPElse = /** @class */ (function () {
         this.elementComment = document.createComment('cpElse');
     }
     CPElse.prototype.create = function () {
+        if (this.element.hasAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].REPEAT_ATTRIBUTE_NAME)) {
+            return;
+        }
         this.parentCondition = _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getScope(this.element).parentCondition;
         if (!this.parentCondition) {
             throw new Error("syntax error " + _constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].ELSE_ATTRIBUTE_NAME + " used on element " +
@@ -19281,7 +19295,7 @@ var CPElse = /** @class */ (function () {
         }
     };
     CPElse.prototype.init = function () {
-        if (!this.element) {
+        if (!this.element || this.element.hasAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].REPEAT_ATTRIBUTE_NAME)) {
             return;
         }
         try {
@@ -19327,6 +19341,9 @@ var CPIf = /** @class */ (function () {
         this.elementComment = document.createComment('cpIf ' + this.attribute);
     }
     CPIf.prototype.create = function () {
+        if (this.element.hasAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].REPEAT_ATTRIBUTE_NAME)) {
+            return;
+        }
         this.integrationCpElse();
         this.init();
     };
@@ -19337,7 +19354,7 @@ var CPIf = /** @class */ (function () {
         }
     };
     CPIf.prototype.init = function () {
-        if (!this.element) {
+        if (!this.element || this.element.hasAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].REPEAT_ATTRIBUTE_NAME)) {
             return;
         }
         try {
@@ -19536,9 +19553,13 @@ var CPRepeat = /** @class */ (function () {
             new _core_controller__WEBPACK_IMPORTED_MODULE_3__["Controller"](elm, function () { });
             _common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(elm).scope[attributeAlias] = row;
             _common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(elm).scope[_constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].REPEAT_INDEX_NAME] = index;
+            _common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(elm).mapDom.reload();
             return elm;
         });
-        _common__WEBPACK_IMPORTED_MODULE_1__["Common"].appendAfter(elms.shift(), this.referenceNode.parentNode.appendChild(document.createComment('end repeat ' + this.attribute)));
+        var shift = elms.shift();
+        if (shift) {
+            _common__WEBPACK_IMPORTED_MODULE_1__["Common"].appendAfter(shift, this.referenceNode.parentNode.appendChild(document.createComment('end repeat ' + this.attribute)));
+        }
     };
     return CPRepeat;
 }());
@@ -19630,7 +19651,7 @@ var CPSrc = /** @class */ (function () {
         }
     };
     CPSrc.prototype.addSrc = function (src) {
-        if (this.element.src) {
+        if (src) {
             this.element.src = src;
         }
     };
@@ -19896,7 +19917,6 @@ var MapDom = /** @class */ (function () {
         if (!this.renderedView) {
             return;
         }
-        console.log('dsa');
         this.reloadDirectives();
         this.reloadElementChildes(this.element, _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getScope(this.element));
     };
@@ -19918,26 +19938,34 @@ var MapDom = /** @class */ (function () {
      * @param childNode
      */
     MapDom.prototype.interpolation = function (childNode) {
-        if (childNode.nodeName === '#text') {
+        if (childNode.nodeName === '#text' && !_common__WEBPACK_IMPORTED_MODULE_0__["Common"].parentHasIgnore(childNode)) {
+            childNode.$immutableInterpolation = childNode.$immutableInterpolation || false;
+            if (childNode.$immutableInterpolation) {
+                return;
+            }
             childNode.originalValue = childNode.originalValue || childNode.nodeValue;
-            var nodeModified_1 = childNode.originalValue;
-            var str = window['capivara'].replaceAll(childNode.originalValue, _constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].START_INTERPOLATION, '{{');
+            var nodeModified_1 = childNode.originalValue, str = childNode.originalValue;
+            str = window['capivara'].replaceAll(str, _constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].START_INTERPOLATION, '{{');
             str = window['capivara'].replaceAll(str, _constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].END_INTERPOLATION, '}}');
             (str.match(this.regexInterpolation) || []).forEach(function (key) {
                 var content = key.replace('{{', '').replace('}}', '');
-                var value = '';
-                try {
-                    var evalValue = _common__WEBPACK_IMPORTED_MODULE_0__["Common"].evalInContext(content, _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getScopeParent(childNode));
-                    evalValue = MapDom.removeWordFromStr(evalValue, 'null');
-                    evalValue = MapDom.removeWordFromStr(evalValue, 'undefined');
-                    evalValue = MapDom.removeWordFromStr(evalValue, 'NaN');
-                    value = evalValue !== undefined ? evalValue : '';
+                if (!childNode.$immutableInterpolation) {
+                    try {
+                        var evalValue = _common__WEBPACK_IMPORTED_MODULE_0__["Common"].evalInContext(content.trim().startsWith(':') ? content.trim().slice(1) : content, _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getScopeParent(childNode));
+                        evalValue = MapDom.removeWordFromStr(evalValue, 'null');
+                        evalValue = MapDom.removeWordFromStr(evalValue, 'undefined');
+                        evalValue = MapDom.removeWordFromStr(evalValue, 'NaN');
+                        var value = evalValue !== undefined ? evalValue : '';
+                        key = window['capivara'].replaceAll(key, '{{', _constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].START_INTERPOLATION);
+                        key = window['capivara'].replaceAll(key, '}}', _constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].END_INTERPOLATION);
+                        nodeModified_1 = nodeModified_1.replace(key, value);
+                        childNode.nodeValue = nodeModified_1;
+                    }
+                    catch (e) { }
                 }
-                catch (e) { }
-                key = window['capivara'].replaceAll(key, '{{', _constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].START_INTERPOLATION);
-                key = window['capivara'].replaceAll(key, '}}', _constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].END_INTERPOLATION);
-                nodeModified_1 = nodeModified_1.replace(key, value);
-                childNode.nodeValue = nodeModified_1;
+                if (content.trim().startsWith(':') && !childNode.$immutableInterpolation) {
+                    childNode.$immutableInterpolation = true;
+                }
             });
             childNode.nodeValue = childNode.nodeValue.replace(this.regexInterpolation, '');
         }
@@ -20066,8 +20094,12 @@ var ScopeProxy = /** @class */ (function () {
         var _this = this;
         if (this.element['$instance']) {
             objectObserve.scope.$on('$onInit', function () {
-                _core_observer__WEBPACK_IMPORTED_MODULE_0__["Observe"].observe(objectObserve[_this.element['$instance'].config.controllerAs], function () {
+                _core_observer__WEBPACK_IMPORTED_MODULE_0__["Observe"].observe(objectObserve[_this.element['$instance'].config.controllerAs], function (changes) {
                     _this.mapDom.reload();
+                    objectObserve.scope.$emit('$onChanges', changes);
+                    if (objectObserve[_this.element['$instance'].config.controllerAs]['$onChanges']) {
+                        objectObserve[_this.element['$instance'].config.controllerAs]['$onChanges'](changes);
+                    }
                 });
             });
         }
