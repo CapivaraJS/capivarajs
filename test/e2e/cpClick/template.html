@@ -18,16 +18,14 @@
             `,
             controller: function(){
                 const $ctrl = this;
-
-                $ctrl.btnText = 'Clique-me';
+                $ctrl.btnText = 'Click me';
         
                 $ctrl.clicked = function(){
-                    $ctrl.btnText = 'Clicou';
+                    $ctrl.btnText = 'Clicked';
                 };
         
             }
         });
-
         capivara.componentBuilder('myComponent').build();
     </script>
 </body>

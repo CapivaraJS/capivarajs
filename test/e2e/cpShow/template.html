@@ -16,17 +16,16 @@
     <script>
         capivara.component('my-component', {
             template: `
-                <h1 cp-show="$ctrl.mostrarTexto">Esse é um texto de exemplo.</h1>
+                <h1 cp-show="$ctrl.isVisible">This is a example</h1>
         
-                <button cp-click="$ctrl.alterar()">Clique para Mostrar</button>
+                <button cp-click="$ctrl.toggle()">Click to Show</button>
             `,
             controller: function(){
                 const $ctrl = this;
+                $ctrl.isVisible = false;
         
-                $ctrl.mostrarTexto = false;
-        
-                $ctrl.alterar = function(){
-                    $ctrl.mostrarTexto = true;
+                $ctrl.toggle = function(){
+                    $ctrl.isVisible = true;
                 }
             }
         });

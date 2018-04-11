@@ -12,11 +12,11 @@ module.exports = {
 						.pause(1500)
 						.getText('p', function (results) {
 							if (results.value === 'Mateus Ronaldo') {
-								console.log('Passou no Teste');
+								console.log('Accepted on the test');
 								browser
 									.pause(1000);
 							} else {
-								console.log('Falhou no Teste');
+								console.log('Rejected on the test');
 								browser.
 									waitForElementVisible('div', 10);
 							}

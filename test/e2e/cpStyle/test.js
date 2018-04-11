@@ -21,9 +21,9 @@ module.exports = {
 						.pause(1000)
 						.getCssProperty('p#p1', 'background', function (result) {
 							if (result.value.substring(0, result.value.indexOf(')') + 1) === 'rgb(128, 128, 128)') {
-								console.log('Passou no teste');
+								console.log('Accepted on the test');
 							} else {
-								console.log('Falhou no Teste')
+								console.log('Rejected on the test!')
 									.waitForElementVisible('div', 10);
 							}
 						});
@@ -36,12 +36,12 @@ module.exports = {
 		browser
 			.getCssProperty('p#p3', 'background', function (result) {
 				if (result.value.substring(0, result.value.indexOf(')') + 1) === 'rgb(0, 128, 0)') {
-					console.log('Passou no teste');
+					console.log('Accepted on the test');
 					browser
 					.pause(1000)
 					.end();
 				} else {
-					console.log('Falhou no Teste')
+					console.log('Rejected on the test!')
 						.waitForElementVisible('div', 10);
 				}
 			})

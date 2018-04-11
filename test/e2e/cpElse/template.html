@@ -16,14 +16,13 @@
     <script>
         capivara.component('my-component', {
             template: `
-                <h1 cp-if="$ctrl.showText">Esse é um texto de exemplo.</h1>
-                <h1 cp-else>Esse é outro texto de exemplo.</h1>
+                <h1 cp-if="$ctrl.showText">This is a text</h1>
+                <h1 cp-else>This is an other text.</h1>
         
-            <button cp-click="$ctrl.alternate()">Clique para Mostrar</button>
+            <button cp-click="$ctrl.alternate()">Click to show!</button>
             `,
             controller: function () {
                 const $ctrl = this;
-
                 $ctrl.showText = true;
 
                 $ctrl.alternate = function () {
