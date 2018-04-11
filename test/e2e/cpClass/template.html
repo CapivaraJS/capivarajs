@@ -26,10 +26,10 @@
         capivara.component('my-component', {
             template: `        
                 <p id="p1" cp-class="{ democlass: $ctrl.classDemoActive }">A simple example</p> <br/>
-                <p id="p2" cp-class="$ctrl.getClass()">Exemplo 2</p> 
+                <p id="p2" cp-class="$ctrl.getClass()">Example 2</p> 
                 <br/>
-                <button id="btn1" cp-click="$ctrl.toggleClass()">Mudar cor 1</button>
-                <button id="btn2" cp-click="$ctrl.toggleClass2()">Mudar cor 2</button>
+                <button id="btn1" cp-click="$ctrl.toggleClass()">Change Color 1</button>
+                <button id="btn2" cp-click="$ctrl.toggleClass2()">Change Color 2</button>
             `,
             controller: function () {
                 let $ctrl = this;

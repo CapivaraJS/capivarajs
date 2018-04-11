@@ -10,10 +10,10 @@ module.exports = {
 					browser.pause(4000)
 						.getText('h1', function (result) {
 							if (result.value === 'CpInit complete') {
-								console.log('Passou no teste');
+								console.log('Accepted on the test');
 								browser.pause(1000);
 							} else {
-								console.log('Falhou!!!');
+								console.log('Rejected on the test!!!');
 								browser.pause(1000);
 								browser.waitForElementVisible('div', 10);
 
