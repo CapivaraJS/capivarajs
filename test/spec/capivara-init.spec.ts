@@ -3,7 +3,7 @@ import capivara from '../../src/index';
 
 describe('test of init with fixed object', () => {
   const template = `
-    <h1 cp-init="$ctrl.initialize('This is the init function')">String de teste</h1>
+    <h1 cp-init="$ctrl.initialize('This is the init function')">String test</h1>
   `;
   const element = document.createElement('div');
   element.innerHTML = template;
