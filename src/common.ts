@@ -73,7 +73,7 @@ export namespace Common {
     export function executeFunctionCallback(element, attribute) {
         const callback = getCallbackClick(element, attribute);
         if (callback && !isNative(callback)) {
-            const params = attribute.substring(attribute.indexOf('(') + 1, attribute.length - 1), args = [];
+            const params = attribute.substring(attribute.indexOf('(') + 1, attribute.lastIndexOf(')')), args = [];
             let context = getScope(element);
             params.split(',').forEach((param) => {
                 const valueScope = evalInContext(param, context.scope);
