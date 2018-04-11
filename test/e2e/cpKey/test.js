@@ -7,7 +7,7 @@ module.exports = {
 			.pause(1000);
 		browser
 			.setValue('input', [' Ronaldo'])
-			.keys(browser.Keys.ENTER)
+			.keys(browser.keys.ENTER)
 			.pause(1500)
 			.getText('p', function (results) {
 				if (results.value === 'Mateus Ronaldo') {
