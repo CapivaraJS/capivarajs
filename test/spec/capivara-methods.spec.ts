@@ -7,7 +7,7 @@ describe('test method isArray', () => {
     it('Should not be an array', () => {
         expect(capivara.isArray({})).toBe(false);
     });
-    it('Shoulded be array', () => {
+    it('Should be array', () => {
         expect(
             capivara.isArray([]) &&
             capivara.isArray([{name: 'My Array'}]),
