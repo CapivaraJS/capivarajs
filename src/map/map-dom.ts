@@ -7,6 +7,8 @@ import { CPElse } from "./directive/cp-else";
 import { CPElseIf } from "./directive/cp-else-if";
 import { CPIf } from "./directive/cp-if";
 import { CPInit } from "./directive/cp-init";
+import { CPMax } from "./directive/cp-max";
+import { CPMin } from "./directive/cp-min";
 import { CPModel } from './directive/cp-model';
 import { CPRepeat } from './directive/cp-repeat';
 import { CPShow } from './directive/cp-show';
@@ -39,6 +41,8 @@ export class MapDom {
         cpClicks: [],
         cpInits: [],
         cpSrcs: [],
+        cpMins: [],
+        cpMaxs: [],
     };
 
     private regexInterpolation;
@@ -115,6 +119,8 @@ export class MapDom {
         if (child.hasAttribute(Constants.STYLE_ATTRIBUTE_NAME)) { this.createCPStyle(child); }
         if (child.hasAttribute(Constants.CLASS_ATTRIBUTE_NAME)) { this.createCPClass(child); }
         if (child.hasAttribute(Constants.SRC_ATTRIBUTE_NAME)) { this.createCPSrc(child); }
+        if (child.hasAttribute(Constants.MIN_ATTRIBUTE_NAME)) { this.createCPMin(child); }
+        if (child.hasAttribute(Constants.MAX_ATTRIBUTE_NAME)) { this.createCPMax(child); }
     }
 
     public reloadElementChildes(element, initialScope) {
@@ -159,6 +165,12 @@ export class MapDom {
 
         // Update cp src
         this.directives.cpSrcs.forEach((cpSrc) => cpSrc.init());
+
+        // Update cp min
+        this.directives.cpMins.forEach((cpMin) => cpMin.init());
+
+        // Update cp min
+        this.directives.cpMaxs.forEach((cpMax) => cpMax.init());
 
         this.processInterpolation(this.element);
     }
@@ -325,10 +337,24 @@ export class MapDom {
     }
 
     /**
-     *
      * @param child Elemento que está sendo criado o bind do style.
      */
     public createCPSrc(child) {
         this.directives.cpSrcs.push(new CPSrc(child, this));
     }
+
+    /**
+     * @param child Elemento que está sendo criado o bind do style.
+     */
+    public createCPMin(child) {
+        this.directives.cpMins.push(new CPMin(child, this));
+    }
+
+    /**
+     * @param child Elemento que está sendo criado o bind do style.
+     */
+    public createCPMax(child) {
+        this.directives.cpMaxs.push(new CPMax(child, this));
+    }
+
 }
