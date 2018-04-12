@@ -13,6 +13,7 @@ import { CPModel } from './directive/cp-model';
 import { CPRepeat } from './directive/cp-repeat';
 import { CPShow } from './directive/cp-show';
 import { CPSrc } from './directive/cp-src';
+import { CPStep } from "./directive/cp-step";
 import { CPStyle } from "./directive/cp-style";
 
 export class MapDom {
@@ -43,6 +44,7 @@ export class MapDom {
         cpSrcs: [],
         cpMins: [],
         cpMaxs: [],
+        cpSteps: [],
     };
 
     private regexInterpolation;
@@ -121,6 +123,7 @@ export class MapDom {
         if (child.hasAttribute(Constants.SRC_ATTRIBUTE_NAME)) { this.createCPSrc(child); }
         if (child.hasAttribute(Constants.MIN_ATTRIBUTE_NAME)) { this.createCPMin(child); }
         if (child.hasAttribute(Constants.MAX_ATTRIBUTE_NAME)) { this.createCPMax(child); }
+        if (child.hasAttribute(Constants.STEP_ATTRIBUTE_NAME)) { this.createCPStep(child); }
     }
 
     public reloadElementChildes(element, initialScope) {
@@ -171,6 +174,9 @@ export class MapDom {
 
         // Update cp min
         this.directives.cpMaxs.forEach((cpMax) => cpMax.init());
+
+        // Update cp step
+        this.directives.cpSteps.forEach((cpStep) => cpStep.init());
 
         this.processInterpolation(this.element);
     }
@@ -355,6 +361,13 @@ export class MapDom {
      */
     public createCPMax(child) {
         this.directives.cpMaxs.push(new CPMax(child, this));
+    }
+
+    /**
+     * @param child Elemento que está sendo criado o bind do style.
+     */
+    public createCPStep(child) {
+        this.directives.cpSteps.push(new CPStep(child, this));
     }
 
 }

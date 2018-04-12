@@ -49,6 +49,10 @@ export namespace Common {
         return element.getAttribute(Constants.MIN_ATTRIBUTE_NAME);
     }
 
+    export function getAttributeCpStep(element) {
+        return element.getAttribute(Constants.STEP_ATTRIBUTE_NAME);
+    }
+
     export function getAttributeCpMax(element) {
         return element.getAttribute(Constants.MAX_ATTRIBUTE_NAME);
     }
