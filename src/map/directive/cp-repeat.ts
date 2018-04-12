@@ -30,7 +30,6 @@ export class CPRepeat implements Directive {
         if (this.originalElement.parentNode.replaceChild) {
             this.originalElement.parentNode.replaceChild(this.referenceNode, this.originalElement);
         }
-        Common.appendAfter(this.referenceNode, this.referenceNode.parentNode.appendChild(document.createComment('end repeat ' + this.attribute)));
     }
 
     public create() {
