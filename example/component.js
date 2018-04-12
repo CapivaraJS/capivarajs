@@ -4,16 +4,16 @@ capivara.component('my-component', {
 		<button cp-click="$ctrl.teste()">Teste</button>
 	`, 
 	bindings: ['pessoa'],
-	controller: function(scope){
+	controller: function(){
 		const $ctrl = this;
 
 		$ctrl.teste = () => {
-			$ctrl.$bindings.pessoa.nome = "João"
-		}
+			$ctrl.$bindings.pessoa.nome = 'João';
+		};
 
-		$ctrl.$onChanges = (changes) => {
+		$ctrl.$onChanges = () => {
 			// console.log(changes);
-		}
+		};
 
 	}
 });

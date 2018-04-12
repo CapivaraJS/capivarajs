@@ -4,9 +4,9 @@ import { Eval } from './core';
 
 export namespace Common {
 
-    export function regexIndexOf(str, regex, startpos?) {
-        const indexOf = str.substring(startpos || 0).search(regex);
-        return (indexOf >= 0) ? (indexOf + (startpos || 0)) : indexOf;
+    export function regexIndexOf(str, regex, startPos?) {
+        const indexOf = str.substring(startPos || 0).search(regex);
+        return (indexOf >= 0) ? (indexOf + (startPos || 0)) : indexOf;
     }
 
     /**
@@ -82,14 +82,18 @@ export namespace Common {
         }
     }
 
-    export function executeFunctionCallback(element, attribute) {
+    export function executeFunctionCallback(element, attribute, evt?) {
         const callback = getCallbackClick(element, attribute);
         if (callback && !isNative(callback)) {
             const params = attribute.substring(attribute.indexOf('(') + 1, attribute.lastIndexOf(')')), args = [];
             let context = getScope(element);
             params.split(',').forEach((param) => {
-                const valueScope = evalInContext(param, context.scope);
-                args.push(valueScope === undefined ? evalInContext(param, context.scope) : valueScope);
+                if (param === Constants.EVENT_ATTRIBUTE_NAME) {
+                    args.push(evt);
+                } else {
+                    const valueScope = evalInContext(param, context.scope);
+                    args.push(valueScope === undefined ? evalInContext(param, context.scope) : valueScope);
+                }
             });
             if (context.mapDom.element.$instance) {
                 context = context.scope[context.mapDom.element.$instance.config.controllerAs];

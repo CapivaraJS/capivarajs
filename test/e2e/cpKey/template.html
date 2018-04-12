@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Test</title>
+</head>
+<body>
+
+    <my-component #myComponent></my-component>
+    
+    <script src="/dist/capivara.js"></script>
+    <script>
+        capivara.component('my-component', {
+            template: `
+                <p cp-if="$ctrl.isVisible">[[ $ctrl.person.name ]]</p>
+
+                <input cp-model="$ctrl.person.name"/>
+        
+                <button type="button" cp-keypress.enter="$ctrl.test()">Clique-me</button>
+            `,
+            controller: function(){
+                const $ctrl = this;
+                $ctrl.person = { name: 'Mateus'};
+                $ctrl.isVisible = false;
+        
+                $ctrl.test = function(){
+                    $ctrl.isVisible = true;
+                };
+            }
+        });
+        capivara.componentBuilder('myComponent').build();
+    </script>
+</body>
+</html>

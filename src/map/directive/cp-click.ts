@@ -32,9 +32,9 @@ export class CPClick implements Directive {
     }
 
     public init() {
-        const onClick = () => {
+        const onClick = (evt) => {
             this.attribute = this.attribute.replace(/ /g, '');
-            Common.executeFunctionCallback(this.element, this.attribute);
+            Common.executeFunctionCallback(this.element, this.attribute, evt);
         };
         // Remove old event
         this.element.removeEventListener('click', onClick);

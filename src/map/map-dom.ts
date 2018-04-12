@@ -7,6 +7,7 @@ import { CPElse } from "./directive/cp-else";
 import { CPElseIf } from "./directive/cp-else-if";
 import { CPIf } from "./directive/cp-if";
 import { CPInit } from "./directive/cp-init";
+import { CPKey } from "./directive/cp-key";
 import { CPMax } from "./directive/cp-max";
 import { CPMin } from "./directive/cp-min";
 import { CPModel } from './directive/cp-model';
@@ -42,6 +43,7 @@ export class MapDom {
         cpClicks: [],
         cpInits: [],
         cpSrcs: [],
+        cpKeys: [],
         cpMins: [],
         cpMaxs: [],
         cpSteps: [],
@@ -121,6 +123,7 @@ export class MapDom {
         if (child.hasAttribute(Constants.STYLE_ATTRIBUTE_NAME)) { this.createCPStyle(child); }
         if (child.hasAttribute(Constants.CLASS_ATTRIBUTE_NAME)) { this.createCPClass(child); }
         if (child.hasAttribute(Constants.SRC_ATTRIBUTE_NAME)) { this.createCPSrc(child); }
+        if (child.hasAttributeStartingWith(Constants.KEY_ATTRIBUTE_NAME)) { this.createCPKey(child); }
         if (child.hasAttribute(Constants.MIN_ATTRIBUTE_NAME)) { this.createCPMin(child); }
         if (child.hasAttribute(Constants.MAX_ATTRIBUTE_NAME)) { this.createCPMax(child); }
         if (child.hasAttribute(Constants.STEP_ATTRIBUTE_NAME)) { this.createCPStep(child); }
@@ -168,6 +171,9 @@ export class MapDom {
 
         // Update cp src
         this.directives.cpSrcs.forEach((cpSrc) => cpSrc.init());
+
+        // Update cp key
+        this.directives.cpKeys.forEach((cpKey) => cpKey.init());
 
         // Update cp min
         this.directives.cpMins.forEach((cpMin) => cpMin.init());
@@ -336,35 +342,44 @@ export class MapDom {
 
     /**
      *
-     * @param child Elemento que está sendo criado o bind do style.
+     * @param child Elemento que está sendo criado o bind do class.
      */
     public createCPClass(child) {
         this.directives.cpClasses.push(new CPClass(child, this));
     }
 
     /**
-     * @param child Elemento que está sendo criado o bind do style.
+     *
+     * @param child Elemento que está sendo criado o bind do key.
      */
     public createCPSrc(child) {
         this.directives.cpSrcs.push(new CPSrc(child, this));
     }
 
     /**
-     * @param child Elemento que está sendo criado o bind do style.
+     *
+     * @param child Elemento que está sendo criado o bind do key.
      */
+    public createCPKey(child) {
+        this.directives.cpKeys.push(new CPKey(child, this));
+    }
+
+    /**
+    * @param child Elemento que está sendo criado o bind do min.
+    */
     public createCPMin(child) {
         this.directives.cpMins.push(new CPMin(child, this));
     }
 
     /**
-     * @param child Elemento que está sendo criado o bind do style.
+     * @param child Elemento que está sendo criado o bind do max.
      */
     public createCPMax(child) {
         this.directives.cpMaxs.push(new CPMax(child, this));
     }
 
     /**
-     * @param child Elemento que está sendo criado o bind do style.
+     * @param child Elemento que está sendo criado o bind do step.
      */
     public createCPStep(child) {
         this.directives.cpSteps.push(new CPStep(child, this));

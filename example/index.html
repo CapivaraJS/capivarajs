@@ -18,11 +18,29 @@
 
 <body>
 
-    <img cp-if="false" cp-src="teste"/>
+    <label>KeyPress Enter</label><br>
+    <input cp-keypress.enter="$ctrl.onEnter($event)" type="text" placeholder="Enter key Press" >
 
-    <my-component #demo></my-component>
+    <br><br>
 
+    <label>KeyDown Enter</label> <br>
+    <input type="text" placeholder="Enter key Press" cp-keydown.enter="$ctrl.onEnter($event)">
 
+    <br><br>
+
+    <label>KeyUp Enter</label> <br>
+    <input type="text" placeholder="Enter key Press" cp-keyup.enter="$ctrl.onEnter($event)">
+
+    <br><br>
+
+    <label>All Caracteres</label> <br>
+    <input type="text" placeholder="Enter key Press" cp-keyup="$ctrl.onKey($event)">
+
+    <br><br>
+
+    <label>With number key</label> <br>
+    <input type="text" placeholder="Enter key Press" cp-keyup.13="$ctrl.onEnter($event)">
+    
     <script src="../dist/capivara.js"></script>
     <script src="component.js"></script>
     <script src="app.js"></script>

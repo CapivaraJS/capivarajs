@@ -1,5 +1,6 @@
 export const Constants = {
     SCOPE_ATTRIBUTE_NAME     : '$scope',
+    EVENT_ATTRIBUTE_NAME     : '$event',
     REPEAT_ATTRIBUTE_NAME    : 'cp-repeat',
     REPEAT_INDEX_NAME        : '$index',
     REPEAT_ATTRIBUTE_OPERATOR: ' in ',
@@ -16,6 +17,7 @@ export const Constants = {
     STYLE_ATTRIBUTE_NAME     : 'cp-style',
     CLASS_ATTRIBUTE_NAME     : 'cp-class',
     SRC_ATTRIBUTE_NAME       : 'cp-src',
+    KEY_ATTRIBUTE_NAME       : 'cp-key',
     START_INTERPOLATION      : '[[',
     END_INTERPOLATION        : ']]',
     IGNORE_BINDINGS          : 'cp-non-bindable',
