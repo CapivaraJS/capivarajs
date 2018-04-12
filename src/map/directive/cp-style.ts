@@ -5,7 +5,7 @@ import { Directive } from './directive.interface';
 
 export class CPStyle implements Directive {
 
-    private element: any;
+    private readonly element: any;
     private map: MapDom;
     private attribute;
     private elementComment;

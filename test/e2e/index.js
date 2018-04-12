@@ -12,5 +12,8 @@ module.exports = Object.assign(
 	require('./cpStyle/test'),
 	require('./interpolation/test'),
 	require('./noBind/test'),
-	require('./cpKey/test'),
+	require('./cpKey/test')
+	// require('./cpMax/test'),
+	// require('./cpMin/test'),
+	// require('./cpStep/test')
 );
