@@ -27,7 +27,9 @@ export class CPMax implements Directive {
         this.attribute = this.attribute.replace(/ /g, '');
         try {
             const value = Common.evalInContext(this.attribute, Common.getScope(this.element).scope);
-            this.element.setAttribute('max', value);
+            if (value !== undefined) {
+                this.element.setAttribute('max', value);
+            }
         } catch (e) { }
     }
 }
