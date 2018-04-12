@@ -14,23 +14,22 @@
     <script>
         capivara.component('my-component', {
             template: `
-                <p>[[ $ctrl.pessoa.nome ]]</p>
+                <p>[[ $ctrl.person.name ]]</p>
 
-                <input cp-model="$ctrl.pessoa.nome"/>
+                <input cp-model="$ctrl.person.name"/>
         
-                <button type="button" cp-click="$ctrl.test()">Clique-me</button>
+                <button type="button" cp-click="$ctrl.test()">Click me</button>
             `,
             controller: function(){
                 const $ctrl = this;
         
-                $ctrl.pessoa = { nome: 'Mateus'};
+                $ctrl.person = { name: 'Capivara'};
         
                 $ctrl.test = function(){
-                    console.log($ctrl.pessoa.nome);
+                    console.log($ctrl.person.name);
                 };
             }
         });
-
         capivara.componentBuilder('myComponent').build();
     </script>
 </body>

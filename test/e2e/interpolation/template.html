@@ -16,17 +16,16 @@
     <script>
         capivara.component('my-component', {
             template: `        
-                <h1>[[$ctrl.nome]]</h1>
-                <h2>[[:$ctrl.nome]]</h2>
-                <button cp-click="$ctrl.click()">Alterar nome</button>
+                <h1>[[$ctrl.name]]</h1>
+                <h2>[[:$ctrl.name]]</h2>
+                <button cp-click="$ctrl.click()">Change name</button>
             `,
             controller: function () {
                 const $ctrl = this;
-                
-                $ctrl.nome = "felipe";
+                $ctrl.name = "felipe";
                 
                 $ctrl.click = function() {
-                    $ctrl.nome = "felipe2";
+                    $ctrl.name = "felipe2";
                 }
             }
         });

@@ -1,31 +1,18 @@
 module.exports = {
 	'cpElseIf': function (browser) {
-		browser.resizeWindow(1920, 1080);
 		browser
+			.resizeWindow(1920, 1080)
 			.url('http://localhost:1111/test/e2e/cpElseIf/template.html')
 			.waitForElementVisible('button', 10000)
 			.pause(1000)
-			.getText('button', function (result) {
-				if (result.value === 'Clique para Somar') {
-					browser.click('button')
-						.pause(1000)
-						.getText('button', function (result2) {
-							if (result2.value === 'Clique para Somar')
-								browser.click('button')
-									.pause(1000)
-									.getText('h1', function (result3) {
-										if (result3.value === 'H1 com ELSE IF tem a soma igual a 3.') {
-											browser.pause(1000);
-											console.log('Passou no teste');
-										} else {
-											browser.pause(1000);
-											console.log('Falhou!!!');
-											browser.waitForElementVisible('div', 10);
-										}
-									});
-						});
-				}
-			});
-		browser.end();
+			.assert.containsText('h1','H1 with ELSE has the sum equal to 1.')
+			.click('button')
+			.pause(1000)
+			.assert.containsText('h1', 'H1 with IF has the sum equal to 2.')
+			.click('button')
+			.pause(1000)
+			.assert.containsText('h1', 'H1 with ELSE IF has the sum equal to 3.')
+			.pause(1000)
+			.end();
 	}
 };

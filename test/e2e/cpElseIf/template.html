@@ -14,19 +14,19 @@
     <script>
         capivara.component('my-component', {
             template: `
-                <h1 cp-if="$ctrl.contador == 2">H1 com IF tem a soma igual a [[$ctrl.contador]].</h1>
-                <h1 cp-else-if="$ctrl.contador == 3">H1 com ELSE IF tem a soma igual a [[$ctrl.contador]].</h1>
-                <h1 cp-else>H1 com ELSE tem a soma igual a [[$ctrl.contador]].</h1>
+                <h1 cp-if="$ctrl.counter == 2">H1 with IF has the sum equal to [[$ctrl.counter]].</h1>
+                <h1 cp-else-if="$ctrl.counter == 3">H1 with ELSE IF has the sum equal to [[$ctrl.counter]].</h1>
+                <h1 cp-else>H1 with ELSE has the sum equal to [[$ctrl.counter]].</h1>
         
-                <button cp-click="$ctrl.somar()">Clique para Somar</button>
+                <button cp-click="$ctrl.sum()">Click to Sum</button>
             `,
             controller: function(){
                 const $ctrl = this;
         
-                $ctrl.contador = 1;
+                $ctrl.counter = 1;
         
-                $ctrl.somar = function(){
-                    $ctrl.contador +=1;
+                $ctrl.sum = function(){
+                    $ctrl.counter +=1;
                 }
             }
         });

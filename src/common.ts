@@ -45,6 +45,18 @@ export namespace Common {
         return element.getAttribute(Constants.INIT_ATTRIBUTE_NAME);
     }
 
+    export function getAttributeCpMin(element) {
+        return element.getAttribute(Constants.MIN_ATTRIBUTE_NAME);
+    }
+
+    export function getAttributeCpStep(element) {
+        return element.getAttribute(Constants.STEP_ATTRIBUTE_NAME);
+    }
+
+    export function getAttributeCpMax(element) {
+        return element.getAttribute(Constants.MAX_ATTRIBUTE_NAME);
+    }
+
     export function getAttributeCpStyle(element) {
         return element.getAttribute(Constants.STYLE_ATTRIBUTE_NAME);
     }
@@ -73,7 +85,7 @@ export namespace Common {
     export function executeFunctionCallback(element, attribute, evt?) {
         const callback = getCallbackClick(element, attribute);
         if (callback && !isNative(callback)) {
-            const params = attribute.substring(attribute.indexOf('(') + 1, attribute.length - 1), args = [];
+            const params = attribute.substring(attribute.indexOf('(') + 1, attribute.lastIndexOf(')')), args = [];
             let context = getScope(element);
             params.split(',').forEach((param) => {
                 if (param === Constants.EVENT_ATTRIBUTE_NAME) {

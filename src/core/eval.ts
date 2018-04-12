@@ -33,8 +33,10 @@ export namespace Eval {
             }
         });
 
-        return function(str) {
-            return eval(str);
-        }.call(context, source);
+        try {
+            return function(str) {
+                return eval(str);
+            }.call(context, source);
+        } catch (e) {}
     }
 }
