@@ -14,6 +14,7 @@ export class CPRepeat implements Directive {
     private referenceNode;
     private lastArray = [];
     private regex;
+    private elms = [];
 
     constructor(_element: HTMLElement, _map: MapDom) {
         this.element = _element.cloneNode(true);
@@ -29,6 +30,7 @@ export class CPRepeat implements Directive {
         if (this.originalElement.parentNode.replaceChild) {
             this.originalElement.parentNode.replaceChild(this.referenceNode, this.originalElement);
         }
+        Common.appendAfter(this.referenceNode, this.referenceNode.parentNode.appendChild(document.createComment('end repeat ' + this.attribute)));
     }
 
     public create() {
@@ -47,16 +49,11 @@ export class CPRepeat implements Directive {
     }
 
     public removeChildes() {
-        Array.from(this.referenceNode.parentNode.childNodes)
-            .forEach((elm: any) => {
-                if (elm.nodeName === this.originalElement.nodeName || elm.nodeName === '#comment' && elm.data === 'end repeat ' + this.attribute) {
-                    this.referenceNode.parentNode.removeChild(elm);
-                }
-            });
+        this.elms.forEach((elm) => this.referenceNode.parentNode.removeChild(elm));
     }
 
     public loop(array, attributeAlias) {
-        const elms = array.map((row, index) => {
+        this.elms = array.map((row, index) => {
             const elm = this.element.cloneNode(true);
             elm.removeAttribute(Constants.REPEAT_ATTRIBUTE_NAME);
             elm.classList.add('binding-repeat');
@@ -67,7 +64,7 @@ export class CPRepeat implements Directive {
             Common.getScope(elm).mapDom.reload();
             return elm;
         });
-        const shift = elms.shift();
+        const shift = Object.assign([], this.elms).shift();
         if (shift) {
             Common.appendAfter(shift, this.referenceNode.parentNode.appendChild(document.createComment('end repeat ' + this.attribute)));
         }
