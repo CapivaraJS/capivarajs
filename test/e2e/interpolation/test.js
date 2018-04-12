@@ -1,7 +1,7 @@
 module.exports = {
     'interpolation': function (browser) {
-        browser.resizeWindow(1920, 1080);
         browser
+            .resizeWindow(1920, 1080)
             .url('http://localhost:1111/test/e2e/interpolation/template.html')
             .pause(1000)
             .waitForElementVisible('h1', 10000)

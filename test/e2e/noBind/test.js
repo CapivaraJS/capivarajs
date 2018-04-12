@@ -1,7 +1,7 @@
 module.exports = {
     'noBind': function (browser) {
-        browser.resizeWindow(1920, 1080);
         browser
+            .resizeWindow(1920, 1080)
             .url('http://localhost:1111/test/e2e/noBind/template.html')
             .pause(1000)
             .waitForElementVisible('div', 10000)
