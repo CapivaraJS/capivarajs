@@ -5,10 +5,10 @@ import { Directive } from './directive.interface';
 
 export class CPShow  implements Directive {
 
-    private element: any;
+    private readonly element: any;
+    private readonly attribute;
+    private readonly initialDisplay;
     private map: MapDom;
-    private attribute;
-    private initialDisplay;
 
     constructor(_element: HTMLElement, _map: MapDom) {
         this.element = _element;

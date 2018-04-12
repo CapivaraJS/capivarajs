@@ -9,7 +9,9 @@ import { CPIf } from "./directive/cp-if";
 import { CPInit } from "./directive/cp-init";
 import { CPKey } from "./directive/cp-key";
 import { CPMax } from "./directive/cp-max";
+import { CPMaxLength } from "./directive/cp-maxlength";
 import { CPMin } from "./directive/cp-min";
+import { CPMinLength } from "./directive/cp-minlength";
 import { CPModel } from './directive/cp-model';
 import { CPRepeat } from './directive/cp-repeat';
 import { CPShow } from './directive/cp-show';
@@ -46,6 +48,8 @@ export class MapDom {
         cpKeys: [],
         cpMins: [],
         cpMaxs: [],
+        cpMaxsLength: [],
+        cpMinsLength: [],
         cpSteps: [],
     };
 
@@ -127,6 +131,8 @@ export class MapDom {
         if (child.hasAttribute(Constants.MIN_ATTRIBUTE_NAME)) { this.createCPMin(child); }
         if (child.hasAttribute(Constants.MAX_ATTRIBUTE_NAME)) { this.createCPMax(child); }
         if (child.hasAttribute(Constants.STEP_ATTRIBUTE_NAME)) { this.createCPStep(child); }
+        if (child.hasAttribute(Constants.MAX_LENGTH_ATTRIBUTE_NAME)) { this.createCPMaxLength(child); }
+        if (child.hasAttribute(Constants.MIN_LENGTH_ATTRIBUTE_NAME)) { this.createCPMinLength(child); }
     }
 
     public reloadElementChildes(element, initialScope) {
@@ -183,6 +189,12 @@ export class MapDom {
 
         // Update cp step
         this.directives.cpSteps.forEach((cpStep) => cpStep.init());
+
+        // Update cp max length
+        this.directives.cpMaxsLength.forEach((cpMaxLength) => cpMaxLength.init());
+
+        // Update cp min length
+        this.directives.cpMinsLength.forEach((cpMinLength) => cpMinLength.init());
 
         this.processInterpolation(this.element);
     }
@@ -383,6 +395,20 @@ export class MapDom {
      */
     public createCPStep(child) {
         this.directives.cpSteps.push(new CPStep(child, this));
+    }
+
+    /**
+     * @param child Elemento que está sendo criado o bind do max length.
+     */
+    public createCPMaxLength(child) {
+        this.directives.cpMaxsLength.push(new CPMaxLength(child, this));
+    }
+
+    /**
+     * @param child Elemento que está sendo criado o bind do max length.
+     */
+    public createCPMinLength(child) {
+        this.directives.cpMinsLength.push(new CPMinLength(child, this));
     }
 
 }

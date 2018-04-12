@@ -4,7 +4,7 @@ import { Constants } from '../../constants';
 import { MapDom } from '../map-dom';
 import { Directive } from './directive.interface';
 
-export class CPStep implements Directive {
+export class CPMinLength implements Directive {
 
     private readonly element: any;
     private attribute;
@@ -13,9 +13,9 @@ export class CPStep implements Directive {
     constructor(_element: HTMLElement, _map: MapDom) {
         this.element = _element;
         this.map = _map;
-        this.attribute = Common.getAttributeCpStep(this.element);
+        this.attribute = Common.getAttributeCpMinLength(this.element);
         if (this.attribute === undefined) {
-            throw new Error(`syntax error ${Constants.STEP_ATTRIBUTE_NAME} expected arguments`);
+            throw new Error(`syntax error ${Constants.MIN_LENGTH_ATTRIBUTE_NAME} expected arguments`);
         }
     }
 
@@ -28,8 +28,8 @@ export class CPStep implements Directive {
         try {
             const value = Common.evalInContext(this.attribute, Common.getScope(this.element).scope);
             if (value !== undefined) {
-                this.element.setAttribute('step', value);
+                this.element.setAttribute('minlength', value);
             }
-        } catch (e) {}
+        } catch (e) { }
     }
 }

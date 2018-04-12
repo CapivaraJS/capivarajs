@@ -7,13 +7,13 @@ import { Directive } from './directive.interface';
 
 export class CPRepeat implements Directive {
 
+    private readonly attribute;
+    private readonly originalElement;
+    private readonly referenceNode;
+    private readonly regex;
     private map: MapDom;
-    private attribute;
     private element;
-    private originalElement;
-    private referenceNode;
     private lastArray = [];
-    private regex;
     private elms = [];
 
     constructor(_element: HTMLElement, _map: MapDom) {

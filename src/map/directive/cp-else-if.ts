@@ -6,11 +6,11 @@ import { Directive } from './directive.interface';
 
 export class CPElseIf implements Directive {
 
-    private element: any;
+    private readonly element: any;
+    private readonly attribute;
+    private readonly elementComment;
     private map: MapDom;
-    private elementComment;
     private prevElement;
-    private attribute;
     private parentCondition;
     private cpElseIf;
 

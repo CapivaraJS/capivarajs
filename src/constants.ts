@@ -10,6 +10,8 @@ export const Constants = {
     IF_ATTRIBUTE_NAME        : 'cp-if',
     STEP_ATTRIBUTE_NAME      : 'cp-step',
     MAX_ATTRIBUTE_NAME       : 'cp-max',
+    MAX_LENGTH_ATTRIBUTE_NAME: 'cp-maxlength',
+    MIN_LENGTH_ATTRIBUTE_NAME: 'cp-minlength',
     MIN_ATTRIBUTE_NAME       : 'cp-min',
     ELSE_ATTRIBUTE_NAME      : 'cp-else',
     ELSE_IF_ATTRIBUTE_NAME   : 'cp-else-if',

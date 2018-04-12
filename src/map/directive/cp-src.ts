@@ -5,9 +5,9 @@ import { Directive } from './directive.interface';
 
 export class CPSrc implements Directive {
 
-    private element: any;
+    private readonly element: any;
+    private readonly attribute;
     private map: MapDom;
-    private attribute;
     private elementComment;
     private elmScope;
 
