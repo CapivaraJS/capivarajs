@@ -7,6 +7,8 @@ export const Constants = {
     CLICK_ATTRIBUTE_NAME     : 'cp-click',
     SHOW_ATTRIBUTE_NAME      : 'cp-show',
     IF_ATTRIBUTE_NAME        : 'cp-if',
+    MAX_ATTRIBUTE_NAME       : 'cp-max',
+    MIN_ATTRIBUTE_NAME       : 'cp-min',
     ELSE_ATTRIBUTE_NAME      : 'cp-else',
     ELSE_IF_ATTRIBUTE_NAME   : 'cp-else-if',
     INIT_ATTRIBUTE_NAME      : 'cp-init',
