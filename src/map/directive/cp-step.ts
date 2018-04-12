@@ -4,7 +4,7 @@ import { Constants } from '../../constants';
 import { MapDom } from '../map-dom';
 import { Directive } from './directive.interface';
 
-export class CPMax implements Directive {
+export class CPStep implements Directive {
 
     private attribute;
     private element: any;
@@ -13,9 +13,9 @@ export class CPMax implements Directive {
     constructor(_element: HTMLElement, _map: MapDom) {
         this.element = _element;
         this.map = _map;
-        this.attribute = Common.getAttributeCpMax(this.element);
+        this.attribute = Common.getAttributeCpStep(this.element);
         if (this.attribute === undefined) {
-            throw new Error(`syntax error ${Constants.MAX_ATTRIBUTE_NAME} expected arguments`);
+            throw new Error(`syntax error ${Constants.STEP_ATTRIBUTE_NAME} expected arguments`);
         }
     }
 
@@ -28,8 +28,8 @@ export class CPMax implements Directive {
         try {
             const value = Common.evalInContext(this.attribute, Common.getScope(this.element).scope);
             if (value !== undefined) {
-                this.element.setAttribute('max', value);
+                this.element.setAttribute('step', value);
             }
-        } catch (e) { }
+        } catch (e) {}
     }
 }

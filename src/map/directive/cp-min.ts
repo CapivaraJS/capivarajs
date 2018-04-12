@@ -27,7 +27,9 @@ export class CPMin implements Directive {
         this.attribute = this.attribute.replace(/ /g, '');
         try {
             const value = Common.evalInContext(this.attribute, Common.getScope(this.element).scope);
-            this.element.setAttribute('min', value);
+            if (value !== undefined) {
+                this.element.setAttribute('min', value);
+            }
         } catch (e) {}
     }
 }
