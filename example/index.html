@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="app">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>CapivaraJS</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="style.css">
     <style>
         body {
@@ -18,32 +18,13 @@
 
 <body>
 
-    <label>KeyPress Enter</label><br>
-    <input cp-keypress.enter="$ctrl.onEnter($event)" type="text" placeholder="Enter key Press" >
+<label>
+    <input type="text" cp-maxlength="10">
+</label>
 
-    <br><br>
-
-    <label>KeyDown Enter</label> <br>
-    <input type="text" placeholder="Enter key Press" cp-keydown.enter="$ctrl.onEnter($event)">
-
-    <br><br>
-
-    <label>KeyUp Enter</label> <br>
-    <input type="text" placeholder="Enter key Press" cp-keyup.enter="$ctrl.onEnter($event)">
-
-    <br><br>
-
-    <label>All Caracteres</label> <br>
-    <input type="text" placeholder="Enter key Press" cp-keyup="$ctrl.onKey($event)">
-
-    <br><br>
-
-    <label>With number key</label> <br>
-    <input type="text" placeholder="Enter key Press" cp-keyup.13="$ctrl.onEnter($event)">
-    
-    <script src="../dist/capivara.js"></script>
-    <script src="component.js"></script>
-    <script src="app.js"></script>
+<script src="../dist/capivara.js"></script>
+<script src="component.js"></script>
+<script src="app.js"></script>
 </body>
 
 </html>
