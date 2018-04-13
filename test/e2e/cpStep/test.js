@@ -6,7 +6,7 @@ module.exports = {
 			.waitForElementVisible('input', 10000)
 			.pause(1000)
 			.click('input');
-		for (var i = 0; i < 10; i++) {
+		for (let i = 0; i < 10; i++) {
 			browser
 				.sendKeys('input', browser.Keys.UP_ARROW);
 		}
