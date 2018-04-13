@@ -14,7 +14,8 @@
     <script>
         capivara.component('my-component', {
             template: `
-                <input type="number" name="quantity" cp-step="3">
+                <input type="number" name="quantity" cp-step="3" cp-model="number">
+                <h1>[[number]]</h1>
             `
         });
         capivara.componentBuilder('myComponent').build();
