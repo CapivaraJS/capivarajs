@@ -9,12 +9,10 @@ export class CPDisable implements Directive {
     private readonly element: any;
     private readonly attribute;
     private readonly initialDisplay;
-    private map: MapDom;
 
     constructor(_element: HTMLElement, _map: MapDom) {
         this.element = _element;
         this.initialDisplay = this.element.disabled || '';
-        this.map = _map;
         this.attribute = Common.getAttributeCpDisable(this.element);
         if (!this.attribute) {
             throw new Error(`syntax error ${Constants.DISABLE_ATTRIBUTE_NAME} expected arguments`);
