@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="app">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -18,28 +18,7 @@
 
 <body>
 
-    <label>KeyPress Enter</label><br>
-    <input cp-keypress.enter="$ctrl.onEnter($event)" type="text" placeholder="Enter key Press" >
-
-    <br><br>
-
-    <label>KeyDown Enter</label> <br>
-    <input type="text" placeholder="Enter key Press" cp-keydown.enter="$ctrl.onEnter($event)">
-
-    <br><br>
-
-    <label>KeyUp Enter</label> <br>
-    <input type="text" placeholder="Enter key Press" cp-keyup.enter="$ctrl.onEnter($event)">
-
-    <br><br>
-
-    <label>All Caracteres</label> <br>
-    <input type="text" placeholder="Enter key Press" cp-keyup="$ctrl.onKey($event)">
-
-    <br><br>
-
-    <label>With number key</label> <br>
-    <input type="text" placeholder="Enter key Press" cp-keyup.13="$ctrl.onEnter($event)">
+    <button class="btn btn-primary" cp-disable="true">Click me!</button>
     
     <script src="../dist/capivara.js"></script>
     <script src="component.js"></script>

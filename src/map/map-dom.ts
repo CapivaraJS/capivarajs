@@ -3,6 +3,7 @@ import { Common } from '../common';
 import { Constants } from '../constants';
 import { CPClass } from "./directive/cp-class";
 import { CPClick } from './directive/cp-click';
+import { CPDisable } from './directive/cp-disable';
 import { CPElse } from "./directive/cp-else";
 import { CPElseIf } from "./directive/cp-else-if";
 import { CPIf } from "./directive/cp-if";
@@ -22,7 +23,7 @@ export class MapDom {
     /**
      * Elemento principal que está aplicado o escopo
      */
-    private element: HTMLElement;
+    private readonly element: HTMLElement;
 
     private directives = {
         /**
@@ -47,9 +48,10 @@ export class MapDom {
         cpMins: [],
         cpMaxs: [],
         cpSteps: [],
+        cpDisables: [],
     };
 
-    private regexInterpolation;
+    private readonly regexInterpolation;
 
     /**
      * @description variavel boleana que define se o HTML está renderizado na página.
@@ -127,6 +129,7 @@ export class MapDom {
         if (child.hasAttribute(Constants.MIN_ATTRIBUTE_NAME)) { this.createCPMin(child); }
         if (child.hasAttribute(Constants.MAX_ATTRIBUTE_NAME)) { this.createCPMax(child); }
         if (child.hasAttribute(Constants.STEP_ATTRIBUTE_NAME)) { this.createCPStep(child); }
+        if (child.hasAttribute(Constants.DISABLE_ATTRIBUTE_NAME)) { this.createCPDisable(child); }
     }
 
     public reloadElementChildes(element, initialScope) {
@@ -183,6 +186,9 @@ export class MapDom {
 
         // Update cp step
         this.directives.cpSteps.forEach((cpStep) => cpStep.init());
+
+        // Update cp step
+        this.directives.cpDisables.forEach((cpDisable) => cpDisable.init());
 
         this.processInterpolation(this.element);
     }
@@ -383,6 +389,13 @@ export class MapDom {
      */
     public createCPStep(child) {
         this.directives.cpSteps.push(new CPStep(child, this));
+    }
+
+    /**
+     * @param child Elemento que está sendo criado o bind do disable.
+     */
+    public createCPDisable(child) {
+        this.directives.cpDisables.push(new CPDisable(child, this));
     }
 
 }
