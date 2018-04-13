@@ -5,12 +5,14 @@ module.exports = {
 			.url('http://localhost:1111/test/e2e/cpMax/template.html')
 			.waitForElementVisible('input', 10000)
 			.pause(1000)
-			.setValue('input', ' 4')
+			.click('input');
+		for (var i = 0; i < 10; i++) {
+			browser
+				.sendKeys('input', browser.Keys.UP_ARROW);
+		}
+		browser
+			.assert.containsText('h1', '5')
 			.pause(1000)
-			.assert.containsText('input', '4')
-			.click('input')
-			.pause(1000)
-			.assert.containsText('input', '5')
 			.end();
 	}
 };
