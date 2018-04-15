@@ -4,15 +4,13 @@ import { Constants } from '../../constants';
 import { MapDom } from '../map-dom';
 import { Directive } from './directive.interface';
 
-export class CPDisable implements Directive {
+export class CPDisabled implements Directive {
 
     private readonly element: any;
     private readonly attribute;
-    private readonly initialDisplay;
 
     constructor(_element: HTMLElement, _map: MapDom) {
         this.element = _element;
-        this.initialDisplay = this.element.disabled || '';
         this.attribute = Common.getAttributeCpDisable(this.element);
         if (!this.attribute) {
             throw new Error(`syntax error ${Constants.DISABLE_ATTRIBUTE_NAME} expected arguments`);
@@ -32,11 +30,11 @@ export class CPDisable implements Directive {
     }
 
     public elementDisabled() {
-        this.element.disabled = true;
+        this.element.setAttribute('disabled', true);
     }
 
     public elementEnabled() {
-        this.element.disabled = this.initialDisplay;
+        this.element.removeAttribute('disabled');
     }
 
 }

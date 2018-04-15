@@ -3,7 +3,7 @@ import { Common } from '../common';
 import { Constants } from '../constants';
 import { CPClass } from "./directive/cp-class";
 import { CPClick } from './directive/cp-click';
-import { CPDisable } from './directive/cp-disable';
+import { CPDisabled } from './directive/cp-disabled';
 import { CPElse } from "./directive/cp-else";
 import { CPElseIf } from "./directive/cp-else-if";
 import { CPIf } from "./directive/cp-if";
@@ -129,7 +129,7 @@ export class MapDom {
         if (child.hasAttribute(Constants.MIN_ATTRIBUTE_NAME)) { this.createCPMin(child); }
         if (child.hasAttribute(Constants.MAX_ATTRIBUTE_NAME)) { this.createCPMax(child); }
         if (child.hasAttribute(Constants.STEP_ATTRIBUTE_NAME)) { this.createCPStep(child); }
-        if (child.hasAttribute(Constants.DISABLE_ATTRIBUTE_NAME)) { this.createCPDisable(child); }
+        if (child.hasAttribute(Constants.DISABLE_ATTRIBUTE_NAME)) { this.createCPDisabled(child); }
     }
 
     public reloadElementChildes(element, initialScope) {
@@ -394,8 +394,8 @@ export class MapDom {
     /**
      * @param child Elemento que está sendo criado o bind do disable.
      */
-    public createCPDisable(child) {
-        this.directives.cpDisables.push(new CPDisable(child, this));
+    public createCPDisabled(child) {
+        this.directives.cpDisables.push(new CPDisabled(child, this));
     }
 
 }

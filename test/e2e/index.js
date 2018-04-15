@@ -13,5 +13,5 @@ module.exports = Object.assign(
 	require('./interpolation/test'),
 	require('./noBind/test'),
 	require('./cpKey/test'),
-	require('./cpDisable/test')
+	require('./cpDisabled/test')
 );

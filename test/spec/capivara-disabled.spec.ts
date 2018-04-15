@@ -1,10 +1,10 @@
 import {} from 'jasmine';
 import capivara from '../../src/index';
 
-describe('Directive cp-disable', () => {
+describe('Directive cp-disabled', () => {
 
     it('Should check if disable is truth', () => {
-        const template = `<button cp-disable="true" cp-click="$ctrl.addOne()"></button>`;
+        const template = `<button cp-disabled="true" cp-click="$ctrl.addOne()"></button>`;
         const element = document.createElement('div');
         element.innerHTML = template;
         capivara.controller(element, function() {
@@ -23,7 +23,7 @@ describe('Directive cp-disable', () => {
     });
 
     it('Should check if disable is false', () => {
-        const template = `<button cp-disable="false" cp-click="$ctrl.addOne()"></button>`;
+        const template = `<button cp-disabled="false" cp-click="$ctrl.addOne()"></button>`;
         const element = document.createElement('div');
         element.innerHTML = template;
         capivara.controller(element, function() {
@@ -42,7 +42,7 @@ describe('Directive cp-disable', () => {
     });
 
     it('Should update disable value changed', () => {
-        const template = `<button cp-disable="$ctrl.clicked"></button>`;
+        const template = `<button cp-disabled="$ctrl.clicked"></button>`;
         const element = document.createElement('div');
         element.innerHTML = template;
         capivara.controller(element, function() {
@@ -52,16 +52,16 @@ describe('Directive cp-disable', () => {
             };
         });
         setTimeout(function() {
-            expect(element.querySelector('button').hasAttribute('disable')).toEqual(false);
+            expect(element.querySelector('button').hasAttribute('disabled')).toEqual(false);
             element['$instance'].componentScope.$ctrl.clicked = true;
         }, 0);
         setTimeout(function() {
             expect(element.querySelector('button').hasAttribute('disabled')).toEqual(true);
-            element['$instance'].componentScope.$ctrl.clicked = 'false';
+            element['$instance'].componentScope.$ctrl.clicked = false;
         }, 0);
         setTimeout(function() {
             expect(element.querySelector('button').hasAttribute('disabled')).toEqual(false);
-            element['$instance'].componentScope.$ctrl.clicked = 'true';
+            element['$instance'].componentScope.$ctrl.clicked = true;
         }, 0);
         setTimeout(function() {
             expect(element.querySelector('button').hasAttribute('disabled')).toEqual(true);
@@ -89,11 +89,11 @@ describe('Directive cp-disable', () => {
         }, 0);
         setTimeout(function() {
             expect(element.querySelector('button').hasAttribute('disabled')).toEqual(true);
-            element['$instance'].componentScope.$ctrl.clicked = '0';
+            element['$instance'].componentScope.$ctrl.clicked = 0;
         }, 0);
         setTimeout(function() {
             expect(element.querySelector('button').hasAttribute('disabled')).toEqual(false);
-            element['$instance'].componentScope.$ctrl.clicked = '1';
+            element['$instance'].componentScope.$ctrl.clicked = 1;
         }, 0);
         setTimeout(function() {
             expect(element.querySelector('button').hasAttribute('disabled')).toEqual(true);
