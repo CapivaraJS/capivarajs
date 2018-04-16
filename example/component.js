@@ -1,7 +1,7 @@
 capivara.component('my-component', {
 	template: `
-		<input cp-model="$ctrl.$bindings.pessoa.nome"/>
-		<button cp-click="$ctrl.teste()">Teste</button>
+		<input type="date" cp-model="$ctrl.oi"/>
+		[[$ctrl.oi]]
 	`, 
 	bindings: ['pessoa'],
 	controller: function(){

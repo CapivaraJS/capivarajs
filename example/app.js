@@ -12,6 +12,8 @@ capivara.controller(document.body, function () {
 
 	$ctrl.onKey = function(evt){
 		console.log(evt);
-	}
+	};
+
+	capivara.componentBuilder('teste').build();
 
 });
