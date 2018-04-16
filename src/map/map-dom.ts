@@ -1,22 +1,23 @@
 import * as _ from 'lodash';
 import { Common } from '../common';
 import { Constants } from '../constants';
-import { CPClass } from "./directive/cp-class";
+import { CPClass } from './directive/cp-class';
 import { CPClick } from './directive/cp-click';
 import { CPDisabled } from './directive/cp-disabled';
-import { CPElse } from "./directive/cp-else";
-import { CPElseIf } from "./directive/cp-else-if";
-import { CPIf } from "./directive/cp-if";
-import { CPInit } from "./directive/cp-init";
-import { CPKey } from "./directive/cp-key";
-import { CPMax } from "./directive/cp-max";
-import { CPMin } from "./directive/cp-min";
+import { CPElse } from './directive/cp-else';
+import { CPElseIf } from './directive/cp-else-if';
+import { CPFocus } from './directive/cp-focus';
+import { CPIf } from './directive/cp-if';
+import { CPInit } from './directive/cp-init';
+import { CPKey } from './directive/cp-key';
+import { CPMax } from './directive/cp-max';
+import { CPMin } from './directive/cp-min';
 import { CPModel } from './directive/cp-model';
 import { CPRepeat } from './directive/cp-repeat';
 import { CPShow } from './directive/cp-show';
 import { CPSrc } from './directive/cp-src';
-import { CPStep } from "./directive/cp-step";
-import { CPStyle } from "./directive/cp-style";
+import { CPStep } from './directive/cp-step';
+import { CPStyle } from './directive/cp-style';
 
 export class MapDom {
 
@@ -49,6 +50,7 @@ export class MapDom {
         cpMaxs: [],
         cpSteps: [],
         cpDisables: [],
+        cpFocus: [],
     };
 
     private readonly regexInterpolation;
@@ -130,6 +132,7 @@ export class MapDom {
         if (child.hasAttribute(Constants.MAX_ATTRIBUTE_NAME)) { this.createCPMax(child); }
         if (child.hasAttribute(Constants.STEP_ATTRIBUTE_NAME)) { this.createCPStep(child); }
         if (child.hasAttribute(Constants.DISABLE_ATTRIBUTE_NAME)) { this.createCPDisabled(child); }
+        if (child.hasAttribute(Constants.FOCUS_ATTRIBUTE_NAME)) { this.createCPFocus(child); }
     }
 
     public reloadElementChildes(element, initialScope) {
@@ -187,8 +190,11 @@ export class MapDom {
         // Update cp step
         this.directives.cpSteps.forEach((cpStep) => cpStep.init());
 
-        // Update cp step
+        // Update cp disable
         this.directives.cpDisables.forEach((cpDisable) => cpDisable.init());
+
+        // Update cp focus
+        this.directives.cpFocus.forEach((cpFocus) => cpFocus.init());
 
         this.processInterpolation(this.element);
     }
@@ -398,4 +404,10 @@ export class MapDom {
         this.directives.cpDisables.push(new CPDisabled(child, this));
     }
 
+    /**
+     * @param child Elemento que está sendo criado o bind do focus.
+     */
+    public createCPFocus(child) {
+        this.directives.cpFocus.push(new CPFocus(child, this));
+    }
 }

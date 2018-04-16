@@ -22,4 +22,5 @@ export const Constants = {
     START_INTERPOLATION      : '[[',
     END_INTERPOLATION        : ']]',
     IGNORE_BINDINGS          : 'cp-non-bindable',
+    FOCUS_ATTRIBUTE_NAME     : 'cp-focus',
 };
