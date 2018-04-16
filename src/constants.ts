@@ -18,6 +18,7 @@ export const Constants = {
     CLASS_ATTRIBUTE_NAME     : 'cp-class',
     SRC_ATTRIBUTE_NAME       : 'cp-src',
     KEY_ATTRIBUTE_NAME       : 'cp-key',
+    DISABLE_ATTRIBUTE_NAME   : 'cp-disabled',
     START_INTERPOLATION      : '[[',
     END_INTERPOLATION        : ']]',
     IGNORE_BINDINGS          : 'cp-non-bindable',
