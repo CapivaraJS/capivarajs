@@ -3,7 +3,7 @@ export const Constants = {
     EVENT_ATTRIBUTE_NAME     : '$event',
     REPEAT_ATTRIBUTE_NAME    : 'cp-repeat',
     REPEAT_INDEX_NAME        : '$index',
-    REPEAT_ATTRIBUTE_OPERATOR: ' in ',
+    REPEAT_ATTRIBUTE_OPERATOR: 'in',
     MODEL_ATTRIBUTE_NAME     : 'cp-model',
     CLICK_ATTRIBUTE_NAME     : 'cp-click',
     SHOW_ATTRIBUTE_NAME      : 'cp-show',
