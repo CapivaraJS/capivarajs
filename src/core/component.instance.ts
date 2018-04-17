@@ -104,11 +104,9 @@ export class ComponentInstance {
 
     public applyBindings() {
         (this.config.bindings || []).forEach((key) => {
-            if (this.bindingsValue[key] !== undefined) {
-                this.setAttributeValue(this.bindingsValue, key);
-                this.createObserverContext(this.bindingsValue, key);
-                this.createObserverScope(this.bindingsValue, key);
-            }
+            this.setAttributeValue(this.bindingsValue, key);
+            this.createObserverContext(this.bindingsValue, key);
+            this.createObserverScope(this.bindingsValue, key);
         });
     }
 
@@ -116,11 +114,11 @@ export class ComponentInstance {
     * @description Observa o componente quando houver alteração é modificado o contexto
     */
     public createObserverScope(_bindings, key) {
-        WatchJS.watch(Common.getScope(this.element).scope[this.config.controllerAs]['$bindings'], key,
-            () => {
-                _.set(this.contextObj, _bindings[key], Common.getScope(this.element).scope[this.config.controllerAs]['$bindings'][key]);
-                Common.getScope(this.element).mapDom.reload();
-            });
+        const $ctrl = Common.getScope(this.element).scope[this.config.controllerAs];
+
+        $ctrl.$$checkBindings = (changes) => {
+            _.set(this.contextObj, _bindings[key], $ctrl['$bindings'][key]);
+        };
 
         WatchJS.watch(Common.getScope(this.element).scope['$bindings'], key,
             () => {

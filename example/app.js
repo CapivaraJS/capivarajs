@@ -1,8 +1,17 @@
 capivara.controller(document.body, function () {
 	const $ctrl = this;
 
-	$ctrl.teste = function() {
-		console.log('FOCOU!');
+	let pessoa = {};
+
+	capivara.componentBuilder('teste')
+		.context(pessoa)
+		.bindings({
+			cpModel: 'nome'
+		})
+		.build();
+
+	$ctrl.oi = () => {
+		pessoa.nome = "Mateus"
 	};
 
 });

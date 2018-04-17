@@ -1,18 +1,17 @@
 capivara.component('my-component', {
 	template: `
-		<input type="date" cp-model="$ctrl.oi"/>
-		[[$ctrl.oi]]
+		<input type="text" cp-model="$ctrl.$bindings.cpModel"/>
 	`, 
-	bindings: ['pessoa'],
+	bindings: ['cpModel'],
 	controller: function(){
 		const $ctrl = this;
 
 		$ctrl.teste = () => {
-			$ctrl.$bindings.pessoa.nome = 'João';
+			// $ctrl.$bindings.pessoa.nome = 'João';
 		};
 
-		$ctrl.$onChanges = () => {
-			// console.log(changes);
+		$ctrl.$onChanges = (changes) => {
+			// console.log('outro jesus', changes);
 		};
 
 	}
