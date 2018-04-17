@@ -14,9 +14,19 @@
     <script>
         capivara.component('my-component', {
             template: `
-                
+            <input type="text" cp-focus="$ctrl.focused()">
+            <br><h1>[[$ctrl.test]]</h1>
             `,
             controller: function(){
+                const $ctrl = this;
+
+                $ctrl.test = "Input not Focused"
+
+                $ctrl.focused = function(){
+                    console.log('oi')
+                    $ctrl.test = "Input focused";
+                }
+
             }
         });
 
