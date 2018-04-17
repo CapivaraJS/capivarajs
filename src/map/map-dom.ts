@@ -8,6 +8,7 @@ import { CPDisabled } from './directive/cp-disabled';
 import { CPElse } from './directive/cp-else';
 import { CPElseIf } from './directive/cp-else-if';
 import { CPFocus } from './directive/cp-focus';
+import { CPHide } from './directive/cp-hide';
 import { CPIf } from './directive/cp-if';
 import { CPInit } from './directive/cp-init';
 import { CPKey } from './directive/cp-key';
@@ -52,6 +53,7 @@ export class MapDom {
         cpSteps: [],
         cpDisables: [],
         cpFocus: [],
+        cpHide: [],
         cpBlur: [],
     };
 
@@ -135,6 +137,7 @@ export class MapDom {
         if (child.hasAttribute(Constants.STEP_ATTRIBUTE_NAME)) { this.createCPStep(child); }
         if (child.hasAttribute(Constants.DISABLE_ATTRIBUTE_NAME)) { this.createCPDisabled(child); }
         if (child.hasAttribute(Constants.FOCUS_ATTRIBUTE_NAME)) { this.createCPFocus(child); }
+        if (child.hasAttribute(Constants.HIDE_ATTRIBUTE_NAME)) { this.createCPHide(child); }
         if (child.hasAttribute(Constants.BLUR_ATTRIBUTE_NAME)) { this.createCPBlur(child); }
     }
 
@@ -198,6 +201,9 @@ export class MapDom {
 
         // Update cp focus
         this.directives.cpFocus.forEach((cpFocus) => cpFocus.init());
+
+        // Update cp hide
+        this.directives.cpHide.forEach((cpHide) => cpHide.init());
 
         // Update cp blur
         this.directives.cpBlur.forEach((cpBlur) => cpBlur.init());
@@ -418,9 +424,17 @@ export class MapDom {
     }
 
     /**
+     * @param child Elemento que está sendo criado o bind do hide.
+     */
+    public createCPHide(child) {
+        this.directives.cpHide.push(new CPHide(child, this));
+    }
+
+    /**
      * @param child Elemento que está sendo criado o bind do blur.
      */
     public createCPBlur(child) {
         this.directives.cpBlur.push(new CPBlur(child, this));
+
     }
 }

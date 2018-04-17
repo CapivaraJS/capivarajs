@@ -77,6 +77,10 @@ export namespace Common {
         return element.getAttribute(Constants.FOCUS_ATTRIBUTE_NAME);
     }
 
+    export function getAttributeCpHide(element) {
+        return element.getAttribute(Constants.HIDE_ATTRIBUTE_NAME);
+    }
+
     export function getAttributeCpBlur(element) {
         return element.getAttribute(Constants.BLUR_ATTRIBUTE_NAME);
     }

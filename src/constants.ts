@@ -23,5 +23,6 @@ export const Constants = {
     END_INTERPOLATION        : ']]',
     IGNORE_BINDINGS          : 'cp-non-bindable',
     FOCUS_ATTRIBUTE_NAME     : 'cp-focus',
+    HIDE_ATTRIBUTE_NAME      : 'cp-hide',
     BLUR_ATTRIBUTE_NAME      : 'cp-blur',
 };
