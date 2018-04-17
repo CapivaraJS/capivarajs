@@ -14,5 +14,6 @@ module.exports = Object.assign(
 	require('./noBind/test'),
 	require('./cpKey/test'),
 	require('./cpDisabled/test'),
-	require('./cpFocus/test')
+	require('./cpFocus/test'),
+	require('./cpHide/test')
 );
