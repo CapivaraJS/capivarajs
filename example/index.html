@@ -18,7 +18,10 @@
 
 <body>
 
-    <input cp-focus="$ctrl.teste()">
+    <input cp-focus="$ctrl.teste()" cp-blur="$ctrl.destroi()">
+    <div cp-if="$ctrl.opened">
+        <h1>Hello</h1>
+    </div>
 
     <script src="../dist/capivara.js"></script>
     <script src="component.js"></script>
