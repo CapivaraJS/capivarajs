@@ -418,7 +418,7 @@ export class MapDom {
     }
 
     /**
-     * @param child Elemento que está sendo criado o bind do focus.
+     * @param child Elemento que está sendo criado o bind do blur.
      */
     public createCPBlur(child) {
         this.directives.cpBlur.push(new CPBlur(child, this));
