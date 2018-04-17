@@ -22,7 +22,7 @@ export class ComponentInstance {
         this.element = _element;
         this.element.$instance = this;
         this.config = _config;
-        this.config.controller = this.config.controller || function() {};
+        this.config.controller = this.config.controller || function () { };
         if (this.config.template) {
             this.element.innerHTML = this.config.template;
         }
@@ -104,7 +104,7 @@ export class ComponentInstance {
 
     public applyBindings() {
         (this.config.bindings || []).forEach((key) => {
-            if (this.bindingsValue[key]) {
+            if (this.bindingsValue[key] !== undefined) {
                 this.setAttributeValue(this.bindingsValue, key);
                 this.createObserverContext(this.bindingsValue, key);
                 this.createObserverScope(this.bindingsValue, key);
@@ -161,11 +161,9 @@ export class ComponentInstance {
 
     public applyContains() {
         (this.config.constants || []).forEach((key) => {
-            if (this.constantsValue[key]) {
-                _.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$constants.' + key, this.constantsValue[key]);
-                // Mantém compatibilidade
-                _.set(Common.getScope(this.element).scope, '$constants.' + key, this.constantsValue[key]);
-            }
+            _.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$constants.' + key, this.constantsValue[key]);
+            // Mantém compatibilidade
+            _.set(Common.getScope(this.element).scope, '$constants.' + key, this.constantsValue[key]);
         });
     }
 
@@ -176,11 +174,9 @@ export class ComponentInstance {
 
     public applyFunctions() {
         (this.config.functions || []).forEach((key) => {
-            if (this.functionsValue[key]) {
-                _.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$functions.' + key, this.functionsValue[key]);
-                // Mantém compatibilidade
-                _.set(Common.getScope(this.element).scope, '$functions.' + key, this.functionsValue[key]);
-            }
+            _.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$functions.' + key, this.functionsValue[key]);
+            // Mantém compatibilidade
+            _.set(Common.getScope(this.element).scope, '$functions.' + key, this.functionsValue[key]);
         });
     }
 
