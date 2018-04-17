@@ -18033,7 +18033,7 @@ module.exports = function(module) {
 /*! exports provided: name, version, description, main, repository, scripts, author, license, dependencies, keywords, nyc, devDependencies, default */
 /***/ (function(module) {
 
-module.exports = {"name":"capivarajs","version":"1.11.4","description":"Um framework para criação de componentes.","main":"./index.js","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"npm run test-single && webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./webpack.config.js --env.tests true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^9.6.4","babel-loader":"^7.1.4","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.0","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.8","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.20.3","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.3.0","webpack-cli":"^2.0.13","webpack-dev-server":"^3.1.1"}};
+module.exports = {"name":"capivarajs","version":"1.11.6","description":"Um framework para criação de componentes.","main":"./index.js","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"npm run test-single && webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./webpack.config.js --env.tests true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^9.6.4","babel-loader":"^7.1.4","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.0","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.8","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.20.3","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.3.0","webpack-cli":"^2.0.13","webpack-dev-server":"^3.1.1"}};
 
 /***/ }),
 
@@ -18587,11 +18587,9 @@ var ComponentInstance = /** @class */ (function () {
     ComponentInstance.prototype.applyBindings = function () {
         var _this = this;
         (this.config.bindings || []).forEach(function (key) {
-            if (_this.bindingsValue[key]) {
-                _this.setAttributeValue(_this.bindingsValue, key);
-                _this.createObserverContext(_this.bindingsValue, key);
-                _this.createObserverScope(_this.bindingsValue, key);
-            }
+            _this.setAttributeValue(_this.bindingsValue, key);
+            _this.createObserverContext(_this.bindingsValue, key);
+            _this.createObserverScope(_this.bindingsValue, key);
         });
     };
     /**
@@ -18599,10 +18597,10 @@ var ComponentInstance = /** @class */ (function () {
     */
     ComponentInstance.prototype.createObserverScope = function (_bindings, key) {
         var _this = this;
-        melanke_watchjs__WEBPACK_IMPORTED_MODULE_1___default.a.watch(_common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(this.element).scope[this.config.controllerAs]['$bindings'], key, function () {
-            lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_this.contextObj, _bindings[key], _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).scope[_this.config.controllerAs]['$bindings'][key]);
-            _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).mapDom.reload();
-        });
+        var $ctrl = _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(this.element).scope[this.config.controllerAs];
+        $ctrl.$$checkBindings = function (changes) {
+            lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_this.contextObj, _bindings[key], $ctrl['$bindings'][key]);
+        };
         melanke_watchjs__WEBPACK_IMPORTED_MODULE_1___default.a.watch(_common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(this.element).scope['$bindings'], key, function () {
             lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_this.contextObj, _bindings[key], _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).scope['$bindings'][key]);
             _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).mapDom.reload();
@@ -18637,11 +18635,9 @@ var ComponentInstance = /** @class */ (function () {
     ComponentInstance.prototype.applyContains = function () {
         var _this = this;
         (this.config.constants || []).forEach(function (key) {
-            if (_this.constantsValue[key]) {
-                lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).scope, _this.config.controllerAs + '.$constants.' + key, _this.constantsValue[key]);
-                // Mantém compatibilidade
-                lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).scope, '$constants.' + key, _this.constantsValue[key]);
-            }
+            lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).scope, _this.config.controllerAs + '.$constants.' + key, _this.constantsValue[key]);
+            // Mantém compatibilidade
+            lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).scope, '$constants.' + key, _this.constantsValue[key]);
         });
     };
     ComponentInstance.prototype.functions = function (_functions) {
@@ -18651,11 +18647,9 @@ var ComponentInstance = /** @class */ (function () {
     ComponentInstance.prototype.applyFunctions = function () {
         var _this = this;
         (this.config.functions || []).forEach(function (key) {
-            if (_this.functionsValue[key]) {
-                lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).scope, _this.config.controllerAs + '.$functions.' + key, _this.functionsValue[key]);
-                // Mantém compatibilidade
-                lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).scope, '$functions.' + key, _this.functionsValue[key]);
-            }
+            lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).scope, _this.config.controllerAs + '.$functions.' + key, _this.functionsValue[key]);
+            // Mantém compatibilidade
+            lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).scope, '$functions.' + key, _this.functionsValue[key]);
         });
     };
     return ComponentInstance;
@@ -20649,11 +20643,15 @@ var ScopeProxy = /** @class */ (function () {
                 _core_observer__WEBPACK_IMPORTED_MODULE_0__["Observe"].observe(objectObserve[_this.element['$instance'].config.controllerAs], function (changes) {
                     _this.mapDom.reload();
                     objectObserve.scope.$emit('$onChanges', changes);
-                    if (objectObserve[_this.element['$instance'].config.controllerAs]['$onChanges']) {
-                        objectObserve[_this.element['$instance'].config.controllerAs]['$onChanges'](changes);
-                    }
+                    _this.executeObservers(objectObserve, '$onChanges', changes);
+                    _this.executeObservers(objectObserve, '$$checkBindings', changes);
                 });
             });
+        }
+    };
+    ScopeProxy.prototype.executeObservers = function (objectObserve, observeName, changes) {
+        if (objectObserve[this.element['$instance'].config.controllerAs][observeName]) {
+            objectObserve[this.element['$instance'].config.controllerAs][observeName](changes);
         }
     };
     return ScopeProxy;
