@@ -14,16 +14,16 @@
     <script>
         capivara.component('my-component', {
             template: `
-            <input type="text" cp-focus="$ctrl.focused()">
+            <input type="text" cp-blur="$ctrl.blured()">
             <br><h1>[[$ctrl.test]]</h1>
             `,
             controller: function(){
                 const $ctrl = this;
 
-                $ctrl.test = "Input not Focused"
+                $ctrl.test = "False"
 
-                $ctrl.focused = function(){
-                    $ctrl.test = "Input focused";
+                $ctrl.blured = function(){
+                    $ctrl.test = "True";
                 }
 
             }

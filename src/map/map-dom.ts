@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import { Common } from '../common';
 import { Constants } from '../constants';
+import { CPBlur } from './directive/cp-blur';
 import { CPClass } from './directive/cp-class';
 import { CPClick } from './directive/cp-click';
 import { CPDisabled } from './directive/cp-disabled';
@@ -51,6 +52,7 @@ export class MapDom {
         cpSteps: [],
         cpDisables: [],
         cpFocus: [],
+        cpBlur: [],
     };
 
     private readonly regexInterpolation;
@@ -133,6 +135,7 @@ export class MapDom {
         if (child.hasAttribute(Constants.STEP_ATTRIBUTE_NAME)) { this.createCPStep(child); }
         if (child.hasAttribute(Constants.DISABLE_ATTRIBUTE_NAME)) { this.createCPDisabled(child); }
         if (child.hasAttribute(Constants.FOCUS_ATTRIBUTE_NAME)) { this.createCPFocus(child); }
+        if (child.hasAttribute(Constants.BLUR_ATTRIBUTE_NAME)) { this.createCPBlur(child); }
     }
 
     public reloadElementChildes(element, initialScope) {
@@ -195,6 +198,9 @@ export class MapDom {
 
         // Update cp focus
         this.directives.cpFocus.forEach((cpFocus) => cpFocus.init());
+
+        // Update cp blur
+        this.directives.cpBlur.forEach((cpBlur) => cpBlur.init());
 
         this.processInterpolation(this.element);
     }
@@ -409,5 +415,12 @@ export class MapDom {
      */
     public createCPFocus(child) {
         this.directives.cpFocus.push(new CPFocus(child, this));
+    }
+
+    /**
+     * @param child Elemento que está sendo criado o bind do focus.
+     */
+    public createCPBlur(child) {
+        this.directives.cpBlur.push(new CPBlur(child, this));
     }
 }
