@@ -284,11 +284,11 @@ export class MapDom {
     public alternativeInterpolation(childNode) {
         if (!childNode.$immutableInterpolation) {
             let nodeModified = childNode.originalValue;
-            (childNode.nodeValue.match(/\${.+?\}/g) || []).forEach((key) => {
+            (nodeModified.match(/\${.+?\}/g) || []).forEach((key) => {
                 const content = key.replace('${', '').replace('}', '');
-                // console.log(key);
                 try {
                     const evalValue = this.getInterpolationValue(content, childNode, '$ctrl');
+                    console.log(evalValue);
                     nodeModified = nodeModified.replace(key, evalValue);
                     childNode.nodeValue = nodeModified;
                 } catch (e) { }

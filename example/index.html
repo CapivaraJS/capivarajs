@@ -18,13 +18,15 @@
 
 <body>
 
-    <h1> ${ numero1 + numero2 + 15 } </h1>
+    <h1> ${ numero1 + numero2 } </h1>
 
-    <!-- <h1> [[ $ctrl.numero1 + $ctrl.numero2 ]] - [[ $ctrl.numero1 + $ctrl.numero2 + 15 ]] </h1> -->
+    <button cp-click="$ctrl.teste()">
+        Testar
+    </button>
 
-    <script src="../dist/capivara.js"></script>
-    <script src="component.js"></script>
-    <script src="app.js"></script>
+    <script defer src="../dist/capivara.js"></script>
+    <script defer src="component.js"></script>
+    <script defer src="app.js"></script>
 </body>
 
 </html>
