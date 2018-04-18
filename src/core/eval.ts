@@ -19,24 +19,30 @@ export namespace Eval {
         return getPreviousSize(currentIndex, 0);
     }
 
-    export function exec(source, context) {
-        const referenceSelf = 'this.', regex = /\$*[a-z0-9.$]+\s*/gi, keys = source.match(regex);
+    export function isVariable(str = '') {
+        const firstChar = str.charAt(0);
+        return /[a-zA-Z]/g.test(firstChar)
+                || firstChar === '$'
+                || firstChar === '_';
+    }
 
+    export function exec(source, context, prefix = '') {
+        const referenceSelf = `this.${prefix ? prefix += '.' : ''}`, regex = /\$*[a-z0-9.$]+\s*/gi, keys = source.match(regex);
         keys.forEach((str, i) => {
             const key = str.replace(/\s/g, ''),
                 indexStart = getIndexStart(keys, i);
             const indexEnd = indexStart + source.substring(indexStart, source.length).indexOf(key) + key.length;
             if (!key.includes(referenceSelf)) {
-                if (context.hasOwnProperty(Common.getFirstKey(key))) {
-                    source = replaceAt(source, key, `this.${key}`, indexStart, indexEnd);
+                const isVar = !prefix.trim() ? context.hasOwnProperty(Common.getFirstKey(key)) : isVariable(key);
+                if (isVar) {
+                    source = replaceAt(source, key, `${referenceSelf}${key}`, indexStart, indexEnd);
                 }
             }
         });
-
         try {
             return function(str) {
                 return eval(str);
             }.call(context, source);
-        } catch (e) {}
+        } catch (e) { }
     }
 }

@@ -1,17 +1,11 @@
 capivara.controller(document.body, function () {
 	const $ctrl = this;
 
-	$ctrl.pessoa = {
-		nome: 'Mateus'
-	};
+	$ctrl.numero1 = 20;
+	$ctrl.numero2 = 20;
 
-	$ctrl.onEnter = function(evt){
-		evt.stopPropagation();
-		console.log('Apertou a tecla ENTER', evt);
-	};
-
-	$ctrl.onKey = function(evt){
-		console.log(evt);
+	$ctrl.teste = () => {
+		$ctrl.numero2 = 30;
 	}
 
 });

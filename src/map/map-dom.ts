@@ -1,29 +1,33 @@
 import * as _ from 'lodash';
 import { Common } from '../common';
 import { Constants } from '../constants';
-import { CPClass } from "./directive/cp-class";
+import { CPBlur } from './directive/cp-blur';
+import { CPClass } from './directive/cp-class';
 import { CPClick } from './directive/cp-click';
-import { CPElse } from "./directive/cp-else";
-import { CPElseIf } from "./directive/cp-else-if";
-import { CPIf } from "./directive/cp-if";
-import { CPInit } from "./directive/cp-init";
-import { CPKey } from "./directive/cp-key";
-import { CPMax } from "./directive/cp-max";
+import { CPDisabled } from './directive/cp-disabled';
+import { CPElse } from './directive/cp-else';
+import { CPElseIf } from './directive/cp-else-if';
+import { CPFocus } from './directive/cp-focus';
+import { CPHide } from './directive/cp-hide';
+import { CPIf } from './directive/cp-if';
+import { CPInit } from './directive/cp-init';
+import { CPKey } from './directive/cp-key';
+import { CPMax } from './directive/cp-max';
 import { CPMaxLength } from "./directive/cp-maxlength";
-import { CPMin } from "./directive/cp-min";
+import { CPMin } from './directive/cp-min';
 import { CPModel } from './directive/cp-model';
 import { CPRepeat } from './directive/cp-repeat';
 import { CPShow } from './directive/cp-show';
 import { CPSrc } from './directive/cp-src';
-import { CPStep } from "./directive/cp-step";
-import { CPStyle } from "./directive/cp-style";
+import { CPStep } from './directive/cp-step';
+import { CPStyle } from './directive/cp-style';
 
 export class MapDom {
 
     /**
      * Elemento principal que está aplicado o escopo
      */
-    private element: HTMLElement;
+    private readonly element: HTMLElement;
 
     private directives = {
         /**
@@ -49,9 +53,13 @@ export class MapDom {
         cpMaxs: [],
         cpMaxsLength: [],
         cpSteps: [],
+        cpDisables: [],
+        cpFocus: [],
+        cpHide: [],
+        cpBlur: [],
     };
 
-    private regexInterpolation;
+    private readonly regexInterpolation;
 
     /**
      * @description variavel boleana que define se o HTML está renderizado na página.
@@ -130,6 +138,10 @@ export class MapDom {
         if (child.hasAttribute(Constants.MAX_ATTRIBUTE_NAME)) { this.createCPMax(child); }
         if (child.hasAttribute(Constants.STEP_ATTRIBUTE_NAME)) { this.createCPStep(child); }
         if (child.hasAttribute(Constants.MAX_LENGTH_ATTRIBUTE_NAME)) { this.createCPMaxLength(child); }
+        if (child.hasAttribute(Constants.DISABLE_ATTRIBUTE_NAME)) { this.createCPDisabled(child); }
+        if (child.hasAttribute(Constants.FOCUS_ATTRIBUTE_NAME)) { this.createCPFocus(child); }
+        if (child.hasAttribute(Constants.HIDE_ATTRIBUTE_NAME)) { this.createCPHide(child); }
+        if (child.hasAttribute(Constants.BLUR_ATTRIBUTE_NAME)) { this.createCPBlur(child); }
     }
 
     public reloadElementChildes(element, initialScope) {
@@ -190,6 +202,18 @@ export class MapDom {
         // Update cp max length
         this.directives.cpMaxsLength.forEach((cpMaxLength) => cpMaxLength.init());
 
+        // Update cp disable
+        this.directives.cpDisables.forEach((cpDisable) => cpDisable.init());
+
+        // Update cp focus
+        this.directives.cpFocus.forEach((cpFocus) => cpFocus.init());
+
+        // Update cp hide
+        this.directives.cpHide.forEach((cpHide) => cpHide.init());
+
+        // Update cp blur
+        this.directives.cpBlur.forEach((cpBlur) => cpBlur.init());
+
         this.processInterpolation(this.element);
     }
 
@@ -216,6 +240,15 @@ export class MapDom {
         return (str + '').replace(new RegExp(`\\s+${word}\\s+|${word}\\s+|\\s+${word}|${word}$`, 'gi'), '');
     }
 
+    public getInterpolationValue(content, childNode, prefix?) {
+        let evalValue = Common.evalInContext(content.trim().startsWith(':') ? content.trim().slice(1) : content, Common.getScopeParent(childNode), prefix);
+        evalValue = MapDom.removeWordFromStr(evalValue, 'null');
+        evalValue = MapDom.removeWordFromStr(evalValue, 'undefined');
+        evalValue = MapDom.removeWordFromStr(evalValue, 'NaN');
+        evalValue = evalValue !== undefined ? evalValue : '';
+        return evalValue;
+    }
+
     /**
      * @description Função que modifica o texto da interpolação pelo determinado valor.
      * @param childNode
@@ -224,7 +257,6 @@ export class MapDom {
         if (childNode.nodeName === '#text' && !Common.parentHasIgnore(childNode)) {
             childNode.$immutableInterpolation = childNode.$immutableInterpolation || false;
             if (childNode.$immutableInterpolation) { return; }
-
             childNode.originalValue = childNode.originalValue || childNode.nodeValue;
             let nodeModified = childNode.originalValue, str = childNode.originalValue;
             str = window['capivara'].replaceAll(str, Constants.START_INTERPOLATION, '{{');
@@ -234,14 +266,10 @@ export class MapDom {
                 const content = key.replace('{{', '').replace('}}', '');
                 if (!childNode.$immutableInterpolation) {
                     try {
-                        let evalValue = Common.evalInContext(content.trim().startsWith(':') ? content.trim().slice(1) : content, Common.getScopeParent(childNode));
-                        evalValue = MapDom.removeWordFromStr(evalValue, 'null');
-                        evalValue = MapDom.removeWordFromStr(evalValue, 'undefined');
-                        evalValue = MapDom.removeWordFromStr(evalValue, 'NaN');
-                        const value = evalValue !== undefined ? evalValue : '';
+                        const evalValue = this.getInterpolationValue(content, childNode);
                         key = window['capivara'].replaceAll(key, '{{', Constants.START_INTERPOLATION);
                         key = window['capivara'].replaceAll(key, '}}', Constants.END_INTERPOLATION);
-                        nodeModified = nodeModified.replace(key, value);
+                        nodeModified = nodeModified.replace(key, evalValue);
                         childNode.nodeValue = nodeModified;
                     } catch (e) { }
                 }
@@ -251,10 +279,25 @@ export class MapDom {
             });
 
             childNode.nodeValue = childNode.nodeValue.replace(this.regexInterpolation, '');
+            this.alternativeInterpolation(childNode);
 
         }
         if (childNode.childNodes) {
             this.processInterpolation(childNode);
+        }
+    }
+
+    public alternativeInterpolation(childNode) {
+        if (!childNode.$immutableInterpolation) {
+            let nodeModified = childNode.originalValue;
+            (nodeModified.match(/\${.+?}/g) || []).forEach((key) => {
+                const content = key.replace('${', '').replace('}', '');
+                try {
+                    const evalValue = this.getInterpolationValue(content, childNode, '$ctrl');
+                    nodeModified = nodeModified.replace(key, evalValue);
+                    childNode.nodeValue = nodeModified;
+                } catch (e) { }
+            });
         }
     }
 
@@ -398,4 +441,32 @@ export class MapDom {
         this.directives.cpMaxsLength.push(new CPMaxLength(child, this));
     }
 
+    /**
+     * @param child Elemento que está sendo criado o bind do disable.
+     */
+    public createCPDisabled(child) {
+        this.directives.cpDisables.push(new CPDisabled(child, this));
+    }
+
+    /**
+     * @param child Elemento que está sendo criado o bind do focus.
+     */
+    public createCPFocus(child) {
+        this.directives.cpFocus.push(new CPFocus(child, this));
+    }
+
+    /**
+     * @param child Elemento que está sendo criado o bind do hide.
+     */
+    public createCPHide(child) {
+        this.directives.cpHide.push(new CPHide(child, this));
+    }
+
+    /**
+     * @param child Elemento que está sendo criado o bind do blur.
+     */
+    public createCPBlur(child) {
+        this.directives.cpBlur.push(new CPBlur(child, this));
+
+    }
 }

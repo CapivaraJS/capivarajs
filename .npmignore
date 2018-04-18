@@ -4,3 +4,5 @@ example
 tsconfig.json
 .babelrc
 webpack.config
+coverage
+test

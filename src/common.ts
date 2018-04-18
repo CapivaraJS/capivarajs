@@ -13,10 +13,11 @@ export namespace Common {
      * @description Executa o eval alterando as propriedades do source para seus determinados valores dentro do contexto.
      * @param source
      * @param context
+     * @param prefix
      */
-    export function evalInContext(source, context: any) {
+    export function evalInContext(source, context: any, prefix?) {
         if (source) {
-            return Eval.exec(source, context);
+            return Eval.exec(source, context, prefix);
         }
     }
 
@@ -71,6 +72,22 @@ export namespace Common {
 
     export function getAttributeCpSrc(element) {
         return element.getAttribute(Constants.SRC_ATTRIBUTE_NAME);
+    }
+
+    export function getAttributeCpDisable(element) {
+        return element.getAttribute(Constants.DISABLE_ATTRIBUTE_NAME);
+    }
+
+    export function getAttributeCpFocus(element) {
+        return element.getAttribute(Constants.FOCUS_ATTRIBUTE_NAME);
+    }
+
+    export function getAttributeCpHide(element) {
+        return element.getAttribute(Constants.HIDE_ATTRIBUTE_NAME);
+    }
+
+    export function getAttributeCpBlur(element) {
+        return element.getAttribute(Constants.BLUR_ATTRIBUTE_NAME);
     }
 
     export function getScope(element) {

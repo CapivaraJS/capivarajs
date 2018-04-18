@@ -1,27 +1,40 @@
-import { } from 'jasmine';
+import {} from 'jasmine';
 import capivara from '../../src/index';
 
-describe('test model scope to field', () => {
-    const template = `
-        <p></p>
+describe('Directive cp-maxlength', () => {
+
+    it("Expected field maxLength are equal to 10", function(done) {
+        const template = `
         <input type="text" cp-maxlength="10"/>
     `;
-    const element = document.createElement('div');
-    element.innerHTML = template;
-    capivara.controller(element, function() {
-        const $ctrl = this;
-        $ctrl.$onInit = () => {
-            $ctrl.name = 'Capivara J';
-
-            it("Expected field value is equal to scope", function(done) {
+        const element = document.createElement('div');
+        element.innerHTML = template;
+        capivara.controller(element, function() {
+            const $ctrl = this;
+            $ctrl.$onInit = () => {
                 setTimeout(function() {
-                    element.querySelector('input').value = $ctrl.name;
-                    element.querySelector('p').innerHTML = element.querySelector('input').value;
-                    expect(element.querySelector('p').innerHTML.length).toEqual($ctrl.name.length);
+                    expect(element.querySelector('input').maxLength).toEqual(10);
                     done();
                 });
-            });
+            };
+        });
+    });
 
-        };
+    it("Expected field maxLength are equal to the local variable", function(done) {
+        const template = `
+        <input type="text" cp-maxlength="$ctrl.max"/>
+    `;
+        const element = document.createElement('div');
+        element.innerHTML = template;
+        capivara.controller(element, function() {
+            const $ctrl = this;
+            $ctrl.max = 20;
+            $ctrl.$onInit = () => {
+                setTimeout(function() {
+                    expect(element.querySelector('input').maxLength).toEqual($ctrl.max);
+                    done();
+                });
+            };
+        });
     });
 });
