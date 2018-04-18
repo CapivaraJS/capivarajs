@@ -18033,7 +18033,7 @@ module.exports = function(module) {
 /*! exports provided: name, version, description, main, repository, scripts, author, license, dependencies, keywords, nyc, devDependencies, default */
 /***/ (function(module) {
 
-module.exports = {"name":"capivarajs","version":"1.12.0","description":"Um framework para criação de componentes.","main":"./index.js","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"npm run test-single && webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./webpack.config.js --env.tests true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^9.6.4","babel-loader":"^7.1.4","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.0","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.8","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.20.3","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.3.0","webpack-cli":"^2.0.13","webpack-dev-server":"^3.1.1"}};
+module.exports = {"name":"capivarajs","version":"1.13.0","description":"Um framework para criação de componentes.","main":"./index.js","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"npm run test-single && webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./webpack.config.js --env.tests true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^9.6.4","babel-loader":"^7.1.4","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.0","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.8","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.20.3","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.3.0","webpack-cli":"^2.0.13","webpack-dev-server":"^3.1.1"}};
 
 /***/ }),
 
@@ -18065,10 +18065,11 @@ var Common;
      * @description Executa o eval alterando as propriedades do source para seus determinados valores dentro do contexto.
      * @param source
      * @param context
+     * @param prefix
      */
-    function evalInContext(source, context) {
+    function evalInContext(source, context, prefix) {
         if (source) {
-            return _core__WEBPACK_IMPORTED_MODULE_2__["Eval"].exec(source, context);
+            return _core__WEBPACK_IMPORTED_MODULE_2__["Eval"].exec(source, context, prefix);
         }
     }
     Common.evalInContext = evalInContext;
@@ -18630,7 +18631,6 @@ var ComponentInstance = /** @class */ (function () {
     };
     ComponentInstance.prototype.setAttributeValue = function (_bindings, key) {
         lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(this.element).scope, this.config.controllerAs + '.$bindings.' + key, lodash__WEBPACK_IMPORTED_MODULE_0__["get"](this.contextObj, _bindings[key]));
-        // Mantém compatibilidade
         lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(this.element).scope, '$bindings.' + key, lodash__WEBPACK_IMPORTED_MODULE_0__["get"](this.contextObj, _bindings[key]));
         _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(this.element).mapDom.reload();
     };
@@ -18658,7 +18658,6 @@ var ComponentInstance = /** @class */ (function () {
         var _this = this;
         (this.config.functions || []).forEach(function (key) {
             lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).scope, _this.config.controllerAs + '.$functions.' + key, _this.functionsValue[key]);
-            // Mantém compatibilidade
             lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).scope, '$functions.' + key, _this.functionsValue[key]);
         });
     };
@@ -18760,14 +18759,24 @@ var Eval;
         return getPreviousSize(currentIndex, 0);
     }
     Eval.getIndexStart = getIndexStart;
-    function exec(source, context) {
-        var referenceSelf = 'this.', regex = /\$*[a-z0-9.$]+\s*/gi, keys = source.match(regex);
+    function isVariable(str) {
+        if (str === void 0) { str = ''; }
+        var firstChar = str.charAt(0);
+        return /[a-zA-Z]/g.test(firstChar)
+            || firstChar === '$'
+            || firstChar === '_';
+    }
+    Eval.isVariable = isVariable;
+    function exec(source, context, prefix) {
+        if (prefix === void 0) { prefix = ''; }
+        var referenceSelf = "this." + (prefix ? prefix += '.' : ''), regex = /\$*[a-z0-9.$]+\s*/gi, keys = source.match(regex);
         keys.forEach(function (str, i) {
             var key = str.replace(/\s/g, ''), indexStart = getIndexStart(keys, i);
             var indexEnd = indexStart + source.substring(indexStart, source.length).indexOf(key) + key.length;
             if (!key.includes(referenceSelf)) {
-                if (context.hasOwnProperty(_common__WEBPACK_IMPORTED_MODULE_0__["Common"].getFirstKey(key))) {
-                    source = replaceAt(source, key, "this." + key, indexStart, indexEnd);
+                var isVar = !prefix.trim() ? context.hasOwnProperty(_common__WEBPACK_IMPORTED_MODULE_0__["Common"].getFirstKey(key)) : isVariable(key);
+                if (isVar) {
+                    source = replaceAt(source, key, "" + referenceSelf + key, indexStart, indexEnd);
                 }
             }
         });
@@ -20559,11 +20568,20 @@ var MapDom = /** @class */ (function () {
     MapDom.removeWordFromStr = function (str, word) {
         return (str + '').replace(new RegExp("\\s+" + word + "\\s+|" + word + "\\s+|\\s+" + word + "|" + word + "$", 'gi'), '');
     };
+    MapDom.prototype.getInterpolationValue = function (content, childNode, prefix) {
+        var evalValue = _common__WEBPACK_IMPORTED_MODULE_0__["Common"].evalInContext(content.trim().startsWith(':') ? content.trim().slice(1) : content, _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getScopeParent(childNode), prefix);
+        evalValue = MapDom.removeWordFromStr(evalValue, 'null');
+        evalValue = MapDom.removeWordFromStr(evalValue, 'undefined');
+        evalValue = MapDom.removeWordFromStr(evalValue, 'NaN');
+        evalValue = evalValue !== undefined ? evalValue : '';
+        return evalValue;
+    };
     /**
      * @description Função que modifica o texto da interpolação pelo determinado valor.
      * @param childNode
      */
     MapDom.prototype.interpolation = function (childNode) {
+        var _this = this;
         if (childNode.nodeName === '#text' && !_common__WEBPACK_IMPORTED_MODULE_0__["Common"].parentHasIgnore(childNode)) {
             childNode.$immutableInterpolation = childNode.$immutableInterpolation || false;
             if (childNode.$immutableInterpolation) {
@@ -20577,14 +20595,10 @@ var MapDom = /** @class */ (function () {
                 var content = key.replace('{{', '').replace('}}', '');
                 if (!childNode.$immutableInterpolation) {
                     try {
-                        var evalValue = _common__WEBPACK_IMPORTED_MODULE_0__["Common"].evalInContext(content.trim().startsWith(':') ? content.trim().slice(1) : content, _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getScopeParent(childNode));
-                        evalValue = MapDom.removeWordFromStr(evalValue, 'null');
-                        evalValue = MapDom.removeWordFromStr(evalValue, 'undefined');
-                        evalValue = MapDom.removeWordFromStr(evalValue, 'NaN');
-                        var value = evalValue !== undefined ? evalValue : '';
+                        var evalValue = _this.getInterpolationValue(content, childNode);
                         key = window['capivara'].replaceAll(key, '{{', _constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].START_INTERPOLATION);
                         key = window['capivara'].replaceAll(key, '}}', _constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].END_INTERPOLATION);
-                        nodeModified_1 = nodeModified_1.replace(key, value);
+                        nodeModified_1 = nodeModified_1.replace(key, evalValue);
                         childNode.nodeValue = nodeModified_1;
                     }
                     catch (e) { }
@@ -20594,9 +20608,26 @@ var MapDom = /** @class */ (function () {
                 }
             });
             childNode.nodeValue = childNode.nodeValue.replace(this.regexInterpolation, '');
+            this.alternativeInterpolation(childNode);
         }
         if (childNode.childNodes) {
             this.processInterpolation(childNode);
+        }
+    };
+    MapDom.prototype.alternativeInterpolation = function (childNode) {
+        var _this = this;
+        if (!childNode.$immutableInterpolation) {
+            var nodeModified_2 = childNode.originalValue;
+            (nodeModified_2.match(/\${.+?\}/g) || []).forEach(function (key) {
+                var content = key.replace('${', '').replace('}', '');
+                try {
+                    var evalValue = _this.getInterpolationValue(content, childNode, '$ctrl');
+                    console.log(evalValue);
+                    nodeModified_2 = nodeModified_2.replace(key, evalValue);
+                    childNode.nodeValue = nodeModified_2;
+                }
+                catch (e) { }
+            });
         }
     };
     /**
