@@ -143,7 +143,6 @@ export class ComponentInstance {
 
     public setAttributeValue(_bindings, key) {
         _.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$bindings.' + key, _.get(this.contextObj, _bindings[key]));
-        // Mantém compatibilidade
         _.set(Common.getScope(this.element).scope, '$bindings.' + key, _.get(this.contextObj, _bindings[key]));
         Common.getScope(this.element).mapDom.reload();
     }
@@ -173,7 +172,6 @@ export class ComponentInstance {
     public applyFunctions() {
         (this.config.functions || []).forEach((key) => {
             _.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$functions.' + key, this.functionsValue[key]);
-            // Mantém compatibilidade
             _.set(Common.getScope(this.element).scope, '$functions.' + key, this.functionsValue[key]);
         });
     }

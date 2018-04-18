@@ -19,8 +19,6 @@
                 <h1 cp-style="{color: $ctrl.numberOne == 70 ? 'red' : 'green'}"> [[ $ctrl.numberOne + $ctrl.numberTwo ]] </h1>
                 <p cp-style="{ background: 'red', padding: '10px'}">Example 1</p>
                 <p id="p1" cp-style="{ background: $ctrl.blue, padding: '10px'}">Example 2</p>
-
-
                 <p id="p3" cp-style="$ctrl.getStyleExample3();">Example 3</p>
 
                 <button type="button" id="btn1" cp-click="$ctrl.changeNumberOne()">Change Number 1</button>
@@ -29,32 +27,34 @@
             `,
             controller: function () {
                 let $ctrl = this;
-                
-                $ctrl.$onInit = function(){
+
+                $ctrl.$onInit = function () {
                     $ctrl.numberOne = 50;
                     $ctrl.numberTwo = 80;
                     $ctrl.bg3 = "yellow";
                     $ctrl.blue = "blue";
                 };
-                $ctrl.changeNumberOne = function() {
+
+                $ctrl.changeNumberOne = function () {
                     $ctrl.numberOne = 70;
                 };
-                $ctrl.changeBackground = function(){
+                
+                $ctrl.changeBackground = function () {
                     $ctrl.blue = "gray";
                 }
 
-                $ctrl.changeBackground3 = function(){
+                $ctrl.changeBackground3 = function () {
                     $ctrl.bg3 = "green";
                 }
 
-                $ctrl.getStyleExample3 = function(){
+                $ctrl.getStyleExample3 = function () {
                     return {
                         'background': $ctrl.bg3
                     };
                 }
             }
         });
-        
+
         capivara.componentBuilder('myComponent').build();
     </script>
 </body>

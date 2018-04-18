@@ -234,6 +234,15 @@ export class MapDom {
         return (str + '').replace(new RegExp(`\\s+${word}\\s+|${word}\\s+|\\s+${word}|${word}$`, 'gi'), '');
     }
 
+    public getInterpolationValue(content, childNode, prefix?) {
+        let evalValue = Common.evalInContext(content.trim().startsWith(':') ? content.trim().slice(1) : content, Common.getScopeParent(childNode), prefix);
+        evalValue = MapDom.removeWordFromStr(evalValue, 'null');
+        evalValue = MapDom.removeWordFromStr(evalValue, 'undefined');
+        evalValue = MapDom.removeWordFromStr(evalValue, 'NaN');
+        evalValue = evalValue !== undefined ? evalValue : '';
+        return evalValue;
+    }
+
     /**
      * @description Função que modifica o texto da interpolação pelo determinado valor.
      * @param childNode
@@ -242,7 +251,6 @@ export class MapDom {
         if (childNode.nodeName === '#text' && !Common.parentHasIgnore(childNode)) {
             childNode.$immutableInterpolation = childNode.$immutableInterpolation || false;
             if (childNode.$immutableInterpolation) { return; }
-
             childNode.originalValue = childNode.originalValue || childNode.nodeValue;
             let nodeModified = childNode.originalValue, str = childNode.originalValue;
             str = window['capivara'].replaceAll(str, Constants.START_INTERPOLATION, '{{');
@@ -252,14 +260,10 @@ export class MapDom {
                 const content = key.replace('{{', '').replace('}}', '');
                 if (!childNode.$immutableInterpolation) {
                     try {
-                        let evalValue = Common.evalInContext(content.trim().startsWith(':') ? content.trim().slice(1) : content, Common.getScopeParent(childNode));
-                        evalValue = MapDom.removeWordFromStr(evalValue, 'null');
-                        evalValue = MapDom.removeWordFromStr(evalValue, 'undefined');
-                        evalValue = MapDom.removeWordFromStr(evalValue, 'NaN');
-                        const value = evalValue !== undefined ? evalValue : '';
+                        const evalValue = this.getInterpolationValue(content, childNode);
                         key = window['capivara'].replaceAll(key, '{{', Constants.START_INTERPOLATION);
                         key = window['capivara'].replaceAll(key, '}}', Constants.END_INTERPOLATION);
-                        nodeModified = nodeModified.replace(key, value);
+                        nodeModified = nodeModified.replace(key, evalValue);
                         childNode.nodeValue = nodeModified;
                     } catch (e) { }
                 }
@@ -269,10 +273,26 @@ export class MapDom {
             });
 
             childNode.nodeValue = childNode.nodeValue.replace(this.regexInterpolation, '');
+            this.alternativeInterpolation(childNode);
 
         }
         if (childNode.childNodes) {
             this.processInterpolation(childNode);
+        }
+    }
+
+    public alternativeInterpolation(childNode) {
+        if (!childNode.$immutableInterpolation) {
+            let nodeModified = childNode.originalValue;
+            (nodeModified.match(/\${.+?\}/g) || []).forEach((key) => {
+                const content = key.replace('${', '').replace('}', '');
+                try {
+                    const evalValue = this.getInterpolationValue(content, childNode, '$ctrl');
+                    console.log(evalValue);
+                    nodeModified = nodeModified.replace(key, evalValue);
+                    childNode.nodeValue = nodeModified;
+                } catch (e) { }
+            });
         }
     }
 

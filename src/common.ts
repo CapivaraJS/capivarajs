@@ -13,10 +13,11 @@ export namespace Common {
      * @description Executa o eval alterando as propriedades do source para seus determinados valores dentro do contexto.
      * @param source
      * @param context
+     * @param prefix
      */
-    export function evalInContext(source, context: any) {
+    export function evalInContext(source, context: any, prefix?) {
         if (source) {
-            return Eval.exec(source, context);
+            return Eval.exec(source, context, prefix);
         }
     }
 

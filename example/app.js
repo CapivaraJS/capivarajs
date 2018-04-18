@@ -1,11 +1,11 @@
 capivara.controller(document.body, function () {
 	const $ctrl = this;
 
-	$ctrl.ativado = false;
+	$ctrl.numero1 = 20;
+	$ctrl.numero2 = 20;
 
-	$ctrl.ativou = function() {
-		console.log('Oie');
-		$ctrl.ativado = true;
-	};
+	$ctrl.teste = () => {
+		$ctrl.numero2 = 30;
+	}
 
 });
