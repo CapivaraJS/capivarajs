@@ -13,6 +13,7 @@ import { CPIf } from './directive/cp-if';
 import { CPInit } from './directive/cp-init';
 import { CPKey } from './directive/cp-key';
 import { CPMax } from './directive/cp-max';
+import { CPMaxLength } from "./directive/cp-maxlength";
 import { CPMin } from './directive/cp-min';
 import { CPModel } from './directive/cp-model';
 import { CPRepeat } from './directive/cp-repeat';
@@ -50,6 +51,7 @@ export class MapDom {
         cpKeys: [],
         cpMins: [],
         cpMaxs: [],
+        cpMaxsLength: [],
         cpSteps: [],
         cpDisables: [],
         cpFocus: [],
@@ -135,6 +137,7 @@ export class MapDom {
         if (child.hasAttribute(Constants.MIN_ATTRIBUTE_NAME)) { this.createCPMin(child); }
         if (child.hasAttribute(Constants.MAX_ATTRIBUTE_NAME)) { this.createCPMax(child); }
         if (child.hasAttribute(Constants.STEP_ATTRIBUTE_NAME)) { this.createCPStep(child); }
+        if (child.hasAttribute(Constants.MAX_LENGTH_ATTRIBUTE_NAME)) { this.createCPMaxLength(child); }
         if (child.hasAttribute(Constants.DISABLE_ATTRIBUTE_NAME)) { this.createCPDisabled(child); }
         if (child.hasAttribute(Constants.FOCUS_ATTRIBUTE_NAME)) { this.createCPFocus(child); }
         if (child.hasAttribute(Constants.HIDE_ATTRIBUTE_NAME)) { this.createCPHide(child); }
@@ -195,6 +198,9 @@ export class MapDom {
 
         // Update cp step
         this.directives.cpSteps.forEach((cpStep) => cpStep.init());
+
+        // Update cp max length
+        this.directives.cpMaxsLength.forEach((cpMaxLength) => cpMaxLength.init());
 
         // Update cp disable
         this.directives.cpDisables.forEach((cpDisable) => cpDisable.init());
@@ -284,7 +290,7 @@ export class MapDom {
     public alternativeInterpolation(childNode) {
         if (!childNode.$immutableInterpolation) {
             let nodeModified = childNode.originalValue;
-            (nodeModified.match(/\${.+?\}/g) || []).forEach((key) => {
+            (nodeModified.match(/\${.+?}/g) || []).forEach((key) => {
                 const content = key.replace('${', '').replace('}', '');
                 try {
                     const evalValue = this.getInterpolationValue(content, childNode, '$ctrl');
@@ -426,6 +432,13 @@ export class MapDom {
      */
     public createCPStep(child) {
         this.directives.cpSteps.push(new CPStep(child, this));
+    }
+
+    /**
+     * @param child Elemento que está sendo criado o bind do max length.
+     */
+    public createCPMaxLength(child) {
+        this.directives.cpMaxsLength.push(new CPMaxLength(child, this));
     }
 
     /**

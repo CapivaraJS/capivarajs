@@ -13,8 +13,12 @@ module.exports = Object.assign(
 	require('./interpolation/test'),
 	require('./noBind/test'),
 	require('./cpKey/test'),
+<<<<<<< HEAD
+	require('./cpMaxLength/test')
+=======
 	require('./cpDisabled/test'),
 	require('./cpFocus/test'),
 	require('./cpHide/test'),
 	require('./cpBlur/test')
+>>>>>>> master
 );

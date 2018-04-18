@@ -6,9 +6,9 @@ import { Directive } from './directive.interface';
 
 export class CPElse implements Directive {
 
-    private element: any;
+    private readonly element: any;
+    private readonly elementComment;
     private map: MapDom;
-    private elementComment;
     private prevElement;
     private parentCondition;
 

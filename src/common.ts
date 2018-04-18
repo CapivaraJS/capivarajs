@@ -58,6 +58,10 @@ export namespace Common {
         return element.getAttribute(Constants.MAX_ATTRIBUTE_NAME);
     }
 
+    export function getAttributeCpMaxLength(element) {
+        return element.getAttribute(Constants.MAX_LENGTH_ATTRIBUTE_NAME);
+    }
+
     export function getAttributeCpStyle(element) {
         return element.getAttribute(Constants.STYLE_ATTRIBUTE_NAME);
     }
