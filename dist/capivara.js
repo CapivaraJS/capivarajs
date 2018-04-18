@@ -20622,7 +20622,6 @@ var MapDom = /** @class */ (function () {
                 var content = key.replace('${', '').replace('}', '');
                 try {
                     var evalValue = _this.getInterpolationValue(content, childNode, '$ctrl');
-                    console.log(evalValue);
                     nodeModified_2 = nodeModified_2.replace(key, evalValue);
                     childNode.nodeValue = nodeModified_2;
                 }

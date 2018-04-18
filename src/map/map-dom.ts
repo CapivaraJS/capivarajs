@@ -288,7 +288,6 @@ export class MapDom {
                 const content = key.replace('${', '').replace('}', '');
                 try {
                     const evalValue = this.getInterpolationValue(content, childNode, '$ctrl');
-                    console.log(evalValue);
                     nodeModified = nodeModified.replace(key, evalValue);
                     childNode.nodeValue = nodeModified;
                 } catch (e) { }
