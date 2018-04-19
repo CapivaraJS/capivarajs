@@ -6,27 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>CapivaraJS</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="style.css">
     <style>
         body {
             padding-top: 150px;
             text-align: center;
         }
+        .blue{
+            color: blue;
+        }
     </style>
 </head>
 
 <body>
 
-<label>
-    <input type="text" cp-maxlength="10">
-</label>
+    <label>
+        <input type="text" cp-model="$ctrl.nome">
+    </label>
 
-    <h1> ${ numero1 + numero2 } </h1>
+    <h1 cp-class="{ 'blue': $ctrl.nome }"> ${ numero1 + numero2 } </h1>
 
-    <button cp-click="$ctrl.teste()">
-        Testar
-    </button>
 
     <script defer src="../dist/capivara.js"></script>
     <script defer src="component.js"></script>
