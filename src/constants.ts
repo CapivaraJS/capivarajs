@@ -6,6 +6,7 @@ export const Constants = {
     REPEAT_ATTRIBUTE_OPERATOR: 'in',
     MODEL_ATTRIBUTE_NAME     : 'cp-model',
     CLICK_ATTRIBUTE_NAME     : 'cp-click',
+    DBLCLICK_ATTRIBUTE_NAME  : 'cp-dblclick',
     SHOW_ATTRIBUTE_NAME      : 'cp-show',
     IF_ATTRIBUTE_NAME        : 'cp-if',
     STEP_ATTRIBUTE_NAME      : 'cp-step',

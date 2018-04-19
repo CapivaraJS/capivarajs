@@ -1,21 +1,33 @@
 import * as _ from 'lodash';
-import { Common } from '../../common';
-import { Constants } from '../../constants';
-import { MapDom } from '../map-dom';
-import { Directive } from './directive.interface';
+import {Common} from '../../common';
+import {Constants} from '../../constants';
+import {MapDom} from '../map-dom';
+import {Directive} from './directive.interface';
 
 export class CPClick implements Directive {
 
     private readonly element: any;
+    private readonly eventName;
     private map: MapDom;
     private attribute;
 
     constructor(_element: HTMLElement, _map: MapDom) {
         this.element = _element;
         this.map = _map;
-        this.attribute = this.element.getAttribute(Constants.CLICK_ATTRIBUTE_NAME);
+        if (this.element.getAttribute(Constants.CLICK_ATTRIBUTE_NAME)) {
+            this.attribute = this.element.getAttribute(Constants.CLICK_ATTRIBUTE_NAME);
+            this.eventName = 'click';
+        } else {
+            this.attribute = this.element.getAttribute(Constants.DBLCLICK_ATTRIBUTE_NAME);
+            this.eventName = 'dblclick';
+        }
+
         if (!this.attribute) {
-            throw new Error(`syntax error ${Constants.CLICK_ATTRIBUTE_NAME} expected arguments`);
+            if (this.eventName === 'click') {
+                throw new Error(`syntax error ${Constants.CLICK_ATTRIBUTE_NAME} expected arguments`);
+            } else {
+                throw new Error(`syntax error ${Constants.DBLCLICK_ATTRIBUTE_NAME} expected arguments`);
+            }
         }
     }
 
@@ -37,8 +49,8 @@ export class CPClick implements Directive {
             Common.executeFunctionCallback(this.element, this.attribute, evt);
         };
         // Remove old event
-        this.element.removeEventListener('click', onClick);
+        this.element.removeEventListener(this.eventName, onClick);
         // Add new event
-        this.element.addEventListener('click', onClick);
+        this.element.addEventListener(this.eventName, onClick);
     }
 }

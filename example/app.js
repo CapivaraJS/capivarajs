@@ -1,11 +1,10 @@
 capivara.controller(document.body, function () {
 	const $ctrl = this;
 
-	$ctrl.numero1 = 20;
-	$ctrl.numero2 = 20;
+	$ctrl.text = 'click me';
 
-	$ctrl.teste = () => {
-		$ctrl.numero2 = 30;
-	}
+	$ctrl.doubleClick = () => {
+	    $ctrl.text = 'double click me';
+	};
 
 });

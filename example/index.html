@@ -21,11 +21,7 @@
 
 <body>
 
-    <label>
-        <input type="text" cp-model="$ctrl.nome">
-    </label>
-
-    <h1 cp-class="{ 'blue': $ctrl.nome }"> ${ numero1 + numero2 } </h1>
+    <h1 cp-dblclick="$ctrl.doubleClick()">[[$ctrl.text]]</h1>
 
 
     <script defer src="../dist/capivara.js"></script>

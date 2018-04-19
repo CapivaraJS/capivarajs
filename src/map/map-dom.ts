@@ -123,7 +123,7 @@ export class MapDom {
      */
     public createDirectives(child) {
         if (child.hasAttribute(Constants.MODEL_ATTRIBUTE_NAME)) { this.createCPModel(child); }
-        if (child.hasAttribute(Constants.CLICK_ATTRIBUTE_NAME)) { this.createCPClick(child); }
+        if (child.hasAttribute(Constants.CLICK_ATTRIBUTE_NAME ) || child.hasAttribute(Constants.DBLCLICK_ATTRIBUTE_NAME)) { this.createCPClick(child); }
         if (child.hasAttribute(Constants.REPEAT_ATTRIBUTE_NAME)) { this.createCPRepeat(child); }
         if (child.hasAttribute(Constants.SHOW_ATTRIBUTE_NAME)) { this.createCPShow(child); }
         if (child.hasAttribute(Constants.IF_ATTRIBUTE_NAME)) { this.createCPIf(child); }
