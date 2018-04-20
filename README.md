@@ -22,6 +22,8 @@ Criamos um **framework híbrido** e suas diretivas são totalmente personalizáv
 
 Componentes CapivaraJS são compatíveis com todos frameworks. Experimente!
 
+_____________________________________________________________________
+
 [Ir para documentação / Go to documentation](https://capivarajs.github.io/)
 
 [Seja um contribuidor / Be a contributor][contributing]
