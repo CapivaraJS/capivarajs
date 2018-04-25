@@ -1,0 +1,43 @@
+import { } from 'jasmine';
+import capivara from '../../src/index';
+
+describe('test of double click', () => {
+    const template = `
+    <button cp-dbClick="$ctrl.foo()"></button> 
+    `;
+    const element = document.createElement('div');
+    element.innerHTML = template;
+    capivara.controller(element, function () {
+        const $ctrl = this;
+
+        $ctrl.foo = function () {
+            $ctrl.flag = !$ctrl.flag;
+        }
+
+        $ctrl.$onViewInit = () => {
+            $ctrl.flag = false;
+            event = new Event('dblclick');
+            element.querySelector('button').dispatchEvent(event);
+
+            it('expect the flag did not toogled to true', (done) => {
+                setTimeout(() => {
+                    expect($ctrl.flag).toEqual(true);
+                    done();
+                })
+            })
+
+            setTimeout(() => {
+                element.querySelector('button').click()
+                it('expect the flag toogled to true', (done) => {
+                    setTimeout(() => {
+                        expect($ctrl.flag).toEqual(false)
+                        done();
+                    });
+                });
+            });
+
+        };
+
+
+    });
+});
