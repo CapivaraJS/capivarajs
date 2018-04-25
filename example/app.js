@@ -8,4 +8,8 @@ capivara.controller(document.body, function () {
 		$ctrl.numero2 = 30;
 	}
 
+	$ctrl.foo = function(evt){
+		console.log(evt)
+	}
+	
 });
