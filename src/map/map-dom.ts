@@ -22,6 +22,7 @@ import { CPSrc } from './directive/cp-src';
 import { CPStep } from './directive/cp-step';
 import { CPStyle } from './directive/cp-style';
 import { CPdbClick } from './directive/cp-dbclick';
+import { CPTooltip } from './directive/cp-tooltip';
 
 export class MapDom {
 
