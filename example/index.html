@@ -22,10 +22,13 @@
 <body>
 
     <label>
-        <input type="text" cp-model="$ctrl.nome">
+        <input type="text" cp-model="$ctrl.nome" cp-keydown="$ctrl.foo($event)">
     </label>
 
     <h1 cp-class="{ 'blue': $ctrl.nome }"> ${ numero1 + numero2 } </h1>
+
+    <button cp-click="$ctrl.foo($event)">single click</button>
+    <button cp-dbclick="$ctrl.foo($event)">double click</button>
 
 
     <script defer src="../dist/capivara.js"></script>
