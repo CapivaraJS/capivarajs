@@ -4,8 +4,8 @@ import { Common } from '../common';
 import { Constants } from '../constants';
 import { ComponentConfig } from './component.config';
 import { Controller } from './controller';
-import { Observe } from './observer';
 import { Magic } from './magic/magic';
+import { Observe } from './observer';
 
 export class ComponentInstance {
 
@@ -44,7 +44,7 @@ export class ComponentInstance {
             }
             this.applyContains();
             this.applyFunctions();
-            this.applyBindings();
+            this.applyBindingsComponentMagic();
             if (this.componentScope[this.config.controllerAs] && this.componentScope[this.config.controllerAs].$onInit) {
                 this.componentScope[this.config.controllerAs].$onInit();
             }
@@ -55,24 +55,32 @@ export class ComponentInstance {
     }
 
     /**
-     * @description Renderiza o template no elemento.
+     * @description Aplica os bindings|constants|functions
      */
     public build() {
+        if (this.contextObj) {
+            this.applyBindingsComponentBuilder();
+            if (Common.getScope(this.element).scope.$ctrl.$onBuild) {
+                Common.getScope(this.element).scope.$ctrl.$onBuild();
+            }
+        }
+    }
+
+    /**
+     * @description Renderiza o template no elemento.
+     */
+    public create() {
         if (!this.element.hasAttribute(Constants.IF_ATTRIBUTE_NAME)) {
             this.initController();
         }
-        /**
-         * @description Olhamos o evento global para ser possível desparar o evento destroy nos controllers.
-         */
-        window['capivara'].$on('DOMNodeRemoved', () => setTimeout(() => { if (!document.body.contains(this.element)) { this.destroy(); } }, 0));
     }
 
     /**
      * @description Função executada quando o elemento é destruído do documento.
      */
     public destroy() {
-        Observe.unobserve(this.componentScope[this.config.controllerAs]);
         this.destroyed = true;
+        Observe.unobserve(this.componentScope[this.config.controllerAs]);
         if (this.componentScope[this.config.controllerAs] && this.componentScope[this.config.controllerAs].$destroy) {
             this.componentScope[this.config.controllerAs].$destroy();
         }
@@ -99,7 +107,7 @@ export class ComponentInstance {
             console.error('Bindings ainda não aplicados. Primeiro, é necessário informar o contexto.');
             return this;
         }
-        this.bindingsValue = _bindings;
+        this.bindingsValue = Object.assign(this.bindingsValue, _bindings);
         return this;
     }
 
@@ -122,14 +130,7 @@ export class ComponentInstance {
                 this.createObserverContext(this.bindingsValue, bindingKey);
                 this.createObserverScope(this.bindingsValue, bindingKey);
             }
-        })
-    }
-
-    public applyBindings() {
-        if (this.contextObj) {
-            this.applyBindingsComponentBuilder();
-        }
-        this.applyBindingsComponentMagic();
+        });
     }
 
     /**
@@ -145,12 +146,21 @@ export class ComponentInstance {
         WatchJS.watch(Common.getScope(this.element).scope['$bindings'], key,
             () => {
                 _.set(this.contextObj, _bindings[key], Common.getScope(this.element).scope['$bindings'][key]);
-                if (this.contextObj['$forceUpdate']) this.contextObj['$forceUpdate']();
-                if (this.contextObj['$apply']) this.contextObj['$apply']();
-                if (this.contextObj['forceUpdate']) this.contextObj['forceUpdate']();
-                
+                this.forceUpdateContext();
                 Common.getScope(this.element).mapDom.reload();
             });
+    }
+
+    private forceUpdateContext() {
+        if (this.contextObj['$forceUpdate']) {
+            this.contextObj['$forceUpdate']();
+        }
+        if (this.contextObj['$apply']) {
+            this.contextObj['$apply']();
+        }
+        if (this.contextObj['forceUpdate']) {
+            this.contextObj['forceUpdate']();
+        }
     }
 
     /**
@@ -161,7 +171,9 @@ export class ComponentInstance {
     }
 
     public createObserverContext(_bindings, key) {
-        if (!_bindings[key]) return;
+        if (!_bindings[key]) {
+            return;
+        }
         WatchJS.watch(this.contextObj, ComponentInstance.getFirstAttribute(_bindings, key),
             () => {
                 this.setAttributeValue(_bindings, key);

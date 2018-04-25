@@ -31,7 +31,7 @@
             }
         });
 
-        capivara.componentBuilder('myComponent').build();
+        capivara.componentBuilder('myComponent').then((instance) => instance.build())
     </script>
 </body>
 </html>
