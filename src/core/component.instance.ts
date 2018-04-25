@@ -17,13 +17,14 @@ export class ComponentInstance {
     public constantsValue = {};
     public functionsValue = {};
     public bindingsValue = {};
+    public listenerContextBindings = {};
 
     constructor(_element, _config: ComponentConfig) {
         _config.controllerAs = _config.controllerAs || '$ctrl';
         this.element = _element;
         this.element.$instance = this;
         this.config = _config;
-        this.config.controller = this.config.controller || function () { };
+        this.config.controller = this.config.controller || function() { };
         if (this.config.template) {
             this.element.innerHTML = this.config.template;
         }
@@ -42,8 +43,8 @@ export class ComponentInstance {
             if (this.config.controller) {
                 this.componentScope[this.config.controllerAs] = new this.config.controller(this.componentScope);
             }
-            this.applyContains();
-            this.applyFunctions();
+            // this.applyContains();
+            // this.applyFunctions();
             this.applyBindingsComponentMagic();
             if (this.componentScope[this.config.controllerAs] && this.componentScope[this.config.controllerAs].$onInit) {
                 this.componentScope[this.config.controllerAs].$onInit();
@@ -58,11 +59,13 @@ export class ComponentInstance {
      * @description Aplica os bindings|constants|functions
      */
     public build() {
+        this.applyContainsComponentBuilder();
+        this.applyFunctionsComponentBuilder();
         if (this.contextObj) {
             this.applyBindingsComponentBuilder();
-            if (Common.getScope(this.element).scope.$ctrl.$onBuild) {
-                Common.getScope(this.element).scope.$ctrl.$onBuild();
-            }
+        }
+        if (Common.getScope(this.element).scope.$ctrl.$onBuild) {
+            Common.getScope(this.element).scope.$ctrl.$onBuild();
         }
     }
 
@@ -139,16 +142,16 @@ export class ComponentInstance {
     public createObserverScope(_bindings = {}, key) {
         const $ctrl = Common.getScope(this.element).scope[this.config.controllerAs];
 
-        $ctrl.$$checkBindings = (changes) => {
-            _.set(this.contextObj, _bindings[key], $ctrl['$bindings'][key]);
+        $ctrl._$$checkBindings = (changes) => {
+            changes.forEach((change) => {
+                if (change.type === 'update' && _bindings.hasOwnProperty(change.name)) {
+                    _.set(this.contextObj, _bindings[change.name], $ctrl['$bindings'][change.name]);
+                    this.forceUpdateContext();
+                    Common.getScope(this.element).mapDom.reload();
+                }
+            });
         };
 
-        WatchJS.watch(Common.getScope(this.element).scope['$bindings'], key,
-            () => {
-                _.set(this.contextObj, _bindings[key], Common.getScope(this.element).scope['$bindings'][key]);
-                this.forceUpdateContext();
-                Common.getScope(this.element).mapDom.reload();
-            });
     }
 
     private forceUpdateContext() {
@@ -174,10 +177,20 @@ export class ComponentInstance {
         if (!_bindings[key]) {
             return;
         }
-        WatchJS.watch(this.contextObj, ComponentInstance.getFirstAttribute(_bindings, key),
-            () => {
-                this.setAttributeValue(_bindings, key);
-            });
+        const attrToObserve = ComponentInstance.getFirstAttribute(_bindings, key);
+
+        this.listenerContextBindings[attrToObserve] = this.listenerContextBindings[attrToObserve] || [];
+
+        if (this.listenerContextBindings[attrToObserve].length === 0) {
+            WatchJS.watch(this.contextObj, attrToObserve,
+                () => {
+                    this.listenerContextBindings[attrToObserve].forEach((keyListener) => {
+                        this.setAttributeValue(_bindings, keyListener);
+                    });
+                });
+        }
+
+        this.listenerContextBindings[attrToObserve].push(key);
     }
 
     public setAttributeValue(_bindings = {}, key) {
@@ -195,7 +208,7 @@ export class ComponentInstance {
         return this;
     }
 
-    public applyContains() {
+    public applyContainsComponentBuilder() {
         (this.config.constants || []).forEach((key) => {
             _.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$constants.' + key, this.constantsValue[key]);
             // Mantém compatibilidade
@@ -208,7 +221,7 @@ export class ComponentInstance {
         return this;
     }
 
-    public applyFunctions() {
+    public applyFunctionsComponentBuilder() {
         (this.config.functions || []).forEach((key) => {
             _.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$functions.' + key, this.functionsValue[key]);
             _.set(Common.getScope(this.element).scope, '$functions.' + key, this.functionsValue[key]);
