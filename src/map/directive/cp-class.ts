@@ -5,9 +5,9 @@ import { Directive } from './directive.interface';
 
 export class CPClass implements Directive {
 
-    private element: any;
+    private readonly element: any;
+    private readonly attribute;
     private map: MapDom;
-    private attribute;
     private elementComment;
     private elmScope;
 
@@ -27,7 +27,7 @@ export class CPClass implements Directive {
     public setClassByObject(classObj) {
         if (classObj && window['capivara'].isObject(classObj)) {
             Object.keys(classObj).forEach((key) => {
-                if (classObj[key] === true) {
+                if (classObj[key]) {
                     this.addClass(key.replace(/ /g, ''));
                 } else {
                     this.removeClass(key.replace(/ /g, ''));
@@ -49,7 +49,7 @@ export class CPClass implements Directive {
                     if (window['capivara'].isObject(cpClass.value)) {
                         this.setClassByObject(cpClass.value);
                     } else {
-                        if (cpClass.value === true) {
+                        if (cpClass.value) {
                             this.addClass(cpClass.key.replace(/ /g, ''));
                         } else {
                             this.removeClass(cpClass.key.replace(/ /g, ''));

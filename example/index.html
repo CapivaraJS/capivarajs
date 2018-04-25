@@ -13,6 +13,9 @@
             padding-top: 150px;
             text-align: center;
         }
+        .blue{
+            color: blue;
+        }
     </style>
 </head>
 
@@ -26,10 +29,17 @@
     <input type="number" name="points" cp-step="3">
 </label>
 
+    <label>
+        <input type="text" cp-model="$ctrl.nome">
+    </label>
 
-<script src="../dist/capivara.js"></script>
-<script src="component.js"></script>
-<script src="app.js"></script>
+    <h1 cp-class="{ 'blue': $ctrl.nome }"> ${ numero1 + numero2 } </h1>
+
+
+    <script defer src="../dist/capivara.js"></script>
+    <script defer src="component.js"></script>
+    <script defer src="app.js"></script>
+
 </body>
 
 </html>

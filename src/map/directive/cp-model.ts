@@ -6,9 +6,9 @@ import { Directive } from './directive.interface';
 
 export class CPModel implements Directive {
 
+    private readonly attribute;
     private element: any;
     private map: MapDom;
-    private attribute;
 
     constructor(_element: HTMLElement, _map: MapDom) {
         this.element = _element;
@@ -33,7 +33,7 @@ export class CPModel implements Directive {
         const value = _.get(Common.getScope(this.element).scope, this.attribute);
         switch (this.element.type) {
             case 'date':
-                if (this.element.valueAsDate.getTime() !== value.getTime()) {
+                if (this.element.valueAsDate && this.element.valueAsDate.getTime() !== value.getTime()) {
                     this.element.valueAsDate = value || null;
                 }
                 break;

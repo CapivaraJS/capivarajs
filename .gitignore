@@ -9,3 +9,5 @@ coverage.lcov
 phantomjsdriver.log
 div/
 dev/
+examples/
+demo/

@@ -6,8 +6,8 @@ import { Directive } from './directive.interface';
 
 export class CPStep implements Directive {
 
+    private readonly element: any;
     private attribute;
-    private element: any;
     private map: MapDom;
 
     constructor(_element: HTMLElement, _map: MapDom) {

@@ -6,8 +6,8 @@ import { Directive } from './directive.interface';
 export class CPStyle implements Directive {
 
     private readonly element: any;
+    private readonly attribute;
     private map: MapDom;
-    private attribute;
     private elementComment;
     private elmScope;
 

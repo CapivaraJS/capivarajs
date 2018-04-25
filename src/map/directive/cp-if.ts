@@ -6,10 +6,10 @@ import { Directive } from './directive.interface';
 
 export class CPIf implements Directive {
 
-    private element: any;
+    private readonly element: any;
+    private readonly attribute;
+    private readonly elementComment;
     private map: MapDom;
-    private attribute;
-    private elementComment;
 
     constructor(_element: HTMLElement, _map: MapDom) {
         this.element = _element;

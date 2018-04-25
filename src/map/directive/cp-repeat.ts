@@ -7,13 +7,13 @@ import { Directive } from './directive.interface';
 
 export class CPRepeat implements Directive {
 
+    private readonly attribute;
+    private readonly originalElement;
+    private readonly referenceNode;
+    private readonly regex;
     private map: MapDom;
-    private attribute;
     private element;
-    private originalElement;
-    private referenceNode;
     private lastArray = [];
-    private regex;
     private elms = [];
 
     constructor(_element: HTMLElement, _map: MapDom) {
@@ -21,7 +21,7 @@ export class CPRepeat implements Directive {
         this.originalElement = _element;
         this.map = _map;
         this.attribute = _element.getAttribute(Constants.REPEAT_ATTRIBUTE_NAME).replace(/\s+/g, ' ');
-        this.regex = new RegExp('^[\\s*|\\S]+\\s+in\\s+\\S+\\s*', 'g');
+        this.regex = new RegExp('^[\\s*|\\S]+\\s+' + Constants.REPEAT_ATTRIBUTE_OPERATOR.replace(/ /g, '') + '\\s+\\S+\\s*', 'g');
         const matches = this.attribute.match(this.regex);
         if (!this.attribute || (!matches || matches.length === 0)) {
             throw new Error(`syntax error invalid ${Constants.REPEAT_ATTRIBUTE_NAME} expresion: ${this.attribute}`);

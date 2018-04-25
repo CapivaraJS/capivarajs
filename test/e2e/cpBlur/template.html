@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Test</title>
+</head>
+<body>
+
+    <my-component #myComponent></my-component>
+    
+    <script src="/dist/capivara.js"></script>
+    <script>
+        capivara.component('my-component', {
+            template: `
+            <input type="text" cp-blur="$ctrl.blured()">
+            <br><h1>[[$ctrl.test]]</h1>
+            `,
+            controller: function(){
+                const $ctrl = this;
+
+                $ctrl.test = "False"
+
+                $ctrl.blured = function(){
+                    $ctrl.test = "True";
+                }
+
+            }
+        });
+
+        capivara.componentBuilder('myComponent').then((instance) => instance.build())
+    </script>
+</body>
+</html>

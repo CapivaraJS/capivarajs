@@ -21,12 +21,16 @@ export class ScopeProxy {
                 Observe.observe(objectObserve[this.element['$instance'].config.controllerAs], (changes) => {
                     this.mapDom.reload();
                     objectObserve.scope.$emit('$onChanges', changes);
-                    if (objectObserve[this.element['$instance'].config.controllerAs]['$onChanges']) {
-                        objectObserve[this.element['$instance'].config.controllerAs]['$onChanges'](changes);
-                    }
+                    this.executeObservers(objectObserve, '$onChanges', changes);
+                    this.executeObservers(objectObserve, '_$$checkBindings', changes);
                 });
             });
         }
     }
 
+    private executeObservers(objectObserve, observeName, changes) {
+        if (objectObserve[this.element['$instance'].config.controllerAs][observeName]) {
+            objectObserve[this.element['$instance'].config.controllerAs][observeName](changes);
+        }
+    }
 }

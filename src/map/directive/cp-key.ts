@@ -7,7 +7,7 @@ import { Directive } from './directive.interface';
 
 export class CPKey implements Directive {
 
-    private element: any;
+    private readonly element: any;
     private map: MapDom;
     private attributes;
 

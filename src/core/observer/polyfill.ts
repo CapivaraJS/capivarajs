@@ -1,3 +1,5 @@
+import { Observe } from './index';
+
 export namespace Polyfill {
     const keyObserver = '__observer__';
 
@@ -59,6 +61,8 @@ export namespace Polyfill {
                 });
             }
         }
+        Observe.unobserve(obj);
+        Observe.observe(obj, handler);
         handler(response);
     }
 
