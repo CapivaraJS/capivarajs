@@ -5,6 +5,7 @@ import { Constants } from '../constants';
 import { ComponentConfig } from './component.config';
 import { Controller } from './controller';
 import { Observe } from './observer';
+import { Magic } from './magic/magic';
 
 export class ComponentInstance {
 
@@ -102,7 +103,7 @@ export class ComponentInstance {
         return this;
     }
 
-    public applyBindings() {
+    public applyBindingsComponentBuilder() {
         (this.config.bindings || []).forEach((key) => {
             this.setAttributeValue(this.bindingsValue, key);
             this.createObserverContext(this.bindingsValue, key);
@@ -110,10 +111,31 @@ export class ComponentInstance {
         });
     }
 
+    public applyBindingsComponentMagic() {
+        this.contextObj = Magic.getContext(this.element);
+        (this.config.bindings || []).forEach((bindingKey) => {
+            const bindAttribute = bindingKey.replace(/([A-Z])/g, "-$1").toLowerCase();
+            const valueAttribute = this.element.getAttribute(bindAttribute);
+            if (valueAttribute) {
+                this.bindingsValue[bindingKey] = valueAttribute;
+                this.setAttributeValue(this.bindingsValue, bindingKey);
+                this.createObserverContext(this.bindingsValue, bindingKey);
+                this.createObserverScope(this.bindingsValue, bindingKey);
+            }
+        })
+    }
+
+    public applyBindings() {
+        if (this.contextObj) {
+            this.applyBindingsComponentBuilder();
+        }
+        this.applyBindingsComponentMagic();
+    }
+
     /**
     * @description Observa o componente quando houver alteração é modificado o contexto
     */
-    public createObserverScope(_bindings, key) {
+    public createObserverScope(_bindings = {}, key) {
         const $ctrl = Common.getScope(this.element).scope[this.config.controllerAs];
 
         $ctrl.$$checkBindings = (changes) => {
@@ -123,6 +145,10 @@ export class ComponentInstance {
         WatchJS.watch(Common.getScope(this.element).scope['$bindings'], key,
             () => {
                 _.set(this.contextObj, _bindings[key], Common.getScope(this.element).scope['$bindings'][key]);
+                if (this.contextObj['$forceUpdate']) this.contextObj['$forceUpdate']();
+                if (this.contextObj['$apply']) this.contextObj['$apply']();
+                if (this.contextObj['forceUpdate']) this.contextObj['forceUpdate']();
+                
                 Common.getScope(this.element).mapDom.reload();
             });
     }
@@ -130,18 +156,19 @@ export class ComponentInstance {
     /**
      * @description Observa o contexto, quando houver alteração é modificado no escopo do componente
      */
-    public static getFirstAttribute(_bindings, key) {
+    public static getFirstAttribute(_bindings = {}, key) {
         return _bindings[key].indexOf('.') !== -1 ? _bindings[key].substring(0, _bindings[key].indexOf('.')) : _bindings[key];
     }
 
     public createObserverContext(_bindings, key) {
+        if (!_bindings[key]) return;
         WatchJS.watch(this.contextObj, ComponentInstance.getFirstAttribute(_bindings, key),
             () => {
                 this.setAttributeValue(_bindings, key);
             });
     }
 
-    public setAttributeValue(_bindings, key) {
+    public setAttributeValue(_bindings = {}, key) {
         _.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$bindings.' + key, _.get(this.contextObj, _bindings[key]));
         _.set(Common.getScope(this.element).scope, '$bindings.' + key, _.get(this.contextObj, _bindings[key]));
         Common.getScope(this.element).mapDom.reload();
@@ -151,7 +178,7 @@ export class ComponentInstance {
      * @description Crie valores sem referências
      * @param _constants Objeto com o nome das constants
      */
-    public constants(_constants) {
+    public constants(_constants = {}) {
         this.constantsValue = _constants;
         return this;
     }
@@ -164,7 +191,7 @@ export class ComponentInstance {
         });
     }
 
-    public functions(_functions) {
+    public functions(_functions = {}) {
         this.functionsValue = _functions;
         return this;
     }
