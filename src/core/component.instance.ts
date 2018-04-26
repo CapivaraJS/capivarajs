@@ -24,7 +24,7 @@ export class ComponentInstance {
         this.element = _element;
         this.element.$instance = this;
         this.config = _config;
-        this.config.controller = this.config.controller || function() { };
+        this.config.controller = this.config.controller || function () { };
         if (this.config.template) {
             this.element.innerHTML = this.config.template;
         }
@@ -145,9 +145,11 @@ export class ComponentInstance {
         $ctrl._$$checkBindings = (changes) => {
             changes.forEach((change) => {
                 if (change.type === 'update' && _bindings.hasOwnProperty(change.name)) {
-                    _.set(this.contextObj, _bindings[change.name], $ctrl['$bindings'][change.name]);
-                    this.forceUpdateContext();
-                    Common.getScope(this.element).mapDom.reload();
+                    setTimeout(() => {
+                        _.set(this.contextObj, _bindings[change.name], $ctrl['$bindings'][change.name]);
+                        this.forceUpdateContext();
+                        Common.getScope(this.element).mapDom.reload();
+                    }, 0)
                 }
             });
         };
@@ -163,6 +165,12 @@ export class ComponentInstance {
         }
         if (this.contextObj['forceUpdate']) {
             this.contextObj['forceUpdate']();
+        }
+        if (window['ng']) {
+            const debugContext = window['ng'].probe(this.element);
+            if (debugContext) {
+                debugContext.injector.get(window['ng'].coreTokens.ApplicationRef).tick();
+            }
         }
     }
 

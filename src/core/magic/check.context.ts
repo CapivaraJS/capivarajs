@@ -1,6 +1,7 @@
 import { AngularJSContext } from "./types/angularjs.context";
 import { VueJSContext } from "./types/vuejs.context";
 import { ReactContext } from "./types/react.context";
+import { AngularContext } from "./types/angular.context";
 
 export namespace CheckContext {
 
@@ -9,7 +10,7 @@ export namespace CheckContext {
      * @param element 
      */
     export function getContext(element) {
-        const context = new AngularJSContext(new VueJSContext(new ReactContext()));
+        const context = new AngularJSContext(new AngularContext(new VueJSContext(new ReactContext())));
         return context.getContext(element);
     }
 }
