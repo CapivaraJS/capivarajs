@@ -14,9 +14,13 @@ module.exports = Object.assign(
 	require('./interpolation/test'),
 	require('./noBind/test'),
 	require('./cpKey/test'),
+	require('./cpDisabled/test'),
+  require('./cpMax/test'),
+	require('./cpMin/test'),
+	require('./cpStep/test')
 	require('./cpMaxLength/test'),
 	require('./cpDisabled/test'),
 	require('./cpFocus/test'),
 	require('./cpHide/test'),
-	require('./cpBlur/test'),
+	require('./cpBlur/test')
 );

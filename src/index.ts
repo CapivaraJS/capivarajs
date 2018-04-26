@@ -8,4 +8,4 @@ import { Capivara } from './core/capivara';
     }
 })(window["capivara"]);
 
-export default window["capivara"];
+export default window['capivara'];
