@@ -60,6 +60,7 @@ export class MapDom {
         cpHide: [],
         cpBlur: [],
         cpdbClick: [],
+        cpTooltip: []
     };
 
     private readonly regexInterpolation;
@@ -146,6 +147,7 @@ export class MapDom {
         if (child.hasAttribute(Constants.HIDE_ATTRIBUTE_NAME)) { this.createCPHide(child); }
         if (child.hasAttribute(Constants.BLUR_ATTRIBUTE_NAME)) { this.createCPBlur(child); }
         if (child.hasAttribute(Constants.DBCLICK_ATTRIBUTE_NAME)) { this.createCPdbClick(child); }
+        if (child.hasAttribute(Constants.TOOLTIP_ATTRIBUTE_NAME)) { this.createCPtooltip(child); }
     }
 
     public reloadElementChildes(element, initialScope) {
@@ -218,8 +220,12 @@ export class MapDom {
         // Update cp blur
         this.directives.cpBlur.forEach((cpBlur) => cpBlur.init());
 
-        // Update cp blur
+        // Update cp dbClick
         this.directives.cpdbClick.forEach((cpdbclick) => cpdbclick.init());
+
+        // Update cp tooltip
+        this.directives.cpdbClick.forEach((cpTooltip) => cpTooltip.init());
+
 
         this.processInterpolation(this.element);
     }
@@ -474,7 +480,6 @@ export class MapDom {
      */
     public createCPBlur(child) {
         this.directives.cpBlur.push(new CPBlur(child, this));
-
     }
 
     /**
@@ -482,6 +487,12 @@ export class MapDom {
     */
     public createCPdbClick(child) {
         this.directives.cpdbClick.push(new CPdbClick(child, this));
+    }
 
+    /**
+    * @param child Elemento que está sendo criado o bind do dbTooltip.
+    */
+    public createCPtooltip(child) {
+        this.directives.cpTooltip.push(new CPTooltip(child, this));
     }
 }

@@ -6,7 +6,7 @@ import { MapDom } from '../map-dom';
 import { Directive } from './directive.interface';
 import { Component } from '../../core';
 
-export class CPtooltip implements Directive{
+export class CPTooltip implements Directive{
     private readonly element: any;
     private map: MapDom;
     private attribute;
@@ -35,9 +35,5 @@ export class CPtooltip implements Directive{
     }
 
     public init() {
-        // Remove old event
-        this.element.removeEventListener('dblclick', this.onDbClick);
-        // Add new event
-        this.element.addEventListener('dblclick', this.onDbClick);
     }
 }
