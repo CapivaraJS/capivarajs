@@ -18,11 +18,13 @@ describe('test of click without parameters', () => {
         $ctrl.toggleClicked = () => {
             $ctrl.clicked = !$ctrl.clicked;
         };
-    });
 
-    it('The value of the variable must be true', () => {
-        element.querySelector('button').click();
-        expect(element['$instance'].componentScope.$ctrl.clicked).toEqual(true);
+        $ctrl.$onViewInit = () => {
+            it('The value of the variable must be true', () => {
+                element.querySelector('button').click();
+                expect(element['$instance'].componentScope.$ctrl.clicked).toEqual(true);
+            });
+        };
     });
 });
 
@@ -47,11 +49,13 @@ describe('test of click with parameters method sum', () => {
             $ctrl.result = value;
         };
 
-    });
+        $ctrl.$onViewInit = () => {
+            it('Must be the sum of the two numbers', () => {
+                element.querySelector('button').click();
+                expect(element['$instance'].componentScope.$ctrl.result).toEqual(100);
+            });
+        };
 
-    it('Must be the sum of the two numbers', () => {
-        element.querySelector('button').click();
-        expect(element['$instance'].componentScope.$ctrl.result).toEqual(100);
     });
 
 });
@@ -77,13 +81,13 @@ describe('test of click with parameters method subtract', () => {
             $ctrl.result = value;
         };
 
+        $ctrl.$onViewInit = () => {
+            it('Must be the subtraction of the two numbers', () => {
+                element.querySelector('button').click();
+                expect(element['$instance'].componentScope.$ctrl.result).toEqual(80);
+            });
+        };
     });
-
-    it('Must be the subtraction of the two numbers', () => {
-        element.querySelector('button').click();
-        expect(element['$instance'].componentScope.$ctrl.result).toEqual(80);
-    });
-
 });
 
 describe('test of click with parameters object', () => {
@@ -106,13 +110,14 @@ describe('test of click with parameters object', () => {
             $ctrl.result = person;
         };
 
-    });
+        $ctrl.$onViewInit = () => {
+            it('Must be the same object', () => {
+                element.querySelector('button').click();
+                expect(element['$instance'].componentScope.$ctrl.result).toEqual(element['$instance'].componentScope.$ctrl.person);
+            });
+        };
 
-    it('Must be the same object', () => {
-        element.querySelector('button').click();
-        expect(element['$instance'].componentScope.$ctrl.result).toEqual(element['$instance'].componentScope.$ctrl.person);
     });
-
 });
 
 describe('test methods', () => {
@@ -127,17 +132,18 @@ describe('test methods', () => {
         $ctrl.save = function() {
             $ctrl.clicked = true;
         };
+
+        $ctrl.$onViewInit = () => {
+            const cpClick = new CPClick(element.querySelector('button'), null);
+            it('Should create the click event', (done) => {
+                cpClick.create();
+                element.querySelector('button').click();
+                setTimeout(() => {
+                    expect(element.querySelector('button')['$scope'].scope.$ctrl.clicked).toEqual(true);
+                    done();
+                }, 1000);
+            });
+        };
+
     });
-
-    const cpClick = new CPClick(element.querySelector('button'), null);
-
-    it('Should create the click event', (done) => {
-        cpClick.create();
-        element.querySelector('button').click();
-        setTimeout(() => {
-            expect(element.querySelector('button')['$scope'].scope.$ctrl.clicked).toEqual(true);
-            done();
-        }, 1000);
-    });
-
 });

@@ -11,11 +11,11 @@ describe('Directive cp-maxlength', () => {
         element.innerHTML = template;
         capivara.controller(element, function() {
             const $ctrl = this;
-            $ctrl.$onInit = () => {
+            $ctrl.$onViewInit = () => {
                 setTimeout(function() {
                     expect(element.querySelector('input').maxLength).toEqual(10);
                     done();
-                });
+                }, 0);
             };
         });
     });
@@ -29,11 +29,11 @@ describe('Directive cp-maxlength', () => {
         capivara.controller(element, function() {
             const $ctrl = this;
             $ctrl.max = 20;
-            $ctrl.$onInit = () => {
+            $ctrl.$onViewInit = () => {
                 setTimeout(function() {
                     expect(element.querySelector('input').maxLength).toEqual($ctrl.max);
                     done();
-                });
+                }, 0);
             };
         });
     });
