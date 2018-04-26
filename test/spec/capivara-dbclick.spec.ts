@@ -19,7 +19,7 @@ describe('test of double click', () => {
             event = new Event('dblclick');
             element.querySelector('button').dispatchEvent(event);
 
-            it('expect the flag did not toogled to true', (done) => {
+            it('expect the flag toogled to be true', (done) => {
                 setTimeout(() => {
                     expect($ctrl.flag).toEqual(true);
                     done();
@@ -28,7 +28,7 @@ describe('test of double click', () => {
 
             setTimeout(() => {
                 element.querySelector('button').click()
-                it('expect the flag toogled to true', (done) => {
+                it('expect the flag toogled to be false', (done) => {
                     setTimeout(() => {
                         expect($ctrl.flag).toEqual(false)
                         done();
