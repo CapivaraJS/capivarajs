@@ -6,28 +6,18 @@ import { MapDom } from '../map-dom';
 import { Directive } from './directive.interface';
 import { Component } from '../../core';
 
-export class CPTooltip implements Directive{
+export class CPTitle implements Directive{
     private readonly element: any;
     private map: MapDom;
     private attribute;
     
-    
     constructor(_element: HTMLElement, _map: MapDom) {
         this.element = _element;
-        this.element['cpTooltip'] = this;
         this.map = _map;
-        this.attribute = this.element.getAttribute(Constants.TOOLTIP_ATTRIBUTE_NAME);
+        this.attribute = this.element.getAttribute(Constants.TITLE_ATTRIBUTE_NAME);
         if (!this.attribute) {
-            throw new Error(`syntax error ${Constants.TOOLTIP_ATTRIBUTE_NAME} expected arguments`);
+            throw new Error(`syntax error ${Constants.TITLE_ATTRIBUTE_NAME} expected arguments`);
         }
-    }
-
-    public getIndexRow(element) {
-        const index = _.get(Common.getScope(element).scope, Constants.REPEAT_INDEX_NAME);
-        if (index === undefined && element.parentNode) {
-            return this.getIndexRow(element.parentNode);
-        }
-        return index;
     }
     
     public create() {
@@ -35,5 +25,7 @@ export class CPTooltip implements Directive{
     }
 
     public init() {
+        const attribute = Common.evalInContext(this.attribute, Common.getScope(this.element).scope);
+        this.element.setAttribute("title", attribute)
     }
 }

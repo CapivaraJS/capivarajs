@@ -27,5 +27,5 @@ export const Constants = {
     HIDE_ATTRIBUTE_NAME      : 'cp-hide',
     BLUR_ATTRIBUTE_NAME      : 'cp-blur',
     DBCLICK_ATTRIBUTE_NAME   : 'cp-dbclick',
-    TOOLTIP_ATTRIBUTE_NAME   : 'cp-tooltip',
+    TITLE_ATTRIBUTE_NAME     : 'cp-title',
 };

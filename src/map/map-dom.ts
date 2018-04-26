@@ -22,7 +22,7 @@ import { CPSrc } from './directive/cp-src';
 import { CPStep } from './directive/cp-step';
 import { CPStyle } from './directive/cp-style';
 import { CPdbClick } from './directive/cp-dbclick';
-import { CPTooltip } from './directive/cp-tooltip';
+import { CPTitle } from './directive/cp-title';
 
 export class MapDom {
 
@@ -60,7 +60,7 @@ export class MapDom {
         cpHide: [],
         cpBlur: [],
         cpdbClick: [],
-        cpTooltip: []
+        cpTitles: []
     };
 
     private readonly regexInterpolation;
@@ -147,7 +147,7 @@ export class MapDom {
         if (child.hasAttribute(Constants.HIDE_ATTRIBUTE_NAME)) { this.createCPHide(child); }
         if (child.hasAttribute(Constants.BLUR_ATTRIBUTE_NAME)) { this.createCPBlur(child); }
         if (child.hasAttribute(Constants.DBCLICK_ATTRIBUTE_NAME)) { this.createCPdbClick(child); }
-        if (child.hasAttribute(Constants.TOOLTIP_ATTRIBUTE_NAME)) { this.createCPtooltip(child); }
+        if (child.hasAttribute(Constants.TITLE_ATTRIBUTE_NAME)) { this.createCPtitle(child); }
     }
 
     public reloadElementChildes(element, initialScope) {
@@ -223,8 +223,8 @@ export class MapDom {
         // Update cp dbClick
         this.directives.cpdbClick.forEach((cpdbclick) => cpdbclick.init());
 
-        // Update cp tooltip
-        this.directives.cpdbClick.forEach((cpTooltip) => cpTooltip.init());
+        // Update cp title
+        this.directives.cpTitles.forEach((cpTitle) => cpTitle.init());
 
 
         this.processInterpolation(this.element);
@@ -490,9 +490,9 @@ export class MapDom {
     }
 
     /**
-    * @param child Elemento que está sendo criado o bind do dbTooltip.
+    * @param child Elemento que está sendo criado o bind do dbTitle.
     */
-    public createCPtooltip(child) {
-        this.directives.cpTooltip.push(new CPTooltip(child, this));
+    public createCPtitle(child) {
+        this.directives.cpTitles.push(new CPTitle(child, this));
     }
 }
