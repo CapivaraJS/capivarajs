@@ -30,7 +30,64 @@ export class Capivara {
                 },
             });
         }
+        document.addEventListener("DOMContentLoaded", (event) => {
+            this.createComponents();
+            this.createListeners();
+        });
     }
+
+    private createComponents() {
+        Object.keys(this.components).forEach((componentName) => {
+            const elms: any = document.querySelectorAll(componentName) || [];
+            Array.from(elms).forEach((elm) => {
+                this.constroyIfComponent(elm);
+            });
+        });
+    }
+
+    private constroyIfComponent(addedNode) {
+        const component = this.components[addedNode.nodeName];
+        if (component) {
+            component.createNewInstance(addedNode).create();
+        }
+        if (addedNode.children) {
+            (Array.from(addedNode.children) || []).forEach((child) => this.constroyIfComponent(child));
+        }
+    }
+
+    private destroyIfComponent(removedNode) {
+        if (removedNode['$instance'] && !removedNode['$instance'].destroyed) {
+            removedNode['$instance'].destroy();
+        }
+        if (removedNode.children) {
+            (Array.from(removedNode.children) || []).forEach((child) => this.destroyIfComponent(child));
+        }
+    }
+
+    private onMutation(mutations) {
+        mutations.forEach((mutation) => {
+            if (mutation.type === 'childList') {
+                mutation.addedNodes.forEach((addedNode) => {
+                    this.constroyIfComponent(addedNode);
+                });
+                mutation.removedNodes.forEach((removedNode) => {
+                    this.destroyIfComponent(removedNode);
+                });
+            }
+        });
+    }
+
+    private createListeners() {
+        const MutationObserver = window['MutationObserver'] || window['WebKitMutationObserver'] || window['MozMutationObserver'];
+        const observer = new MutationObserver((mutations) => this.onMutation(mutations));
+        observer.observe(document.body, {
+            attributes: false,
+            childList: true,
+            subtree: true,
+            characterData: false,
+        });
+    }
+
     /**
      * @name capivara.component
      * @description Registra um novo componente capivara
@@ -47,30 +104,36 @@ export class Capivara {
      * @description Faz a inicialização de um componente.
      */
     public componentBuilder(hashName) {
-        let elms = window["capivara"].isElement(hashName) ? [hashName] : Array.from(document.querySelectorAll("[\\#" + hashName + "]"));
-        if (elms.length === 0) { console.error("CapivaraJS did not find its component with the hash " + hashName); }
-        let instance;
-        const findElementAndCreateInstance = () => {
-            elms = window["capivara"].isElement(hashName) ? [hashName] : Array.from(document.querySelectorAll("[\\#" + hashName + "]"));
-            elms.forEach((elm) => {
-                const component = window["capivara"].components[elm.nodeName];
-                if (!component) {
-                    console.error("We did not find a registered entry under the name: " + elm.nodeName);
-                    return;
-                }
-                if (!instance) { instance = component.createNewInstance(elm); }
+        return new Promise((resp) => {
+            let elms = window["capivara"].isElement(hashName) ? [hashName] : Array.from(document.querySelectorAll("[\\#" + hashName + "]"));
+            if (elms.length === 0) { console.error("CapivaraJS did not find its component with the hash " + hashName); }
+            let instance;
+            const findElementAndCreateInstance = () => {
+                elms = window["capivara"].isElement(hashName) ? [hashName] : Array.from(document.querySelectorAll("[\\#" + hashName + "]"));
+                (elms || []).forEach((elm) => {
+                    const component = window["capivara"].components[elm.nodeName];
+                    if (!component) {
+                        console.error("We did not find a registered entry under the name: " + elm.nodeName);
+                        return;
+                    }
+                    if (!instance) {
+                        instance = elm['$instance'];
+                    }
+                });
+                return instance;
+            };
+            setTimeout(() => {
+                const componentInstance = findElementAndCreateInstance();
+                resp(componentInstance);
             });
-            return instance;
-        };
-
-        return findElementAndCreateInstance();
+        });
     }
     /**
      * @name capivara.controller
      * @description Cria um novo controller para fazer manipulação de um determinado elemento.
      */
     public controller(elm, callback) {
-        new ComponentInstance(elm, { controller: callback }).build();
+        new ComponentInstance(elm, { controller: callback }).create();
     }
     /**
      * @name capivara,isArray
