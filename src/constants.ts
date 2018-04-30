@@ -28,4 +28,5 @@ export const Constants = {
     BLUR_ATTRIBUTE_NAME      : 'cp-blur',
     DBCLICK_ATTRIBUTE_NAME   : 'cp-dbclick',
     TITLE_ATTRIBUTE_NAME     : 'cp-title',
+    MOUSE_ATTRIBUTE_NAME      : 'cp-mouse',
 };
