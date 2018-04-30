@@ -14,7 +14,7 @@ export class Component {
     private customElementsVue() {
         if (window['Vue']) {
             window['Vue'].config.ignoredElements = window['Vue'].config.ignoredElements || [];
-            if (window['Vue'].config.ignoredElements.filter((value) => value === this.componentName).length == 0) {
+            if (window['Vue'].config.ignoredElements.filter((value) => value === this.componentName).length === 0) {
                 window['Vue'].config.ignoredElements.push(this.componentName);
             }
         }

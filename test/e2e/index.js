@@ -15,9 +15,9 @@ module.exports = Object.assign(
 	require('./noBind/test'),
 	require('./cpKey/test'),
 	require('./cpDisabled/test'),
-  require('./cpMax/test'),
+	require('./cpMax/test'),
 	require('./cpMin/test'),
-	require('./cpStep/test')
+	require('./cpStep/test'),
 	require('./cpMaxLength/test'),
 	require('./cpDisabled/test'),
 	require('./cpFocus/test'),

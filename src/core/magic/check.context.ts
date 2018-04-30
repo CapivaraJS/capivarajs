@@ -1,16 +1,17 @@
-import { AngularJSContext } from "./types/angularjs.context";
-import { VueJSContext } from "./types/vuejs.context";
-import { ReactContext } from "./types/react.context";
 import { AngularContext } from "./types/angular.context";
+import { AngularJSContext } from "./types/angularjs.context";
+import { CapivaraJSContext} from './types/capivara.context';
+import { ReactContext } from "./types/react.context";
+import { VueJSContext } from "./types/vuejs.context";
 
 export namespace CheckContext {
 
     /**
      * @pattern https://pt.wikipedia.org/wiki/Chain_of_Responsibility
-     * @param element 
+     * @param element
      */
     export function getContext(element) {
-        const context = new AngularJSContext(new AngularContext(new VueJSContext(new ReactContext())));
+        const context = new AngularJSContext(new AngularContext(new VueJSContext(new ReactContext(new CapivaraJSContext()))));
         return context.getContext(element);
     }
 }
