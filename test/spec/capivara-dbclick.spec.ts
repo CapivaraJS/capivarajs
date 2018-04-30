@@ -3,16 +3,16 @@ import capivara from '../../src/index';
 
 describe('test of double click', () => {
     const template = `
-    <button cp-dbClick="$ctrl.foo()"></button> 
+    <button cp-dbClick="$ctrl.foo()"></button>
     `;
     const element = document.createElement('div');
     element.innerHTML = template;
-    capivara.controller(element, function () {
+    capivara.controller(element, function() {
         const $ctrl = this;
 
-        $ctrl.foo = function () {
+        $ctrl.foo = function() {
             $ctrl.flag = !$ctrl.flag;
-        }
+        };
 
         $ctrl.$onViewInit = () => {
             $ctrl.flag = false;
@@ -23,21 +23,10 @@ describe('test of double click', () => {
                 setTimeout(() => {
                     expect($ctrl.flag).toEqual(true);
                     done();
-                })
-            })
-
-            setTimeout(() => {
-                element.querySelector('button').click()
-                it('expect the flag toogled to be false', (done) => {
-                    setTimeout(() => {
-                        expect($ctrl.flag).toEqual(false)
-                        done();
-                    });
                 });
-            });
+            }, 10000);
 
         };
-
 
     });
 });

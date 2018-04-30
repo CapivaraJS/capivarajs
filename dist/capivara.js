@@ -18041,7 +18041,7 @@ module.exports = function(module) {
 /*! exports provided: name, version, description, main, repository, scripts, author, license, dependencies, keywords, nyc, devDependencies, default */
 /***/ (function(module) {
 
-module.exports = {"name":"capivarajs","version":"1.13.2","description":"Um framework para criação de componentes.","main":"./index.js","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"npm run test-single && webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./webpack.config.js --env.tests true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^9.6.4","babel-loader":"^7.1.4","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.0","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.8","nightwatch":"^1.0.1","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.21.0","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.3.0","webpack-cli":"^2.0.13","webpack-dev-server":"^3.1.1"}};
+module.exports = {"name":"capivarajs","version":"2.0.1","description":"Um framework para criação de componentes.","main":"./index.js","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"npm run test-single && webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./webpack.config.js --env.tests true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^9.6.4","babel-loader":"^7.1.4","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.0","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.8","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.21.0","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.3.0","webpack-cli":"^2.0.13","webpack-dev-server":"^3.1.1"}};
 
 /***/ }),
 
@@ -18154,6 +18154,11 @@ var Common;
         return element[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SCOPE_ATTRIBUTE_NAME];
     }
     Common.getScope = getScope;
+    function isComponent(element) {
+        var component = window['capivara'].components[element.nodeName.toUpperCase()];
+        return component ? true : false;
+    }
+    Common.isComponent = isComponent;
     function getScopeParent(element) {
         if (getScope(element)) {
             return getScope(element).scope;
@@ -18212,12 +18217,12 @@ var Common;
             elementComment.replaceWith(element);
         }
         if (element.$instance) {
-            element.$instance.initController();
+            element.$instance.initController(true);
         }
     }
     Common.createElement = createElement;
     function isValidCondition(element, condition) {
-        var scope = getScope(element).scope;
+        var scope = isComponent(element) && element.parentNode && element.parentNode[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SCOPE_ATTRIBUTE_NAME] ? getScope(element.parentNode).scope : getScope(element).scope;
         var result = evalInContext(condition, scope);
         return result;
     }
@@ -18299,6 +18304,8 @@ var Constants = {
     FOCUS_ATTRIBUTE_NAME: 'cp-focus',
     HIDE_ATTRIBUTE_NAME: 'cp-hide',
     BLUR_ATTRIBUTE_NAME: 'cp-blur',
+    DBCLICK_ATTRIBUTE_NAME: 'cp-dbclick',
+    TITLE_ATTRIBUTE_NAME: 'cp-title',
 };
 
 
@@ -18573,11 +18580,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var melanke_watchjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! melanke-watchjs */ "./node_modules/melanke-watchjs/src/watch.js");
 /* harmony import */ var melanke_watchjs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(melanke_watchjs__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../common */ "./src/common.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
-/* harmony import */ var _controller__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./controller */ "./src/core/controller.ts");
-/* harmony import */ var _magic_magic__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./magic/magic */ "./src/core/magic/magic.ts");
-/* harmony import */ var _observer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./observer */ "./src/core/observer/index.ts");
-
+/* harmony import */ var _controller__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./controller */ "./src/core/controller.ts");
+/* harmony import */ var _magic_magic__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./magic/magic */ "./src/core/magic/magic.ts");
+/* harmony import */ var _observer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./observer */ "./src/core/observer/index.ts");
 
 
 
@@ -18589,11 +18594,12 @@ var ComponentInstance = /** @class */ (function () {
         this.constantsValue = {};
         this.functionsValue = {};
         this.bindingsValue = {};
+        this.listenerContextBindings = {};
         _config.controllerAs = _config.controllerAs || '$ctrl';
         this.element = _element;
         this.element.$instance = this;
         this.config = _config;
-        this.config.controller = this.config.controller || function () { };
+        this.config.controller = this.config.controller || function isolatedScope() { };
         if (this.config.template) {
             this.element.innerHTML = this.config.template;
         }
@@ -18602,7 +18608,7 @@ var ComponentInstance = /** @class */ (function () {
     }
     ComponentInstance.prototype.registerController = function () {
         var _this = this;
-        new _controller__WEBPACK_IMPORTED_MODULE_4__["Controller"](this.element, function (scope) {
+        new _controller__WEBPACK_IMPORTED_MODULE_3__["Controller"](this.element, function (scope) {
             _this.componentScope = scope;
         });
     };
@@ -18611,8 +18617,8 @@ var ComponentInstance = /** @class */ (function () {
             if (this.config.controller) {
                 this.componentScope[this.config.controllerAs] = new this.config.controller(this.componentScope);
             }
-            this.applyContains();
-            this.applyFunctions();
+            // this.applyContains();
+            // this.applyFunctions();
             this.applyBindingsComponentMagic();
             if (this.componentScope[this.config.controllerAs] && this.componentScope[this.config.controllerAs].$onInit) {
                 this.componentScope[this.config.controllerAs].$onInit();
@@ -18626,20 +18632,20 @@ var ComponentInstance = /** @class */ (function () {
      * @description Aplica os bindings|constants|functions
      */
     ComponentInstance.prototype.build = function () {
+        this.applyContainsComponentBuilder();
+        this.applyFunctionsComponentBuilder();
         if (this.contextObj) {
             this.applyBindingsComponentBuilder();
-            if (_common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(this.element).scope.$ctrl.$onBuild) {
-                _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(this.element).scope.$ctrl.$onBuild();
-            }
+        }
+        if (_common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(this.element).scope.$ctrl.$onBuild) {
+            _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(this.element).scope.$ctrl.$onBuild();
         }
     };
     /**
      * @description Renderiza o template no elemento.
      */
     ComponentInstance.prototype.create = function () {
-        if (!this.element.hasAttribute(_constants__WEBPACK_IMPORTED_MODULE_3__["Constants"].IF_ATTRIBUTE_NAME)) {
-            this.initController();
-        }
+        this.initController();
     };
     /**
      * @description Função executada quando o elemento é destruído do documento.
@@ -18647,7 +18653,7 @@ var ComponentInstance = /** @class */ (function () {
     ComponentInstance.prototype.destroy = function () {
         var _this = this;
         this.destroyed = true;
-        _observer__WEBPACK_IMPORTED_MODULE_6__["Observe"].unobserve(this.componentScope[this.config.controllerAs]);
+        _observer__WEBPACK_IMPORTED_MODULE_5__["Observe"].unobserve(this.componentScope[this.config.controllerAs]);
         if (this.componentScope[this.config.controllerAs] && this.componentScope[this.config.controllerAs].$destroy) {
             this.componentScope[this.config.controllerAs].$destroy();
         }
@@ -18686,7 +18692,7 @@ var ComponentInstance = /** @class */ (function () {
     };
     ComponentInstance.prototype.applyBindingsComponentMagic = function () {
         var _this = this;
-        this.contextObj = _magic_magic__WEBPACK_IMPORTED_MODULE_5__["Magic"].getContext(this.element);
+        this.contextObj = _magic_magic__WEBPACK_IMPORTED_MODULE_4__["Magic"].getContext(this.element);
         (this.config.bindings || []).forEach(function (bindingKey) {
             var bindAttribute = bindingKey.replace(/([A-Z])/g, "-$1").toLowerCase();
             var valueAttribute = _this.element.getAttribute(bindAttribute);
@@ -18705,24 +18711,33 @@ var ComponentInstance = /** @class */ (function () {
         var _this = this;
         if (_bindings === void 0) { _bindings = {}; }
         var $ctrl = _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(this.element).scope[this.config.controllerAs];
-        $ctrl.$$checkBindings = function (changes) {
-            lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_this.contextObj, _bindings[key], $ctrl['$bindings'][key]);
+        $ctrl._$$checkBindings = function (changes) {
+            changes.forEach(function (change) {
+                if (change.type === 'update' && _bindings.hasOwnProperty(change.name)) {
+                    lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_this.contextObj, _bindings[change.name], $ctrl['$bindings'][change.name]);
+                    _this.forceUpdateContext();
+                    _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).mapDom.reload();
+                }
+            });
         };
-        melanke_watchjs__WEBPACK_IMPORTED_MODULE_1___default.a.watch(_common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(this.element).scope['$bindings'], key, function () {
-            lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_this.contextObj, _bindings[key], _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).scope['$bindings'][key]);
-            _this.forceUpdateContext();
-            _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).mapDom.reload();
-        });
     };
     ComponentInstance.prototype.forceUpdateContext = function () {
-        if (this.contextObj['$forceUpdate']) {
-            this.contextObj['$forceUpdate']();
-        }
-        if (this.contextObj['$apply']) {
-            this.contextObj['$apply']();
-        }
-        if (this.contextObj['forceUpdate']) {
-            this.contextObj['forceUpdate']();
+        if (this.contextObj) {
+            if (this.contextObj['$forceUpdate']) {
+                this.contextObj['$forceUpdate']();
+            }
+            if (this.contextObj['$apply']) {
+                this.contextObj['$apply']();
+            }
+            if (this.contextObj['forceUpdate']) {
+                this.contextObj['forceUpdate']();
+            }
+            if (window['ng']) {
+                var debugContext = window['ng'].probe(this.element);
+                if (debugContext) {
+                    debugContext.injector.get(window['ng'].coreTokens.ApplicationRef).tick();
+                }
+            }
         }
     };
     /**
@@ -18737,9 +18752,16 @@ var ComponentInstance = /** @class */ (function () {
         if (!_bindings[key]) {
             return;
         }
-        melanke_watchjs__WEBPACK_IMPORTED_MODULE_1___default.a.watch(this.contextObj, ComponentInstance.getFirstAttribute(_bindings, key), function () {
-            _this.setAttributeValue(_bindings, key);
-        });
+        var attrToObserve = ComponentInstance.getFirstAttribute(_bindings, key);
+        this.listenerContextBindings[attrToObserve] = this.listenerContextBindings[attrToObserve] || [];
+        if (this.listenerContextBindings[attrToObserve].length === 0) {
+            melanke_watchjs__WEBPACK_IMPORTED_MODULE_1___default.a.watch(this.contextObj, attrToObserve, function () {
+                _this.listenerContextBindings[attrToObserve].forEach(function (keyListener) {
+                    _this.setAttributeValue(_bindings, keyListener);
+                });
+            });
+        }
+        this.listenerContextBindings[attrToObserve].push(key);
     };
     ComponentInstance.prototype.setAttributeValue = function (_bindings, key) {
         if (_bindings === void 0) { _bindings = {}; }
@@ -18756,7 +18778,7 @@ var ComponentInstance = /** @class */ (function () {
         this.constantsValue = _constants;
         return this;
     };
-    ComponentInstance.prototype.applyContains = function () {
+    ComponentInstance.prototype.applyContainsComponentBuilder = function () {
         var _this = this;
         (this.config.constants || []).forEach(function (key) {
             lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).scope, _this.config.controllerAs + '.$constants.' + key, _this.constantsValue[key]);
@@ -18769,7 +18791,7 @@ var ComponentInstance = /** @class */ (function () {
         this.functionsValue = _functions;
         return this;
     };
-    ComponentInstance.prototype.applyFunctions = function () {
+    ComponentInstance.prototype.applyFunctionsComponentBuilder = function () {
         var _this = this;
         (this.config.functions || []).forEach(function (key) {
             lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).scope, _this.config.controllerAs + '.$functions.' + key, _this.functionsValue[key]);
@@ -18805,7 +18827,7 @@ var Component = /** @class */ (function () {
         var _this = this;
         if (window['Vue']) {
             window['Vue'].config.ignoredElements = window['Vue'].config.ignoredElements || [];
-            if (window['Vue'].config.ignoredElements.filter(function (value) { return value === _this.componentName; }).length == 0) {
+            if (window['Vue'].config.ignoredElements.filter(function (value) { return value === _this.componentName; }).length === 0) {
                 window['Vue'].config.ignoredElements.push(this.componentName);
             }
         }
@@ -18965,9 +18987,13 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CheckContext", function() { return CheckContext; });
-/* harmony import */ var _types_angularjs_context__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./types/angularjs.context */ "./src/core/magic/types/angularjs.context.ts");
-/* harmony import */ var _types_vuejs_context__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./types/vuejs.context */ "./src/core/magic/types/vuejs.context.ts");
-/* harmony import */ var _types_react_context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./types/react.context */ "./src/core/magic/types/react.context.ts");
+/* harmony import */ var _types_angular_context__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./types/angular.context */ "./src/core/magic/types/angular.context.ts");
+/* harmony import */ var _types_angularjs_context__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./types/angularjs.context */ "./src/core/magic/types/angularjs.context.ts");
+/* harmony import */ var _types_capivara_context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./types/capivara.context */ "./src/core/magic/types/capivara.context.ts");
+/* harmony import */ var _types_react_context__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./types/react.context */ "./src/core/magic/types/react.context.ts");
+/* harmony import */ var _types_vuejs_context__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./types/vuejs.context */ "./src/core/magic/types/vuejs.context.ts");
+
+
 
 
 
@@ -18978,7 +19004,7 @@ var CheckContext;
      * @param element
      */
     function getContext(element) {
-        var context = new _types_angularjs_context__WEBPACK_IMPORTED_MODULE_0__["AngularJSContext"](new _types_vuejs_context__WEBPACK_IMPORTED_MODULE_1__["VueJSContext"](new _types_react_context__WEBPACK_IMPORTED_MODULE_2__["ReactContext"]()));
+        var context = new _types_angularjs_context__WEBPACK_IMPORTED_MODULE_1__["AngularJSContext"](new _types_angular_context__WEBPACK_IMPORTED_MODULE_0__["AngularContext"](new _types_vuejs_context__WEBPACK_IMPORTED_MODULE_4__["VueJSContext"](new _types_react_context__WEBPACK_IMPORTED_MODULE_3__["ReactContext"](new _types_capivara_context__WEBPACK_IMPORTED_MODULE_2__["CapivaraJSContext"]()))));
         return context.getContext(element);
     }
     CheckContext.getContext = getContext;
@@ -19041,6 +19067,45 @@ var Magic;
 
 /***/ }),
 
+/***/ "./src/core/magic/types/angular.context.ts":
+/*!*************************************************!*\
+  !*** ./src/core/magic/types/angular.context.ts ***!
+  \*************************************************/
+/*! exports provided: AngularContext */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AngularContext", function() { return AngularContext; });
+/* harmony import */ var _context__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../context */ "./src/core/magic/context.ts");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+var AngularContext = /** @class */ (function (_super) {
+    __extends(AngularContext, _super);
+    function AngularContext(context) {
+        var _this = _super.call(this, context) || this;
+        _this.name = 'ng';
+        return _this;
+    }
+    AngularContext.prototype.process = function (element) {
+        return window[this.name].probe(element)._debugContext.context;
+    };
+    return AngularContext;
+}(_context__WEBPACK_IMPORTED_MODULE_0__["Context"]));
+
+
+
+/***/ }),
+
 /***/ "./src/core/magic/types/angularjs.context.ts":
 /*!***************************************************!*\
   !*** ./src/core/magic/types/angularjs.context.ts ***!
@@ -19075,6 +19140,54 @@ var AngularJSContext = /** @class */ (function (_super) {
     };
     return AngularJSContext;
 }(_context__WEBPACK_IMPORTED_MODULE_0__["Context"]));
+
+
+
+/***/ }),
+
+/***/ "./src/core/magic/types/capivara.context.ts":
+/*!**************************************************!*\
+  !*** ./src/core/magic/types/capivara.context.ts ***!
+  \**************************************************/
+/*! exports provided: CapivaraJSContext */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CapivaraJSContext", function() { return CapivaraJSContext; });
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../common */ "./src/common.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../constants */ "./src/constants.ts");
+/* harmony import */ var _context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../context */ "./src/core/magic/context.ts");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+
+
+var CapivaraJSContext = /** @class */ (function (_super) {
+    __extends(CapivaraJSContext, _super);
+    function CapivaraJSContext(context) {
+        var _this = _super.call(this, context) || this;
+        _this.name = 'capivara';
+        return _this;
+    }
+    CapivaraJSContext.prototype.process = function (element) {
+        if (_common__WEBPACK_IMPORTED_MODULE_0__["Common"].isComponent(element) && element.parentNode && element.parentNode[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SCOPE_ATTRIBUTE_NAME]) {
+            return element.parentNode[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SCOPE_ATTRIBUTE_NAME].scope;
+        }
+        if (element && element[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SCOPE_ATTRIBUTE_NAME]) {
+            return element[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SCOPE_ATTRIBUTE_NAME].scope;
+        }
+    };
+    return CapivaraJSContext;
+}(_context__WEBPACK_IMPORTED_MODULE_2__["Context"]));
 
 
 
@@ -19589,7 +19702,7 @@ __webpack_require__.r(__webpack_exports__);
         console.warn("CapivaraJS tried to load more than once.");
     }
 })(window["capivara"]);
-/* harmony default export */ __webpack_exports__["default"] = (window["capivara"]);
+/* harmony default export */ __webpack_exports__["default"] = (window['capivara']);
 
 
 /***/ }),
@@ -19773,6 +19886,60 @@ var CPClick = /** @class */ (function () {
         this.element.addEventListener('click', onClick);
     };
     return CPClick;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/map/directive/cp-dbclick.ts":
+/*!*****************************************!*\
+  !*** ./src/map/directive/cp-dbclick.ts ***!
+  \*****************************************/
+/*! exports provided: CPdbClick */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CPdbClick", function() { return CPdbClick; });
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../common */ "./src/common.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
+
+
+
+var CPdbClick = /** @class */ (function () {
+    function CPdbClick(_element, _map) {
+        this.element = _element;
+        this.element['cpDbClick'] = this;
+        this.map = _map;
+        this.attribute = this.element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].DBCLICK_ATTRIBUTE_NAME);
+        if (!this.attribute) {
+            throw new Error("syntax error " + _constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].DBCLICK_ATTRIBUTE_NAME + " expected arguments");
+        }
+    }
+    CPdbClick.prototype.create = function () {
+        this.init();
+    };
+    CPdbClick.prototype.getIndexRow = function (element) {
+        var index = lodash__WEBPACK_IMPORTED_MODULE_0__["get"](_common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(element).scope, _constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].REPEAT_INDEX_NAME);
+        if (index === undefined && element.parentNode) {
+            return this.getIndexRow(element.parentNode);
+        }
+        return index;
+    };
+    CPdbClick.prototype.onDbClick = function (evt) {
+        evt.target['cpDbClick'].attribute = evt.target['cpDbClick'].attribute.replace(/ /g, '');
+        _common__WEBPACK_IMPORTED_MODULE_1__["Common"].executeFunctionCallback(evt.target['cpDbClick'].element, evt.target['cpDbClick'].attribute, evt);
+    };
+    CPdbClick.prototype.init = function () {
+        // Remove old event
+        this.element.removeEventListener('dblclick', this.onDbClick);
+        // Add new event
+        this.element.addEventListener('dblclick', this.onDbClick);
+    };
+    return CPdbClick;
 }());
 
 
@@ -20521,7 +20688,7 @@ __webpack_require__.r(__webpack_exports__);
 var CPShow = /** @class */ (function () {
     function CPShow(_element, _map) {
         this.element = _element;
-        this.initialDisplay = this.element.style.display || '';
+        this.initialDisplay = this.element.style.display && this.element.style.display !== 'none' ? this.element.style.display : 'block';
         this.map = _map;
         this.attribute = _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getAttributeCpShow(this.element);
         if (!this.attribute) {
@@ -20703,6 +20870,43 @@ var CPStyle = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/map/directive/cp-title.ts":
+/*!***************************************!*\
+  !*** ./src/map/directive/cp-title.ts ***!
+  \***************************************/
+/*! exports provided: CPTitle */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CPTitle", function() { return CPTitle; });
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "./src/common.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
+
+
+var CPTitle = /** @class */ (function () {
+    function CPTitle(_element, _map) {
+        this.element = _element;
+        this.map = _map;
+        this.attribute = this.element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].TITLE_ATTRIBUTE_NAME);
+        if (!this.attribute) {
+            throw new Error("syntax error " + _constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].TITLE_ATTRIBUTE_NAME + " expected arguments");
+        }
+    }
+    CPTitle.prototype.create = function () {
+        this.init();
+    };
+    CPTitle.prototype.init = function () {
+        var attribute = _common__WEBPACK_IMPORTED_MODULE_0__["Common"].evalInContext(this.attribute, _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getScope(this.element).scope);
+        this.element.setAttribute("title", attribute);
+    };
+    return CPTitle;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/map/map-dom.ts":
 /*!****************************!*\
   !*** ./src/map/map-dom.ts ***!
@@ -20735,6 +20939,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _directive_cp_src__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./directive/cp-src */ "./src/map/directive/cp-src.ts");
 /* harmony import */ var _directive_cp_step__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./directive/cp-step */ "./src/map/directive/cp-step.ts");
 /* harmony import */ var _directive_cp_style__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./directive/cp-style */ "./src/map/directive/cp-style.ts");
+/* harmony import */ var _directive_cp_dbclick__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./directive/cp-dbclick */ "./src/map/directive/cp-dbclick.ts");
+/* harmony import */ var _directive_cp_title__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./directive/cp-title */ "./src/map/directive/cp-title.ts");
+
+
 
 
 
@@ -20787,6 +20995,8 @@ var MapDom = /** @class */ (function () {
             cpFocus: [],
             cpHide: [],
             cpBlur: [],
+            cpdbClick: [],
+            cpTitles: []
         };
         this.element = _element;
         this.regexInterpolation = new RegExp(/({{).*?(}})/g);
@@ -20904,6 +21114,12 @@ var MapDom = /** @class */ (function () {
         if (child.hasAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].BLUR_ATTRIBUTE_NAME)) {
             this.createCPBlur(child);
         }
+        if (child.hasAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].DBCLICK_ATTRIBUTE_NAME)) {
+            this.createCPdbClick(child);
+        }
+        if (child.hasAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].TITLE_ATTRIBUTE_NAME)) {
+            this.createCPtitle(child);
+        }
     };
     MapDom.prototype.reloadElementChildes = function (element, initialScope) {
         var _this = this;
@@ -20959,6 +21175,10 @@ var MapDom = /** @class */ (function () {
         this.directives.cpHide.forEach(function (cpHide) { return cpHide.init(); });
         // Update cp blur
         this.directives.cpBlur.forEach(function (cpBlur) { return cpBlur.init(); });
+        // Update cp dbClick
+        this.directives.cpdbClick.forEach(function (cpdbclick) { return cpdbclick.init(); });
+        // Update cp title
+        this.directives.cpTitles.forEach(function (cpTitle) { return cpTitle.init(); });
         this.processInterpolation(this.element);
     };
     /**
@@ -21191,6 +21411,18 @@ var MapDom = /** @class */ (function () {
     MapDom.prototype.createCPBlur = function (child) {
         this.directives.cpBlur.push(new _directive_cp_blur__WEBPACK_IMPORTED_MODULE_2__["CPBlur"](child, this));
     };
+    /**
+    * @param child Elemento que está sendo criado o bind do dbClick.
+    */
+    MapDom.prototype.createCPdbClick = function (child) {
+        this.directives.cpdbClick.push(new _directive_cp_dbclick__WEBPACK_IMPORTED_MODULE_22__["CPdbClick"](child, this));
+    };
+    /**
+    * @param child Elemento que está sendo criado o bind do dbTitle.
+    */
+    MapDom.prototype.createCPtitle = function (child) {
+        this.directives.cpTitles.push(new _directive_cp_title__WEBPACK_IMPORTED_MODULE_23__["CPTitle"](child, this));
+    };
     return MapDom;
 }());
 
@@ -21225,7 +21457,7 @@ var ScopeProxy = /** @class */ (function () {
                     _this.mapDom.reload();
                     objectObserve.scope.$emit('$onChanges', changes);
                     _this.executeObservers(objectObserve, '$onChanges', changes);
-                    _this.executeObservers(objectObserve, '$$checkBindings', changes);
+                    _this.executeObservers(objectObserve, '_$$checkBindings', changes);
                 });
             });
         }

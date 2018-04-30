@@ -17,7 +17,7 @@ describe('test of show with fixed object', () => {
                     expect(element.querySelector('h1').style.display).toEqual('none');
                     done();
                 });
-            });
+            }, 10000);
         };
     });
 });
@@ -25,7 +25,6 @@ describe('test of show with fixed object', () => {
 describe('test of show with dynamic object', () => {
     const template = `
         <h1 cp-show="$ctrl.isActive">Show this</h1>
-        <button cp-click="$ctrl.click()">Click me!<button>
     `;
     const element = document.createElement('div');
     element.innerHTML = template;
@@ -33,18 +32,14 @@ describe('test of show with dynamic object', () => {
         const $ctrl = this;
         $ctrl.isActive = true;
 
-        $ctrl.click = () => {
-            $ctrl.isActive = !$ctrl.isActive;
-        };
-
         $ctrl.$onInit = () => {
-            element.querySelector('button').click();
             it("Expected to not find the element", function(done) {
                 setTimeout(function() {
-                    expect(element.querySelector('h1').style.display).toEqual('');
+                    expect(element.querySelector('h1').style.display).toEqual('block');
                     done();
                 });
-            }, 5000);
+            }, 10000);
         };
+
     });
 });
