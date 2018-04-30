@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <my-component #myComponent></my-component>
+
+    <script src="/dist/capivara.js"></script>
+    <script>
+        capivara.component('my-component', {
+            template: '<div> <input cp-placeholder="$ctrl.name"> <br> <button cp-click="$ctrl.change()">Change Placeholder</button></div>',
+            constants: [],
+            functions: [],
+            bindings: [],
+            controller: function() {
+                const $ctrl = this;
+
+                $ctrl.name = 'Capivara'
+
+                $ctrl.change = function() {
+                    $ctrl.name = 'CapivaraJS'
+                }               
+            }
+        });
+
+        capivara.componentBuilder('myComponent').then((instance) => instance.build())
+    </script>
+
+    
+</body>
+</html>
