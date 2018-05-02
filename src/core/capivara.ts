@@ -214,7 +214,7 @@ export class Capivara {
         return str.split(needle).join(replacement);
     }
     /**
-     * @name capivara,constants
+     * @name capivara.constants
      * @description Modifica o nome das diretivas que são criadas pelo capivara.
      */
     public constants(obj) {

@@ -25,11 +25,30 @@ export class ComponentInstance {
         this.element.$instance = this;
         this.config = _config;
         this.config.controller = this.config.controller || function isolatedScope() { };
-        if (this.config.template) {
-            this.element.innerHTML = this.config.template;
-        }
+        this.renderTemplate();
         this.destroyed = true;
         this.registerController();
+    }
+
+    public renderTemplate() {
+        if (this.config.template) {
+            if (DOMParser) {
+                const templateToElm: any = new DOMParser().parseFromString(this.config.template, 'text/html');
+                const transcludeTemplate = new DOMParser().parseFromString(this.element.innerHTML, 'text/html');
+                if (transcludeTemplate && templateToElm && transcludeTemplate.querySelectorAll) {
+                    Array.from((transcludeTemplate.querySelectorAll('cp-transclude') || [])).forEach((transclude: any) => {
+                        const attrName = transclude.getAttribute('name');
+                        const query = transclude.nodeName.toLowerCase() + (attrName ? '[name="' + attrName + '"]' : '');
+                        Array.from((templateToElm.querySelectorAll(query) || [])).forEach((transcludeReference: any) => transcludeReference.replaceWith(transclude));
+                    });
+                    this.element.innerHTML = templateToElm.body.innerHTML;
+                } else {
+                    this.element.innerHTML = this.config.template;
+                }
+            } else {
+                this.element.innerHTML = this.config.template;
+            }
+        }
     }
 
     public registerController() {

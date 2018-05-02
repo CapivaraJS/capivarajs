@@ -4,6 +4,7 @@ import { Constants } from '../constants';
 import { CPBlur } from './directive/cp-blur';
 import { CPClass } from './directive/cp-class';
 import { CPClick } from './directive/cp-click';
+import { CPdbClick } from './directive/cp-dbclick';
 import { CPDisabled } from './directive/cp-disabled';
 import { CPElse } from './directive/cp-else';
 import { CPElseIf } from './directive/cp-else-if';
@@ -21,7 +22,6 @@ import { CPShow } from './directive/cp-show';
 import { CPSrc } from './directive/cp-src';
 import { CPStep } from './directive/cp-step';
 import { CPStyle } from './directive/cp-style';
-import { CPdbClick } from './directive/cp-dbclick';
 import { CPTitle } from './directive/cp-title';
 
 export class MapDom {
@@ -60,7 +60,7 @@ export class MapDom {
         cpHide: [],
         cpBlur: [],
         cpdbClick: [],
-        cpTitles: []
+        cpTitles: [],
     };
 
     private readonly regexInterpolation;
@@ -225,9 +225,7 @@ export class MapDom {
 
         // Update cp title
         this.directives.cpTitles.forEach((cpTitle) => cpTitle.init());
-
-
-        this.processInterpolation(this.element);
+        this.processInterpolation(this.element, this.element);
     }
 
     /**
@@ -243,9 +241,12 @@ export class MapDom {
      * @description Percorre os elementos para processar os interpolations.
      * @param element
      */
-    public processInterpolation(element) {
+    public processInterpolation(element, firstElem) {
+        if (element && element.nodeName && Common.isComponent(element) && firstElem.nodeName !== element.nodeName) {
+            return;
+        }
         Array.from(element.childNodes).forEach((childNode: any) => {
-            this.interpolation(childNode);
+            this.interpolation(childNode, firstElem);
         });
     }
 
@@ -266,7 +267,7 @@ export class MapDom {
      * @description Função que modifica o texto da interpolação pelo determinado valor.
      * @param childNode
      */
-    public interpolation(childNode) {
+    public interpolation(childNode, firstElem) {
         if (childNode.nodeName === '#text' && !Common.parentHasIgnore(childNode)) {
             childNode.$immutableInterpolation = childNode.$immutableInterpolation || false;
             if (childNode.$immutableInterpolation) { return; }
@@ -296,7 +297,7 @@ export class MapDom {
 
         }
         if (childNode.childNodes) {
-            this.processInterpolation(childNode);
+            this.processInterpolation(childNode, firstElem);
         }
     }
 
