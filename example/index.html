@@ -24,6 +24,12 @@
 <input type="text" cp-placeholder="$ctrl.nome">
 <button cp-click="$ctrl.mudaonome()">Test</button>
 
+<ul>
+    <li cp-repeat="obj in $ctrl.data">
+        [[ obj ]] [[$index]]
+    </li>
+</ul>
+
     <script defer src="../dist/capivara.js"></script>
     <script defer src="component.js"></script>
     <script defer src="app.js"></script>
