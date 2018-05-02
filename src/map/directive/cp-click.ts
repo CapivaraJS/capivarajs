@@ -14,20 +14,15 @@ export class CPClick implements Directive {
     constructor(_element: HTMLElement, _map: MapDom) {
         this.element = _element;
         this.map = _map;
-        if (this.element.getAttribute(Constants.CLICK_ATTRIBUTE_NAME)) {
-            this.attribute = this.element.getAttribute(Constants.CLICK_ATTRIBUTE_NAME);
-            this.eventName = 'click';
-        } else {
+        this.attribute = this.element.getAttribute(Constants.CLICK_ATTRIBUTE_NAME);
+        this.eventName = 'click';
+        if (!this.attribute) {
             this.attribute = this.element.getAttribute(Constants.DBLCLICK_ATTRIBUTE_NAME);
             this.eventName = 'dblclick';
         }
 
         if (!this.attribute) {
-            if (this.eventName === 'click') {
-                throw new Error(`syntax error ${Constants.CLICK_ATTRIBUTE_NAME} expected arguments`);
-            } else {
-                throw new Error(`syntax error ${Constants.DBLCLICK_ATTRIBUTE_NAME} expected arguments`);
-            }
+            throw new Error(`syntax error cp-${this.eventName} expected arguments`);
         }
     }
 
