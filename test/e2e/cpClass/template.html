@@ -52,7 +52,7 @@
                 }
             }
         });
-        capivara.componentBuilder(document.getElementById('myComponent')).build();
+        capivara.componentBuilder(document.getElementById('myComponent')).then((instance) => instance.build())
     </script>
 </body>
 

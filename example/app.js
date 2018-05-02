@@ -1,10 +1,10 @@
 capivara.controller(document.body, function () {
 	const $ctrl = this;
 
-	$ctrl.text = 'click me';
+	$ctrl.nome = 'Dougrinhas';
 
-	$ctrl.doubleClick = () => {
-	    $ctrl.text = 'double click me';
+	$ctrl.mudaonome = function() {
+		$ctrl.nome = 'Ronaldo';
 	};
 
 });

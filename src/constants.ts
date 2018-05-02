@@ -27,4 +27,6 @@ export const Constants = {
     FOCUS_ATTRIBUTE_NAME     : 'cp-focus',
     HIDE_ATTRIBUTE_NAME      : 'cp-hide',
     BLUR_ATTRIBUTE_NAME      : 'cp-blur',
+    TITLE_ATTRIBUTE_NAME      : 'cp-title',
+    PLACEHOLDER_ATTRIBUTE_NAME: 'cp-placeholder',
 };

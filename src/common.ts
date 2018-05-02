@@ -90,8 +90,17 @@ export namespace Common {
         return element.getAttribute(Constants.BLUR_ATTRIBUTE_NAME);
     }
 
+    export function getAttributeCpPlaceholder(element) {
+        return element.getAttribute(Constants.PLACEHOLDER_ATTRIBUTE_NAME);
+    }
+
     export function getScope(element) {
         return element[Constants.SCOPE_ATTRIBUTE_NAME];
+    }
+
+    export function isComponent(element) {
+        const component = window['capivara'].components[element.nodeName.toUpperCase()];
+        return component ? true : false;
     }
 
     export function getScopeParent(element) {
@@ -148,11 +157,11 @@ export namespace Common {
         if (elementComment.replaceWith) {
             elementComment.replaceWith(element);
         }
-        if (element.$instance) { element.$instance.initController(); }
+        if (element.$instance) { element.$instance.initController(true); }
     }
 
     export function isValidCondition(element, condition) {
-        const scope = getScope(element).scope;
+        const scope = isComponent(element) && element.parentNode && element.parentNode[Constants.SCOPE_ATTRIBUTE_NAME] ? getScope(element.parentNode).scope : getScope(element).scope;
         const result = evalInContext(condition, scope);
         return result;
     }

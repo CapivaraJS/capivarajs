@@ -22,7 +22,7 @@ export class ScopeProxy {
                     this.mapDom.reload();
                     objectObserve.scope.$emit('$onChanges', changes);
                     this.executeObservers(objectObserve, '$onChanges', changes);
-                    this.executeObservers(objectObserve, '$$checkBindings', changes);
+                    this.executeObservers(objectObserve, '_$$checkBindings', changes);
                 });
             });
         }

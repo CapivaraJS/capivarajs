@@ -157,8 +157,9 @@ describe('test method componentBuilder', () => {
         template: '<h1 id="componentBuilder">Hello World</h1>',
     });
     capivara
-        .componentBuilder(document.getElementById('demo'))
-        .build();
+        .componentBuilder(document.getElementById('demo')).then((instance: any) => {
+            instance.build();
+        });
     it('Test if the component was rendered', () => {
         expect(document.querySelector('h1#componentBuilder').innerHTML).toEqual('Hello World');
     });

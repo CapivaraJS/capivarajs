@@ -16,11 +16,13 @@ import { CPMax } from './directive/cp-max';
 import { CPMaxLength } from "./directive/cp-maxlength";
 import { CPMin } from './directive/cp-min';
 import { CPModel } from './directive/cp-model';
+import { CPPlaceholder } from './directive/cp-placeholder';
 import { CPRepeat } from './directive/cp-repeat';
 import { CPShow } from './directive/cp-show';
 import { CPSrc } from './directive/cp-src';
 import { CPStep } from './directive/cp-step';
 import { CPStyle } from './directive/cp-style';
+import { CPTitle } from './directive/cp-title';
 
 export class MapDom {
 
@@ -57,6 +59,9 @@ export class MapDom {
         cpFocus: [],
         cpHide: [],
         cpBlur: [],
+        cpdbClick: [],
+        cpTitles: [],
+        cpPlaceholder: [],
     };
 
     private readonly regexInterpolation;
@@ -142,6 +147,8 @@ export class MapDom {
         if (child.hasAttribute(Constants.FOCUS_ATTRIBUTE_NAME)) { this.createCPFocus(child); }
         if (child.hasAttribute(Constants.HIDE_ATTRIBUTE_NAME)) { this.createCPHide(child); }
         if (child.hasAttribute(Constants.BLUR_ATTRIBUTE_NAME)) { this.createCPBlur(child); }
+        if (child.hasAttribute(Constants.TITLE_ATTRIBUTE_NAME)) { this.createCPtitle(child); }
+        if (child.hasAttribute(Constants.PLACEHOLDER_ATTRIBUTE_NAME)) { this.createCPPlaceholder(child); }
     }
 
     public reloadElementChildes(element, initialScope) {
@@ -214,7 +221,13 @@ export class MapDom {
         // Update cp blur
         this.directives.cpBlur.forEach((cpBlur) => cpBlur.init());
 
-        this.processInterpolation(this.element);
+        // Update cp title
+        this.directives.cpTitles.forEach((cpTitle) => cpTitle.init());
+
+        // Update cp placeholder
+        this.directives.cpPlaceholder.forEach((cpPlaceholder) => cpPlaceholder.init());
+
+        this.processInterpolation(this.element, this.element);
     }
 
     /**
@@ -230,9 +243,12 @@ export class MapDom {
      * @description Percorre os elementos para processar os interpolations.
      * @param element
      */
-    public processInterpolation(element) {
+    public processInterpolation(element, firstElem) {
+        if (element && element.nodeName && Common.isComponent(element) && firstElem.nodeName !== element.nodeName) {
+            return;
+        }
         Array.from(element.childNodes).forEach((childNode: any) => {
-            this.interpolation(childNode);
+            this.interpolation(childNode, firstElem);
         });
     }
 
@@ -253,7 +269,7 @@ export class MapDom {
      * @description Função que modifica o texto da interpolação pelo determinado valor.
      * @param childNode
      */
-    public interpolation(childNode) {
+    public interpolation(childNode, firstElem) {
         if (childNode.nodeName === '#text' && !Common.parentHasIgnore(childNode)) {
             childNode.$immutableInterpolation = childNode.$immutableInterpolation || false;
             if (childNode.$immutableInterpolation) { return; }
@@ -283,7 +299,7 @@ export class MapDom {
 
         }
         if (childNode.childNodes) {
-            this.processInterpolation(childNode);
+            this.processInterpolation(childNode, firstElem);
         }
     }
 
@@ -467,6 +483,19 @@ export class MapDom {
      */
     public createCPBlur(child) {
         this.directives.cpBlur.push(new CPBlur(child, this));
+    }
 
+    /**
+    * @param child Elemento que está sendo criado o bind do Title.
+    */
+    public createCPtitle(child) {
+        this.directives.cpTitles.push(new CPTitle(child, this));
+    }
+
+    /**
+    * @param child Elemento que está sendo criado o bind do placeholder.
+    */
+    public createCPPlaceholder(child) {
+        this.directives.cpPlaceholder.push(new CPPlaceholder(child, this));
     }
 }

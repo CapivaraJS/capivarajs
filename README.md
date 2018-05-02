@@ -15,11 +15,14 @@
     <a href="https://gitter.im/capivarajs/Lobby"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Join the chat"></a>
 </p>
 
+
 Atualmente existem vários frameworks que possibilitam a criação de componentes, entretanto tais componentes acabam ficando isolados em determinada tecnologia, fazendo com que uma possível migração seja mais complexa. 
 
 Criamos um **framework híbrido** e suas diretivas são totalmente personalizáveis, tornando assim os componentes independentes da tecnologia utilizada.
 
 Componentes CapivaraJS são compatíveis com todos frameworks. Experimente!
+
+_____________________________________________________________________
 
 [Ir para documentação / Go to documentation](https://capivarajs.github.io/)
 
@@ -27,10 +30,10 @@ Componentes CapivaraJS são compatíveis com todos frameworks. Experimente!
 
 [contributing]: https://github.com/CapivaraJS/capivarajs/blob/master/CONTRIBUTING.md
 
-
+_____________________________________________________________________
 
 Nowadays there are a lot of frameworks to component criation, but these components become isolated in the technology. and this increase the complexity to migrate them.
 
-We create a ** hibrid framework ** and yours directives are totaly customizable, making your components independent of the used technology
+We create a **hibrid framework** and yours directives are totaly customizable, making your components independent of the used technology
 
 CapivaraJS components are compatible with all frameworks. Try it!

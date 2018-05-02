@@ -8,6 +8,16 @@ export class Component {
     constructor(_componentName, config) {
         this.componentName = _componentName;
         this.config = config;
+        this.customElementsVue();
+    }
+
+    private customElementsVue() {
+        if (window['Vue']) {
+            window['Vue'].config.ignoredElements = window['Vue'].config.ignoredElements || [];
+            if (window['Vue'].config.ignoredElements.filter((value) => value === this.componentName).length === 0) {
+                window['Vue'].config.ignoredElements.push(this.componentName);
+            }
+        }
     }
 
     public createNewInstance(elm) {
