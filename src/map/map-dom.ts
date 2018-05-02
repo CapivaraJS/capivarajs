@@ -150,7 +150,7 @@ export class MapDom {
         if (child.hasAttribute(Constants.BLUR_ATTRIBUTE_NAME)) { this.createCPBlur(child); }
         if (child.hasAttribute(Constants.DBCLICK_ATTRIBUTE_NAME)) { this.createCPdbClick(child); }
         if (child.hasAttribute(Constants.TITLE_ATTRIBUTE_NAME)) { this.createCPtitle(child); }
-        if (child.hasAttribute(Constants.MOUSE_ATTRIBUTE_NAME)) { this.createCPmouse(child); }
+        if (child.hasAttributeStartingWith(Constants.MOUSE_ATTRIBUTE_NAME)) { this.createCPmouse(child); }
     }
 
     public reloadElementChildes(element, initialScope) {

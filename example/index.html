@@ -20,27 +20,11 @@
 </head>
 
 <body>
-  
-<label>
-    <input type="number" name="quantity" cp-min="0">
-</label>
-<hr>
-<label>
-    <input type="number" name="points" cp-step="3">
-</label>
-
     <label>
-        <input type="text" cp-model="$ctrl.nome" cp-keydown="$ctrl.foo($event)">
+        <h1>Nome: [[$ctrl.texto]]</h1>
+
+        <input type="text" cp-model="$ctrl.nome" cp-mouseover="$ctrl.mouseenter()" cp-mouseout="$ctrl.mouseout()" cp-keydown.DOWNARROW="$ctrl.foo()">
     </label>
-
-    <h1 cp-class="{ 'blue': $ctrl.nome }"> ${ numero1 + numero2 } </h1>
-
-    <button cp-click="$ctrl.foo($event)">single click</button>
-    <button cp-dbclick="$ctrl.foo($event)">double click</button>
-<br>
-<h2 cp-title="$ctrl.attribute ? 'tem algo' : 'vazio'">test title</h2>
-
-
 
     <script defer src="../dist/capivara.js"></script>
     <script defer src="component.js"></script>

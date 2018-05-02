@@ -6,18 +6,15 @@ capivara.controller(document.body, function () {
 
 	$ctrl.attribute = true;
 
-	setTimeout(() => {
-		$ctrl.attribute = false;
-		console.log('mudou')
-	}, 5000)
 
-	$ctrl.teste = () => {
-		$ctrl.numero2 = 30;
-	}
 
-	$ctrl.foo = function(evt){
-		console.log(evt)
-	}
+	$ctrl.mouseenter = function() {
+		$ctrl.texto = 'Entrou';
+	};
+
+	$ctrl.mouseout = function(){
+		$ctrl.texto = 'Saiu';
+	};
 	
 
 });
