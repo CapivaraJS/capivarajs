@@ -17,6 +17,7 @@ import { CPMax } from './directive/cp-max';
 import { CPMaxLength } from "./directive/cp-maxlength";
 import { CPMin } from './directive/cp-min';
 import { CPModel } from './directive/cp-model';
+import { CPPlaceholder } from './directive/cp-placeholder';
 import { CPRepeat } from './directive/cp-repeat';
 import { CPShow } from './directive/cp-show';
 import { CPSrc } from './directive/cp-src';
@@ -61,6 +62,7 @@ export class MapDom {
         cpBlur: [],
         cpdbClick: [],
         cpTitles: [],
+        cpPlaceholder: [],
     };
 
     private readonly regexInterpolation;
@@ -148,6 +150,7 @@ export class MapDom {
         if (child.hasAttribute(Constants.BLUR_ATTRIBUTE_NAME)) { this.createCPBlur(child); }
         if (child.hasAttribute(Constants.DBCLICK_ATTRIBUTE_NAME)) { this.createCPdbClick(child); }
         if (child.hasAttribute(Constants.TITLE_ATTRIBUTE_NAME)) { this.createCPtitle(child); }
+        if (child.hasAttribute(Constants.PLACEHOLDER_ATTRIBUTE_NAME)) { this.createCPPlaceholder(child); }
     }
 
     public reloadElementChildes(element, initialScope) {
@@ -225,6 +228,10 @@ export class MapDom {
 
         // Update cp title
         this.directives.cpTitles.forEach((cpTitle) => cpTitle.init());
+
+        // Update cp placeholder
+        this.directives.cpPlaceholder.forEach((cpPlaceholder) => cpPlaceholder.init());
+
         this.processInterpolation(this.element, this.element);
     }
 
@@ -491,9 +498,16 @@ export class MapDom {
     }
 
     /**
-    * @param child Elemento que está sendo criado o bind do dbTitle.
+    * @param child Elemento que está sendo criado o bind do Title.
     */
     public createCPtitle(child) {
         this.directives.cpTitles.push(new CPTitle(child, this));
+    }
+
+    /**
+    * @param child Elemento que está sendo criado o bind do placeholder.
+    */
+    public createCPPlaceholder(child) {
+        this.directives.cpPlaceholder.push(new CPPlaceholder(child, this));
     }
 }
