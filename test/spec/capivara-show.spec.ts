@@ -35,7 +35,7 @@ describe('test of show with dynamic object', () => {
         $ctrl.$onInit = () => {
             it("Expected to not find the element", function(done) {
                 setTimeout(function() {
-                    expect(element.querySelector('h1').style.display).toEqual('block');
+                    expect(element.querySelector('h1').style.display).toEqual('');
                     done();
                 });
             }, 10000);

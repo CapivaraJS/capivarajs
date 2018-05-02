@@ -12,7 +12,7 @@ export class CPShow  implements Directive {
 
     constructor(_element: HTMLElement, _map: MapDom) {
         this.element = _element;
-        this.initialDisplay = this.element.style.display && this.element.style.display !== 'none' ? this.element.style.display : 'block';
+        this.initialDisplay = this.element.style.display || '';
         this.map = _map;
         this.attribute = Common.getAttributeCpShow(this.element);
         if (!this.attribute) {

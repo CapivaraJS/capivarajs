@@ -8,7 +8,10 @@ export class AngularContext extends Context {
     }
 
     public process(element) {
-        return window[this.name].probe(element)._debugContext.context;
+        const probe = window[this.name].probe(element);
+        if (probe && probe._debugContext && probe._debugContext.context) {
+            return probe._debugContext.context;
+        }
     }
 
 }
