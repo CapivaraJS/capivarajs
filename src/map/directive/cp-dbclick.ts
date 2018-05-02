@@ -3,7 +3,6 @@ import { Common } from '../../common';
 import { Constants } from '../../constants';
 import { MapDom } from '../map-dom';
 import { Directive } from './directive.interface';
-import { Component } from '../../core';
 
 export class CPdbClick implements Directive {
 
