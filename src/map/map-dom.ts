@@ -4,6 +4,7 @@ import { Constants } from '../constants';
 import { CPBlur } from './directive/cp-blur';
 import { CPClass } from './directive/cp-class';
 import { CPClick } from './directive/cp-click';
+import { CPdbClick } from './directive/cp-dbclick';
 import { CPDisabled } from './directive/cp-disabled';
 import { CPElse } from './directive/cp-else';
 import { CPElseIf } from './directive/cp-else-if';
@@ -17,12 +18,12 @@ import { CPMaxLength } from "./directive/cp-maxlength";
 import { CPMin } from './directive/cp-min';
 import { CPModel } from './directive/cp-model';
 import { CPMouse } from './directive/cp-mouse';
+import { CPPlaceholder } from './directive/cp-placeholder';
 import { CPRepeat } from './directive/cp-repeat';
 import { CPShow } from './directive/cp-show';
 import { CPSrc } from './directive/cp-src';
 import { CPStep } from './directive/cp-step';
 import { CPStyle } from './directive/cp-style';
-import { CPdbClick } from './directive/cp-dbclick';
 import { CPTitle } from './directive/cp-title';
 
 export class MapDom {
@@ -63,6 +64,7 @@ export class MapDom {
         cpdbClick: [],
         cpTitles: [],
         cpMouse: [],
+        cpPlaceholder: [],
     };
 
     private readonly regexInterpolation;
@@ -151,6 +153,7 @@ export class MapDom {
         if (child.hasAttribute(Constants.DBCLICK_ATTRIBUTE_NAME)) { this.createCPdbClick(child); }
         if (child.hasAttribute(Constants.TITLE_ATTRIBUTE_NAME)) { this.createCPtitle(child); }
         if (child.hasAttributeStartingWith(Constants.MOUSE_ATTRIBUTE_NAME)) { this.createCPmouse(child); }
+        if (child.hasAttribute(Constants.PLACEHOLDER_ATTRIBUTE_NAME)) { this.createCPPlaceholder(child); }
     }
 
     public reloadElementChildes(element, initialScope) {
@@ -231,6 +234,9 @@ export class MapDom {
 
         // Update cp Mouse
         this.directives.cpMouse.forEach((cpMouse) => cpMouse.init());
+
+        // Update cp placeholder
+        this.directives.cpPlaceholder.forEach((cpPlaceholder) => cpPlaceholder.init());
 
         this.processInterpolation(this.element);
     }
@@ -495,7 +501,7 @@ export class MapDom {
     }
 
     /**
-    * @param child Elemento que está sendo criado o bind do dbTitle.
+    * @param child Elemento que está sendo criado o bind do Title.
     */
     public createCPtitle(child) {
         this.directives.cpTitles.push(new CPTitle(child, this));
@@ -506,5 +512,12 @@ export class MapDom {
     */
     public createCPmouse(child) {
         this.directives.cpMouse.push(new CPMouse(child, this));
+    }
+
+    /**
+    * @param child Elemento que está sendo criado o bind do placeholder.
+    */
+    public createCPPlaceholder(child) {
+        this.directives.cpPlaceholder.push(new CPPlaceholder(child, this));
     }
 }
