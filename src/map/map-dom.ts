@@ -16,6 +16,7 @@ import { CPMax } from './directive/cp-max';
 import { CPMaxLength } from "./directive/cp-maxlength";
 import { CPMin } from './directive/cp-min';
 import { CPModel } from './directive/cp-model';
+import { CPMouse } from './directive/cp-mouse';
 import { CPPlaceholder } from './directive/cp-placeholder';
 import { CPRepeat } from './directive/cp-repeat';
 import { CPShow } from './directive/cp-show';
@@ -37,7 +38,7 @@ export class MapDom {
          */
         cpModelsElements: {},
         /**
-         * Array com os ng repeat
+         * Array com os cp-repeat
          */
         cpModels: [],
         repeats: [],
@@ -60,6 +61,7 @@ export class MapDom {
         cpHide: [],
         cpBlur: [],
         cpTitles: [],
+        cpMouse: [],
         cpPlaceholder: [],
     };
 
@@ -147,6 +149,7 @@ export class MapDom {
         if (child.hasAttribute(Constants.HIDE_ATTRIBUTE_NAME)) { this.createCPHide(child); }
         if (child.hasAttribute(Constants.BLUR_ATTRIBUTE_NAME)) { this.createCPBlur(child); }
         if (child.hasAttribute(Constants.TITLE_ATTRIBUTE_NAME)) { this.createCPtitle(child); }
+        if (child.hasAttributeStartingWith(Constants.MOUSE_ATTRIBUTE_NAME)) { this.createCPmouse(child); }
         if (child.hasAttribute(Constants.PLACEHOLDER_ATTRIBUTE_NAME)) { this.createCPPlaceholder(child); }
     }
 
@@ -222,6 +225,9 @@ export class MapDom {
 
         // Update cp title
         this.directives.cpTitles.forEach((cpTitle) => cpTitle.init());
+
+        // Update cp Mouse
+        this.directives.cpMouse.forEach((cpMouse) => cpMouse.init());
 
         // Update cp placeholder
         this.directives.cpPlaceholder.forEach((cpPlaceholder) => cpPlaceholder.init());
@@ -489,6 +495,13 @@ export class MapDom {
     */
     public createCPtitle(child) {
         this.directives.cpTitles.push(new CPTitle(child, this));
+    }
+
+    /**
+    * @param child Elemento que está sendo criado o bind do dbTitle.
+    */
+    public createCPmouse(child) {
+        this.directives.cpMouse.push(new CPMouse(child, this));
     }
 
     /**
