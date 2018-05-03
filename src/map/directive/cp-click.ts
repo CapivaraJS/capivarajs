@@ -20,7 +20,6 @@ export class CPClick implements Directive {
             this.attribute = this.element.getAttribute(Constants.DBLCLICK_ATTRIBUTE_NAME);
             this.eventName = 'dblclick';
         }
-
         if (!this.attribute) {
             throw new Error(`syntax error cp-${this.eventName} expected arguments`);
         }

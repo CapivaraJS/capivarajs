@@ -59,7 +59,6 @@ export class MapDom {
         cpFocus: [],
         cpHide: [],
         cpBlur: [],
-        cpdbClick: [],
         cpTitles: [],
         cpPlaceholder: [],
     };
