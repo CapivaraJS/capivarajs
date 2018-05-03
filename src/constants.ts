@@ -29,4 +29,5 @@ export const Constants = {
     DBCLICK_ATTRIBUTE_NAME    : 'cp-dbclick',
     TITLE_ATTRIBUTE_NAME      : 'cp-title',
     PLACEHOLDER_ATTRIBUTE_NAME: 'cp-placeholder',
+    MOUSE_ATTRIBUTE_NAME      : 'cp-mouse',
 };

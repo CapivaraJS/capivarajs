@@ -20,15 +20,11 @@
 </head>
 
 <body>
-  
-<input type="text" cp-placeholder="$ctrl.nome">
-<button cp-click="$ctrl.mudaonome()">Test</button>
+    <label>
+        <h1>Nome: [[$ctrl.texto]]</h1>
 
-<ul>
-    <li cp-repeat="obj in $ctrl.data">
-        [[ obj ]] [[$index]]
-    </li>
-</ul>
+        <input type="text" cp-model="$ctrl.nome" cp-mouseover="$ctrl.mouseenter()" cp-mouseout="$ctrl.mouseout()" cp-keydown.DOWNARROW="$ctrl.foo()">
+    </label>
 
     <script defer src="../dist/capivara.js"></script>
     <script defer src="component.js"></script>
