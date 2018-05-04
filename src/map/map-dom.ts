@@ -4,7 +4,6 @@ import { Constants } from '../constants';
 import { CPBlur } from './directive/cp-blur';
 import { CPClass } from './directive/cp-class';
 import { CPClick } from './directive/cp-click';
-import { CPdbClick } from './directive/cp-dbclick';
 import { CPDisabled } from './directive/cp-disabled';
 import { CPElse } from './directive/cp-else';
 import { CPElseIf } from './directive/cp-else-if';
@@ -61,7 +60,6 @@ export class MapDom {
         cpFocus: [],
         cpHide: [],
         cpBlur: [],
-        cpdbClick: [],
         cpTitles: [],
         cpMouse: [],
         cpPlaceholder: [],
@@ -131,7 +129,7 @@ export class MapDom {
      */
     public createDirectives(child) {
         if (child.hasAttribute(Constants.MODEL_ATTRIBUTE_NAME)) { this.createCPModel(child); }
-        if (child.hasAttribute(Constants.CLICK_ATTRIBUTE_NAME)) { this.createCPClick(child); }
+        if (child.hasAttribute(Constants.CLICK_ATTRIBUTE_NAME ) || child.hasAttribute(Constants.DBLCLICK_ATTRIBUTE_NAME)) { this.createCPClick(child); }
         if (child.hasAttribute(Constants.REPEAT_ATTRIBUTE_NAME)) { this.createCPRepeat(child); }
         if (child.hasAttribute(Constants.SHOW_ATTRIBUTE_NAME)) { this.createCPShow(child); }
         if (child.hasAttribute(Constants.IF_ATTRIBUTE_NAME)) { this.createCPIf(child); }
@@ -150,7 +148,6 @@ export class MapDom {
         if (child.hasAttribute(Constants.FOCUS_ATTRIBUTE_NAME)) { this.createCPFocus(child); }
         if (child.hasAttribute(Constants.HIDE_ATTRIBUTE_NAME)) { this.createCPHide(child); }
         if (child.hasAttribute(Constants.BLUR_ATTRIBUTE_NAME)) { this.createCPBlur(child); }
-        if (child.hasAttribute(Constants.DBCLICK_ATTRIBUTE_NAME)) { this.createCPdbClick(child); }
         if (child.hasAttribute(Constants.TITLE_ATTRIBUTE_NAME)) { this.createCPtitle(child); }
         if (child.hasAttributeStartingWith(Constants.MOUSE_ATTRIBUTE_NAME)) { this.createCPmouse(child); }
         if (child.hasAttribute(Constants.PLACEHOLDER_ATTRIBUTE_NAME)) { this.createCPPlaceholder(child); }
@@ -225,9 +222,6 @@ export class MapDom {
 
         // Update cp blur
         this.directives.cpBlur.forEach((cpBlur) => cpBlur.init());
-
-        // Update cp dbClick
-        this.directives.cpdbClick.forEach((cpdbclick) => cpdbclick.init());
 
         // Update cp title
         this.directives.cpTitles.forEach((cpTitle) => cpTitle.init());
@@ -494,13 +488,6 @@ export class MapDom {
      */
     public createCPBlur(child) {
         this.directives.cpBlur.push(new CPBlur(child, this));
-    }
-
-    /**
-    * @param child Elemento que está sendo criado o bind do dbClick.
-    */
-    public createCPdbClick(child) {
-        this.directives.cpdbClick.push(new CPdbClick(child, this));
     }
 
     /**
