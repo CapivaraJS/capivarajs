@@ -1,7 +1,7 @@
 module.exports = Object.assign(
+	require('./cpDoubleClick/test'),
 	require('./cpMouse/test'),
 	require('./cpPlaceholder/test'),
-	// require('./cpDoubleClick/test'),
 	require('./cpClick/test'),
 	require('./cpClass/test'),
 	require('./cpElse/test'),
