@@ -61,8 +61,8 @@ export namespace Polyfill {
                 });
             }
         }
-        Observe.unobserve(obj);
-        Observe.observe(obj, handler);
+        Observe.destroy(obj);
+        Observe.create(obj, handler);
         handler(response);
     }
 
@@ -85,4 +85,5 @@ export namespace Polyfill {
         clearInterval(obj[keyObserver]);
         delete obj[keyObserver];
     }
+
 }

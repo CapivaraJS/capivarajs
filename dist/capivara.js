@@ -18041,7 +18041,7 @@ module.exports = function(module) {
 /*! exports provided: name, version, description, main, repository, scripts, author, license, dependencies, keywords, nyc, devDependencies, default */
 /***/ (function(module) {
 
-module.exports = {"name":"capivarajs","version":"2.2.0","description":"Um framework para criação de componentes.","main":"./index.js","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"npm run test-single && webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./webpack.config.js --env.tests true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^10.0.3","babel-loader":"^7.1.4","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.0","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.8","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.21.0","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.3.0","webpack-cli":"^2.0.13","webpack-dev-server":"^3.1.1"}};
+module.exports = {"name":"capivarajs","version":"2.3.0","description":"Um framework para criação de componentes.","main":"./index.js","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"npm run test-single && webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./webpack.config.js --env.tests true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^10.0.3","babel-loader":"^7.1.4","babel-polyfill":"^6.26.0","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.0","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.8","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.21.0","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.3.0","webpack-cli":"^2.0.13","webpack-dev-server":"^3.1.1"}};
 
 /***/ }),
 
@@ -18173,10 +18173,10 @@ var Common;
     }
     Common.getScopeParent = getScopeParent;
     function executeFunctionCallback(element, attribute, evt) {
-        var callback = getCallbackClick(element, attribute);
+        var callback = getCallbackFunc(element, attribute);
         if (callback && !isNative(callback)) {
             var params = attribute.substring(attribute.indexOf('(') + 1, attribute.lastIndexOf(')')), args_1 = [];
-            var context_1 = getScope(element);
+            var context_1 = callback.__ctx__ || getScope(element);
             params.split(',').forEach(function (param) {
                 if (param === _constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].EVENT_ATTRIBUTE_NAME) {
                     args_1.push(evt);
@@ -18187,20 +18187,20 @@ var Common;
                 }
             });
             if (context_1.mapDom.element.$instance) {
-                context_1 = context_1.scope[context_1.mapDom.element.$instance.config.controllerAs];
+                context_1 = context_1[context_1.mapDom.element.$instance.config.controllerAs] || context_1.scope[context_1.mapDom.element.$instance.config.controllerAs];
             }
             return callback.call.apply(callback, [context_1].concat(args_1));
         }
     }
     Common.executeFunctionCallback = executeFunctionCallback;
-    function getCallbackClick(element, attribute) {
+    function getCallbackFunc(element, attribute) {
         var callback = lodash__WEBPACK_IMPORTED_MODULE_0__["get"](getScope(element).scope, attribute.substring(0, attribute.indexOf('(')));
         if (!callback && element.parentNode && getScope(element.parentNode)) {
-            return getCallbackClick(element.parentNode, attribute);
+            return getCallbackFunc(element.parentNode, attribute);
         }
         return callback;
     }
-    Common.getCallbackClick = getCallbackClick;
+    Common.getCallbackFunc = getCallbackFunc;
     function isNative(fn) {
         return /{\s*\[native code]\s*}/.test('' + fn);
     }
@@ -18586,9 +18586,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var melanke_watchjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! melanke-watchjs */ "./node_modules/melanke-watchjs/src/watch.js");
 /* harmony import */ var melanke_watchjs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(melanke_watchjs__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../common */ "./src/common.ts");
-/* harmony import */ var _controller__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./controller */ "./src/core/controller.ts");
-/* harmony import */ var _magic_magic__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./magic/magic */ "./src/core/magic/magic.ts");
-/* harmony import */ var _observer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./observer */ "./src/core/observer/index.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
+/* harmony import */ var _scope_scope_proxy__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../scope/scope.proxy */ "./src/scope/scope.proxy.ts");
+/* harmony import */ var _controller__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./controller */ "./src/core/controller.ts");
+/* harmony import */ var _magic_magic__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./magic/magic */ "./src/core/magic/magic.ts");
+/* harmony import */ var _observer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./observer */ "./src/core/observer/index.ts");
+
+
 
 
 
@@ -18634,7 +18638,7 @@ var ComponentInstance = /** @class */ (function () {
     };
     ComponentInstance.prototype.registerController = function () {
         var _this = this;
-        new _controller__WEBPACK_IMPORTED_MODULE_3__["Controller"](this.element, function (scope) {
+        new _controller__WEBPACK_IMPORTED_MODULE_5__["Controller"](this.element, function (scope) {
             _this.componentScope = scope;
         });
     };
@@ -18643,8 +18647,9 @@ var ComponentInstance = /** @class */ (function () {
             if (this.config.controller) {
                 this.componentScope[this.config.controllerAs] = new this.config.controller(this.componentScope);
             }
-            // this.applyContains();
-            // this.applyFunctions();
+            this.contextObj = _magic_magic__WEBPACK_IMPORTED_MODULE_6__["Magic"].getContext(this.element);
+            this.applyConstantsComponentMagic();
+            this.applyFunctionsComponentMagic();
             this.applyBindingsComponentMagic();
             if (this.componentScope[this.config.controllerAs] && this.componentScope[this.config.controllerAs].$onInit) {
                 this.componentScope[this.config.controllerAs].$onInit();
@@ -18658,7 +18663,7 @@ var ComponentInstance = /** @class */ (function () {
      * @description Aplica os bindings|constants|functions
      */
     ComponentInstance.prototype.build = function () {
-        this.applyContainsComponentBuilder();
+        this.applyConstantsComponentBuilder();
         this.applyFunctionsComponentBuilder();
         if (this.contextObj) {
             this.applyBindingsComponentBuilder();
@@ -18679,12 +18684,12 @@ var ComponentInstance = /** @class */ (function () {
     ComponentInstance.prototype.destroy = function () {
         var _this = this;
         this.destroyed = true;
-        _observer__WEBPACK_IMPORTED_MODULE_5__["Observe"].unobserve(this.componentScope[this.config.controllerAs]);
+        _observer__WEBPACK_IMPORTED_MODULE_7__["Observe"].unobserve(this.componentScope[this.config.controllerAs]);
         if (this.componentScope[this.config.controllerAs] && this.componentScope[this.config.controllerAs].$destroy) {
             this.componentScope[this.config.controllerAs].$destroy();
         }
         window['capivara'].scopes = window['capivara'].scopes.filter(function (scope) {
-            return scope.id !== _this.componentScope.scope.id;
+            return scope.id !== _this.componentScope.element[_constants__WEBPACK_IMPORTED_MODULE_3__["Constants"].SCOPE_ATTRIBUTE_NAME].id;
         });
     };
     /**
@@ -18718,7 +18723,6 @@ var ComponentInstance = /** @class */ (function () {
     };
     ComponentInstance.prototype.applyBindingsComponentMagic = function () {
         var _this = this;
-        this.contextObj = _magic_magic__WEBPACK_IMPORTED_MODULE_4__["Magic"].getContext(this.element);
         (this.config.bindings || []).forEach(function (bindingKey) {
             var bindAttribute = bindingKey.replace(/([A-Z])/g, "-$1").toLowerCase();
             var valueAttribute = _this.element.getAttribute(bindAttribute);
@@ -18737,15 +18741,18 @@ var ComponentInstance = /** @class */ (function () {
         var _this = this;
         if (_bindings === void 0) { _bindings = {}; }
         var $ctrl = _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(this.element).scope[this.config.controllerAs];
-        $ctrl._$$checkBindings = function (changes) {
-            changes.forEach(function (change) {
-                if (change.type === 'update' && _bindings.hasOwnProperty(change.name)) {
-                    lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_this.contextObj, _bindings[change.name], $ctrl['$bindings'][change.name]);
-                    _this.forceUpdateContext();
-                    _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).mapDom.reload();
-                }
-            });
-        };
+        Object.defineProperty($ctrl, '_$$checkBindings', {
+            value: function (changes) {
+                changes.forEach(function (change) {
+                    if (change.type === 'update' && _bindings.hasOwnProperty(change.name)) {
+                        lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_this.contextObj, _bindings[change.name], $ctrl['$bindings'][change.name]);
+                        _this.forceUpdateContext();
+                        _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).mapDom.reload();
+                    }
+                });
+            },
+            writable: false,
+        });
     };
     ComponentInstance.prototype.forceUpdateContext = function () {
         if (this.contextObj) {
@@ -18778,16 +18785,21 @@ var ComponentInstance = /** @class */ (function () {
         if (!_bindings[key]) {
             return;
         }
-        var attrToObserve = ComponentInstance.getFirstAttribute(_bindings, key);
-        this.listenerContextBindings[attrToObserve] = this.listenerContextBindings[attrToObserve] || [];
-        if (this.listenerContextBindings[attrToObserve].length === 0) {
-            melanke_watchjs__WEBPACK_IMPORTED_MODULE_1___default.a.watch(this.contextObj, attrToObserve, function () {
-                _this.listenerContextBindings[attrToObserve].forEach(function (keyListener) {
+        if (this.contextObj instanceof _scope_scope_proxy__WEBPACK_IMPORTED_MODULE_4__["ScopeProxy"]) {
+            _observer__WEBPACK_IMPORTED_MODULE_7__["Observe"].observe(this.contextObj[this.config.controllerAs], function (changes) {
+                _this.setAttributeValue(_bindings, key);
+            });
+        }
+        else {
+            var attrToObserve_1 = ComponentInstance.getFirstAttribute(_bindings, key);
+            this.listenerContextBindings[attrToObserve_1] = this.listenerContextBindings[attrToObserve_1] || [];
+            melanke_watchjs__WEBPACK_IMPORTED_MODULE_1___default.a.watch(this.contextObj, attrToObserve_1, function () {
+                _this.listenerContextBindings[attrToObserve_1].forEach(function (keyListener) {
                     _this.setAttributeValue(_bindings, keyListener);
                 });
             });
+            this.listenerContextBindings[attrToObserve_1].push(key);
         }
-        this.listenerContextBindings[attrToObserve].push(key);
     };
     ComponentInstance.prototype.setAttributeValue = function (_bindings, key) {
         if (_bindings === void 0) { _bindings = {}; }
@@ -18804,7 +18816,19 @@ var ComponentInstance = /** @class */ (function () {
         this.constantsValue = _constants;
         return this;
     };
-    ComponentInstance.prototype.applyContainsComponentBuilder = function () {
+    ComponentInstance.prototype.applyConstantsComponentMagic = function () {
+        var _this = this;
+        (this.config.constants || []).forEach(function (constantKey) {
+            var bindAttribute = constantKey.replace(/([A-Z])/g, "-$1").toLowerCase();
+            var valueAttribute = _this.element.getAttribute(bindAttribute);
+            if (valueAttribute) {
+                var constantValue = _common__WEBPACK_IMPORTED_MODULE_2__["Common"].evalInContext(valueAttribute, _this.contextObj);
+                lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).scope, _this.config.controllerAs + '.$constants.' + constantKey, constantValue);
+                lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).scope, '$constants.' + constantKey, constantValue);
+            }
+        });
+    };
+    ComponentInstance.prototype.applyConstantsComponentBuilder = function () {
         var _this = this;
         (this.config.constants || []).forEach(function (key) {
             lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).scope, _this.config.controllerAs + '.$constants.' + key, _this.constantsValue[key]);
@@ -18816,6 +18840,22 @@ var ComponentInstance = /** @class */ (function () {
         if (_functions === void 0) { _functions = {}; }
         this.functionsValue = _functions;
         return this;
+    };
+    ComponentInstance.prototype.applyFunctionsComponentMagic = function () {
+        var _this = this;
+        (this.config.functions || []).forEach(function (functionKey) {
+            var bindAttribute = functionKey.replace(/([A-Z])/g, "-$1").toLowerCase();
+            var valueAttribute = _this.element.getAttribute(bindAttribute);
+            if (valueAttribute) {
+                var indexRelative = valueAttribute.indexOf('(');
+                var callback = indexRelative !== -1 ? lodash__WEBPACK_IMPORTED_MODULE_0__["get"](_this.contextObj, valueAttribute.substring(0, indexRelative)) : lodash__WEBPACK_IMPORTED_MODULE_0__["get"](_this.contextObj, valueAttribute);
+                Object.defineProperty(callback, '__ctx__', {
+                    value: _this.contextObj,
+                });
+                lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).scope, _this.config.controllerAs + '.$functions.' + functionKey, callback);
+                lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).scope, '$functions.' + functionKey, callback);
+            }
+        });
     };
     ComponentInstance.prototype.applyFunctionsComponentBuilder = function () {
         var _this = this;
@@ -19354,12 +19394,45 @@ __webpack_require__.r(__webpack_exports__);
 
 var Observe;
 (function (Observe) {
-    function observe(obj, handler) {
+    var watchers = new WeakMap();
+    function observe(obj, handler, deg) {
+        if (deg) {
+            // debugger;
+        }
+        if (!watchers.has(obj)) {
+            watchers.set(obj, [handler]);
+            this.create(obj, function (changes) {
+                (watchers.get(obj) || []).forEach(function (watcher) {
+                    watcher(changes);
+                });
+            });
+        }
+        else {
+            var handlers = watchers.get(obj);
+            handlers.push(handler);
+            watchers.set(obj, handlers);
+        }
+    }
+    Observe.observe = observe;
+    function unobserve(obj) {
+        this.destroy(obj);
+        watchers.delete(obj);
+    }
+    Observe.unobserve = unobserve;
+    function create(obj, handler, objCreated) {
+        if (objCreated === void 0) { objCreated = []; }
+        if (obj && obj.__observer__) {
+            return false;
+        }
+        objCreated.push(obj);
         var props = _util__WEBPACK_IMPORTED_MODULE_1__["Util"].keys(obj);
         var propsL = props.length;
+        _polyfill__WEBPACK_IMPORTED_MODULE_0__["Polyfill"].setDirtyCheck(obj, 50, updateProperties);
         for (var i = 0; i < propsL; i++) {
             if (Object.prototype.toString.call(obj[props[i]]) === '[object Object]' || Array.isArray(obj[props[i]])) {
-                this.observe(obj[props[i]], handler);
+                if (objCreated.indexOf(obj[props[i]]) === -1 && !obj[props[i]].__observer__) {
+                    this.create(obj[props[i]], handler, objCreated);
+                }
             }
             else {
                 _polyfill__WEBPACK_IMPORTED_MODULE_0__["Polyfill"].watchProperty(obj, props[i], handler);
@@ -19371,25 +19444,28 @@ var Observe;
                 props = _util__WEBPACK_IMPORTED_MODULE_1__["Util"].keys(obj);
             }
         }
-        _polyfill__WEBPACK_IMPORTED_MODULE_0__["Polyfill"].setDirtyCheck(obj, 50, updateProperties);
     }
-    Observe.observe = observe;
-    function unobserve(obj) {
+    Observe.create = create;
+    function destroy(obj, objDestroyed) {
+        if (objDestroyed === void 0) { objDestroyed = []; }
         if (!obj || !obj.__observer__) {
             return false;
         }
+        objDestroyed.push(obj);
         var props = Object.keys(obj), propsL = props.length;
+        _polyfill__WEBPACK_IMPORTED_MODULE_0__["Polyfill"].clearDirtyCheck(obj);
         for (var i = 0; i < propsL; i++) {
             if (Object.prototype.toString.call(obj[props[i]]) === '[object Object]' || Array.isArray(obj[props[i]])) {
-                this.unobserve(obj[props[i]]);
+                if (objDestroyed.indexOf(obj[props[i]]) === -1 && obj[props[i]].__observer__) {
+                    this.destroy(obj[props[i]], objDestroyed);
+                }
             }
             else {
                 _polyfill__WEBPACK_IMPORTED_MODULE_0__["Polyfill"].unWatchProperty(obj, props[i]);
             }
         }
-        _polyfill__WEBPACK_IMPORTED_MODULE_0__["Polyfill"].clearDirtyCheck(obj);
     }
-    Observe.unobserve = unobserve;
+    Observe.destroy = destroy;
 })(Observe || (Observe = {}));
 
 
@@ -19458,8 +19534,8 @@ var Polyfill;
                 });
             }
         }
-        _index__WEBPACK_IMPORTED_MODULE_0__["Observe"].unobserve(obj);
-        _index__WEBPACK_IMPORTED_MODULE_0__["Observe"].observe(obj, handler);
+        _index__WEBPACK_IMPORTED_MODULE_0__["Observe"].destroy(obj);
+        _index__WEBPACK_IMPORTED_MODULE_0__["Observe"].create(obj, handler);
         handler(response);
     }
     Polyfill.updateProperties = updateProperties;
@@ -21267,7 +21343,7 @@ var MapDom = /** @class */ (function () {
         this.directives.cpMouse.forEach(function (cpMouse) { return cpMouse.init(); });
         // Update cp placeholder
         this.directives.cpPlaceholder.forEach(function (cpPlaceholder) { return cpPlaceholder.init(); });
-        this.processInterpolation(this.element, this.element);
+        this.processInterpolation(this.element);
     };
     /**
      * @method void Atualiza os valores dos elementos HTML de acordo com o atributo que está sendo observado.
@@ -21283,13 +21359,10 @@ var MapDom = /** @class */ (function () {
      * @description Percorre os elementos para processar os interpolations.
      * @param element
      */
-    MapDom.prototype.processInterpolation = function (element, firstElem) {
+    MapDom.prototype.processInterpolation = function (element) {
         var _this = this;
-        if (element && element.nodeName && _common__WEBPACK_IMPORTED_MODULE_0__["Common"].isComponent(element) && firstElem.nodeName !== element.nodeName) {
-            return;
-        }
         Array.from(element.childNodes).forEach(function (childNode) {
-            _this.interpolation(childNode, firstElem);
+            _this.interpolation(childNode);
         });
     };
     MapDom.removeWordFromStr = function (str, word) {
@@ -21307,7 +21380,7 @@ var MapDom = /** @class */ (function () {
      * @description Função que modifica o texto da interpolação pelo determinado valor.
      * @param childNode
      */
-    MapDom.prototype.interpolation = function (childNode, firstElem) {
+    MapDom.prototype.interpolation = function (childNode) {
         var _this = this;
         if (childNode.nodeName === '#text' && !_common__WEBPACK_IMPORTED_MODULE_0__["Common"].parentHasIgnore(childNode)) {
             childNode.$immutableInterpolation = childNode.$immutableInterpolation || false;
@@ -21338,7 +21411,7 @@ var MapDom = /** @class */ (function () {
             this.alternativeInterpolation(childNode);
         }
         if (childNode.childNodes) {
-            this.processInterpolation(childNode, firstElem);
+            this.processInterpolation(childNode);
         }
     };
     MapDom.prototype.alternativeInterpolation = function (childNode) {
@@ -21537,26 +21610,34 @@ var MapDom = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ScopeProxy", function() { return ScopeProxy; });
-/* harmony import */ var _core_observer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../core/observer */ "./src/core/observer/index.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
+/* harmony import */ var _core_observer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../core/observer */ "./src/core/observer/index.ts");
+
 
 var ScopeProxy = /** @class */ (function () {
     function ScopeProxy(_scope, _mapDom, _element) {
-        this.scope = _scope;
+        // this.scope = _scope;
         this.mapDom = _mapDom;
         this.element = _element;
-        this.createWatcherScope(this);
+        this.createWatcherScope(_scope, this);
     }
-    ScopeProxy.prototype.createWatcherScope = function (objectObserve) {
+    ScopeProxy.prototype.createWatcherScope = function (scope, objectObserve) {
         var _this = this;
         if (this.element['$instance']) {
-            objectObserve.scope.$on('$onInit', function () {
-                _core_observer__WEBPACK_IMPORTED_MODULE_0__["Observe"].observe(objectObserve[_this.element['$instance'].config.controllerAs], function (changes) {
-                    _this.mapDom.reload();
-                    objectObserve.scope.$emit('$onChanges', changes);
+            scope.$on('$onInit', function () {
+                _core_observer__WEBPACK_IMPORTED_MODULE_1__["Observe"].observe(objectObserve[_this.element['$instance'].config.controllerAs], function (changes) {
+                    _this.updateScopes(objectObserve.element[_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].SCOPE_ATTRIBUTE_NAME]);
+                    scope.$emit('$onChanges', changes);
                     _this.executeObservers(objectObserve, '$onChanges', changes);
                     _this.executeObservers(objectObserve, '_$$checkBindings', changes);
                 });
             });
+        }
+    };
+    ScopeProxy.prototype.updateScopes = function (scope) {
+        scope.mapDom.reload();
+        if (scope.$parent) {
+            this.updateScopes(scope.$parent);
         }
     };
     ScopeProxy.prototype.executeObservers = function (objectObserve, observeName, changes) {

@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 import WatchJS from 'melanke-watchjs';
 import { Common } from '../common';
 import { Constants } from '../constants';
+import { ScopeProxy } from '../scope/scope.proxy';
 import { ComponentConfig } from './component.config';
 import { Controller } from './controller';
 import { Magic } from './magic/magic';
@@ -11,7 +12,7 @@ export class ComponentInstance {
 
     public config: ComponentConfig;
     public element: any;
-    public contextObj;
+    public contextObj: any;
     public componentScope;
     public destroyed: boolean;
     public constantsValue = {};
@@ -62,8 +63,9 @@ export class ComponentInstance {
             if (this.config.controller) {
                 this.componentScope[this.config.controllerAs] = new this.config.controller(this.componentScope);
             }
-            // this.applyContains();
-            // this.applyFunctions();
+            this.contextObj = Magic.getContext(this.element);
+            this.applyConstantsComponentMagic();
+            this.applyFunctionsComponentMagic();
             this.applyBindingsComponentMagic();
             if (this.componentScope[this.config.controllerAs] && this.componentScope[this.config.controllerAs].$onInit) {
                 this.componentScope[this.config.controllerAs].$onInit();
@@ -78,7 +80,7 @@ export class ComponentInstance {
      * @description Aplica os bindings|constants|functions
      */
     public build() {
-        this.applyContainsComponentBuilder();
+        this.applyConstantsComponentBuilder();
         this.applyFunctionsComponentBuilder();
         if (this.contextObj) {
             this.applyBindingsComponentBuilder();
@@ -105,7 +107,7 @@ export class ComponentInstance {
             this.componentScope[this.config.controllerAs].$destroy();
         }
         window['capivara'].scopes = window['capivara'].scopes.filter((scope) => {
-            return scope.id !== this.componentScope.scope.id;
+            return scope.id !== this.componentScope.element[Constants.SCOPE_ATTRIBUTE_NAME].id;
         });
     }
 
@@ -140,7 +142,6 @@ export class ComponentInstance {
     }
 
     public applyBindingsComponentMagic() {
-        this.contextObj = Magic.getContext(this.element);
         (this.config.bindings || []).forEach((bindingKey) => {
             const bindAttribute = bindingKey.replace(/([A-Z])/g, "-$1").toLowerCase();
             const valueAttribute = this.element.getAttribute(bindAttribute);
@@ -159,16 +160,18 @@ export class ComponentInstance {
     public createObserverScope(_bindings = {}, key) {
         const $ctrl = Common.getScope(this.element).scope[this.config.controllerAs];
 
-        $ctrl._$$checkBindings = (changes) => {
-            changes.forEach((change) => {
-                if (change.type === 'update' && _bindings.hasOwnProperty(change.name)) {
-                    _.set(this.contextObj, _bindings[change.name], $ctrl['$bindings'][change.name]);
-                    this.forceUpdateContext();
-                    Common.getScope(this.element).mapDom.reload();
-                }
-            });
-        };
-
+        Object.defineProperty($ctrl, '_$$checkBindings', {
+            value: (changes) => {
+                changes.forEach((change) => {
+                    if (change.type === 'update' && _bindings.hasOwnProperty(change.name)) {
+                        _.set(this.contextObj, _bindings[change.name], $ctrl['$bindings'][change.name]);
+                        this.forceUpdateContext();
+                        Common.getScope(this.element).mapDom.reload();
+                    }
+                });
+            },
+            writable: false,
+        });
     }
 
     private forceUpdateContext() {
@@ -202,20 +205,21 @@ export class ComponentInstance {
         if (!_bindings[key]) {
             return;
         }
-        const attrToObserve = ComponentInstance.getFirstAttribute(_bindings, key);
-
-        this.listenerContextBindings[attrToObserve] = this.listenerContextBindings[attrToObserve] || [];
-
-        if (this.listenerContextBindings[attrToObserve].length === 0) {
+        if (this.contextObj instanceof ScopeProxy) {
+            Observe.observe(this.contextObj[this.config.controllerAs], (changes) => {
+                this.setAttributeValue(_bindings, key);
+            });
+        } else {
+            const attrToObserve = ComponentInstance.getFirstAttribute(_bindings, key);
+            this.listenerContextBindings[attrToObserve] = this.listenerContextBindings[attrToObserve] || [];
             WatchJS.watch(this.contextObj, attrToObserve,
                 () => {
                     this.listenerContextBindings[attrToObserve].forEach((keyListener) => {
                         this.setAttributeValue(_bindings, keyListener);
                     });
                 });
+            this.listenerContextBindings[attrToObserve].push(key);
         }
-
-        this.listenerContextBindings[attrToObserve].push(key);
     }
 
     public setAttributeValue(_bindings = {}, key) {
@@ -233,7 +237,19 @@ export class ComponentInstance {
         return this;
     }
 
-    public applyContainsComponentBuilder() {
+    public applyConstantsComponentMagic() {
+        (this.config.constants || []).forEach((constantKey) => {
+            const bindAttribute = constantKey.replace(/([A-Z])/g, "-$1").toLowerCase();
+            const valueAttribute = this.element.getAttribute(bindAttribute);
+            if (valueAttribute) {
+                const constantValue = Common.evalInContext(valueAttribute, this.contextObj);
+                _.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$constants.' + constantKey, constantValue);
+                _.set(Common.getScope(this.element).scope, '$constants.' + constantKey, constantValue);
+            }
+        });
+    }
+
+    public applyConstantsComponentBuilder() {
         (this.config.constants || []).forEach((key) => {
             _.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$constants.' + key, this.constantsValue[key]);
             // Mantém compatibilidade
@@ -244,6 +260,22 @@ export class ComponentInstance {
     public functions(_functions = {}) {
         this.functionsValue = _functions;
         return this;
+    }
+
+    public applyFunctionsComponentMagic() {
+        (this.config.functions || []).forEach((functionKey) => {
+            const bindAttribute = functionKey.replace(/([A-Z])/g, "-$1").toLowerCase();
+            const valueAttribute = this.element.getAttribute(bindAttribute);
+            if (valueAttribute) {
+                const indexRelative = valueAttribute.indexOf('(');
+                const callback = indexRelative !== -1 ? _.get(this.contextObj, valueAttribute.substring(0, indexRelative)) : _.get(this.contextObj, valueAttribute);
+                Object.defineProperty(callback, '__ctx__', {
+                    value: this.contextObj,
+                });
+                _.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$functions.' + functionKey, callback);
+                _.set(Common.getScope(this.element).scope, '$functions.' + functionKey, callback);
+            }
+        });
     }
 
     public applyFunctionsComponentBuilder() {

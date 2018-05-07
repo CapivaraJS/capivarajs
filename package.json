@@ -1,6 +1,6 @@
 {
   "name": "capivarajs",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Um framework para criação de componentes.",
   "main": "./index.js",
   "repository": {
@@ -59,6 +59,7 @@
     "@types/jasmine": "^2.6.3",
     "@types/node": "^10.0.3",
     "babel-loader": "^7.1.4",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-stage-0": "^6.24.1",
     "codecov": "^3.0.0",
     "css-loader": "^0.28.7",

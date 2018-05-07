@@ -113,10 +113,10 @@ export namespace Common {
     }
 
     export function executeFunctionCallback(element, attribute, evt?) {
-        const callback = getCallbackClick(element, attribute);
+        const callback = getCallbackFunc(element, attribute);
         if (callback && !isNative(callback)) {
             const params = attribute.substring(attribute.indexOf('(') + 1, attribute.lastIndexOf(')')), args = [];
-            let context = getScope(element);
+            let context = callback.__ctx__ || getScope(element);
             params.split(',').forEach((param) => {
                 if (param === Constants.EVENT_ATTRIBUTE_NAME) {
                     args.push(evt);
@@ -126,16 +126,16 @@ export namespace Common {
                 }
             });
             if (context.mapDom.element.$instance) {
-                context = context.scope[context.mapDom.element.$instance.config.controllerAs];
+                context = context[context.mapDom.element.$instance.config.controllerAs] || context.scope[context.mapDom.element.$instance.config.controllerAs];
             }
             return callback.call(context, ...args);
         }
     }
 
-    export function getCallbackClick(element, attribute) {
+    export function getCallbackFunc(element, attribute) {
         const callback = _.get(getScope(element).scope, attribute.substring(0, attribute.indexOf('(')));
         if (!callback && element.parentNode && getScope(element.parentNode)) {
-            return getCallbackClick(element.parentNode, attribute);
+            return getCallbackFunc(element.parentNode, attribute);
         }
         return callback;
     }
