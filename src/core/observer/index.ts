@@ -3,12 +3,44 @@ import { Util } from './util';
 
 export namespace Observe {
 
-    export function observe(obj, handler) {
+    const watchers = new WeakMap();
+
+    export function observe(obj, handler, deg?) {
+        if (deg) {
+            // debugger;
+        }
+        if (!watchers.has(obj)) {
+            watchers.set(obj, [ handler ]);
+            this.create(obj, (changes) => {
+                (watchers.get(obj) || []).forEach((watcher) => {
+                    watcher(changes);
+                });
+            });
+        } else {
+            const handlers = watchers.get(obj);
+            handlers.push(handler);
+            watchers.set(obj, handlers);
+        }
+    }
+
+    export function unobserve(obj) {
+        this.destroy(obj);
+        watchers.delete(obj);
+    }
+
+    export function create(obj, handler, objCreated = []) {
+        if (obj && obj.__observer__) {
+            return false;
+        }
+        objCreated.push(obj);
         let props = Util.keys(obj);
         const propsL = props.length;
+        Polyfill.setDirtyCheck(obj, 50, updateProperties);
         for (let i = 0; i < propsL; i++) {
             if (Object.prototype.toString.call(obj[props[i]]) === '[object Object]' || Array.isArray(obj[props[i]])) {
-                this.observe(obj[props[i]], handler);
+                if (objCreated.indexOf(obj[props[i]]) === -1 && !obj[props[i]].__observer__) {
+                    this.create(obj[props[i]], handler, objCreated);
+                }
             } else {
                 Polyfill.watchProperty(obj, props[i], handler);
             }
@@ -19,24 +51,27 @@ export namespace Observe {
                 props = Util.keys(obj);
             }
         }
-        Polyfill.setDirtyCheck(obj, 50, updateProperties);
     }
 
-    export function unobserve(obj) {
+    export function destroy(obj, objDestroyed = []) {
         if (!obj || !obj.__observer__) {
             return false;
         }
+        objDestroyed.push(obj);
         const props = Object.keys(obj),
             propsL = props.length;
 
+        Polyfill.clearDirtyCheck(obj);
+
         for (let i = 0; i < propsL; i++) {
             if (Object.prototype.toString.call(obj[props[i]]) === '[object Object]' || Array.isArray(obj[props[i]])) {
-                this.unobserve(obj[props[i]]);
+                if (objDestroyed.indexOf(obj[props[i]]) === -1 && obj[props[i]].__observer__) {
+                    this.destroy(obj[props[i]], objDestroyed);
+                }
             } else {
                 Polyfill.unWatchProperty(obj, props[i]);
             }
         }
-        Polyfill.clearDirtyCheck(obj);
     }
 
 }

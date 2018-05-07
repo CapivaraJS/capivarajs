@@ -13,7 +13,8 @@ module.exports = function (config) {
 		files: [
 			'src/*.ts',
 			'src/**/*.ts',
-			'test/spec/*spec.ts'
+			'test/spec/*spec.ts',
+			'./node_modules/babel-polyfill/dist/polyfill.js'
 		],
 
 		// Configure code coverage reporter

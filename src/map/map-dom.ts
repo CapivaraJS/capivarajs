@@ -232,7 +232,7 @@ export class MapDom {
         // Update cp placeholder
         this.directives.cpPlaceholder.forEach((cpPlaceholder) => cpPlaceholder.init());
 
-        this.processInterpolation(this.element, this.element);
+        this.processInterpolation(this.element);
     }
 
     /**
@@ -248,12 +248,9 @@ export class MapDom {
      * @description Percorre os elementos para processar os interpolations.
      * @param element
      */
-    public processInterpolation(element, firstElem) {
-        if (element && element.nodeName && Common.isComponent(element) && firstElem.nodeName !== element.nodeName) {
-            return;
-        }
+    public processInterpolation(element) {
         Array.from(element.childNodes).forEach((childNode: any) => {
-            this.interpolation(childNode, firstElem);
+            this.interpolation(childNode);
         });
     }
 
@@ -274,7 +271,7 @@ export class MapDom {
      * @description Função que modifica o texto da interpolação pelo determinado valor.
      * @param childNode
      */
-    public interpolation(childNode, firstElem) {
+    public interpolation(childNode) {
         if (childNode.nodeName === '#text' && !Common.parentHasIgnore(childNode)) {
             childNode.$immutableInterpolation = childNode.$immutableInterpolation || false;
             if (childNode.$immutableInterpolation) { return; }
@@ -304,7 +301,7 @@ export class MapDom {
 
         }
         if (childNode.childNodes) {
-            this.processInterpolation(childNode, firstElem);
+            this.processInterpolation(childNode);
         }
     }
 
