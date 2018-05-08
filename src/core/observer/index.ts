@@ -57,6 +57,7 @@ export namespace Observe {
         if (!obj || !obj.__observer__) {
             return false;
         }
+
         objDestroyed.push(obj);
         const props = Object.keys(obj),
             propsL = props.length;
