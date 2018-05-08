@@ -191,7 +191,7 @@ export namespace Common {
     }
 
     export function parentHasIgnore(element) {
-        if (element.hasAttribute && element.hasAttribute(Constants.IGNORE_BINDINGS)) { return true; }
+        if (element.hasAttribute && (element.hasAttribute(Constants.IGNORE_BINDINGS) || element.nodeName === 'CP-TRANSCLUDE')) { return true; }
         if (element.parentNode) { return parentHasIgnore(element.parentNode); }
     }
 
