@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 import { Common } from '../common';
 import { Constants } from '../constants';
 import { CPBlur } from './directive/cp-blur';
+import { CPChange } from './directive/cp-change';
 import { CPClass } from './directive/cp-class';
 import { CPClick } from './directive/cp-click';
 import { CPDisabled } from './directive/cp-disabled';
@@ -63,6 +64,7 @@ export class MapDom {
         cpTitles: [],
         cpMouse: [],
         cpPlaceholder: [],
+        cpChange: [],
     };
 
     private readonly regexInterpolation;
@@ -151,6 +153,7 @@ export class MapDom {
         if (child.hasAttribute(Constants.TITLE_ATTRIBUTE_NAME)) { this.createCPtitle(child); }
         if (child.hasAttributeStartingWith(Constants.MOUSE_ATTRIBUTE_NAME)) { this.createCPmouse(child); }
         if (child.hasAttribute(Constants.PLACEHOLDER_ATTRIBUTE_NAME)) { this.createCPPlaceholder(child); }
+        if (child.hasAttribute(Constants.CHANGE_ATTRIBUTE_NAME)) { this.createCPChange(child); }
     }
 
     public reloadElementChildes(element, initialScope) {
@@ -231,6 +234,9 @@ export class MapDom {
 
         // Update cp placeholder
         this.directives.cpPlaceholder.forEach((cpPlaceholder) => cpPlaceholder.init());
+
+        // Update cp change
+        this.directives.cpChange.forEach((cpChange) => cpChange.init());
 
         this.processInterpolation(this.element);
     }
@@ -506,5 +512,12 @@ export class MapDom {
     */
     public createCPPlaceholder(child) {
         this.directives.cpPlaceholder.push(new CPPlaceholder(child, this));
+    }
+
+    /**
+    * @param child Elemento que está sendo criado o bind do placeholder.
+    */
+    public createCPChange(child) {
+        this.directives.cpChange.push(new CPChange(child, this));
     }
 }

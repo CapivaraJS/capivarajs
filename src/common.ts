@@ -94,6 +94,10 @@ export namespace Common {
         return element.getAttribute(Constants.PLACEHOLDER_ATTRIBUTE_NAME);
     }
 
+    export function getAttributeCpChange(element) {
+        return element.getAttribute(Constants.CHANGE_ATTRIBUTE_NAME);
+    }
+
     export function getScope(element) {
         return element[Constants.SCOPE_ATTRIBUTE_NAME];
     }
@@ -112,13 +116,18 @@ export namespace Common {
         }
     }
 
-    export function executeFunctionCallback(element, attribute, evt?) {
+    export function executeFunctionCallback(element, attribute, evt?, additionalParameters?) {
         const callback = getCallbackFunc(element, attribute);
         if (callback && !isNative(callback)) {
             const params = attribute.substring(attribute.indexOf('(') + 1, attribute.lastIndexOf(')')), args = [];
             let context = callback.__ctx__ || getScope(element);
             params.split(',').forEach((param) => {
-                if (param === Constants.EVENT_ATTRIBUTE_NAME) {
+                if (additionalParameters) {
+                    const paramValue = additionalParameters[param.trim()];
+                    if (paramValue !== undefined) {
+                        args.push(paramValue);
+                    }
+                } else if (param === Constants.EVENT_ATTRIBUTE_NAME) {
                     args.push(evt);
                 } else {
                     const valueScope = evalInContext(param, context.scope);

@@ -15,6 +15,8 @@ export class Scope {
 
     public watchers;
 
+    public observers;
+
     public id;
 
     constructor(_element: HTMLElement) {
@@ -29,6 +31,8 @@ export class Scope {
         if (!_element['$instance']) {
             this.$emit('$onInit');
         }
+        this.observers = [];
+        this.$on('$onChanges', this.onChanges);
     }
 
     public getScopeProxy() {
@@ -52,12 +56,34 @@ export class Scope {
         this.watchers
             .filter((watcher) => watcher.evtName === evtName)
             .forEach((watcher) => {
-                watcher.callback.call(...args);
+                watcher.callback.call(this, ...args);
             });
     }
 
     public $eval = (source) => {
         return Eval.exec(this.scope, source);
+    }
+
+    public onChanges(changes) {
+        this.observers.forEach((observer) => {
+            changes.filter((change) => change.type === 'update' && change.name === observer.key).forEach((change) => {
+                observer.callback.call(observer.ctx, change.object[change.name], change.oldValue);
+            });
+        });
+    }
+
+    public $watch(key: string, callback?, ctx?) {
+        this.observers.push({
+            key,
+            callback,
+            ctx,
+        });
+    }
+
+    public $unwatch(key: string, callback) {
+        this.observers = this.observers.filter((observer) => {
+            return observer.key !== key;
+        });
     }
 
 }

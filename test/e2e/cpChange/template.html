@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Test</title>
+</head>
+
+<body>
+    <my-component></my-component>
+
+    <script src="/dist/capivara.js"></script>
+    <script>
+        capivara.component('my-component', {
+            template: `        
+            <input cp-model="$ctrl.var" cp-change="$ctrl.changed()"><h1 id="first">[[$ctrl.cont]]</h1>
+            <input cp-model="$ctrl.var2" cp-change="$ctrl.changedx()"><h1 id="second">[[$ctrl.cont2]]</h1>
+            `,
+            controller: function () {
+                let $ctrl = this;
+                this.cont = 0;
+                this.cont2 = 0;
+
+                    $ctrl.$onInit = () => {
+
+                        $ctrl.var = 'hello';
+                        $ctrl.var2 = 'world';
+                    }
+
+                    $ctrl.changed = () => {
+                        this.cont = this.cont + 1;
+                    }
+                    $ctrl.changedx = () => {
+                        this.cont2 = this.cont2 + 1;
+                    }
+
+                }
+        });
+    </script>
+</body>
+
+</html>

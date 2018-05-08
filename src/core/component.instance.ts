@@ -71,6 +71,9 @@ export class ComponentInstance {
                 this.componentScope[this.config.controllerAs].$onInit();
             }
             this.destroyed = false;
+            Object.defineProperty(this.componentScope, '__$controllerAs__', {
+                value: this.config.controllerAs,
+            });
             Common.getScope(this.element).$emit('$onInit');
             Common.getScope(this.element).mapDom.reload();
         }
