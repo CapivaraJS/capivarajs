@@ -174,7 +174,7 @@ export class ComponentInstance {
                     }
                 });
             },
-            writable: false,
+            writable: true,
         });
     }
 
