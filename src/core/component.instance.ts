@@ -145,6 +145,10 @@ export class ComponentInstance {
     }
 
     public applyBindingsComponentMagic() {
+        if (!Common.getScope(this.element).scope[this.config.controllerAs]['$bindings']) {
+            _.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$bindings', {});
+            _.set(Common.getScope(this.element).scope, '$bindings', {});
+        }
         (this.config.bindings || []).forEach((bindingKey) => {
             const bindAttribute = bindingKey.replace(/([A-Z])/g, "-$1").toLowerCase();
             const valueAttribute = this.element.getAttribute(bindAttribute);
@@ -173,7 +177,7 @@ export class ComponentInstance {
                     }
                 });
             },
-            writable: false,
+            writable: true,
         });
     }
 
@@ -241,6 +245,10 @@ export class ComponentInstance {
     }
 
     public applyConstantsComponentMagic() {
+        if (!Common.getScope(this.element).scope[this.config.controllerAs]['$constants']) {
+            _.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$constants', {});
+            _.set(Common.getScope(this.element).scope, '$constants', {});
+        }
         (this.config.constants || []).forEach((constantKey) => {
             const bindAttribute = constantKey.replace(/([A-Z])/g, "-$1").toLowerCase();
             const valueAttribute = this.element.getAttribute(bindAttribute);
@@ -266,6 +274,10 @@ export class ComponentInstance {
     }
 
     public applyFunctionsComponentMagic() {
+        if (!Common.getScope(this.element).scope[this.config.controllerAs]['$functions']) {
+            _.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$functions', {});
+            _.set(Common.getScope(this.element).scope, '$functions', {});
+        }
         (this.config.functions || []).forEach((functionKey) => {
             const bindAttribute = functionKey.replace(/([A-Z])/g, "-$1").toLowerCase();
             const valueAttribute = this.element.getAttribute(bindAttribute);
