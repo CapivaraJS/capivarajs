@@ -3,35 +3,37 @@ import capivara from '../../src/index';
 
 describe('test of click without parameters', () => {
     const template = `
-        <input cp-model="$ctrl.var" $ctrl.change="$ctrl.change()" ">
-        <button cp-click="$ctrl.clicked()"
-        <h1>[[$ctrl.cont]]</h1>
+        <input cp-model="$ctrl.var" cp-change="$ctrl.change()">
+        <button cp-click="$ctrl.clicked()">
+        <input cp-model="$ctrl.cont">
     `;
     const element = document.createElement('div');
     element.innerHTML = template;
     capivara.controller(element, function() {
         const $ctrl = this;
 
-        $ctrl.$onInit = () => {
-            this.cont = 0;
+        this.$onInit = function() {
             this.var = 'hello';
+            this.cont = 0;
         };
 
         this.clicked = function() {
             this.var = this.var + 'aaa';
         };
 
-        this.change = () => {
+        this.change = function() {
             this.cont = this.cont + 1;
         };
 
         $ctrl.$onViewInit = () => {
             it('The value of the cont must be 3', (done) => {
-                element.querySelector('button').click();
-                element.querySelector('button').click();
-                element.querySelector('button').click();
-                expect(this.cont).toEqual('3');
-                done();
+                setTimeout(function() {
+                    element.querySelector('button').click();
+                    element.querySelector('button').click();
+                    element.querySelector('button').click();
+                    expect($ctrl.cont).toEqual(3);
+                    done();
+                }, 1000);
             });
         };
     });

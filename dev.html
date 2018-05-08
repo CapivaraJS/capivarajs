@@ -16,17 +16,24 @@
     <script>
         capivara.component('my-component', {
             template:`
-            <input type="text" cp-model="$ctrl.text" cp-change="$ctrl.mudou($newValue, $oldValue)"><br>
-            [[$ctrl.text]]
+            <input type="text" cp-model="$ctrl.text" cp-change="$ctrl.change()"><br>
+            <h1>[[$ctrl.text]]</h1>
+            <button cp-click="$ctrl.clicked()">
             `,
             controller: function(){
                 const $ctrl = this;
 
                 this.text = 'caio';
+                this.cont = 0;
 
-                this.mudou = function(newValue, oldValue) {
-                    console.log(newValue, oldValue);
+                this.clicked = function(){
+                    this.text = this.text + 'aaa'
                 }
+
+                this.change = () => {
+                    console.log(this.cont)
+                    this.cont = this.cont + 1;
+                };
                 
             }
         });
