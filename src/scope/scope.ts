@@ -1,5 +1,6 @@
 import { Common } from '../common';
 import { Constants } from '../constants';
+import { CapivaraElement } from '../core/element';
 import { Eval } from '../core/eval';
 import { MapDom } from '../map/map-dom';
 import { ScopeProxy } from './scope.proxy';
@@ -18,6 +19,8 @@ export class Scope {
     public observers;
 
     public id;
+
+    private cpElements = {};
 
     constructor(_element: HTMLElement) {
         if (!_element || !_element.nodeName) {
@@ -83,6 +86,21 @@ export class Scope {
     public $unwatch(key: string, callback) {
         this.observers = this.observers.filter((observer) => {
             return observer.key !== key;
+        });
+    }
+
+    public element(element) {
+        if (this.cpElements[element] && this.cpElements[element].element === element) {
+            return this.cpElements[element];
+        }
+        const capivaraElement = new CapivaraElement(element);
+        this.cpElements[element] = capivaraElement;
+        return capivaraElement;
+    }
+
+    public destroy() {
+        Object.keys(this.cpElements).forEach((key) => {
+            this.cpElements[key].destroy();
         });
     }
 

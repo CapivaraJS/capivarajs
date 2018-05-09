@@ -41,4 +41,5 @@ export class ScopeProxy {
             objectObserve[this.element['$instance'].config.controllerAs][observeName](changes);
         }
     }
+
 }
