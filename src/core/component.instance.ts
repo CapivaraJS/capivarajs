@@ -40,7 +40,12 @@ export class ComponentInstance {
                     Array.from((transcludeTemplate.querySelectorAll('cp-transclude') || [])).forEach((transclude: any) => {
                         const attrName = transclude.getAttribute('name');
                         const query = transclude.nodeName.toLowerCase() + (attrName ? '[name="' + attrName + '"]' : '');
-                        Array.from((templateToElm.querySelectorAll(query) || [])).forEach((transcludeReference: any) => transcludeReference.replaceWith(transclude));
+                        Array.from((templateToElm.querySelectorAll(query) || [])).forEach((transcludeReference: any) => {
+                            Array.from(transclude.children).forEach((children) => {
+                                Common.appendAfter(transcludeReference, children);
+                            });
+                            transcludeReference.parentNode.removeChild(transcludeReference);
+                        });
                     });
                     this.element.innerHTML = templateToElm.body.innerHTML;
                 } else {
