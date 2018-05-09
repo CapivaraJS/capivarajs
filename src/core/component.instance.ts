@@ -66,7 +66,17 @@ export class ComponentInstance {
     public initController() {
         if (this.destroyed) {
             if (this.config.controller) {
-                this.componentScope[this.config.controllerAs] = new this.config.controller(this.componentScope);
+                const args = [];
+                const injects = Common.getFunctionArgs(this.config.controller);
+                injects.forEach((inject) => {
+                    if (inject === Constants.SCOPE_ATTRIBUTE_NAME) {
+                        args.push(this.componentScope.element[Constants.SCOPE_ATTRIBUTE_NAME]);
+                    } else {
+                        const injectValue = this.componentScope[`${inject}`.replace('$', '')];
+                        args.push(injectValue);
+                    }
+                });
+                this.componentScope[this.config.controllerAs] = new this.config.controller(...args);
             }
             this.contextObj = Magic.getContext(this.element);
             this.applyConstantsComponentMagic();
@@ -110,6 +120,7 @@ export class ComponentInstance {
      */
     public destroy() {
         this.destroyed = true;
+        this.element[Constants.SCOPE_ATTRIBUTE_NAME].destroy();
         Observe.unobserve(this.componentScope[this.config.controllerAs]);
         if (this.componentScope[this.config.controllerAs] && this.componentScope[this.config.controllerAs].$destroy) {
             this.componentScope[this.config.controllerAs].$destroy();

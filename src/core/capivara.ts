@@ -235,4 +235,5 @@ export class Capivara {
                 watcher.callback(...args);
             });
     }
+
 }
