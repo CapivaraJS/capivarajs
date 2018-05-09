@@ -18,7 +18,7 @@ describe('test of init with fixed object', () => {
     $ctrl.$onInit = () => {
       it("Expected to not find the element", function(done) {
         setTimeout(function() {
-          expect($ctrl.value).toEqual('Thisistheinitfunction');
+          expect($ctrl.value).toEqual('This is the init function');
           done();
         });
       }, 5000);

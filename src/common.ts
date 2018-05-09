@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import { Constants } from './constants';
 import { Eval } from './core';
+import { Scope } from './scope/scope';
 
 export namespace Common {
 
@@ -116,11 +117,67 @@ export namespace Common {
         }
     }
 
+    export function hasSomeParentTheClass(element, classname) {
+        if (element && element.classList && element.classList.contains(classname)) { return true; }
+        return element && element.parentNode && hasSomeParentTheClass(element.parentNode, classname);
+    }
+
+    export function getContext(element) {
+        const get = (el) => {
+            if (el.classList && el.classList.contains('binding-repeat') && !isComponent(el)) {
+                if (hasSomeParentTheClass(el.parentNode, 'binding-repeat')) {
+                    return get(el.parentNode);
+                } else {
+                    return el.parentNode;
+                }
+            } else {
+                if (hasSomeParentTheClass(el, 'binding-repeat')) {
+                    return get(element.parentNode);
+                } else {
+                    return el;
+                }
+            }
+        };
+        element = get(element);
+
+        if (element) {
+            const scope = element[Constants.SCOPE_ATTRIBUTE_NAME];
+            if (scope && scope.mapDom && scope.mapDom.element.$instance) {
+                return scope[scope.mapDom.element.$instance.config.controllerAs] || scope.scope[scope.mapDom.element.$instance.config.controllerAs];
+            } else {
+                return scope;
+            }
+        }
+    }
+
+    export function getClickContext(element, callback) {
+        if (callback.__ctx__) { return callback.__ctx__; }
+        return getContext(element);
+    }
+
+    export function getParamValueRecursive(element, param) {
+        let scope = getScope(element);
+        if (scope && scope.mapDom && scope.mapDom.element.$instance) {
+            scope = scope.scope;
+        }
+        const paramValue = _.get(scope, param);
+        if (!paramValue && element.parentNode && !isComponent(element.parentNode)) {
+            return getParamValueRecursive(element.parentNode, param);
+        }
+        return paramValue;
+    }
+
+    export function getParamValueIsolate(element, params) {
+        params.split(/(\+|\-|\/|\*)/g).forEach((param) => {
+            console.log(getParamValueRecursive(element, param));
+        });
+    }
+
     export function executeFunctionCallback(element, attribute, evt?, additionalParameters?) {
         const callback = getCallbackFunc(element, attribute);
         if (callback && !isNative(callback)) {
             const params = attribute.substring(attribute.indexOf('(') + 1, attribute.lastIndexOf(')')), args = [];
-            let context = callback.__ctx__ || getScope(element);
+            const context = getClickContext(element, callback);
             params.split(',').forEach((param) => {
                 if (additionalParameters) {
                     const paramValue = additionalParameters[param.trim()];
@@ -130,20 +187,23 @@ export namespace Common {
                 } else if (param === Constants.EVENT_ATTRIBUTE_NAME) {
                     args.push(evt);
                 } else {
-                    const valueScope = evalInContext(param, context.scope);
-                    args.push(valueScope === undefined ? evalInContext(param, context.scope) : valueScope);
+                    let paramValue = getParamValueRecursive(element, param.replace(/ /g, ''));
+                    if (paramValue === undefined) {
+                        paramValue = evalInContext(param, context);
+                    }
+                    if (paramValue === undefined) {
+                        paramValue = getParamValueIsolate(element, param);
+                    }
+                    args.push(paramValue === undefined ? evalInContext(param, context) : paramValue);
                 }
             });
-            if (context.mapDom.element.$instance) {
-                context = context[context.mapDom.element.$instance.config.controllerAs] || context.scope[context.mapDom.element.$instance.config.controllerAs];
-            }
             return callback.call(context, ...args);
         }
     }
 
     export function getCallbackFunc(element, attribute) {
         const callback = _.get(getScope(element).scope, attribute.substring(0, attribute.indexOf('(')));
-        if (!callback && element.parentNode && getScope(element.parentNode)) {
+        if (!callback && element.parentNode && getScope(element.parentNode) && !isComponent(element.parentNode)) {
             return getCallbackFunc(element.parentNode, attribute);
         }
         return callback;
@@ -172,6 +232,9 @@ export namespace Common {
     export function isValidCondition(element, condition) {
         const scope = isComponent(element) && element.parentNode && element.parentNode[Constants.SCOPE_ATTRIBUTE_NAME] ? getScope(element.parentNode).scope : getScope(element).scope;
         const result = evalInContext(condition, scope);
+        if (result === undefined && element.parentNode && !isComponent(element.parentNode) && element.parentNode[Constants.SCOPE_ATTRIBUTE_NAME]) {
+            return isValidCondition(element.parentNode, condition);
+        }
         return result;
     }
 
