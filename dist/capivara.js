@@ -62,19 +62,19 @@
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "dist";
+/******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/index.ts");
+/******/ 	return __webpack_require__(__webpack_require__.s = "../src/index.ts");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/lodash/lodash.js":
-/*!***************************************!*\
-  !*** ./node_modules/lodash/lodash.js ***!
-  \***************************************/
+/***/ "../node_modules/lodash/lodash.js":
+/*!****************************************!*\
+  !*** ../node_modules/lodash/lodash.js ***!
+  \****************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -17176,14 +17176,14 @@
   else {}
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js"), __webpack_require__(/*! ./../webpack/buildin/module.js */ "./node_modules/webpack/buildin/module.js")(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "../node_modules/webpack/buildin/global.js"), __webpack_require__(/*! ./../webpack/buildin/module.js */ "../node_modules/webpack/buildin/module.js")(module)))
 
 /***/ }),
 
-/***/ "./node_modules/melanke-watchjs/src/watch.js":
-/*!***************************************************!*\
-  !*** ./node_modules/melanke-watchjs/src/watch.js ***!
-  \***************************************************/
+/***/ "../node_modules/melanke-watchjs/src/watch.js":
+/*!****************************************************!*\
+  !*** ../node_modules/melanke-watchjs/src/watch.js ***!
+  \****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -17970,10 +17970,10 @@
 
 /***/ }),
 
-/***/ "./node_modules/webpack/buildin/global.js":
-/*!***********************************!*\
-  !*** (webpack)/buildin/global.js ***!
-  \***********************************/
+/***/ "../node_modules/webpack/buildin/global.js":
+/*!*************************************************!*\
+  !*** ../node_modules/webpack/buildin/global.js ***!
+  \*************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -18001,10 +18001,10 @@ module.exports = g;
 
 /***/ }),
 
-/***/ "./node_modules/webpack/buildin/module.js":
-/*!***********************************!*\
-  !*** (webpack)/buildin/module.js ***!
-  \***********************************/
+/***/ "../node_modules/webpack/buildin/module.js":
+/*!*************************************************!*\
+  !*** ../node_modules/webpack/buildin/module.js ***!
+  \*************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -18034,31 +18034,31 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ "./package.json":
-/*!**********************!*\
-  !*** ./package.json ***!
-  \**********************/
+/***/ "../package.json":
+/*!***********************!*\
+  !*** ../package.json ***!
+  \***********************/
 /*! exports provided: name, version, description, main, repository, scripts, author, license, dependencies, keywords, nyc, devDependencies, default */
 /***/ (function(module) {
 
-module.exports = {"name":"capivarajs","version":"2.3.2","description":"Um framework para criação de componentes.","main":"./index.js","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./webpack.config.js","prod":"npm run test-single && webpack --config ./webpack.config.js && NODE_ENV=production webpack --config ./webpack.config.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./webpack.config.js --env.tests true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^10.0.3","babel-loader":"^7.1.4","babel-polyfill":"^6.26.0","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.0","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.8","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.21.0","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.3.0","webpack-cli":"^2.0.13","webpack-dev-server":"^3.1.1"}};
+module.exports = {"name":"capivarajs","version":"2.3.2","description":"Um framework para criação de componentes.","main":"./index.js","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./config/webpack.dev.js","prod":"npm run test-single && webpack --config ./config/webpack.dev.js && webpack --config ./config/webpack.prod.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./config/webpack.dev.js --t true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^10.0.3","babel-loader":"^7.1.4","babel-polyfill":"^6.26.0","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.0","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.8","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.21.0","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.8.1","webpack-cli":"^2.1.3","webpack-dev-server":"^3.1.1","webpack-merge":"^4.1.2"}};
 
 /***/ }),
 
-/***/ "./src/common.ts":
-/*!***********************!*\
-  !*** ./src/common.ts ***!
-  \***********************/
+/***/ "../src/common.ts":
+/*!************************!*\
+  !*** ../src/common.ts ***!
+  \************************/
 /*! exports provided: Common */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Common", function() { return Common; });
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "../node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./constants */ "./src/constants.ts");
-/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./core */ "./src/core/index.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./constants */ "../src/constants.ts");
+/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./core */ "../src/core/index.ts");
 
 
 
@@ -18154,6 +18154,10 @@ var Common;
         return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].PLACEHOLDER_ATTRIBUTE_NAME);
     }
     Common.getAttributeCpPlaceholder = getAttributeCpPlaceholder;
+    function getAttributeCpChange(element) {
+        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].CHANGE_ATTRIBUTE_NAME);
+    }
+    Common.getAttributeCpChange = getAttributeCpChange;
     function getScope(element) {
         return element[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SCOPE_ATTRIBUTE_NAME];
     }
@@ -18172,13 +18176,19 @@ var Common;
         }
     }
     Common.getScopeParent = getScopeParent;
-    function executeFunctionCallback(element, attribute, evt) {
+    function executeFunctionCallback(element, attribute, evt, additionalParameters) {
         var callback = getCallbackFunc(element, attribute);
         if (callback && !isNative(callback)) {
             var params = attribute.substring(attribute.indexOf('(') + 1, attribute.lastIndexOf(')')), args_1 = [];
             var context_1 = callback.__ctx__ || getScope(element);
             params.split(',').forEach(function (param) {
-                if (param === _constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].EVENT_ATTRIBUTE_NAME) {
+                if (additionalParameters) {
+                    var paramValue = additionalParameters[param.trim()];
+                    if (paramValue !== undefined) {
+                        args_1.push(paramValue);
+                    }
+                }
+                else if (param === _constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].EVENT_ATTRIBUTE_NAME) {
                     args_1.push(evt);
                 }
                 else {
@@ -18270,10 +18280,10 @@ var Common;
 
 /***/ }),
 
-/***/ "./src/constants.ts":
-/*!**************************!*\
-  !*** ./src/constants.ts ***!
-  \**************************/
+/***/ "../src/constants.ts":
+/*!***************************!*\
+  !*** ../src/constants.ts ***!
+  \***************************/
 /*! exports provided: Constants */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -18312,28 +18322,29 @@ var Constants = {
     TITLE_ATTRIBUTE_NAME: 'cp-title',
     PLACEHOLDER_ATTRIBUTE_NAME: 'cp-placeholder',
     MOUSE_ATTRIBUTE_NAME: 'cp-mouse',
+    CHANGE_ATTRIBUTE_NAME: 'cp-change',
 };
 
 
 /***/ }),
 
-/***/ "./src/core/capivara.ts":
-/*!******************************!*\
-  !*** ./src/core/capivara.ts ***!
-  \******************************/
+/***/ "../src/core/capivara.ts":
+/*!*******************************!*\
+  !*** ../src/core/capivara.ts ***!
+  \*******************************/
 /*! exports provided: Capivara */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Capivara", function() { return Capivara; });
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
-/* harmony import */ var _component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./component */ "./src/core/component.ts");
-/* harmony import */ var _component_instance__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./component.instance */ "./src/core/component.instance.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "../src/constants.ts");
+/* harmony import */ var _component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./component */ "../src/core/component.ts");
+/* harmony import */ var _component_instance__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./component.instance */ "../src/core/component.instance.ts");
 
 
 
-var packageJson = __webpack_require__(/*! ../../package.json */ "./package.json");
+var packageJson = __webpack_require__(/*! ../../package.json */ "../package.json");
 var Capivara = /** @class */ (function () {
     function Capivara() {
         var _this = this;
@@ -18571,26 +18582,26 @@ var Capivara = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/core/component.instance.ts":
-/*!****************************************!*\
-  !*** ./src/core/component.instance.ts ***!
-  \****************************************/
+/***/ "../src/core/component.instance.ts":
+/*!*****************************************!*\
+  !*** ../src/core/component.instance.ts ***!
+  \*****************************************/
 /*! exports provided: ComponentInstance */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ComponentInstance", function() { return ComponentInstance; });
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "../node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var melanke_watchjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! melanke-watchjs */ "./node_modules/melanke-watchjs/src/watch.js");
+/* harmony import */ var melanke_watchjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! melanke-watchjs */ "../node_modules/melanke-watchjs/src/watch.js");
 /* harmony import */ var melanke_watchjs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(melanke_watchjs__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../common */ "./src/common.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
-/* harmony import */ var _scope_scope_proxy__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../scope/scope.proxy */ "./src/scope/scope.proxy.ts");
-/* harmony import */ var _controller__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./controller */ "./src/core/controller.ts");
-/* harmony import */ var _magic_magic__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./magic/magic */ "./src/core/magic/magic.ts");
-/* harmony import */ var _observer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./observer */ "./src/core/observer/index.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../common */ "../src/common.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../constants */ "../src/constants.ts");
+/* harmony import */ var _scope_scope_proxy__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../scope/scope.proxy */ "../src/scope/scope.proxy.ts");
+/* harmony import */ var _controller__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./controller */ "../src/core/controller.ts");
+/* harmony import */ var _magic_magic__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./magic/magic */ "../src/core/magic/magic.ts");
+/* harmony import */ var _observer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./observer */ "../src/core/observer/index.ts");
 
 
 
@@ -18655,6 +18666,9 @@ var ComponentInstance = /** @class */ (function () {
                 this.componentScope[this.config.controllerAs].$onInit();
             }
             this.destroyed = false;
+            Object.defineProperty(this.componentScope, '__$controllerAs__', {
+                value: this.config.controllerAs,
+            });
             _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(this.element).$emit('$onInit');
             _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(this.element).mapDom.reload();
         }
@@ -18883,17 +18897,17 @@ var ComponentInstance = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/core/component.ts":
-/*!*******************************!*\
-  !*** ./src/core/component.ts ***!
-  \*******************************/
+/***/ "../src/core/component.ts":
+/*!********************************!*\
+  !*** ../src/core/component.ts ***!
+  \********************************/
 /*! exports provided: Component */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Component", function() { return Component; });
-/* harmony import */ var _component_instance__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./component.instance */ "./src/core/component.instance.ts");
+/* harmony import */ var _component_instance__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./component.instance */ "../src/core/component.instance.ts");
 
 var Component = /** @class */ (function () {
     function Component(_componentName, config) {
@@ -18920,18 +18934,18 @@ var Component = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/core/controller.ts":
-/*!********************************!*\
-  !*** ./src/core/controller.ts ***!
-  \********************************/
+/***/ "../src/core/controller.ts":
+/*!*********************************!*\
+  !*** ../src/core/controller.ts ***!
+  \*********************************/
 /*! exports provided: Controller */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Controller", function() { return Controller; });
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
-/* harmony import */ var _scope_scope__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../scope/scope */ "./src/scope/scope.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "../src/constants.ts");
+/* harmony import */ var _scope_scope__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../scope/scope */ "../src/scope/scope.ts");
 
 
 var Controller = /** @class */ (function () {
@@ -18949,17 +18963,17 @@ var Controller = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/core/eval.ts":
-/*!**************************!*\
-  !*** ./src/core/eval.ts ***!
-  \**************************/
+/***/ "../src/core/eval.ts":
+/*!***************************!*\
+  !*** ../src/core/eval.ts ***!
+  \***************************/
 /*! exports provided: Eval */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Eval", function() { return Eval; });
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common */ "./src/common.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common */ "../src/common.ts");
 
 var Eval;
 (function (Eval) {
@@ -19018,31 +19032,31 @@ var Eval;
 
 /***/ }),
 
-/***/ "./src/core/index.ts":
-/*!***************************!*\
-  !*** ./src/core/index.ts ***!
-  \***************************/
+/***/ "../src/core/index.ts":
+/*!****************************!*\
+  !*** ../src/core/index.ts ***!
+  \****************************/
 /*! exports provided: Capivara, Controller, ComponentInstance, Component, Eval, Observe */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _capivara__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./capivara */ "./src/core/capivara.ts");
+/* harmony import */ var _capivara__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./capivara */ "../src/core/capivara.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Capivara", function() { return _capivara__WEBPACK_IMPORTED_MODULE_0__["Capivara"]; });
 
-/* harmony import */ var _controller__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./controller */ "./src/core/controller.ts");
+/* harmony import */ var _controller__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./controller */ "../src/core/controller.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Controller", function() { return _controller__WEBPACK_IMPORTED_MODULE_1__["Controller"]; });
 
-/* harmony import */ var _component_instance__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./component.instance */ "./src/core/component.instance.ts");
+/* harmony import */ var _component_instance__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./component.instance */ "../src/core/component.instance.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ComponentInstance", function() { return _component_instance__WEBPACK_IMPORTED_MODULE_2__["ComponentInstance"]; });
 
-/* harmony import */ var _component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./component */ "./src/core/component.ts");
+/* harmony import */ var _component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./component */ "../src/core/component.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Component", function() { return _component__WEBPACK_IMPORTED_MODULE_3__["Component"]; });
 
-/* harmony import */ var _eval__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./eval */ "./src/core/eval.ts");
+/* harmony import */ var _eval__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./eval */ "../src/core/eval.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Eval", function() { return _eval__WEBPACK_IMPORTED_MODULE_4__["Eval"]; });
 
-/* harmony import */ var _observer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./observer */ "./src/core/observer/index.ts");
+/* harmony import */ var _observer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./observer */ "../src/core/observer/index.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Observe", function() { return _observer__WEBPACK_IMPORTED_MODULE_5__["Observe"]; });
 
 
@@ -19055,21 +19069,21 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/core/magic/check.context.ts":
-/*!*****************************************!*\
-  !*** ./src/core/magic/check.context.ts ***!
-  \*****************************************/
+/***/ "../src/core/magic/check.context.ts":
+/*!******************************************!*\
+  !*** ../src/core/magic/check.context.ts ***!
+  \******************************************/
 /*! exports provided: CheckContext */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CheckContext", function() { return CheckContext; });
-/* harmony import */ var _types_angular_context__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./types/angular.context */ "./src/core/magic/types/angular.context.ts");
-/* harmony import */ var _types_angularjs_context__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./types/angularjs.context */ "./src/core/magic/types/angularjs.context.ts");
-/* harmony import */ var _types_capivara_context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./types/capivara.context */ "./src/core/magic/types/capivara.context.ts");
-/* harmony import */ var _types_react_context__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./types/react.context */ "./src/core/magic/types/react.context.ts");
-/* harmony import */ var _types_vuejs_context__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./types/vuejs.context */ "./src/core/magic/types/vuejs.context.ts");
+/* harmony import */ var _types_angular_context__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./types/angular.context */ "../src/core/magic/types/angular.context.ts");
+/* harmony import */ var _types_angularjs_context__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./types/angularjs.context */ "../src/core/magic/types/angularjs.context.ts");
+/* harmony import */ var _types_capivara_context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./types/capivara.context */ "../src/core/magic/types/capivara.context.ts");
+/* harmony import */ var _types_react_context__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./types/react.context */ "../src/core/magic/types/react.context.ts");
+/* harmony import */ var _types_vuejs_context__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./types/vuejs.context */ "../src/core/magic/types/vuejs.context.ts");
 
 
 
@@ -19091,10 +19105,10 @@ var CheckContext;
 
 /***/ }),
 
-/***/ "./src/core/magic/context.ts":
-/*!***********************************!*\
-  !*** ./src/core/magic/context.ts ***!
-  \***********************************/
+/***/ "../src/core/magic/context.ts":
+/*!************************************!*\
+  !*** ../src/core/magic/context.ts ***!
+  \************************************/
 /*! exports provided: Context */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -19122,17 +19136,17 @@ var Context = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/core/magic/magic.ts":
-/*!*********************************!*\
-  !*** ./src/core/magic/magic.ts ***!
-  \*********************************/
+/***/ "../src/core/magic/magic.ts":
+/*!**********************************!*\
+  !*** ../src/core/magic/magic.ts ***!
+  \**********************************/
 /*! exports provided: Magic */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Magic", function() { return Magic; });
-/* harmony import */ var _check_context__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./check.context */ "./src/core/magic/check.context.ts");
+/* harmony import */ var _check_context__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./check.context */ "../src/core/magic/check.context.ts");
 
 var Magic;
 (function (Magic) {
@@ -19145,17 +19159,17 @@ var Magic;
 
 /***/ }),
 
-/***/ "./src/core/magic/types/angular.context.ts":
-/*!*************************************************!*\
-  !*** ./src/core/magic/types/angular.context.ts ***!
-  \*************************************************/
+/***/ "../src/core/magic/types/angular.context.ts":
+/*!**************************************************!*\
+  !*** ../src/core/magic/types/angular.context.ts ***!
+  \**************************************************/
 /*! exports provided: AngularContext */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AngularContext", function() { return AngularContext; });
-/* harmony import */ var _context__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../context */ "./src/core/magic/context.ts");
+/* harmony import */ var _context__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../context */ "../src/core/magic/context.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -19187,17 +19201,17 @@ var AngularContext = /** @class */ (function (_super) {
 
 /***/ }),
 
-/***/ "./src/core/magic/types/angularjs.context.ts":
-/*!***************************************************!*\
-  !*** ./src/core/magic/types/angularjs.context.ts ***!
-  \***************************************************/
+/***/ "../src/core/magic/types/angularjs.context.ts":
+/*!****************************************************!*\
+  !*** ../src/core/magic/types/angularjs.context.ts ***!
+  \****************************************************/
 /*! exports provided: AngularJSContext */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AngularJSContext", function() { return AngularJSContext; });
-/* harmony import */ var _context__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../context */ "./src/core/magic/context.ts");
+/* harmony import */ var _context__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../context */ "../src/core/magic/context.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -19226,19 +19240,19 @@ var AngularJSContext = /** @class */ (function (_super) {
 
 /***/ }),
 
-/***/ "./src/core/magic/types/capivara.context.ts":
-/*!**************************************************!*\
-  !*** ./src/core/magic/types/capivara.context.ts ***!
-  \**************************************************/
+/***/ "../src/core/magic/types/capivara.context.ts":
+/*!***************************************************!*\
+  !*** ../src/core/magic/types/capivara.context.ts ***!
+  \***************************************************/
 /*! exports provided: CapivaraJSContext */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CapivaraJSContext", function() { return CapivaraJSContext; });
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../common */ "./src/common.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../constants */ "./src/constants.ts");
-/* harmony import */ var _context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../context */ "./src/core/magic/context.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../common */ "../src/common.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../constants */ "../src/constants.ts");
+/* harmony import */ var _context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../context */ "../src/core/magic/context.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -19274,17 +19288,17 @@ var CapivaraJSContext = /** @class */ (function (_super) {
 
 /***/ }),
 
-/***/ "./src/core/magic/types/react.context.ts":
-/*!***********************************************!*\
-  !*** ./src/core/magic/types/react.context.ts ***!
-  \***********************************************/
+/***/ "../src/core/magic/types/react.context.ts":
+/*!************************************************!*\
+  !*** ../src/core/magic/types/react.context.ts ***!
+  \************************************************/
 /*! exports provided: ReactContext */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ReactContext", function() { return ReactContext; });
-/* harmony import */ var _context__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../context */ "./src/core/magic/context.ts");
+/* harmony import */ var _context__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../context */ "../src/core/magic/context.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -19343,17 +19357,17 @@ var ReactContext = /** @class */ (function (_super) {
 
 /***/ }),
 
-/***/ "./src/core/magic/types/vuejs.context.ts":
-/*!***********************************************!*\
-  !*** ./src/core/magic/types/vuejs.context.ts ***!
-  \***********************************************/
+/***/ "../src/core/magic/types/vuejs.context.ts":
+/*!************************************************!*\
+  !*** ../src/core/magic/types/vuejs.context.ts ***!
+  \************************************************/
 /*! exports provided: VueJSContext */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VueJSContext", function() { return VueJSContext; });
-/* harmony import */ var _context__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../context */ "./src/core/magic/context.ts");
+/* harmony import */ var _context__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../context */ "../src/core/magic/context.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -19390,18 +19404,18 @@ var VueJSContext = /** @class */ (function (_super) {
 
 /***/ }),
 
-/***/ "./src/core/observer/index.ts":
-/*!************************************!*\
-  !*** ./src/core/observer/index.ts ***!
-  \************************************/
+/***/ "../src/core/observer/index.ts":
+/*!*************************************!*\
+  !*** ../src/core/observer/index.ts ***!
+  \*************************************/
 /*! exports provided: Observe */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Observe", function() { return Observe; });
-/* harmony import */ var _polyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./polyfill */ "./src/core/observer/polyfill.ts");
-/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./util */ "./src/core/observer/util.ts");
+/* harmony import */ var _polyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./polyfill */ "../src/core/observer/polyfill.ts");
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./util */ "../src/core/observer/util.ts");
 
 
 var Observe;
@@ -19483,17 +19497,17 @@ var Observe;
 
 /***/ }),
 
-/***/ "./src/core/observer/polyfill.ts":
-/*!***************************************!*\
-  !*** ./src/core/observer/polyfill.ts ***!
-  \***************************************/
+/***/ "../src/core/observer/polyfill.ts":
+/*!****************************************!*\
+  !*** ../src/core/observer/polyfill.ts ***!
+  \****************************************/
 /*! exports provided: Polyfill */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Polyfill", function() { return Polyfill; });
-/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index */ "./src/core/observer/index.ts");
+/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index */ "../src/core/observer/index.ts");
 
 var Polyfill;
 (function (Polyfill) {
@@ -19576,10 +19590,10 @@ var Polyfill;
 
 /***/ }),
 
-/***/ "./src/core/observer/util.ts":
-/*!***********************************!*\
-  !*** ./src/core/observer/util.ts ***!
-  \***********************************/
+/***/ "../src/core/observer/util.ts":
+/*!************************************!*\
+  !*** ../src/core/observer/util.ts ***!
+  \************************************/
 /*! exports provided: Util */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -19669,10 +19683,10 @@ var Util;
 
 /***/ }),
 
-/***/ "./src/core/util/keycodes.enum.ts":
-/*!****************************************!*\
-  !*** ./src/core/util/keycodes.enum.ts ***!
-  \****************************************/
+/***/ "../src/core/util/keycodes.enum.ts":
+/*!*****************************************!*\
+  !*** ../src/core/util/keycodes.enum.ts ***!
+  \*****************************************/
 /*! exports provided: KeyCode */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -19800,16 +19814,16 @@ var KeyCode;
 
 /***/ }),
 
-/***/ "./src/index.ts":
-/*!**********************!*\
-  !*** ./src/index.ts ***!
-  \**********************/
+/***/ "../src/index.ts":
+/*!***********************!*\
+  !*** ../src/index.ts ***!
+  \***********************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _core_capivara__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./core/capivara */ "./src/core/capivara.ts");
+/* harmony import */ var _core_capivara__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./core/capivara */ "../src/core/capivara.ts");
 
 (function (capivara) {
     if (!capivara) {
@@ -19824,18 +19838,18 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/map/directive/cp-blur.ts":
-/*!**************************************!*\
-  !*** ./src/map/directive/cp-blur.ts ***!
-  \**************************************/
+/***/ "../src/map/directive/cp-blur.ts":
+/*!***************************************!*\
+  !*** ../src/map/directive/cp-blur.ts ***!
+  \***************************************/
 /*! exports provided: CPBlur */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CPBlur", function() { return CPBlur; });
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "./src/common.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "../src/common.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "../src/constants.ts");
 
 
 var CPBlur = /** @class */ (function () {
@@ -19867,17 +19881,61 @@ var CPBlur = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/map/directive/cp-class.ts":
-/*!***************************************!*\
-  !*** ./src/map/directive/cp-class.ts ***!
-  \***************************************/
+/***/ "../src/map/directive/cp-change.ts":
+/*!*****************************************!*\
+  !*** ../src/map/directive/cp-change.ts ***!
+  \*****************************************/
+/*! exports provided: CPChange */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CPChange", function() { return CPChange; });
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "../src/common.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "../src/constants.ts");
+
+
+var CPChange = /** @class */ (function () {
+    function CPChange(_element, _map) {
+        this.element = _element;
+        this.map = _map;
+        this.attribute = this.element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].CHANGE_ATTRIBUTE_NAME);
+        if (!this.attribute) {
+            throw new Error("syntax error " + _constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].CHANGE_ATTRIBUTE_NAME + " expected arguments");
+        }
+        if (!this.element.hasAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].MODEL_ATTRIBUTE_NAME)) {
+            throw new Error("syntax error " + _constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].MODEL_ATTRIBUTE_NAME + " expected arguments");
+        }
+    }
+    CPChange.prototype.create = function () {
+        this.init();
+    };
+    CPChange.prototype.onModelChange = function (newValue, oldValue) {
+        _common__WEBPACK_IMPORTED_MODULE_0__["Common"].executeFunctionCallback(this.element, this.attribute, null, { $newValue: newValue, $oldValue: oldValue });
+    };
+    CPChange.prototype.init = function () {
+        var modelAttribute = this.element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].MODEL_ATTRIBUTE_NAME).replace(_common__WEBPACK_IMPORTED_MODULE_0__["Common"].getScope(this.element).scope['__$controllerAs__'] + '.', '');
+        _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getScope(this.element).$unwatch(modelAttribute, this.onModelChange);
+        _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getScope(this.element).$watch(modelAttribute, this.onModelChange, this);
+    };
+    return CPChange;
+}());
+
+
+
+/***/ }),
+
+/***/ "../src/map/directive/cp-class.ts":
+/*!****************************************!*\
+  !*** ../src/map/directive/cp-class.ts ***!
+  \****************************************/
 /*! exports provided: CPClass */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CPClass", function() { return CPClass; });
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "./src/common.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "../src/common.ts");
 
 var CPClass = /** @class */ (function () {
     function CPClass(_element, _map) {
@@ -19955,20 +20013,20 @@ var CPClass = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/map/directive/cp-click.ts":
-/*!***************************************!*\
-  !*** ./src/map/directive/cp-click.ts ***!
-  \***************************************/
+/***/ "../src/map/directive/cp-click.ts":
+/*!****************************************!*\
+  !*** ../src/map/directive/cp-click.ts ***!
+  \****************************************/
 /*! exports provided: CPClick */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CPClick", function() { return CPClick; });
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "../node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../common */ "./src/common.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../common */ "../src/common.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../constants */ "../src/constants.ts");
 
 
 
@@ -20014,18 +20072,18 @@ var CPClick = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/map/directive/cp-disabled.ts":
-/*!******************************************!*\
-  !*** ./src/map/directive/cp-disabled.ts ***!
-  \******************************************/
+/***/ "../src/map/directive/cp-disabled.ts":
+/*!*******************************************!*\
+  !*** ../src/map/directive/cp-disabled.ts ***!
+  \*******************************************/
 /*! exports provided: CPDisabled */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CPDisabled", function() { return CPDisabled; });
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "./src/common.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "../src/common.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "../src/constants.ts");
 
 
 var CPDisabled = /** @class */ (function () {
@@ -20060,18 +20118,18 @@ var CPDisabled = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/map/directive/cp-else-if.ts":
-/*!*****************************************!*\
-  !*** ./src/map/directive/cp-else-if.ts ***!
-  \*****************************************/
+/***/ "../src/map/directive/cp-else-if.ts":
+/*!******************************************!*\
+  !*** ../src/map/directive/cp-else-if.ts ***!
+  \******************************************/
 /*! exports provided: CPElseIf */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CPElseIf", function() { return CPElseIf; });
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "./src/common.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "../src/common.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "../src/constants.ts");
 
 
 var CPElseIf = /** @class */ (function () {
@@ -20130,18 +20188,18 @@ var CPElseIf = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/map/directive/cp-else.ts":
-/*!**************************************!*\
-  !*** ./src/map/directive/cp-else.ts ***!
-  \**************************************/
+/***/ "../src/map/directive/cp-else.ts":
+/*!***************************************!*\
+  !*** ../src/map/directive/cp-else.ts ***!
+  \***************************************/
 /*! exports provided: CPElse */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CPElse", function() { return CPElse; });
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "./src/common.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "../src/common.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "../src/constants.ts");
 
 
 var CPElse = /** @class */ (function () {
@@ -20200,18 +20258,18 @@ var CPElse = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/map/directive/cp-focus.ts":
-/*!***************************************!*\
-  !*** ./src/map/directive/cp-focus.ts ***!
-  \***************************************/
+/***/ "../src/map/directive/cp-focus.ts":
+/*!****************************************!*\
+  !*** ../src/map/directive/cp-focus.ts ***!
+  \****************************************/
 /*! exports provided: CPFocus */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CPFocus", function() { return CPFocus; });
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "./src/common.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "../src/common.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "../src/constants.ts");
 
 
 var CPFocus = /** @class */ (function () {
@@ -20243,18 +20301,18 @@ var CPFocus = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/map/directive/cp-hide.ts":
-/*!**************************************!*\
-  !*** ./src/map/directive/cp-hide.ts ***!
-  \**************************************/
+/***/ "../src/map/directive/cp-hide.ts":
+/*!***************************************!*\
+  !*** ../src/map/directive/cp-hide.ts ***!
+  \***************************************/
 /*! exports provided: CPHide */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CPHide", function() { return CPHide; });
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "./src/common.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "../src/common.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "../src/constants.ts");
 
 
 var CPHide = /** @class */ (function () {
@@ -20291,18 +20349,18 @@ var CPHide = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/map/directive/cp-if.ts":
-/*!************************************!*\
-  !*** ./src/map/directive/cp-if.ts ***!
-  \************************************/
+/***/ "../src/map/directive/cp-if.ts":
+/*!*************************************!*\
+  !*** ../src/map/directive/cp-if.ts ***!
+  \*************************************/
 /*! exports provided: CPIf */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CPIf", function() { return CPIf; });
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "./src/common.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "../src/common.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "../src/constants.ts");
 
 
 var CPIf = /** @class */ (function () {
@@ -20350,18 +20408,18 @@ var CPIf = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/map/directive/cp-init.ts":
-/*!**************************************!*\
-  !*** ./src/map/directive/cp-init.ts ***!
-  \**************************************/
+/***/ "../src/map/directive/cp-init.ts":
+/*!***************************************!*\
+  !*** ../src/map/directive/cp-init.ts ***!
+  \***************************************/
 /*! exports provided: CPInit */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CPInit", function() { return CPInit; });
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "./src/common.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "../src/common.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "../src/constants.ts");
 
 
 var CPInit = /** @class */ (function () {
@@ -20387,19 +20445,19 @@ var CPInit = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/map/directive/cp-key.ts":
-/*!*************************************!*\
-  !*** ./src/map/directive/cp-key.ts ***!
-  \*************************************/
+/***/ "../src/map/directive/cp-key.ts":
+/*!**************************************!*\
+  !*** ../src/map/directive/cp-key.ts ***!
+  \**************************************/
 /*! exports provided: CPKey */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CPKey", function() { return CPKey; });
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "./src/common.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
-/* harmony import */ var _core_util_keycodes_enum__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../core/util/keycodes.enum */ "./src/core/util/keycodes.enum.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "../src/common.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "../src/constants.ts");
+/* harmony import */ var _core_util_keycodes_enum__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../core/util/keycodes.enum */ "../src/core/util/keycodes.enum.ts");
 
 
 
@@ -20457,18 +20515,18 @@ var CPKey = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/map/directive/cp-max.ts":
-/*!*************************************!*\
-  !*** ./src/map/directive/cp-max.ts ***!
-  \*************************************/
+/***/ "../src/map/directive/cp-max.ts":
+/*!**************************************!*\
+  !*** ../src/map/directive/cp-max.ts ***!
+  \**************************************/
 /*! exports provided: CPMax */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CPMax", function() { return CPMax; });
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "./src/common.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "../src/common.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "../src/constants.ts");
 
 
 var CPMax = /** @class */ (function () {
@@ -20500,18 +20558,18 @@ var CPMax = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/map/directive/cp-maxlength.ts":
-/*!*******************************************!*\
-  !*** ./src/map/directive/cp-maxlength.ts ***!
-  \*******************************************/
+/***/ "../src/map/directive/cp-maxlength.ts":
+/*!********************************************!*\
+  !*** ../src/map/directive/cp-maxlength.ts ***!
+  \********************************************/
 /*! exports provided: CPMaxLength */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CPMaxLength", function() { return CPMaxLength; });
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "./src/common.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "../src/common.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "../src/constants.ts");
 
 
 var CPMaxLength = /** @class */ (function () {
@@ -20543,18 +20601,18 @@ var CPMaxLength = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/map/directive/cp-min.ts":
-/*!*************************************!*\
-  !*** ./src/map/directive/cp-min.ts ***!
-  \*************************************/
+/***/ "../src/map/directive/cp-min.ts":
+/*!**************************************!*\
+  !*** ../src/map/directive/cp-min.ts ***!
+  \**************************************/
 /*! exports provided: CPMin */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CPMin", function() { return CPMin; });
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "./src/common.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "../src/common.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "../src/constants.ts");
 
 
 var CPMin = /** @class */ (function () {
@@ -20586,20 +20644,20 @@ var CPMin = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/map/directive/cp-model.ts":
-/*!***************************************!*\
-  !*** ./src/map/directive/cp-model.ts ***!
-  \***************************************/
+/***/ "../src/map/directive/cp-model.ts":
+/*!****************************************!*\
+  !*** ../src/map/directive/cp-model.ts ***!
+  \****************************************/
 /*! exports provided: CPModel */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CPModel", function() { return CPModel; });
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "../node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../common */ "./src/common.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../common */ "../src/common.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../constants */ "../src/constants.ts");
 
 
 
@@ -20660,18 +20718,18 @@ var CPModel = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/map/directive/cp-mouse.ts":
-/*!***************************************!*\
-  !*** ./src/map/directive/cp-mouse.ts ***!
-  \***************************************/
+/***/ "../src/map/directive/cp-mouse.ts":
+/*!****************************************!*\
+  !*** ../src/map/directive/cp-mouse.ts ***!
+  \****************************************/
 /*! exports provided: CPMouse */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CPMouse", function() { return CPMouse; });
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "./src/common.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "../src/common.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "../src/constants.ts");
 
 
 var CPMouse = /** @class */ (function () {
@@ -20717,18 +20775,18 @@ var CPMouse = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/map/directive/cp-placeholder.ts":
-/*!*********************************************!*\
-  !*** ./src/map/directive/cp-placeholder.ts ***!
-  \*********************************************/
+/***/ "../src/map/directive/cp-placeholder.ts":
+/*!**********************************************!*\
+  !*** ../src/map/directive/cp-placeholder.ts ***!
+  \**********************************************/
 /*! exports provided: CPPlaceholder */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CPPlaceholder", function() { return CPPlaceholder; });
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "./src/common.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "../src/common.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "../src/constants.ts");
 
 
 var CPPlaceholder = /** @class */ (function () {
@@ -20760,21 +20818,21 @@ var CPPlaceholder = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/map/directive/cp-repeat.ts":
-/*!****************************************!*\
-  !*** ./src/map/directive/cp-repeat.ts ***!
-  \****************************************/
+/***/ "../src/map/directive/cp-repeat.ts":
+/*!*****************************************!*\
+  !*** ../src/map/directive/cp-repeat.ts ***!
+  \*****************************************/
 /*! exports provided: CPRepeat */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CPRepeat", function() { return CPRepeat; });
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "../node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../common */ "./src/common.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
-/* harmony import */ var _core_controller__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../core/controller */ "./src/core/controller.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../common */ "../src/common.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../constants */ "../src/constants.ts");
+/* harmony import */ var _core_controller__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../core/controller */ "../src/core/controller.ts");
 
 
 
@@ -20839,18 +20897,18 @@ var CPRepeat = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/map/directive/cp-show.ts":
-/*!**************************************!*\
-  !*** ./src/map/directive/cp-show.ts ***!
-  \**************************************/
+/***/ "../src/map/directive/cp-show.ts":
+/*!***************************************!*\
+  !*** ../src/map/directive/cp-show.ts ***!
+  \***************************************/
 /*! exports provided: CPShow */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CPShow", function() { return CPShow; });
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "./src/common.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "../src/common.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "../src/constants.ts");
 
 
 var CPShow = /** @class */ (function () {
@@ -20887,17 +20945,17 @@ var CPShow = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/map/directive/cp-src.ts":
-/*!*************************************!*\
-  !*** ./src/map/directive/cp-src.ts ***!
-  \*************************************/
+/***/ "../src/map/directive/cp-src.ts":
+/*!**************************************!*\
+  !*** ../src/map/directive/cp-src.ts ***!
+  \**************************************/
 /*! exports provided: CPSrc */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CPSrc", function() { return CPSrc; });
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "./src/common.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "../src/common.ts");
 
 var CPSrc = /** @class */ (function () {
     function CPSrc(_element, _map) {
@@ -20933,18 +20991,18 @@ var CPSrc = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/map/directive/cp-step.ts":
-/*!**************************************!*\
-  !*** ./src/map/directive/cp-step.ts ***!
-  \**************************************/
+/***/ "../src/map/directive/cp-step.ts":
+/*!***************************************!*\
+  !*** ../src/map/directive/cp-step.ts ***!
+  \***************************************/
 /*! exports provided: CPStep */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CPStep", function() { return CPStep; });
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "./src/common.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "../src/common.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "../src/constants.ts");
 
 
 var CPStep = /** @class */ (function () {
@@ -20976,17 +21034,17 @@ var CPStep = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/map/directive/cp-style.ts":
-/*!***************************************!*\
-  !*** ./src/map/directive/cp-style.ts ***!
-  \***************************************/
+/***/ "../src/map/directive/cp-style.ts":
+/*!****************************************!*\
+  !*** ../src/map/directive/cp-style.ts ***!
+  \****************************************/
 /*! exports provided: CPStyle */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CPStyle", function() { return CPStyle; });
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "./src/common.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "../src/common.ts");
 
 var CPStyle = /** @class */ (function () {
     function CPStyle(_element, _map) {
@@ -21038,18 +21096,18 @@ var CPStyle = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/map/directive/cp-title.ts":
-/*!***************************************!*\
-  !*** ./src/map/directive/cp-title.ts ***!
-  \***************************************/
+/***/ "../src/map/directive/cp-title.ts":
+/*!****************************************!*\
+  !*** ../src/map/directive/cp-title.ts ***!
+  \****************************************/
 /*! exports provided: CPTitle */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CPTitle", function() { return CPTitle; });
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "./src/common.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common */ "../src/common.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "../src/constants.ts");
 
 
 var CPTitle = /** @class */ (function () {
@@ -21075,41 +21133,43 @@ var CPTitle = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/map/map-dom.ts":
-/*!****************************!*\
-  !*** ./src/map/map-dom.ts ***!
-  \****************************/
+/***/ "../src/map/map-dom.ts":
+/*!*****************************!*\
+  !*** ../src/map/map-dom.ts ***!
+  \*****************************/
 /*! exports provided: MapDom */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MapDom", function() { return MapDom; });
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common */ "./src/common.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
-/* harmony import */ var _directive_cp_blur__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./directive/cp-blur */ "./src/map/directive/cp-blur.ts");
-/* harmony import */ var _directive_cp_class__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./directive/cp-class */ "./src/map/directive/cp-class.ts");
-/* harmony import */ var _directive_cp_click__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./directive/cp-click */ "./src/map/directive/cp-click.ts");
-/* harmony import */ var _directive_cp_disabled__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./directive/cp-disabled */ "./src/map/directive/cp-disabled.ts");
-/* harmony import */ var _directive_cp_else__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./directive/cp-else */ "./src/map/directive/cp-else.ts");
-/* harmony import */ var _directive_cp_else_if__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./directive/cp-else-if */ "./src/map/directive/cp-else-if.ts");
-/* harmony import */ var _directive_cp_focus__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./directive/cp-focus */ "./src/map/directive/cp-focus.ts");
-/* harmony import */ var _directive_cp_hide__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./directive/cp-hide */ "./src/map/directive/cp-hide.ts");
-/* harmony import */ var _directive_cp_if__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./directive/cp-if */ "./src/map/directive/cp-if.ts");
-/* harmony import */ var _directive_cp_init__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./directive/cp-init */ "./src/map/directive/cp-init.ts");
-/* harmony import */ var _directive_cp_key__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./directive/cp-key */ "./src/map/directive/cp-key.ts");
-/* harmony import */ var _directive_cp_max__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./directive/cp-max */ "./src/map/directive/cp-max.ts");
-/* harmony import */ var _directive_cp_maxlength__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./directive/cp-maxlength */ "./src/map/directive/cp-maxlength.ts");
-/* harmony import */ var _directive_cp_min__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./directive/cp-min */ "./src/map/directive/cp-min.ts");
-/* harmony import */ var _directive_cp_model__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./directive/cp-model */ "./src/map/directive/cp-model.ts");
-/* harmony import */ var _directive_cp_mouse__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./directive/cp-mouse */ "./src/map/directive/cp-mouse.ts");
-/* harmony import */ var _directive_cp_placeholder__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./directive/cp-placeholder */ "./src/map/directive/cp-placeholder.ts");
-/* harmony import */ var _directive_cp_repeat__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./directive/cp-repeat */ "./src/map/directive/cp-repeat.ts");
-/* harmony import */ var _directive_cp_show__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./directive/cp-show */ "./src/map/directive/cp-show.ts");
-/* harmony import */ var _directive_cp_src__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./directive/cp-src */ "./src/map/directive/cp-src.ts");
-/* harmony import */ var _directive_cp_step__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./directive/cp-step */ "./src/map/directive/cp-step.ts");
-/* harmony import */ var _directive_cp_style__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./directive/cp-style */ "./src/map/directive/cp-style.ts");
-/* harmony import */ var _directive_cp_title__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./directive/cp-title */ "./src/map/directive/cp-title.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common */ "../src/common.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constants */ "../src/constants.ts");
+/* harmony import */ var _directive_cp_blur__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./directive/cp-blur */ "../src/map/directive/cp-blur.ts");
+/* harmony import */ var _directive_cp_change__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./directive/cp-change */ "../src/map/directive/cp-change.ts");
+/* harmony import */ var _directive_cp_class__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./directive/cp-class */ "../src/map/directive/cp-class.ts");
+/* harmony import */ var _directive_cp_click__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./directive/cp-click */ "../src/map/directive/cp-click.ts");
+/* harmony import */ var _directive_cp_disabled__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./directive/cp-disabled */ "../src/map/directive/cp-disabled.ts");
+/* harmony import */ var _directive_cp_else__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./directive/cp-else */ "../src/map/directive/cp-else.ts");
+/* harmony import */ var _directive_cp_else_if__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./directive/cp-else-if */ "../src/map/directive/cp-else-if.ts");
+/* harmony import */ var _directive_cp_focus__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./directive/cp-focus */ "../src/map/directive/cp-focus.ts");
+/* harmony import */ var _directive_cp_hide__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./directive/cp-hide */ "../src/map/directive/cp-hide.ts");
+/* harmony import */ var _directive_cp_if__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./directive/cp-if */ "../src/map/directive/cp-if.ts");
+/* harmony import */ var _directive_cp_init__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./directive/cp-init */ "../src/map/directive/cp-init.ts");
+/* harmony import */ var _directive_cp_key__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./directive/cp-key */ "../src/map/directive/cp-key.ts");
+/* harmony import */ var _directive_cp_max__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./directive/cp-max */ "../src/map/directive/cp-max.ts");
+/* harmony import */ var _directive_cp_maxlength__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./directive/cp-maxlength */ "../src/map/directive/cp-maxlength.ts");
+/* harmony import */ var _directive_cp_min__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./directive/cp-min */ "../src/map/directive/cp-min.ts");
+/* harmony import */ var _directive_cp_model__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./directive/cp-model */ "../src/map/directive/cp-model.ts");
+/* harmony import */ var _directive_cp_mouse__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./directive/cp-mouse */ "../src/map/directive/cp-mouse.ts");
+/* harmony import */ var _directive_cp_placeholder__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./directive/cp-placeholder */ "../src/map/directive/cp-placeholder.ts");
+/* harmony import */ var _directive_cp_repeat__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./directive/cp-repeat */ "../src/map/directive/cp-repeat.ts");
+/* harmony import */ var _directive_cp_show__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./directive/cp-show */ "../src/map/directive/cp-show.ts");
+/* harmony import */ var _directive_cp_src__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./directive/cp-src */ "../src/map/directive/cp-src.ts");
+/* harmony import */ var _directive_cp_step__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./directive/cp-step */ "../src/map/directive/cp-step.ts");
+/* harmony import */ var _directive_cp_style__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./directive/cp-style */ "../src/map/directive/cp-style.ts");
+/* harmony import */ var _directive_cp_title__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./directive/cp-title */ "../src/map/directive/cp-title.ts");
+
 
 
 
@@ -21168,6 +21228,7 @@ var MapDom = /** @class */ (function () {
             cpTitles: [],
             cpMouse: [],
             cpPlaceholder: [],
+            cpChange: [],
         };
         this.element = _element;
         this.regexInterpolation = new RegExp(/({{).*?(}})/g);
@@ -21294,6 +21355,9 @@ var MapDom = /** @class */ (function () {
         if (child.hasAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].PLACEHOLDER_ATTRIBUTE_NAME)) {
             this.createCPPlaceholder(child);
         }
+        if (child.hasAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].CHANGE_ATTRIBUTE_NAME)) {
+            this.createCPChange(child);
+        }
     };
     MapDom.prototype.reloadElementChildes = function (element, initialScope) {
         var _this = this;
@@ -21355,6 +21419,8 @@ var MapDom = /** @class */ (function () {
         this.directives.cpMouse.forEach(function (cpMouse) { return cpMouse.init(); });
         // Update cp placeholder
         this.directives.cpPlaceholder.forEach(function (cpPlaceholder) { return cpPlaceholder.init(); });
+        // Update cp change
+        this.directives.cpChange.forEach(function (cpChange) { return cpChange.init(); });
         this.processInterpolation(this.element);
     };
     /**
@@ -21460,126 +21526,126 @@ var MapDom = /** @class */ (function () {
      * @param child Elemento que está sendo criado o bind de model
      */
     MapDom.prototype.createCPModel = function (child) {
-        this.directives.cpModels.push(new _directive_cp_model__WEBPACK_IMPORTED_MODULE_16__["CPModel"](child, this));
+        this.directives.cpModels.push(new _directive_cp_model__WEBPACK_IMPORTED_MODULE_17__["CPModel"](child, this));
     };
     /**
      *
      * @param child Elemento que está sendo criado o bind de click
      */
     MapDom.prototype.createCPClick = function (child) {
-        this.directives.cpClicks.push(new _directive_cp_click__WEBPACK_IMPORTED_MODULE_4__["CPClick"](child, this));
+        this.directives.cpClicks.push(new _directive_cp_click__WEBPACK_IMPORTED_MODULE_5__["CPClick"](child, this));
     };
     /**
      *
      * @param child Elemento que está sendo criado o bind de show
      */
     MapDom.prototype.createCPShow = function (child) {
-        this.directives.cpShows.push(new _directive_cp_show__WEBPACK_IMPORTED_MODULE_20__["CPShow"](child, this));
+        this.directives.cpShows.push(new _directive_cp_show__WEBPACK_IMPORTED_MODULE_21__["CPShow"](child, this));
     };
     /**
      *
      * @param child Elemento que está sendo criado o bind do if
      */
     MapDom.prototype.createCPIf = function (child) {
-        this.directives.cpIfs.push(new _directive_cp_if__WEBPACK_IMPORTED_MODULE_10__["CPIf"](child, this));
+        this.directives.cpIfs.push(new _directive_cp_if__WEBPACK_IMPORTED_MODULE_11__["CPIf"](child, this));
     };
     /**
      *
      * @param child Elemento que está sendo criado o bind do else
      */
     MapDom.prototype.createCPElse = function (child) {
-        this.directives.cpElses.push(new _directive_cp_else__WEBPACK_IMPORTED_MODULE_6__["CPElse"](child, this));
+        this.directives.cpElses.push(new _directive_cp_else__WEBPACK_IMPORTED_MODULE_7__["CPElse"](child, this));
     };
     /**
      *
      * @param child Elemento que está sendo criado o bind do else if
      */
     MapDom.prototype.createCPElseIf = function (child) {
-        this.directives.cpElseIfs.push(new _directive_cp_else_if__WEBPACK_IMPORTED_MODULE_7__["CPElseIf"](child, this));
+        this.directives.cpElseIfs.push(new _directive_cp_else_if__WEBPACK_IMPORTED_MODULE_8__["CPElseIf"](child, this));
     };
     /**
      *
      * @param child Elemento que está sendo criado o bind de repeat.
      */
     MapDom.prototype.createCPRepeat = function (child) {
-        this.directives.repeats.push(new _directive_cp_repeat__WEBPACK_IMPORTED_MODULE_19__["CPRepeat"](child, this));
+        this.directives.repeats.push(new _directive_cp_repeat__WEBPACK_IMPORTED_MODULE_20__["CPRepeat"](child, this));
     };
     /**
      *
      * @param child Elemento que está sendo criado o bind do init.
      */
     MapDom.prototype.createCPInit = function (child) {
-        this.directives.cpInits.push(new _directive_cp_init__WEBPACK_IMPORTED_MODULE_11__["CPInit"](child, this));
+        this.directives.cpInits.push(new _directive_cp_init__WEBPACK_IMPORTED_MODULE_12__["CPInit"](child, this));
     };
     /**
      *
      * @param child Elemento que está sendo criado o bind do style.
      */
     MapDom.prototype.createCPStyle = function (child) {
-        this.directives.cpStyles.push(new _directive_cp_style__WEBPACK_IMPORTED_MODULE_23__["CPStyle"](child, this));
+        this.directives.cpStyles.push(new _directive_cp_style__WEBPACK_IMPORTED_MODULE_24__["CPStyle"](child, this));
     };
     /**
      *
      * @param child Elemento que está sendo criado o bind do class.
      */
     MapDom.prototype.createCPClass = function (child) {
-        this.directives.cpClasses.push(new _directive_cp_class__WEBPACK_IMPORTED_MODULE_3__["CPClass"](child, this));
+        this.directives.cpClasses.push(new _directive_cp_class__WEBPACK_IMPORTED_MODULE_4__["CPClass"](child, this));
     };
     /**
      *
      * @param child Elemento que está sendo criado o bind do key.
      */
     MapDom.prototype.createCPSrc = function (child) {
-        this.directives.cpSrcs.push(new _directive_cp_src__WEBPACK_IMPORTED_MODULE_21__["CPSrc"](child, this));
+        this.directives.cpSrcs.push(new _directive_cp_src__WEBPACK_IMPORTED_MODULE_22__["CPSrc"](child, this));
     };
     /**
      *
      * @param child Elemento que está sendo criado o bind do key.
      */
     MapDom.prototype.createCPKey = function (child) {
-        this.directives.cpKeys.push(new _directive_cp_key__WEBPACK_IMPORTED_MODULE_12__["CPKey"](child, this));
+        this.directives.cpKeys.push(new _directive_cp_key__WEBPACK_IMPORTED_MODULE_13__["CPKey"](child, this));
     };
     /**
     * @param child Elemento que está sendo criado o bind do min.
     */
     MapDom.prototype.createCPMin = function (child) {
-        this.directives.cpMins.push(new _directive_cp_min__WEBPACK_IMPORTED_MODULE_15__["CPMin"](child, this));
+        this.directives.cpMins.push(new _directive_cp_min__WEBPACK_IMPORTED_MODULE_16__["CPMin"](child, this));
     };
     /**
      * @param child Elemento que está sendo criado o bind do max.
      */
     MapDom.prototype.createCPMax = function (child) {
-        this.directives.cpMaxs.push(new _directive_cp_max__WEBPACK_IMPORTED_MODULE_13__["CPMax"](child, this));
+        this.directives.cpMaxs.push(new _directive_cp_max__WEBPACK_IMPORTED_MODULE_14__["CPMax"](child, this));
     };
     /**
      * @param child Elemento que está sendo criado o bind do step.
      */
     MapDom.prototype.createCPStep = function (child) {
-        this.directives.cpSteps.push(new _directive_cp_step__WEBPACK_IMPORTED_MODULE_22__["CPStep"](child, this));
+        this.directives.cpSteps.push(new _directive_cp_step__WEBPACK_IMPORTED_MODULE_23__["CPStep"](child, this));
     };
     /**
      * @param child Elemento que está sendo criado o bind do max length.
      */
     MapDom.prototype.createCPMaxLength = function (child) {
-        this.directives.cpMaxsLength.push(new _directive_cp_maxlength__WEBPACK_IMPORTED_MODULE_14__["CPMaxLength"](child, this));
+        this.directives.cpMaxsLength.push(new _directive_cp_maxlength__WEBPACK_IMPORTED_MODULE_15__["CPMaxLength"](child, this));
     };
     /**
      * @param child Elemento que está sendo criado o bind do disable.
      */
     MapDom.prototype.createCPDisabled = function (child) {
-        this.directives.cpDisables.push(new _directive_cp_disabled__WEBPACK_IMPORTED_MODULE_5__["CPDisabled"](child, this));
+        this.directives.cpDisables.push(new _directive_cp_disabled__WEBPACK_IMPORTED_MODULE_6__["CPDisabled"](child, this));
     };
     /**
      * @param child Elemento que está sendo criado o bind do focus.
      */
     MapDom.prototype.createCPFocus = function (child) {
-        this.directives.cpFocus.push(new _directive_cp_focus__WEBPACK_IMPORTED_MODULE_8__["CPFocus"](child, this));
+        this.directives.cpFocus.push(new _directive_cp_focus__WEBPACK_IMPORTED_MODULE_9__["CPFocus"](child, this));
     };
     /**
      * @param child Elemento que está sendo criado o bind do hide.
      */
     MapDom.prototype.createCPHide = function (child) {
-        this.directives.cpHide.push(new _directive_cp_hide__WEBPACK_IMPORTED_MODULE_9__["CPHide"](child, this));
+        this.directives.cpHide.push(new _directive_cp_hide__WEBPACK_IMPORTED_MODULE_10__["CPHide"](child, this));
     };
     /**
      * @param child Elemento que está sendo criado o bind do blur.
@@ -21591,19 +21657,25 @@ var MapDom = /** @class */ (function () {
     * @param child Elemento que está sendo criado o bind do Title.
     */
     MapDom.prototype.createCPtitle = function (child) {
-        this.directives.cpTitles.push(new _directive_cp_title__WEBPACK_IMPORTED_MODULE_24__["CPTitle"](child, this));
+        this.directives.cpTitles.push(new _directive_cp_title__WEBPACK_IMPORTED_MODULE_25__["CPTitle"](child, this));
     };
     /**
     * @param child Elemento que está sendo criado o bind do dbTitle.
     */
     MapDom.prototype.createCPmouse = function (child) {
-        this.directives.cpMouse.push(new _directive_cp_mouse__WEBPACK_IMPORTED_MODULE_17__["CPMouse"](child, this));
+        this.directives.cpMouse.push(new _directive_cp_mouse__WEBPACK_IMPORTED_MODULE_18__["CPMouse"](child, this));
     };
     /**
     * @param child Elemento que está sendo criado o bind do placeholder.
     */
     MapDom.prototype.createCPPlaceholder = function (child) {
-        this.directives.cpPlaceholder.push(new _directive_cp_placeholder__WEBPACK_IMPORTED_MODULE_18__["CPPlaceholder"](child, this));
+        this.directives.cpPlaceholder.push(new _directive_cp_placeholder__WEBPACK_IMPORTED_MODULE_19__["CPPlaceholder"](child, this));
+    };
+    /**
+    * @param child Elemento que está sendo criado o bind do placeholder.
+    */
+    MapDom.prototype.createCPChange = function (child) {
+        this.directives.cpChange.push(new _directive_cp_change__WEBPACK_IMPORTED_MODULE_3__["CPChange"](child, this));
     };
     return MapDom;
 }());
@@ -21612,18 +21684,18 @@ var MapDom = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/scope/scope.proxy.ts":
-/*!**********************************!*\
-  !*** ./src/scope/scope.proxy.ts ***!
-  \**********************************/
+/***/ "../src/scope/scope.proxy.ts":
+/*!***********************************!*\
+  !*** ../src/scope/scope.proxy.ts ***!
+  \***********************************/
 /*! exports provided: ScopeProxy */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ScopeProxy", function() { return ScopeProxy; });
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
-/* harmony import */ var _core_observer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../core/observer */ "./src/core/observer/index.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "../src/constants.ts");
+/* harmony import */ var _core_observer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../core/observer */ "../src/core/observer/index.ts");
 
 
 var ScopeProxy = /** @class */ (function () {
@@ -21664,21 +21736,21 @@ var ScopeProxy = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/scope/scope.ts":
-/*!****************************!*\
-  !*** ./src/scope/scope.ts ***!
-  \****************************/
+/***/ "../src/scope/scope.ts":
+/*!*****************************!*\
+  !*** ../src/scope/scope.ts ***!
+  \*****************************/
 /*! exports provided: Scope */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Scope", function() { return Scope; });
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common */ "./src/common.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
-/* harmony import */ var _core_eval__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../core/eval */ "./src/core/eval.ts");
-/* harmony import */ var _map_map_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../map/map-dom */ "./src/map/map-dom.ts");
-/* harmony import */ var _scope_proxy__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./scope.proxy */ "./src/scope/scope.proxy.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common */ "../src/common.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constants */ "../src/constants.ts");
+/* harmony import */ var _core_eval__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../core/eval */ "../src/core/eval.ts");
+/* harmony import */ var _map_map_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../map/map-dom */ "../src/map/map-dom.ts");
+/* harmony import */ var _scope_proxy__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./scope.proxy */ "../src/scope/scope.proxy.ts");
 
 
 
@@ -21698,7 +21770,7 @@ var Scope = /** @class */ (function () {
             _this.watchers
                 .filter(function (watcher) { return watcher.evtName === evtName; })
                 .forEach(function (watcher) {
-                (_a = watcher.callback).call.apply(_a, args);
+                (_a = watcher.callback).call.apply(_a, [_this].concat(args));
                 var _a;
             });
         };
@@ -21716,6 +21788,8 @@ var Scope = /** @class */ (function () {
         if (!_element['$instance']) {
             this.$emit('$onInit');
         }
+        this.observers = [];
+        this.$on('$onChanges', this.onChanges);
     }
     Scope.prototype.getScopeProxy = function () {
         return this.scope;
@@ -21729,6 +21803,25 @@ var Scope = /** @class */ (function () {
         if (element && element.nodeName) {
             element[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SCOPE_ATTRIBUTE_NAME] = scope;
         }
+    };
+    Scope.prototype.onChanges = function (changes) {
+        this.observers.forEach(function (observer) {
+            changes.filter(function (change) { return change.type === 'update' && change.name === observer.key; }).forEach(function (change) {
+                observer.callback.call(observer.ctx, change.object[change.name], change.oldValue);
+            });
+        });
+    };
+    Scope.prototype.$watch = function (key, callback, ctx) {
+        this.observers.push({
+            key: key,
+            callback: callback,
+            ctx: ctx,
+        });
+    };
+    Scope.prototype.$unwatch = function (key, callback) {
+        this.observers = this.observers.filter(function (observer) {
+            return observer.key !== key;
+        });
     };
     return Scope;
 }());
