@@ -68,8 +68,8 @@ export class ComponentInstance {
             if (this.config.controller) {
                 const args = [
                     this.componentScope.element[Constants.SCOPE_ATTRIBUTE_NAME],
-                    this.componentScope.element[Constants.SCOPE_ATTRIBUTE_NAME].element,
-                    this.componentScope.element[Constants.SCOPE_ATTRIBUTE_NAME].mapDom,
+                    this.componentScope.mapDom.element,
+                    this.componentScope.mapDom,
                 ];
                 this.componentScope[this.config.controllerAs] = new this.config.controller(...args);
             }
