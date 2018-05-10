@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import { Common } from '../common';
 import { Constants } from '../constants';
+import { CPAttr } from './directive/cp-attr';
 import { CPBlur } from './directive/cp-blur';
 import { CPChange } from './directive/cp-change';
 import { CPClass } from './directive/cp-class';
@@ -53,6 +54,7 @@ export class MapDom {
         cpInits: [],
         cpSrcs: [],
         cpKeys: [],
+        cpAttrs: [],
         cpMins: [],
         cpMaxs: [],
         cpMaxsLength: [],
@@ -143,6 +145,7 @@ export class MapDom {
         if (child.hasAttribute(Constants.CLASS_ATTRIBUTE_NAME)) { this.createCPClass(child); }
         if (child.hasAttribute(Constants.SRC_ATTRIBUTE_NAME)) { this.createCPSrc(child); }
         if (child.hasAttributeStartingWith(Constants.KEY_ATTRIBUTE_NAME)) { this.createCPKey(child); }
+        if (child.hasAttributeStartingWith(Constants.ATTR_ATTRIBUTE_NAME)) { this.createCPAttr(child); }
         if (child.hasAttribute(Constants.MIN_ATTRIBUTE_NAME)) { this.createCPMin(child); }
         if (child.hasAttribute(Constants.MAX_ATTRIBUTE_NAME)) { this.createCPMax(child); }
         if (child.hasAttribute(Constants.STEP_ATTRIBUTE_NAME)) { this.createCPStep(child); }
@@ -441,6 +444,10 @@ export class MapDom {
      */
     public createCPKey(child) {
         this.directives.cpKeys.push(new CPKey(child, this));
+    }
+
+    public createCPAttr(child) {
+        this.directives.cpAttrs.push(new CPAttr(child, this));
     }
 
     /**

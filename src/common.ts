@@ -228,6 +228,17 @@ export namespace Common {
         return callback;
     }
 
+    export function getOrExec(element, attribute) {
+        let value = getParamValue(element, attribute);
+        if (!value && value !== 0) {
+            value = executeFunctionCallback(element, attribute);
+        }
+        if (!value && value !== 0) {
+            value = evalInContext(attribute, {});
+        }
+        return value;
+    }
+
     export function isNative(fn) {
         return /{\s*\[native code]\s*}/.test('' + fn);
     }
