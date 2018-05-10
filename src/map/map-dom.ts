@@ -265,7 +265,7 @@ export class MapDom {
     }
 
     public getInterpolationValue(content, childNode, prefix?) {
-        let evalValue = Common.evalInContext(content.trim().startsWith(':') ? content.trim().slice(1) : content, Common.getScopeParent(childNode), prefix);
+        let evalValue = Common.getParamValue(childNode, content.trim().startsWith(':') ? content.trim().slice(1) : content);
         evalValue = MapDom.removeWordFromStr(evalValue, 'null');
         evalValue = MapDom.removeWordFromStr(evalValue, 'undefined');
         evalValue = MapDom.removeWordFromStr(evalValue, 'NaN');

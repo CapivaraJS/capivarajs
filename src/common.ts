@@ -138,6 +138,7 @@ export namespace Common {
                 }
             }
         };
+
         element = get(element);
 
         if (element) {
@@ -155,11 +156,20 @@ export namespace Common {
         return getContext(element);
     }
 
+    export function getParamValue(element, param) {
+        let paramValue = getParamValueRecursive(element, param.replace(/ /g, ''));
+        if (paramValue === undefined) {
+            paramValue = getParamValueIsolate(element, param);
+        }
+        if (paramValue === undefined) {
+            paramValue = evalInContext(param, {});
+        }
+        return paramValue;
+    }
+
     export function getParamValueRecursive(element, param) {
         let scope = getScope(element);
-        if (scope && scope.mapDom && scope.mapDom.element.$instance) {
-            scope = scope.scope;
-        }
+        if (scope && scope.scope) { scope = scope.scope; }
         const paramValue = _.get(scope, param);
         if (!paramValue && element.parentNode && !isComponent(element.parentNode)) {
             return getParamValueRecursive(element.parentNode, param);
@@ -168,9 +178,18 @@ export namespace Common {
     }
 
     export function getParamValueIsolate(element, params) {
-        params.split(/(\+|\-|\/|\*)/g).forEach((param) => {
-            console.log(getParamValueRecursive(element, param));
+        const regex = /(\+|\-|\/|\*)/g;
+        params.split(regex).forEach((param) => {
+            if (!regex.test(param)) {
+                const paramValue = getParamValueRecursive(element, param.replace(/ /g, ''));
+                if (paramValue !== undefined || !isNaN(param)) {
+                    params = params.replace(param.replace(/ /g, ''), paramValue || param);
+                } else {
+                    params = params.replace(param.replace(/ /g, ''), null);
+                }
+            }
         });
+        return Eval.exec(params, {});
     }
 
     export function executeFunctionCallback(element, attribute, evt?, additionalParameters?) {
