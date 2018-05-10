@@ -265,6 +265,7 @@ export class MapDom {
     }
 
     public getInterpolationValue(content, childNode, prefix?) {
+        if (prefix) { content = prefix + '.' + content; }
         let evalValue = Common.getParamValue(childNode, content.trim().startsWith(':') ? content.trim().slice(1) : content);
         evalValue = MapDom.removeWordFromStr(evalValue, 'null');
         evalValue = MapDom.removeWordFromStr(evalValue, 'undefined');
@@ -337,7 +338,7 @@ export class MapDom {
      * @param capivaraBind Tipo de bind que será monitorado.
      */
     public addCpModels(capivaraBind) {
-        this.directives.cpModelsElements[capivaraBind.attribute] = this.directives.cpModels[capivaraBind.attribute] || [];
+        this.directives.cpModelsElements[capivaraBind.attribute] = this.directives.cpModelsElements[capivaraBind.attribute] || [];
         this.directives.cpModelsElements[capivaraBind.attribute].push(capivaraBind);
     }
 

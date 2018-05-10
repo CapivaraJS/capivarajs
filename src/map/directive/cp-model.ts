@@ -63,7 +63,6 @@ export class CPModel implements Directive {
             default:
                 _.set(Common.getScope(self.element).scope, self.attribute, self.element.value);
         }
-        self.map.reload();
     }
 
 }
