@@ -18041,7 +18041,7 @@ module.exports = function(module) {
 /*! exports provided: name, version, description, main, repository, scripts, author, license, dependencies, keywords, nyc, devDependencies, default */
 /***/ (function(module) {
 
-module.exports = {"name":"capivarajs","version":"2.4.1","description":"Um framework para criação de componentes.","main":"./index.js","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./config/webpack.dev.js","prod":"npm run test-single && webpack --config ./config/webpack.dev.js && webpack --config ./config/webpack.prod.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./config/webpack.dev.js --t true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^10.0.3","babel-loader":"^7.1.4","babel-polyfill":"^6.26.0","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.0","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.8","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.21.0","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.8.1","webpack-cli":"^2.1.3","webpack-dev-server":"^3.1.1","webpack-merge":"^4.1.2"}};
+module.exports = {"name":"capivarajs","version":"2.5.0","description":"Um framework para criação de componentes.","main":"./index.js","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./config/webpack.dev.js","prod":"npm run test-single && webpack --config ./config/webpack.dev.js && webpack --config ./config/webpack.prod.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./config/webpack.dev.js --t true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^10.0.3","babel-loader":"^7.1.4","babel-polyfill":"^6.26.0","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.0","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.8","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.21.0","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.8.1","webpack-cli":"^2.1.3","webpack-dev-server":"^3.1.1","webpack-merge":"^4.1.2"}};
 
 /***/ }),
 
@@ -18176,20 +18176,90 @@ var Common;
         }
     }
     Common.getScopeParent = getScopeParent;
-    function getClickContext(element, callback) {
-        var context = callback.__ctx__ || getScope(element);
-        var getCtxController = function (ctx) {
-            return ctx[ctx.mapDom.element.$instance.config.controllerAs] || ctx.scope[ctx.mapDom.element.$instance.config.controllerAs];
+    function hasSomeParentTheClass(element, classname) {
+        if (element && element.classList && element.classList.contains(classname)) {
+            return true;
+        }
+        return element && element.parentNode && hasSomeParentTheClass(element.parentNode, classname);
+    }
+    Common.hasSomeParentTheClass = hasSomeParentTheClass;
+    function getContext(element) {
+        var get = function (el) {
+            if (el.classList && el.classList.contains('binding-repeat') && !isComponent(el)) {
+                if (hasSomeParentTheClass(el.parentNode, 'binding-repeat')) {
+                    return get(el.parentNode);
+                }
+                else {
+                    return el.parentNode;
+                }
+            }
+            else {
+                if (hasSomeParentTheClass(el, 'binding-repeat')) {
+                    return get(element.parentNode);
+                }
+                else {
+                    return el;
+                }
+            }
         };
-        if (context.mapDom.element.$instance) {
-            context = getCtxController(context);
+        element = get(element);
+        if (element) {
+            var scope = element[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SCOPE_ATTRIBUTE_NAME];
+            if (scope && scope.mapDom && scope.mapDom.element.$instance) {
+                return scope[scope.mapDom.element.$instance.config.controllerAs] || scope.scope[scope.mapDom.element.$instance.config.controllerAs];
+            }
+            else {
+                return scope;
+            }
         }
-        if (element.classList && element.classList.contains('binding-repeat')) {
-            context = getCtxController(context.$parent);
+    }
+    Common.getContext = getContext;
+    function getClickContext(element, callback) {
+        if (callback.__ctx__) {
+            return callback.__ctx__;
         }
-        return context;
+        return getContext(element);
     }
     Common.getClickContext = getClickContext;
+    function getParamValue(element, param) {
+        var paramValue = getParamValueRecursive(element, param.replace(/ /g, ''));
+        if (paramValue === undefined) {
+            paramValue = getParamValueIsolate(element, param);
+        }
+        if (paramValue === undefined) {
+            paramValue = evalInContext(param, {});
+        }
+        return paramValue;
+    }
+    Common.getParamValue = getParamValue;
+    function getParamValueRecursive(element, param) {
+        var scope = getScope(element);
+        if (scope && scope.scope) {
+            scope = scope.scope;
+        }
+        var paramValue = lodash__WEBPACK_IMPORTED_MODULE_0__["get"](scope, param);
+        if (!paramValue && element.parentNode && !isComponent(element.parentNode)) {
+            return getParamValueRecursive(element.parentNode, param);
+        }
+        return paramValue;
+    }
+    Common.getParamValueRecursive = getParamValueRecursive;
+    function getParamValueIsolate(element, params) {
+        var regex = /(\+|\-|\/|\*)/g;
+        params.split(regex).forEach(function (param) {
+            if (!regex.test(param)) {
+                var paramValue = getParamValueRecursive(element, param.replace(/ /g, ''));
+                if (paramValue !== undefined || !isNaN(param)) {
+                    params = params.replace(param.replace(/ /g, ''), paramValue || param);
+                }
+                else {
+                    params = params.replace(param.replace(/ /g, ''), null);
+                }
+            }
+        });
+        return _core__WEBPACK_IMPORTED_MODULE_2__["Eval"].exec(params, {});
+    }
+    Common.getParamValueIsolate = getParamValueIsolate;
     function executeFunctionCallback(element, attribute, evt, additionalParameters) {
         var callback = getCallbackFunc(element, attribute);
         if (callback && !isNative(callback)) {
@@ -18206,12 +18276,14 @@ var Common;
                     args_1.push(evt);
                 }
                 else {
-                    var elmScope = getScope(element).scope;
-                    var valueScope = evalInContext(param, context_1);
-                    if (valueScope === undefined) {
-                        valueScope = evalInContext(param, elmScope);
+                    var paramValue = getParamValueRecursive(element, param.replace(/ /g, ''));
+                    if (paramValue === undefined) {
+                        paramValue = evalInContext(param, context_1);
                     }
-                    args_1.push(valueScope);
+                    if (paramValue === undefined) {
+                        paramValue = getParamValueIsolate(element, param);
+                    }
+                    args_1.push(paramValue === undefined ? evalInContext(param, context_1) : paramValue);
                 }
             });
             return callback.call.apply(callback, [context_1].concat(args_1));
@@ -18220,7 +18292,7 @@ var Common;
     Common.executeFunctionCallback = executeFunctionCallback;
     function getCallbackFunc(element, attribute) {
         var callback = lodash__WEBPACK_IMPORTED_MODULE_0__["get"](getScope(element).scope, attribute.substring(0, attribute.indexOf('(')));
-        if (!callback && element.parentNode && getScope(element.parentNode)) {
+        if (!callback && element.parentNode && getScope(element.parentNode) && !isComponent(element.parentNode)) {
             return getCallbackFunc(element.parentNode, attribute);
         }
         return callback;
@@ -18253,6 +18325,9 @@ var Common;
     function isValidCondition(element, condition) {
         var scope = isComponent(element) && element.parentNode && element.parentNode[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SCOPE_ATTRIBUTE_NAME] ? getScope(element.parentNode).scope : getScope(element).scope;
         var result = evalInContext(condition, scope);
+        if (result === undefined && element.parentNode && !isComponent(element.parentNode) && element.parentNode[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SCOPE_ATTRIBUTE_NAME]) {
+            return isValidCondition(element.parentNode, condition);
+        }
         return result;
     }
     Common.isValidCondition = isValidCondition;
@@ -19089,16 +19164,18 @@ var Eval;
     function exec(source, context, prefix) {
         if (prefix === void 0) { prefix = ''; }
         var referenceSelf = "this." + (prefix ? prefix += '.' : ''), regex = /\$*[a-z0-9.$]+\s*/gi, keys = source.match(regex);
-        keys.forEach(function (str, i) {
-            var key = str.replace(/\s/g, ''), indexStart = getIndexStart(keys, i);
-            var indexEnd = indexStart + source.substring(indexStart, source.length).indexOf(key) + key.length;
-            if (!key.includes(referenceSelf)) {
-                var isVar = !prefix.trim() ? context.hasOwnProperty(_common__WEBPACK_IMPORTED_MODULE_0__["Common"].getFirstKey(key)) : isVariable(key);
-                if (isVar) {
-                    source = replaceAt(source, key, "" + referenceSelf + key, indexStart, indexEnd);
+        if (keys && Array.isArray(keys)) {
+            keys.forEach(function (str, i) {
+                var key = str.replace(/\s/g, ''), indexStart = getIndexStart(keys, i);
+                var indexEnd = indexStart + source.substring(indexStart, source.length).indexOf(key) + key.length;
+                if (!key.includes(referenceSelf)) {
+                    var isVar = !prefix.trim() ? context.hasOwnProperty(_common__WEBPACK_IMPORTED_MODULE_0__["Common"].getFirstKey(key)) : isVariable(key);
+                    if (isVar) {
+                        source = replaceAt(source, key, "" + referenceSelf + key, indexStart, indexEnd);
+                    }
                 }
-            }
-        });
+            });
+        }
         try {
             return function (str) {
                 return eval(str);
@@ -20137,7 +20214,7 @@ var CPClick = /** @class */ (function () {
     CPClick.prototype.init = function () {
         var _this = this;
         var onClick = function (evt) {
-            _this.attribute = _this.attribute.replace(/ /g, '');
+            _this.attribute = _this.attribute.trim();
             _common__WEBPACK_IMPORTED_MODULE_1__["Common"].executeFunctionCallback(_this.element, _this.attribute, evt);
         };
         // Remove old event
@@ -20515,7 +20592,7 @@ var CPInit = /** @class */ (function () {
         this.init();
     };
     CPInit.prototype.init = function () {
-        this.attribute = this.attribute.replace(/ /g, '');
+        this.attribute = this.attribute.trim();
         _common__WEBPACK_IMPORTED_MODULE_0__["Common"].executeFunctionCallback(this.element, this.attribute);
     };
     return CPInit;
@@ -20622,7 +20699,7 @@ var CPMax = /** @class */ (function () {
         this.init();
     };
     CPMax.prototype.init = function () {
-        this.attribute = this.attribute.replace(/ /g, '');
+        this.attribute = this.attribute.trim();
         try {
             var value = _common__WEBPACK_IMPORTED_MODULE_0__["Common"].evalInContext(this.attribute, _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getScope(this.element).scope);
             if (value !== undefined) {
@@ -20665,7 +20742,7 @@ var CPMaxLength = /** @class */ (function () {
         this.init();
     };
     CPMaxLength.prototype.init = function () {
-        this.attribute = this.attribute.replace(/ /g, '');
+        this.attribute = this.attribute.trim();
         try {
             var value = _common__WEBPACK_IMPORTED_MODULE_0__["Common"].evalInContext(this.attribute, _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getScope(this.element).scope);
             if (value !== undefined) {
@@ -20708,7 +20785,7 @@ var CPMin = /** @class */ (function () {
         this.init();
     };
     CPMin.prototype.init = function () {
-        this.attribute = this.attribute.replace(/ /g, '');
+        this.attribute = this.attribute.trim();
         try {
             var value = _common__WEBPACK_IMPORTED_MODULE_0__["Common"].evalInContext(this.attribute, _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getScope(this.element).scope);
             if (value !== undefined) {
@@ -20744,6 +20821,7 @@ __webpack_require__.r(__webpack_exports__);
 var CPModel = /** @class */ (function () {
     function CPModel(_element, _map) {
         this.element = _element;
+        this.element['cpModel'] = this;
         this.map = _map;
         this.attribute = this.element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].MODEL_ATTRIBUTE_NAME);
         if (!this.attribute) {
@@ -20755,9 +20833,9 @@ var CPModel = /** @class */ (function () {
         this.applyModelInValue();
     };
     CPModel.prototype.init = function () {
-        var _this = this;
         this.map.addCpModels(this);
-        this.element.addEventListener('input', function () { return _this.applyValueInModel(); });
+        this.element.removeEventListener('input', this.applyValueInModel);
+        this.element.addEventListener('input', this.applyValueInModel);
     };
     CPModel.prototype.applyModelInValue = function () {
         var value = lodash__WEBPACK_IMPORTED_MODULE_0__["get"](_common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(this.element).scope, this.attribute);
@@ -20778,18 +20856,20 @@ var CPModel = /** @class */ (function () {
                 }
         }
     };
-    CPModel.prototype.applyValueInModel = function () {
-        switch (this.element.type) {
+    CPModel.prototype.applyValueInModel = function (evt) {
+        var self = (evt ? (evt.target || evt.srcElement) : this.element)['cpModel'];
+        console.log(self);
+        switch (self.element.type) {
             case 'date':
-                lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(this.element).scope, this.attribute, this.element.valueAsDate);
+                lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(self.element).scope, self.attribute, self.element.valueAsDate);
                 break;
             case 'number':
-                lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(this.element).scope, this.attribute, isNaN(this.element.valueAsNumber) ? undefined : this.element.valueAsNumber);
+                lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(self.element).scope, self.attribute, isNaN(self.element.valueAsNumber) ? undefined : self.element.valueAsNumber);
                 break;
             default:
-                lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(this.element).scope, this.attribute, this.element.value);
+                lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(self.element).scope, self.attribute, self.element.value);
         }
-        this.map.reload();
+        self.map.reload();
     };
     return CPModel;
 }());
@@ -20882,7 +20962,7 @@ var CPPlaceholder = /** @class */ (function () {
         this.init();
     };
     CPPlaceholder.prototype.init = function () {
-        this.attribute = this.attribute.replace(/ /g, '');
+        this.attribute = this.attribute.trim();
         try {
             var value = _common__WEBPACK_IMPORTED_MODULE_0__["Common"].evalInContext(this.attribute, _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getScope(this.element).scope);
             if (value !== undefined) {
@@ -21098,7 +21178,7 @@ var CPStep = /** @class */ (function () {
         this.init();
     };
     CPStep.prototype.init = function () {
-        this.attribute = this.attribute.replace(/ /g, '');
+        this.attribute = this.attribute.trim();
         try {
             var value = _common__WEBPACK_IMPORTED_MODULE_0__["Common"].evalInContext(this.attribute, _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getScope(this.element).scope);
             if (value !== undefined) {
@@ -21527,7 +21607,7 @@ var MapDom = /** @class */ (function () {
         return (str + '').replace(new RegExp("\\s+" + word + "\\s+|" + word + "\\s+|\\s+" + word + "|" + word + "$", 'gi'), '');
     };
     MapDom.prototype.getInterpolationValue = function (content, childNode, prefix) {
-        var evalValue = _common__WEBPACK_IMPORTED_MODULE_0__["Common"].evalInContext(content.trim().startsWith(':') ? content.trim().slice(1) : content, _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getScopeParent(childNode), prefix);
+        var evalValue = _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getParamValue(childNode, content.trim().startsWith(':') ? content.trim().slice(1) : content);
         evalValue = MapDom.removeWordFromStr(evalValue, 'null');
         evalValue = MapDom.removeWordFromStr(evalValue, 'undefined');
         evalValue = MapDom.removeWordFromStr(evalValue, 'NaN');
