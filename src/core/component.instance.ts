@@ -224,14 +224,20 @@ export class ComponentInstance {
         return _bindings[key].indexOf('.') !== -1 ? _bindings[key].substring(0, _bindings[key].indexOf('.')) : _bindings[key];
     }
 
+    public observeAndSetValues(obj, _bindings, key) {
+        Observe.observe(obj, (changes) => this.setAttributeValue(_bindings, key));
+    }
+
     public createObserverContext(_bindings, key) {
         if (!_bindings[key]) {
             return;
         }
         if (this.contextObj instanceof ScopeProxy) {
-            Observe.observe(this.contextObj[this.config.controllerAs], (changes) => {
-                this.setAttributeValue(_bindings, key);
-            });
+            if (this.contextObj[this.config.controllerAs]) {
+                this.observeAndSetValues(this.contextObj[this.config.controllerAs], _bindings, key);
+            } else {
+                this.observeAndSetValues(this.contextObj, _bindings, key);
+            }
         } else {
             const attrToObserve = ComponentInstance.getFirstAttribute(_bindings, key);
             this.listenerContextBindings[attrToObserve] = this.listenerContextBindings[attrToObserve] || [];

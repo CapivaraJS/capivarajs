@@ -1,24 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Test</title>
 </head>
+
 <body>
 
     <my-component #myComponent></my-component>
-    
+
     <script src="/dist/capivara.js"></script>
     <script>
         capivara.component('my-component', {
             template: `
-                <input type="number" name="quantity" cp-step="3" cp-model="number">
-                <h1>[[number]]</h1>
+                <input type="number" name="quantity" cp-step="3" cp-model="$ctrl.number">
+                <h1>[[$ctrl.number]]</h1>
             `
         });
         capivara.componentBuilder('myComponent').build();
     </script>
 </body>
+
 </html>

@@ -73,6 +73,7 @@ export class MapDom {
      * @description variavel boleana que define se o HTML está renderizado na página.
      */
     private renderedView: boolean;
+    private timeLastReload;
 
     constructor(_element: HTMLElement) {
         this.element = _element;
@@ -131,7 +132,7 @@ export class MapDom {
      */
     public createDirectives(child) {
         if (child.hasAttribute(Constants.MODEL_ATTRIBUTE_NAME)) { this.createCPModel(child); }
-        if (child.hasAttribute(Constants.CLICK_ATTRIBUTE_NAME ) || child.hasAttribute(Constants.DBLCLICK_ATTRIBUTE_NAME)) { this.createCPClick(child); }
+        if (child.hasAttribute(Constants.CLICK_ATTRIBUTE_NAME) || child.hasAttribute(Constants.DBLCLICK_ATTRIBUTE_NAME)) { this.createCPClick(child); }
         if (child.hasAttribute(Constants.REPEAT_ATTRIBUTE_NAME)) { this.createCPRepeat(child); }
         if (child.hasAttribute(Constants.SHOW_ATTRIBUTE_NAME)) { this.createCPShow(child); }
         if (child.hasAttribute(Constants.IF_ATTRIBUTE_NAME)) { this.createCPIf(child); }
@@ -238,7 +239,6 @@ export class MapDom {
         // Update cp change
         this.directives.cpChange.forEach((cpChange) => cpChange.init());
 
-        this.processInterpolation(this.element);
     }
 
     /**
@@ -246,8 +246,17 @@ export class MapDom {
      */
     public reload() {
         if (!this.renderedView) { return; }
+        if (this.timeLastReload) { clearTimeout(this.timeLastReload); }
         this.reloadDirectives();
+        this.processInterpolation(this.element);
         this.reloadElementChildes(this.element, Common.getScope(this.element));
+    }
+
+    public textNodesUnder(el) {
+        const a = [], walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
+        let n = walk.nextNode();
+        while (n) { a.push(n); n = walk.nextNode(); }
+        return a;
     }
 
     /**
@@ -255,21 +264,18 @@ export class MapDom {
      * @param element
      */
     public processInterpolation(element) {
-        Array.from(element.childNodes).forEach((childNode: any) => {
-            this.interpolation(childNode);
-        });
-    }
-
-    public static removeWordFromStr(str, word) {
-        return (str + '').replace(new RegExp(`\\s+${word}\\s+|${word}\\s+|\\s+${word}|${word}$`, 'gi'), '');
+        if (element.timeLastReload) { clearTimeout(element.timeLastReload); }
+        element.timeLastReload = setTimeout(() => {
+            this.textNodesUnder(element).forEach((childNode) => {
+                this.interpolation(childNode);
+            });
+        }, 1);
     }
 
     public getInterpolationValue(content, childNode, prefix?) {
-        let evalValue = Common.evalInContext(content.trim().startsWith(':') ? content.trim().slice(1) : content, Common.getScopeParent(childNode), prefix);
-        evalValue = MapDom.removeWordFromStr(evalValue, 'null');
-        evalValue = MapDom.removeWordFromStr(evalValue, 'undefined');
-        evalValue = MapDom.removeWordFromStr(evalValue, 'NaN');
-        evalValue = evalValue !== undefined ? evalValue : '';
+        if (prefix) { content = prefix + '.' + content; }
+        let evalValue = Common.getParamValue(childNode, content.trim().startsWith(':') ? content.trim().slice(1) : content) + '';
+        evalValue = (evalValue.trim() !== undefined && (evalValue).trim() !== 'undefined' && (evalValue).trim() !== 'null') ? evalValue : '';
         return evalValue;
     }
 
@@ -278,7 +284,7 @@ export class MapDom {
      * @param childNode
      */
     public interpolation(childNode) {
-        if (childNode.nodeName === '#text' && !Common.parentHasIgnore(childNode)) {
+        if (childNode.nodeType === 3 && !Common.parentHasIgnore(childNode)) {
             childNode.$immutableInterpolation = childNode.$immutableInterpolation || false;
             if (childNode.$immutableInterpolation) { return; }
             childNode.originalValue = childNode.originalValue || childNode.nodeValue;
@@ -337,7 +343,7 @@ export class MapDom {
      * @param capivaraBind Tipo de bind que será monitorado.
      */
     public addCpModels(capivaraBind) {
-        this.directives.cpModelsElements[capivaraBind.attribute] = this.directives.cpModels[capivaraBind.attribute] || [];
+        this.directives.cpModelsElements[capivaraBind.attribute] = this.directives.cpModelsElements[capivaraBind.attribute] || [];
         this.directives.cpModelsElements[capivaraBind.attribute].push(capivaraBind);
     }
 

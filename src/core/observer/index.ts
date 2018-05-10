@@ -6,8 +6,8 @@ export namespace Observe {
     const watchers = new WeakMap();
 
     export function observe(obj, handler, deg?) {
-        if (deg) {
-            // debugger;
+        if (!obj) {
+            return;
         }
         if (!watchers.has(obj)) {
             watchers.set(obj, [ handler ]);

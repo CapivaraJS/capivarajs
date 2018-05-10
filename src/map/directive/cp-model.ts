@@ -12,6 +12,7 @@ export class CPModel implements Directive {
 
     constructor(_element: HTMLElement, _map: MapDom) {
         this.element = _element;
+        this.element['cpModel'] = this;
         this.map = _map;
         this.attribute = this.element.getAttribute(Constants.MODEL_ATTRIBUTE_NAME);
         if (!this.attribute) {
@@ -26,7 +27,8 @@ export class CPModel implements Directive {
 
     public init() {
         this.map.addCpModels(this);
-        this.element.addEventListener('input', () => this.applyValueInModel());
+        this.element.removeEventListener('input', this.applyValueInModel);
+        this.element.addEventListener('input', this.applyValueInModel);
     }
 
     public applyModelInValue() {
@@ -49,18 +51,18 @@ export class CPModel implements Directive {
         }
     }
 
-    public applyValueInModel() {
-        switch (this.element.type) {
+    public applyValueInModel(evt) {
+        const self = (evt ? (evt.target || evt.srcElement) : this.element)['cpModel'];
+        switch (self.element.type) {
             case 'date':
-                _.set(Common.getScope(this.element).scope, this.attribute, this.element.valueAsDate);
+                _.set(Common.getScope(self.element).scope, self.attribute, self.element.valueAsDate);
                 break;
             case 'number':
-                _.set(Common.getScope(this.element).scope, this.attribute, isNaN(this.element.valueAsNumber) ? undefined : this.element.valueAsNumber);
+                _.set(Common.getScope(self.element).scope, self.attribute, isNaN(self.element.valueAsNumber) ? undefined : self.element.valueAsNumber);
                 break;
             default:
-                _.set(Common.getScope(this.element).scope, this.attribute, this.element.value);
+                _.set(Common.getScope(self.element).scope, self.attribute, self.element.value);
         }
-        this.map.reload();
     }
 
 }

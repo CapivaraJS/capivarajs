@@ -28,17 +28,19 @@ export namespace Eval {
 
     export function exec(source, context, prefix = '') {
         const referenceSelf = `this.${prefix ? prefix += '.' : ''}`, regex = /\$*[a-z0-9.$]+\s*/gi, keys = source.match(regex);
-        keys.forEach((str, i) => {
-            const key = str.replace(/\s/g, ''),
-                indexStart = getIndexStart(keys, i);
-            const indexEnd = indexStart + source.substring(indexStart, source.length).indexOf(key) + key.length;
-            if (!key.includes(referenceSelf)) {
-                const isVar = !prefix.trim() ? context.hasOwnProperty(Common.getFirstKey(key)) : isVariable(key);
-                if (isVar) {
-                    source = replaceAt(source, key, `${referenceSelf}${key}`, indexStart, indexEnd);
+        if (keys && Array.isArray(keys)) {
+            keys.forEach((str, i) => {
+                const key = str.replace(/\s/g, ''),
+                    indexStart = getIndexStart(keys, i);
+                const indexEnd = indexStart + source.substring(indexStart, source.length).indexOf(key) + key.length;
+                if (!key.includes(referenceSelf)) {
+                    const isVar = !prefix.trim() ? context.hasOwnProperty(Common.getFirstKey(key)) : isVariable(key);
+                    if (isVar) {
+                        source = replaceAt(source, key, `${referenceSelf}${key}`, indexStart, indexEnd);
+                    }
                 }
-            }
-        });
+            });
+        }
         try {
             return function(str) {
                 return eval(str);
