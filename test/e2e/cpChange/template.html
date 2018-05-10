@@ -23,20 +23,20 @@
                 this.cont = 0;
                 this.cont2 = 0;
 
-                    $ctrl.$onInit = () => {
+                $ctrl.$onInit = () => {
 
-                        $ctrl.var = 'hello';
-                        $ctrl.var2 = 'world';
-                    }
-
-                    $ctrl.changed = () => {
-                        this.cont = this.cont + 1;
-                    }
-                    $ctrl.changedx = () => {
-                        this.cont2 = this.cont2 + 1;
-                    }
-
+                    $ctrl.var = 'hello';
+                    $ctrl.var2 = 'world';
                 }
+
+                $ctrl.changed = () => {
+                    this.cont = this.cont + 1;
+                }
+                $ctrl.changedx = () => {
+                    this.cont2 = this.cont2 + 1;
+                }
+
+            }
         });
     </script>
 </body>

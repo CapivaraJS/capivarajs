@@ -11,6 +11,7 @@ module.exports = {
 				.sendKeys('input', browser.Keys.RIGHT_ARROW);
 		}
 		browser
+			.pause(1000)	
 			.assert.containsText('h1', '5')
 			.pause(1000)
 			.end();

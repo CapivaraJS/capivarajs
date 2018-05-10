@@ -14,8 +14,8 @@
     <script>
         capivara.component('my-component', {
             template: `
-                <input type="range" name="quantity" cp-min="0" cp-model="number">
-                <h1>[[number]]</h1>
+                <input type="range" name="quantity" cp-min="0" cp-model="$ctrl.number">
+                <h1>[[$ctrl.number]]</h1>
             `
         });
         capivara.componentBuilder('myComponent').build();

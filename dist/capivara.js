@@ -18041,7 +18041,7 @@ module.exports = function(module) {
 /*! exports provided: name, version, description, main, repository, scripts, author, license, dependencies, keywords, nyc, devDependencies, default */
 /***/ (function(module) {
 
-module.exports = {"name":"capivarajs","version":"2.5.1","description":"Um framework para criação de componentes.","main":"./index.js","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./config/webpack.dev.js","prod":"npm run test-single && webpack --config ./config/webpack.dev.js && webpack --config ./config/webpack.prod.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./config/webpack.dev.js --t true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^10.0.3","babel-loader":"^7.1.4","babel-polyfill":"^6.26.0","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.0","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.8","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.21.0","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.8.1","webpack-cli":"^2.1.3","webpack-dev-server":"^3.1.1","webpack-merge":"^4.1.2"}};
+module.exports = {"name":"capivarajs","version":"2.5.2","description":"Um framework para criação de componentes.","main":"./index.js","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./config/webpack.dev.js","prod":"npm run test-single && webpack --config ./config/webpack.dev.js && webpack --config ./config/webpack.prod.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./config/webpack.dev.js --t true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^10.0.3","babel-loader":"^7.1.4","babel-polyfill":"^6.26.0","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.0","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.8","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.21.0","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.8.1","webpack-cli":"^2.1.3","webpack-dev-server":"^3.1.1","webpack-merge":"^4.1.2"}};
 
 /***/ }),
 
@@ -18907,15 +18907,22 @@ var ComponentInstance = /** @class */ (function () {
         if (_bindings === void 0) { _bindings = {}; }
         return _bindings[key].indexOf('.') !== -1 ? _bindings[key].substring(0, _bindings[key].indexOf('.')) : _bindings[key];
     };
+    ComponentInstance.prototype.observeAndSetValues = function (obj, _bindings, key) {
+        var _this = this;
+        _observer__WEBPACK_IMPORTED_MODULE_7__["Observe"].observe(obj, function (changes) { return _this.setAttributeValue(_bindings, key); });
+    };
     ComponentInstance.prototype.createObserverContext = function (_bindings, key) {
         var _this = this;
         if (!_bindings[key]) {
             return;
         }
         if (this.contextObj instanceof _scope_scope_proxy__WEBPACK_IMPORTED_MODULE_4__["ScopeProxy"]) {
-            _observer__WEBPACK_IMPORTED_MODULE_7__["Observe"].observe(this.contextObj[this.config.controllerAs], function (changes) {
-                _this.setAttributeValue(_bindings, key);
-            });
+            if (this.contextObj[this.config.controllerAs]) {
+                this.observeAndSetValues(this.contextObj[this.config.controllerAs], _bindings, key);
+            }
+            else {
+                this.observeAndSetValues(this.contextObj, _bindings, key);
+            }
         }
         else {
             var attrToObserve_1 = ComponentInstance.getFirstAttribute(_bindings, key);
@@ -19579,8 +19586,8 @@ var Observe;
 (function (Observe) {
     var watchers = new WeakMap();
     function observe(obj, handler, deg) {
-        if (deg) {
-            // debugger;
+        if (!obj) {
+            return;
         }
         if (!watchers.has(obj)) {
             watchers.set(obj, [handler]);
@@ -21039,7 +21046,6 @@ var CPRepeat = /** @class */ (function () {
             _common__WEBPACK_IMPORTED_MODULE_1__["Common"].appendAfter(_this.referenceNode, elm);
             new _core_controller__WEBPACK_IMPORTED_MODULE_3__["Controller"](elm, function () { });
             _common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(elm).scope[attributeAlias] = row;
-            _common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(elm).mapDom.reload();
             return elm;
         });
         this.elms.reverse().forEach(function (elm, index) { return _common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(elm).scope[_constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].REPEAT_INDEX_NAME] = index; });
@@ -21579,7 +21585,6 @@ var MapDom = /** @class */ (function () {
         this.directives.cpPlaceholder.forEach(function (cpPlaceholder) { return cpPlaceholder.init(); });
         // Update cp change
         this.directives.cpChange.forEach(function (cpChange) { return cpChange.init(); });
-        this.processInterpolation(this.element);
     };
     /**
      * @method void Atualiza os valores dos elementos HTML de acordo com o atributo que está sendo observado.
@@ -21588,8 +21593,21 @@ var MapDom = /** @class */ (function () {
         if (!this.renderedView) {
             return;
         }
+        if (this.timeLastReload) {
+            clearTimeout(this.timeLastReload);
+        }
         this.reloadDirectives();
+        this.processInterpolation(this.element);
         this.reloadElementChildes(this.element, _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getScope(this.element));
+    };
+    MapDom.prototype.textNodesUnder = function (el) {
+        var a = [], walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
+        var n = walk.nextNode();
+        while (n) {
+            a.push(n);
+            n = walk.nextNode();
+        }
+        return a;
     };
     /**
      * @description Percorre os elementos para processar os interpolations.
@@ -21597,22 +21615,21 @@ var MapDom = /** @class */ (function () {
      */
     MapDom.prototype.processInterpolation = function (element) {
         var _this = this;
-        Array.from(element.childNodes).forEach(function (childNode) {
-            _this.interpolation(childNode);
-        });
-    };
-    MapDom.removeWordFromStr = function (str, word) {
-        return (str + '').replace(new RegExp("\\s+" + word + "\\s+|" + word + "\\s+|\\s+" + word + "|" + word + "$", 'gi'), '');
+        if (element.timeLastReload) {
+            clearTimeout(element.timeLastReload);
+        }
+        element.timeLastReload = setTimeout(function () {
+            _this.textNodesUnder(element).forEach(function (childNode) {
+                _this.interpolation(childNode);
+            });
+        }, 1);
     };
     MapDom.prototype.getInterpolationValue = function (content, childNode, prefix) {
         if (prefix) {
             content = prefix + '.' + content;
         }
-        var evalValue = _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getParamValue(childNode, content.trim().startsWith(':') ? content.trim().slice(1) : content);
-        evalValue = MapDom.removeWordFromStr(evalValue, 'null');
-        evalValue = MapDom.removeWordFromStr(evalValue, 'undefined');
-        evalValue = MapDom.removeWordFromStr(evalValue, 'NaN');
-        evalValue = evalValue !== undefined ? evalValue : '';
+        var evalValue = _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getParamValue(childNode, content.trim().startsWith(':') ? content.trim().slice(1) : content) + '';
+        evalValue = (evalValue.trim() !== undefined && (evalValue).trim() !== 'undefined' && (evalValue).trim() !== 'null') ? evalValue : '';
         return evalValue;
     };
     /**
@@ -21621,7 +21638,7 @@ var MapDom = /** @class */ (function () {
      */
     MapDom.prototype.interpolation = function (childNode) {
         var _this = this;
-        if (childNode.nodeName === '#text' && !_common__WEBPACK_IMPORTED_MODULE_0__["Common"].parentHasIgnore(childNode)) {
+        if (childNode.nodeType === 3 && !_common__WEBPACK_IMPORTED_MODULE_0__["Common"].parentHasIgnore(childNode)) {
             childNode.$immutableInterpolation = childNode.$immutableInterpolation || false;
             if (childNode.$immutableInterpolation) {
                 return;
@@ -21861,7 +21878,6 @@ __webpack_require__.r(__webpack_exports__);
 
 var ScopeProxy = /** @class */ (function () {
     function ScopeProxy(_scope, _mapDom, _element) {
-        // this.scope = _scope;
         this.mapDom = _mapDom;
         this.element = _element;
         this.createWatcherScope(_scope, this);
