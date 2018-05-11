@@ -14,18 +14,11 @@ import { CPHide } from './directive/cp-hide';
 import { CPIf } from './directive/cp-if';
 import { CPInit } from './directive/cp-init';
 import { CPKey } from './directive/cp-key';
-import { CPMax } from './directive/cp-max';
-import { CPMaxLength } from "./directive/cp-maxlength";
-import { CPMin } from './directive/cp-min';
 import { CPModel } from './directive/cp-model';
 import { CPMouse } from './directive/cp-mouse';
-import { CPPlaceholder } from './directive/cp-placeholder';
 import { CPRepeat } from './directive/cp-repeat';
 import { CPShow } from './directive/cp-show';
-import { CPSrc } from './directive/cp-src';
-import { CPStep } from './directive/cp-step';
 import { CPStyle } from './directive/cp-style';
-import { CPTitle } from './directive/cp-title';
 
 export class MapDom {
 
@@ -52,20 +45,13 @@ export class MapDom {
         cpClasses: [],
         cpClicks: [],
         cpInits: [],
-        cpSrcs: [],
         cpKeys: [],
         cpAttrs: [],
-        cpMins: [],
-        cpMaxs: [],
-        cpMaxsLength: [],
-        cpSteps: [],
         cpDisables: [],
         cpFocus: [],
         cpHide: [],
         cpBlur: [],
-        cpTitles: [],
         cpMouse: [],
-        cpPlaceholder: [],
         cpChange: [],
     };
 
@@ -143,20 +129,13 @@ export class MapDom {
         if (child.hasAttribute(Constants.INIT_ATTRIBUTE_NAME)) { this.createCPInit(child); }
         if (child.hasAttribute(Constants.STYLE_ATTRIBUTE_NAME)) { this.createCPStyle(child); }
         if (child.hasAttribute(Constants.CLASS_ATTRIBUTE_NAME)) { this.createCPClass(child); }
-        if (child.hasAttribute(Constants.SRC_ATTRIBUTE_NAME)) { this.createCPSrc(child); }
         if (child.hasAttributeStartingWith(Constants.KEY_ATTRIBUTE_NAME)) { this.createCPKey(child); }
         if (child.hasAttributeStartingWith(Constants.ATTR_ATTRIBUTE_NAME)) { this.createCPAttr(child); }
-        if (child.hasAttribute(Constants.MIN_ATTRIBUTE_NAME)) { this.createCPMin(child); }
-        if (child.hasAttribute(Constants.MAX_ATTRIBUTE_NAME)) { this.createCPMax(child); }
-        if (child.hasAttribute(Constants.STEP_ATTRIBUTE_NAME)) { this.createCPStep(child); }
-        if (child.hasAttribute(Constants.MAX_LENGTH_ATTRIBUTE_NAME)) { this.createCPMaxLength(child); }
         if (child.hasAttribute(Constants.DISABLE_ATTRIBUTE_NAME)) { this.createCPDisabled(child); }
         if (child.hasAttribute(Constants.FOCUS_ATTRIBUTE_NAME)) { this.createCPFocus(child); }
         if (child.hasAttribute(Constants.HIDE_ATTRIBUTE_NAME)) { this.createCPHide(child); }
         if (child.hasAttribute(Constants.BLUR_ATTRIBUTE_NAME)) { this.createCPBlur(child); }
-        if (child.hasAttribute(Constants.TITLE_ATTRIBUTE_NAME)) { this.createCPtitle(child); }
         if (child.hasAttributeStartingWith(Constants.MOUSE_ATTRIBUTE_NAME)) { this.createCPmouse(child); }
-        if (child.hasAttribute(Constants.PLACEHOLDER_ATTRIBUTE_NAME)) { this.createCPPlaceholder(child); }
         if (child.hasAttribute(Constants.CHANGE_ATTRIBUTE_NAME)) { this.createCPChange(child); }
     }
 
@@ -200,23 +179,8 @@ export class MapDom {
         // Update cp class
         this.directives.cpClasses.forEach((cpClass) => cpClass.init());
 
-        // Update cp src
-        this.directives.cpSrcs.forEach((cpSrc) => cpSrc.init());
-
         // Update cp key
         this.directives.cpKeys.forEach((cpKey) => cpKey.init());
-
-        // Update cp min
-        this.directives.cpMins.forEach((cpMin) => cpMin.init());
-
-        // Update cp min
-        this.directives.cpMaxs.forEach((cpMax) => cpMax.init());
-
-        // Update cp step
-        this.directives.cpSteps.forEach((cpStep) => cpStep.init());
-
-        // Update cp max length
-        this.directives.cpMaxsLength.forEach((cpMaxLength) => cpMaxLength.init());
 
         // Update cp disable
         this.directives.cpDisables.forEach((cpDisable) => cpDisable.init());
@@ -230,14 +194,8 @@ export class MapDom {
         // Update cp blur
         this.directives.cpBlur.forEach((cpBlur) => cpBlur.init());
 
-        // Update cp title
-        this.directives.cpTitles.forEach((cpTitle) => cpTitle.init());
-
         // Update cp Mouse
         this.directives.cpMouse.forEach((cpMouse) => cpMouse.init());
-
-        // Update cp placeholder
-        this.directives.cpPlaceholder.forEach((cpPlaceholder) => cpPlaceholder.init());
 
         // Update cp change
         this.directives.cpChange.forEach((cpChange) => cpChange.init());
@@ -436,53 +394,15 @@ export class MapDom {
      *
      * @param child Elemento que está sendo criado o bind do key.
      */
-    public createCPSrc(child) {
-        this.directives.cpSrcs.push(new CPSrc(child, this));
-    }
-
-    /**
-     *
-     * @param child Elemento que está sendo criado o bind do key.
-     */
     public createCPKey(child) {
         this.directives.cpKeys.push(new CPKey(child, this));
     }
 
     /**
-     *
-     * @param child Elemento que está criando as seguintes diretivas:
-     *
+     * @param child Elemento que está criando a bind do attr.
      */
     public createCPAttr(child) {
         this.directives.cpAttrs.push(new CPAttr(child, this));
-    }
-
-    /**
-    * @param child Elemento que está sendo criado o bind do min.
-    */
-    public createCPMin(child) {
-        this.directives.cpMins.push(new CPMin(child, this));
-    }
-
-    /**
-     * @param child Elemento que está sendo criado o bind do max.
-     */
-    public createCPMax(child) {
-        this.directives.cpMaxs.push(new CPMax(child, this));
-    }
-
-    /**
-     * @param child Elemento que está sendo criado o bind do step.
-     */
-    public createCPStep(child) {
-        this.directives.cpSteps.push(new CPStep(child, this));
-    }
-
-    /**
-     * @param child Elemento que está sendo criado o bind do max length.
-     */
-    public createCPMaxLength(child) {
-        this.directives.cpMaxsLength.push(new CPMaxLength(child, this));
     }
 
     /**
@@ -514,24 +434,10 @@ export class MapDom {
     }
 
     /**
-    * @param child Elemento que está sendo criado o bind do Title.
-    */
-    public createCPtitle(child) {
-        this.directives.cpTitles.push(new CPTitle(child, this));
-    }
-
-    /**
     * @param child Elemento que está sendo criado o bind do dbTitle.
     */
     public createCPmouse(child) {
         this.directives.cpMouse.push(new CPMouse(child, this));
-    }
-
-    /**
-    * @param child Elemento que está sendo criado o bind do placeholder.
-    */
-    public createCPPlaceholder(child) {
-        this.directives.cpPlaceholder.push(new CPPlaceholder(child, this));
     }
 
     /**
