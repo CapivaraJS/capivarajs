@@ -242,6 +242,8 @@ export class MapDom {
         // Update cp change
         this.directives.cpChange.forEach((cpChange) => cpChange.init());
 
+        // Update cp attr
+        this.directives.cpAttrs.forEach((cpAttr) => cpAttr.init());
     }
 
     /**
@@ -446,6 +448,11 @@ export class MapDom {
         this.directives.cpKeys.push(new CPKey(child, this));
     }
 
+    /**
+     *
+     * @param child Elemento que está criando as seguintes diretivas:
+     *
+     */
     public createCPAttr(child) {
         this.directives.cpAttrs.push(new CPAttr(child, this));
     }

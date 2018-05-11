@@ -9,12 +9,12 @@
 <body>
 
     <my-component></my-component>
-    
+
     <script src="/dist/capivara.js"></script>
     <script>
         capivara.component('my-component', {
             template: `
-                <input type="range" name="quantity" cp-max="5" cp-model="$ctrl.number">
+                <input type="range" name="quantity" cp-attr.max="5" cp-model="$ctrl.number">
                 <h1>[[ $ctrl.number ]]</h1>
             `
         });

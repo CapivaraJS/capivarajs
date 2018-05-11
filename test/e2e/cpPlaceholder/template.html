@@ -12,7 +12,7 @@
     <script src="/dist/capivara.js"></script>
     <script>
         capivara.component('my-component', {
-            template: '<div> <input cp-placeholder="$ctrl.name"> <br> <button cp-click="$ctrl.change()">Change Placeholder</button></div>',
+            template: '<div> <input cp-attr.placeholder="$ctrl.name"> <br> <button cp-click="$ctrl.change()">Change Placeholder</button></div>',
             constants: [],
             functions: [],
             bindings: [],
@@ -23,13 +23,13 @@
 
                 $ctrl.change = function() {
                     $ctrl.name = 'CapivaraJS'
-                }               
+                }
             }
         });
 
         capivara.componentBuilder('myComponent').then((instance) => instance.build())
     </script>
 
-    
+
 </body>
 </html>
