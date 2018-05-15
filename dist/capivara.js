@@ -18041,7 +18041,7 @@ module.exports = function(module) {
 /*! exports provided: name, version, description, main, repository, scripts, author, license, dependencies, keywords, nyc, devDependencies, default */
 /***/ (function(module) {
 
-module.exports = {"name":"capivarajs","version":"2.5.3","description":"Um framework para criação de componentes.","main":"./index.js","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./config/webpack.dev.js","prod":"npm run test-single && webpack --config ./config/webpack.dev.js && webpack --config ./config/webpack.prod.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./config/webpack.dev.js --t true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^10.0.3","babel-loader":"^7.1.4","babel-polyfill":"^6.26.0","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.0","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.8","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.21.0","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.8.1","webpack-cli":"^2.1.3","webpack-dev-server":"^3.1.1","webpack-merge":"^4.1.2"}};
+module.exports = {"name":"capivarajs","version":"2.6.0","description":"Um framework para criação de componentes.","main":"./index.js","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./config/webpack.dev.js","prod":"npm run test-single && webpack --config ./config/webpack.dev.js && webpack --config ./config/webpack.prod.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./config/webpack.dev.js --t true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^10.0.3","babel-loader":"^7.1.4","babel-polyfill":"^6.26.0","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.0","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.8","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.21.0","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.8.1","webpack-cli":"^2.1.3","webpack-dev-server":"^3.1.1","webpack-merge":"^4.1.2"}};
 
 /***/ }),
 
@@ -18429,8 +18429,10 @@ var Constants = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Capivara", function() { return Capivara; });
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "../src/constants.ts");
-/* harmony import */ var _component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./component */ "../src/core/component.ts");
-/* harmony import */ var _component_instance__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./component.instance */ "../src/core/component.instance.ts");
+/* harmony import */ var _scope_scope__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../scope/scope */ "../src/scope/scope.ts");
+/* harmony import */ var _component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./component */ "../src/core/component.ts");
+/* harmony import */ var _component_instance__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./component.instance */ "../src/core/component.instance.ts");
+
 
 
 
@@ -18524,7 +18526,7 @@ var Capivara = /** @class */ (function () {
             console.error("A registered component with this name already exists.");
             return;
         }
-        window["capivara"].components[componentName.toUpperCase()] = new _component__WEBPACK_IMPORTED_MODULE_1__["Component"](componentName, config);
+        window["capivara"].components[componentName.toUpperCase()] = new _component__WEBPACK_IMPORTED_MODULE_2__["Component"](componentName, config);
     };
     /**
      * @name capivara.componentBuilder
@@ -18562,7 +18564,7 @@ var Capivara = /** @class */ (function () {
      * @description Cria um novo controller para fazer manipulação de um determinado elemento.
      */
     Capivara.prototype.controller = function (elm, callback) {
-        new _component_instance__WEBPACK_IMPORTED_MODULE_2__["ComponentInstance"](elm, { controller: callback }).create();
+        new _component_instance__WEBPACK_IMPORTED_MODULE_3__["ComponentInstance"](elm, { controller: callback }).create();
     };
     /**
      * @name capivara,isArray
@@ -18671,6 +18673,81 @@ var Capivara = /** @class */ (function () {
             .forEach(function (watcher) {
             watcher.callback.apply(watcher, args);
         });
+    };
+    Capivara.prototype.simpleCompare = function (a, b) {
+        return a === b || (a !== a && b !== b);
+    };
+    Capivara.prototype.isRegExp = function (value) {
+        return toString.call(value) === '[object RegExp]';
+    };
+    Capivara.prototype.isDefined = function (value) {
+        return typeof value !== 'undefined';
+    };
+    Capivara.prototype.isWindow = function (value) {
+        return value && value.window === value;
+    };
+    Capivara.prototype.isScope = function (value) {
+        return value instanceof _scope_scope__WEBPACK_IMPORTED_MODULE_1__["Scope"];
+    };
+    Capivara.prototype.equals = function (o1, o2) {
+        if (o1 === o2) {
+            return true;
+        }
+        if (o1 === null || o2 === null) {
+            return false;
+        }
+        if (o1 !== o1 && o2 !== o2) {
+            return true;
+        }
+        /* tslint:disable */
+        var t1 = typeof o1, t2 = typeof o2, length, key, keySet;
+        if (t1 === t2 && t1 === 'object') {
+            if (this.isArray(o1)) {
+                if (!this.isArray(o2)) {
+                    return false;
+                }
+                ;
+                if ((length = o1.length) === o2.length) {
+                    for (key = 0; key < length; key++) {
+                        if (!this.equals(o1[key], o2[key]))
+                            return false;
+                    }
+                    return true;
+                }
+            }
+            else if (this.isDate(o1)) {
+                if (!this.isDate(o2))
+                    return false;
+                return this.simpleCompare(o1.getTime(), o2.getTime());
+            }
+            else if (this.isRegExp(o1)) {
+                if (!this.isRegExp(o2))
+                    return false;
+                return o1.toString() === o2.toString();
+            }
+            else {
+                if (this.isScope(o1) || this.isScope(o2) || this.isWindow(o1) || this.isWindow(o2) ||
+                    this.isArray(o2) || this.isDate(o2) || this.isRegExp(o2))
+                    return false;
+                keySet = Object.create(null);
+                for (key in o1) {
+                    if (key.charAt(0) === '$' || this.isFunction(o1[key]))
+                        continue;
+                    if (!this.equals(o1[key], o2[key]))
+                        return false;
+                    keySet[key] = true;
+                }
+                for (key in o2) {
+                    if (!(key in keySet) &&
+                        key.charAt(0) !== '$' &&
+                        this.isDefined(o2[key]) &&
+                        !this.isFunction(o2[key]))
+                        return false;
+                }
+                return true;
+            }
+        }
+        return false;
     };
     return Capivara;
 }());
