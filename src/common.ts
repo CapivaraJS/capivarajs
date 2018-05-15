@@ -1,7 +1,6 @@
 import * as _ from 'lodash';
 import { Constants } from './constants';
 import { Eval } from './core';
-import { Scope } from './scope/scope';
 
 export namespace Common {
 
@@ -47,22 +46,6 @@ export namespace Common {
         return element.getAttribute(Constants.INIT_ATTRIBUTE_NAME);
     }
 
-    export function getAttributeCpMin(element) {
-        return element.getAttribute(Constants.MIN_ATTRIBUTE_NAME);
-    }
-
-    export function getAttributeCpStep(element) {
-        return element.getAttribute(Constants.STEP_ATTRIBUTE_NAME);
-    }
-
-    export function getAttributeCpMax(element) {
-        return element.getAttribute(Constants.MAX_ATTRIBUTE_NAME);
-    }
-
-    export function getAttributeCpMaxLength(element) {
-        return element.getAttribute(Constants.MAX_LENGTH_ATTRIBUTE_NAME);
-    }
-
     export function getAttributeCpStyle(element) {
         return element.getAttribute(Constants.STYLE_ATTRIBUTE_NAME);
     }
@@ -89,14 +72,6 @@ export namespace Common {
 
     export function getAttributeCpBlur(element) {
         return element.getAttribute(Constants.BLUR_ATTRIBUTE_NAME);
-    }
-
-    export function getAttributeCpPlaceholder(element) {
-        return element.getAttribute(Constants.PLACEHOLDER_ATTRIBUTE_NAME);
-    }
-
-    export function getAttributeCpChange(element) {
-        return element.getAttribute(Constants.CHANGE_ATTRIBUTE_NAME);
     }
 
     export function getScope(element) {
@@ -160,6 +135,9 @@ export namespace Common {
         let paramValue = getParamValueRecursive(element, param.replace(/ /g, ''));
         if (paramValue === undefined) {
             paramValue = getParamValueIsolate(element, param);
+        }
+        if (paramValue === undefined || paramValue === null) {
+            paramValue = executeFunctionCallback(element, param);
         }
         if (paramValue === undefined) {
             paramValue = evalInContext(param, {});
@@ -239,6 +217,17 @@ export namespace Common {
         return callback;
     }
 
+    export function getOrExec(element, attribute) {
+        let value = getParamValue(element, attribute);
+        if (!value && value !== 0) {
+            value = executeFunctionCallback(element, attribute);
+        }
+        if (!value && value !== 0) {
+            value = evalInContext(attribute, {});
+        }
+        return value;
+    }
+
     export function isNative(fn) {
         return /{\s*\[native code]\s*}/.test('' + fn);
     }
@@ -256,7 +245,7 @@ export namespace Common {
         if (elementComment.replaceWith) {
             elementComment.replaceWith(element);
         }
-        if (element.$instance) { element.$instance.initController(true); }
+        if (element.$instance) { element.$instance.initController(); }
     }
 
     export function isValidCondition(element, condition) {

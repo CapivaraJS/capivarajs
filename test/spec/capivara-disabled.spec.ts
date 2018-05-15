@@ -19,10 +19,9 @@ describe('Directive cp-disabled', () => {
             };
 
             $ctrl.$onViewInit = () => {
-                element.querySelector('button').click();
-                expect(element['$instance'].componentScope.$ctrl.clicked).toEqual(0);
+              element.querySelector('button').click();
+              expect(element['$instance'].componentScope.$ctrl.clicked).toEqual(0);
             };
-
         });
     });
 
@@ -42,8 +41,10 @@ describe('Directive cp-disabled', () => {
             };
 
             $ctrl.$onViewInit = () => {
+              setTimeout(function() {
                 element.querySelector('button').click();
                 expect(element['$instance'].componentScope.$ctrl.clicked).toEqual(1);
+              }, 0);
             };
 
         });

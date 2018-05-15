@@ -1,7 +1,6 @@
 import * as _ from 'lodash';
 import { Common } from '../../common';
 import { Constants } from '../../constants';
-import { KeyCode } from '../../core/util/keycodes.enum';
 import { MapDom } from '../map-dom';
 import { Directive } from './directive.interface';
 
@@ -30,7 +29,7 @@ export class CPMouse implements Directive {
         this.init();
     }
 
-    public onMouse(evt, attribute) {
+    public onMouse(evt) {
         const directiveName = 'cp-' + evt.type;
         if (evt.target && evt.target[directiveName]) {
             Common.executeFunctionCallback(evt.target[directiveName].element, evt.target[directiveName].element.getAttribute(directiveName), evt);
@@ -42,7 +41,7 @@ export class CPMouse implements Directive {
             const indexSeparator = attribute.lastIndexOf('.');
             const eventType = attribute.substring(0, (indexSeparator === -1 ? attribute.length : indexSeparator)).replace(Constants.MOUSE_ATTRIBUTE_NAME, '');
             // Remove old event
-            this.element.removeEventListener(`mouse${eventType}`, (evt) => this.onMouse(evt, attribute));
+            this.element.removeEventListener(`mouse${eventType}`, (evt) => this.onMouse(evt));
             // Add new event
             this.element.addEventListener(`mouse${eventType}`, this.onMouse);
         });
