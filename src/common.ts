@@ -196,9 +196,20 @@ export namespace Common {
     }
 
     export function getCallbackFunc(element, attribute) {
-        const callback = _.get(getScope(element).scope, attribute.substring(0, attribute.indexOf('(')));
-        if (!callback && element.parentNode && getScope(element.parentNode) && !isComponent(element.parentNode)) {
-            return getCallbackFunc(element.parentNode, attribute);
+        attribute = attribute.trim();
+        const getFirstElementWithScope = (elm) => {
+            if (elm[Constants.SCOPE_ATTRIBUTE_NAME]) {
+                return elm;
+            }
+            if (elm.parentNode) {
+                return getFirstElementWithScope(elm.parentNode);
+            }
+        };
+        const el = getFirstElementWithScope(element);
+        const scope = getScope(el).scope;
+        const callback = _.get(scope, attribute.substring(0, attribute.indexOf('(')));
+        if (!callback && el.parentNode && getScope(el.parentNode) && !isComponent(el.parentNode)) {
+            return getCallbackFunc(el.parentNode, attribute);
         }
         return callback;
     }
