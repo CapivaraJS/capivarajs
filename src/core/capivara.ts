@@ -21,12 +21,19 @@ export class Capivara {
         this.components = {};
         this.scopes = [];
         this.$watchers = [];
-        if (!Element.prototype.hasOwnProperty('hasAttributeStartingWith')) {
-            Object.defineProperty(Element.prototype, 'hasAttributeStartingWith', {
+        if (!Element.prototype.hasOwnProperty('getAttributeStartingWith')) {
+            Object.defineProperty(Element.prototype, 'getAttributeStartingWith', {
                 value: function hasAttributeStartingWith(attr) {
                     return Array.from(this.attributes).filter((attributeNode: any) => {
                         return attributeNode.nodeName.indexOf(attr) === 0;
-                    }).length > 0;
+                    });
+                },
+            });
+        }
+        if (!Element.prototype.hasOwnProperty('hasAttributeStartingWith')) {
+            Object.defineProperty(Element.prototype, 'hasAttributeStartingWith', {
+                value: function hasAttributeStartingWith(attr) {
+                    return this.getAttributeStartingWith(attr).length > 0;
                 },
             });
         }
