@@ -215,13 +215,6 @@ export class MapDom {
         this.reloadElementChildes(this.element, Common.getScope(this.element));
     }
 
-    public textNodesUnder(el) {
-        const a = [], walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
-        let n = walk.nextNode();
-        while (n) { a.push(n); n = walk.nextNode(); }
-        return a;
-    }
-
     /**
      * @description Percorre os elementos para processar os interpolations.
      * @param element
@@ -229,7 +222,7 @@ export class MapDom {
     public processInterpolation(element) {
         if (element.timeLastReload) { clearTimeout(element.timeLastReload); }
         element.timeLastReload = setTimeout(() => {
-            this.textNodesUnder(element).forEach((childNode) => {
+            Array.from(element.childNodes).forEach((childNode: any) => {
                 this.interpolation(childNode);
             });
         }, 1);
@@ -247,7 +240,7 @@ export class MapDom {
      * @param childNode
      */
     public interpolation(childNode) {
-        if (childNode.nodeType === 3 && !Common.parentHasIgnore(childNode)) {
+        if (childNode.nodeName === '#text' && !Common.parentHasIgnore(childNode)) {
             childNode.$immutableInterpolation = childNode.$immutableInterpolation || false;
             if (childNode.$immutableInterpolation) { return; }
             childNode.originalValue = childNode.originalValue || childNode.nodeValue;
