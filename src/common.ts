@@ -97,27 +97,20 @@ export namespace Common {
         return element && element.parentNode && hasSomeParentTheClass(element.parentNode, classname);
     }
 
+    export function findContextRecursive(element) {
+        if (element.classList && element.classList.contains('binding-repeat') && !isComponent(element) && !hasSomeParentTheClass(element.parentNode, 'binding-repeat')) {
+            return element.parentNode;
+        }
+        if (hasSomeParentTheClass(element.parentNode, 'binding-repeat')) {
+            return findContextRecursive(element.parentNode);
+        }
+        return element;
+    }
+
     export function getContext(element) {
-        const get = (el) => {
-            if (el.classList && el.classList.contains('binding-repeat') && !isComponent(el)) {
-                if (hasSomeParentTheClass(el.parentNode, 'binding-repeat')) {
-                    return get(el.parentNode);
-                } else {
-                    return el.parentNode;
-                }
-            } else {
-                if (hasSomeParentTheClass(el, 'binding-repeat')) {
-                    return get(element.parentNode);
-                } else {
-                    return el;
-                }
-            }
-        };
-
-        element = get(element);
-
-        if (element) {
-            const scope = element[Constants.SCOPE_ATTRIBUTE_NAME];
+        const el = findContextRecursive(element);
+        if (el) {
+            const scope = el[Constants.SCOPE_ATTRIBUTE_NAME];
             if (scope && scope.mapDom && scope.mapDom.element.$instance) {
                 return scope[scope.mapDom.element.$instance.config.controllerAs] || scope.scope[scope.mapDom.element.$instance.config.controllerAs];
             } else {
