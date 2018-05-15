@@ -136,6 +136,9 @@ export namespace Common {
         if (paramValue === undefined) {
             paramValue = getParamValueIsolate(element, param);
         }
+        if (paramValue === undefined || paramValue === null) {
+            paramValue = executeFunctionCallback(element, param);
+        }
         if (paramValue === undefined) {
             paramValue = evalInContext(param, {});
         }
