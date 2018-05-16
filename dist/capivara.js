@@ -18041,7 +18041,7 @@ module.exports = function(module) {
 /*! exports provided: name, version, description, main, repository, scripts, author, license, dependencies, keywords, nyc, devDependencies, default */
 /***/ (function(module) {
 
-module.exports = {"name":"capivarajs","version":"3.0.1","description":"Um framework para criação de componentes.","main":"./index.js","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./config/webpack.dev.js","prod":"npm run test-single && webpack --config ./config/webpack.dev.js && webpack --config ./config/webpack.prod.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./config/webpack.dev.js --t true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^10.0.3","babel-loader":"^7.1.4","babel-polyfill":"^6.26.0","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.0","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.8","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.21.0","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.8.1","webpack-cli":"^2.1.3","webpack-dev-server":"^3.1.1","webpack-merge":"^4.1.2"}};
+module.exports = {"name":"capivarajs","version":"3.0.2","description":"Um framework para criação de componentes.","main":"./index.js","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./config/webpack.dev.js","prod":"npm run test-single && webpack --config ./config/webpack.dev.js && webpack --config ./config/webpack.prod.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./config/webpack.dev.js --t true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^10.0.3","babel-loader":"^7.1.4","babel-polyfill":"^6.26.0","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.2","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.12","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.21.0","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.8.1","webpack-cli":"^2.1.3","webpack-dev-server":"^3.1.1","webpack-merge":"^4.1.2"}};
 
 /***/ }),
 
@@ -18209,7 +18209,7 @@ var Common;
             scope = scope.scope;
         }
         var paramValue = lodash__WEBPACK_IMPORTED_MODULE_0__["get"](scope, param);
-        if (!paramValue && element.parentNode && !isComponent(element.parentNode)) {
+        if ((paramValue === undefined || paramValue === null) && element.parentNode && !isComponent(element.parentNode)) {
             return getParamValueRecursive(element.parentNode, param);
         }
         return paramValue;
@@ -20939,6 +20939,26 @@ var CPMouse = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "../src/map/directive/cp-repeat.controller.ts":
+/*!****************************************************!*\
+  !*** ../src/map/directive/cp-repeat.controller.ts ***!
+  \****************************************************/
+/*! exports provided: RepeatController */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RepeatController", function() { return RepeatController; });
+var RepeatController = /** @class */ (function () {
+    function RepeatController() {
+    }
+    return RepeatController;
+}());
+
+
+
+/***/ }),
+
 /***/ "../src/map/directive/cp-repeat.ts":
 /*!*****************************************!*\
   !*** ../src/map/directive/cp-repeat.ts ***!
@@ -20953,7 +20973,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../common */ "../src/common.ts");
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../constants */ "../src/constants.ts");
-/* harmony import */ var _core_controller__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../core/controller */ "../src/core/controller.ts");
+/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../core */ "../src/core/index.ts");
+/* harmony import */ var _cp_repeat_controller__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./cp-repeat.controller */ "../src/map/directive/cp-repeat.controller.ts");
+
 
 
 
@@ -21000,7 +21022,8 @@ var CPRepeat = /** @class */ (function () {
             elm.removeAttribute(_constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].REPEAT_ATTRIBUTE_NAME);
             elm.classList.add('binding-repeat');
             _common__WEBPACK_IMPORTED_MODULE_1__["Common"].appendAfter(_this.referenceNode, elm);
-            new _core_controller__WEBPACK_IMPORTED_MODULE_3__["Controller"](elm, function () { });
+            // new Controller(elm, () => { });
+            new _core__WEBPACK_IMPORTED_MODULE_3__["ComponentInstance"](elm, { controller: _cp_repeat_controller__WEBPACK_IMPORTED_MODULE_4__["RepeatController"] }).create();
             _common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(elm).scope[attributeAlias] = row;
             return elm;
         });
@@ -21265,6 +21288,9 @@ var MapDom = /** @class */ (function () {
         if (child.hasAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].MODEL_ATTRIBUTE_NAME)) {
             this.createCPModel(child);
         }
+        if (child.hasAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].IF_ATTRIBUTE_NAME)) {
+            this.createCPIf(child);
+        }
         if (child.hasAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].CLICK_ATTRIBUTE_NAME) || child.hasAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].DBLCLICK_ATTRIBUTE_NAME)) {
             this.createCPClick(child);
         }
@@ -21273,9 +21299,6 @@ var MapDom = /** @class */ (function () {
         }
         if (child.hasAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SHOW_ATTRIBUTE_NAME)) {
             this.createCPShow(child);
-        }
-        if (child.hasAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].IF_ATTRIBUTE_NAME)) {
-            this.createCPIf(child);
         }
         if (child.hasAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].ELSE_ATTRIBUTE_NAME)) {
             this.createCPElse(child);

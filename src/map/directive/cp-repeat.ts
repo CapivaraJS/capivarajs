@@ -1,8 +1,10 @@
 import * as _ from 'lodash';
 import { Common } from '../../common';
 import { Constants } from '../../constants';
+import { ComponentInstance } from '../../core';
 import { Controller } from '../../core/controller';
 import { MapDom } from '../map-dom';
+import { RepeatController } from './cp-repeat.controller';
 import { Directive } from './directive.interface';
 
 export class CPRepeat implements Directive {
@@ -57,7 +59,8 @@ export class CPRepeat implements Directive {
             elm.removeAttribute(Constants.REPEAT_ATTRIBUTE_NAME);
             elm.classList.add('binding-repeat');
             Common.appendAfter(this.referenceNode, elm);
-            new Controller(elm, () => { });
+            // new Controller(elm, () => { });
+            new ComponentInstance(elm, { controller: RepeatController }).create();
             Common.getScope(elm).scope[attributeAlias] = row;
             return elm;
         });

@@ -5273,7 +5273,7 @@ karma-phantomjs-launcher@^1.0.4:
     lodash "^4.0.1"
     phantomjs-prebuilt "^2.1.7"
 
-karma-typescript@^3.0.8:
+karma-typescript@^3.0.12:
   version "3.0.12"
   resolved "https://registry.yarnpkg.com/karma-typescript/-/karma-typescript-3.0.12.tgz#aa2cbdd111442a09c6dbcbaaeaf48499654c6913"
   dependencies:
@@ -5318,7 +5318,7 @@ karma-typescript@^3.0.8:
     util "^0.10.3"
     vm-browserify "0.0.4"
 
-karma@^2.0.0:
+karma@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/karma/-/karma-2.0.2.tgz#4d2db9402850a66551fa784b0164fb0824ed8c4b"
   dependencies:

@@ -11,10 +11,10 @@ module.exports = function (config) {
 
 		// list of files / patterns to load in the browser
 		files: [
+			'./node_modules/babel-polyfill/dist/polyfill.js',
 			'src/*.ts',
 			'src/**/*.ts',
 			'test/spec/*spec.ts',
-			'./node_modules/babel-polyfill/dist/polyfill.js'
 		],
 
 		// Configure code coverage reporter
@@ -73,7 +73,7 @@ module.exports = function (config) {
 
 		// Continuous Integration mode
 		// if true, Karma captures browsers, runs the tests and exits
-		singleRun: true,
+		singleRun: false,
 
 		// Concurrency level
 		// how many browser should be started simultaneous

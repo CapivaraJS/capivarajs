@@ -167,14 +167,14 @@ describe('test method componentBuilder', () => {
 
 describe('test constants', () => {
     const template = `
-        <h1>{{$ctrl.label}}</h1>
+        <h1>[[$ctrl.label]]</h1>
     `;
     const element = document.createElement('div');
     element.innerHTML = template;
 
     capivara.constants({
-        START_INTERPOLATION: '{{',
-        END_INTERPOLATION: '}}',
+        START_INTERPOLATION: '[[',
+        END_INTERPOLATION: ']]',
     });
 
     capivara.controller(element, function() {

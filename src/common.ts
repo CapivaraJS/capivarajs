@@ -142,7 +142,7 @@ export namespace Common {
         let scope = getScope(element);
         if (scope && scope.scope) { scope = scope.scope; }
         const paramValue = _.get(scope, param);
-        if (!paramValue && element.parentNode && !isComponent(element.parentNode)) {
+        if ((paramValue === undefined || paramValue === null) && element.parentNode && !isComponent(element.parentNode)) {
             return getParamValueRecursive(element.parentNode, param);
         }
         return paramValue;
