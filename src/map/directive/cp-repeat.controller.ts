@@ -2,7 +2,7 @@ export class RepeatController {
     constructor(private $scope, private $element) { }
 
     private $onViewInit() {
-        this.$element.removeAttribute('hidden');
+        setTimeout(() => this.$element.style.display = '', 100);
     }
 
 }
