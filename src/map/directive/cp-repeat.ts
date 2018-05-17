@@ -59,7 +59,7 @@ export class CPRepeat implements Directive {
             elm.removeAttribute(Constants.REPEAT_ATTRIBUTE_NAME);
             elm.classList.add('binding-repeat');
             Common.appendAfter(this.referenceNode, elm);
-            // new Controller(elm, () => { });
+            elm.setAttribute('hidden', '');
             new ComponentInstance(elm, { controller: RepeatController }).create();
             Common.getScope(elm).scope[attributeAlias] = row;
             return elm;
