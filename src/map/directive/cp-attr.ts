@@ -31,8 +31,10 @@ export class CPAttr implements Directive {
             const attributeValue = this.element.getAttribute(attribute);
             const attr = attribute.replace(Constants.ATTR_ATTRIBUTE_NAME + '.', '');
             const value = Common.getOrExec(this.element, attributeValue);
-            if (value || value === 0) {
-              this.element.setAttribute(attr, value);
+            if (value === undefined || value === null) {
+                this.element.setAttribute(attr, '');
+            } else {
+                this.element.setAttribute(attr, value);
             }
         });
     }

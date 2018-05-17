@@ -20118,7 +20118,10 @@ var CPAttr = /** @class */ (function () {
             var attributeValue = _this.element.getAttribute(attribute);
             var attr = attribute.replace(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].ATTR_ATTRIBUTE_NAME + '.', '');
             var value = _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getOrExec(_this.element, attributeValue);
-            if (value || value === 0) {
+            if (value === undefined || value === null) {
+                _this.element.setAttribute(attr, '');
+            }
+            else {
                 _this.element.setAttribute(attr, value);
             }
         });
