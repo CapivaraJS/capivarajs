@@ -66,16 +66,11 @@ export class ComponentInstance {
     public initController() {
         if (this.destroyed) {
             if (this.config.controller) {
-                const args = [];
-                const injects = Common.getFunctionArgs(this.config.controller);
-                injects.forEach((inject) => {
-                    if (inject === Constants.SCOPE_ATTRIBUTE_NAME) {
-                        args.push(this.componentScope.element[Constants.SCOPE_ATTRIBUTE_NAME]);
-                    } else {
-                        const injectValue = this.componentScope[`${inject}`.replace('$', '')];
-                        args.push(injectValue);
-                    }
-                });
+                const args = [
+                    this.componentScope.element[Constants.SCOPE_ATTRIBUTE_NAME],
+                    this.componentScope.mapDom.element,
+                    this.componentScope.mapDom,
+                ];
                 this.componentScope[this.config.controllerAs] = new this.config.controller(...args);
             }
             this.contextObj = Magic.getContext(this.element);
