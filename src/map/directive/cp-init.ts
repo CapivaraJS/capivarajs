@@ -25,6 +25,6 @@ export class CPInit implements Directive {
 
     public init() {
         this.attribute = this.attribute.trim();
-        Common.executeFunctionCallback(this.element, this.attribute);
+        Common.evalInMultiContext(this.element, this.attribute);
     }
 }

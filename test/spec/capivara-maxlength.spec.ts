@@ -5,7 +5,7 @@ describe('Directive cp-maxlength', () => {
 
     it("Expected field maxLength are equal to 10", function(done) {
         const template = `
-        <input type="text" cp-maxlength="10"/>
+        <input type="text" cp-attr.maxlength="10"/>
     `;
         const element = document.createElement('div');
         element.innerHTML = template;
@@ -22,7 +22,7 @@ describe('Directive cp-maxlength', () => {
 
     it("Expected field maxLength are equal to the local variable", function(done) {
         const template = `
-        <input type="text" cp-maxlength="$ctrl.max"/>
+        <input type="text" cp-attr.maxlength="$ctrl.max"/>
     `;
         const element = document.createElement('div');
         element.innerHTML = template;

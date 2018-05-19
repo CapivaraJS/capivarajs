@@ -57,7 +57,6 @@ export class CPClass implements Directive {
                     }
                 });
         } catch (e) {
-            this.setClassByObject(Common.executeFunctionCallback(this.element, this.attribute));
         }
     }
 

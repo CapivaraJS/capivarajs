@@ -1,7 +1,6 @@
 import * as _ from 'lodash';
 import { Constants } from './constants';
 import { Eval } from './core';
-import { Scope } from './scope/scope';
 
 export namespace Common {
 
@@ -47,22 +46,6 @@ export namespace Common {
         return element.getAttribute(Constants.INIT_ATTRIBUTE_NAME);
     }
 
-    export function getAttributeCpMin(element) {
-        return element.getAttribute(Constants.MIN_ATTRIBUTE_NAME);
-    }
-
-    export function getAttributeCpStep(element) {
-        return element.getAttribute(Constants.STEP_ATTRIBUTE_NAME);
-    }
-
-    export function getAttributeCpMax(element) {
-        return element.getAttribute(Constants.MAX_ATTRIBUTE_NAME);
-    }
-
-    export function getAttributeCpMaxLength(element) {
-        return element.getAttribute(Constants.MAX_LENGTH_ATTRIBUTE_NAME);
-    }
-
     export function getAttributeCpStyle(element) {
         return element.getAttribute(Constants.STYLE_ATTRIBUTE_NAME);
     }
@@ -91,14 +74,6 @@ export namespace Common {
         return element.getAttribute(Constants.BLUR_ATTRIBUTE_NAME);
     }
 
-    export function getAttributeCpPlaceholder(element) {
-        return element.getAttribute(Constants.PLACEHOLDER_ATTRIBUTE_NAME);
-    }
-
-    export function getAttributeCpChange(element) {
-        return element.getAttribute(Constants.CHANGE_ATTRIBUTE_NAME);
-    }
-
     export function getScope(element) {
         return element[Constants.SCOPE_ATTRIBUTE_NAME];
     }
@@ -108,124 +83,8 @@ export namespace Common {
         return component ? true : false;
     }
 
-    export function getScopeParent(element) {
-        if (getScope(element)) {
-            return getScope(element).scope;
-        }
-        if (element.parentNode) {
-            return getScopeParent(element.parentNode);
-        }
-    }
-
-    export function hasSomeParentTheClass(element, classname) {
-        if (element && element.classList && element.classList.contains(classname)) { return true; }
-        return element && element.parentNode && hasSomeParentTheClass(element.parentNode, classname);
-    }
-
-    export function getContext(element) {
-        const get = (el) => {
-            if (el.classList && el.classList.contains('binding-repeat') && !isComponent(el)) {
-                if (hasSomeParentTheClass(el.parentNode, 'binding-repeat')) {
-                    return get(el.parentNode);
-                } else {
-                    return el.parentNode;
-                }
-            } else {
-                if (hasSomeParentTheClass(el, 'binding-repeat')) {
-                    return get(element.parentNode);
-                } else {
-                    return el;
-                }
-            }
-        };
-
-        element = get(element);
-
-        if (element) {
-            const scope = element[Constants.SCOPE_ATTRIBUTE_NAME];
-            if (scope && scope.mapDom && scope.mapDom.element.$instance) {
-                return scope[scope.mapDom.element.$instance.config.controllerAs] || scope.scope[scope.mapDom.element.$instance.config.controllerAs];
-            } else {
-                return scope;
-            }
-        }
-    }
-
-    export function getClickContext(element, callback) {
-        if (callback.__ctx__) { return callback.__ctx__; }
-        return getContext(element);
-    }
-
-    export function getParamValue(element, param) {
-        let paramValue = getParamValueRecursive(element, param.replace(/ /g, ''));
-        if (paramValue === undefined) {
-            paramValue = getParamValueIsolate(element, param);
-        }
-        if (paramValue === undefined) {
-            paramValue = evalInContext(param, {});
-        }
-        return paramValue;
-    }
-
-    export function getParamValueRecursive(element, param) {
-        let scope = getScope(element);
-        if (scope && scope.scope) { scope = scope.scope; }
-        const paramValue = _.get(scope, param);
-        if (!paramValue && element.parentNode && !isComponent(element.parentNode)) {
-            return getParamValueRecursive(element.parentNode, param);
-        }
-        return paramValue;
-    }
-
-    export function getParamValueIsolate(element, params) {
-        const regex = /(\+|\-|\/|\*)/g;
-        params.split(regex).forEach((param) => {
-            if (!regex.test(param)) {
-                const paramValue = getParamValueRecursive(element, param.replace(/ /g, ''));
-                if (paramValue !== undefined || !isNaN(param)) {
-                    params = params.replace(param.replace(/ /g, ''), paramValue || param);
-                } else {
-                    params = params.replace(param.replace(/ /g, ''), null);
-                }
-            }
-        });
-        return Eval.exec(params, {});
-    }
-
     export function executeFunctionCallback(element, attribute, evt?, additionalParameters?) {
-        const callback = getCallbackFunc(element, attribute);
-        if (callback && !isNative(callback)) {
-            const params = attribute.substring(attribute.indexOf('(') + 1, attribute.lastIndexOf(')')), args = [];
-            const context = getClickContext(element, callback);
-            params.split(',').forEach((param) => {
-                if (additionalParameters) {
-                    const paramValue = additionalParameters[param.trim()];
-                    if (paramValue !== undefined) {
-                        args.push(paramValue);
-                    }
-                } else if (param === Constants.EVENT_ATTRIBUTE_NAME) {
-                    args.push(evt);
-                } else {
-                    let paramValue = getParamValueRecursive(element, param.replace(/ /g, ''));
-                    if (paramValue === undefined) {
-                        paramValue = evalInContext(param, context);
-                    }
-                    if (paramValue === undefined) {
-                        paramValue = getParamValueIsolate(element, param);
-                    }
-                    args.push(paramValue === undefined ? evalInContext(param, context) : paramValue);
-                }
-            });
-            return callback.call(context, ...args);
-        }
-    }
-
-    export function getCallbackFunc(element, attribute) {
-        const callback = _.get(getScope(element).scope, attribute.substring(0, attribute.indexOf('(')));
-        if (!callback && element.parentNode && getScope(element.parentNode) && !isComponent(element.parentNode)) {
-            return getCallbackFunc(element.parentNode, attribute);
-        }
-        return callback;
+        return evalInMultiContext(element, attribute);
     }
 
     export function isNative(fn) {
@@ -245,16 +104,27 @@ export namespace Common {
         if (elementComment.replaceWith) {
             elementComment.replaceWith(element);
         }
-        if (element.$instance) { element.$instance.initController(true); }
+        if (element.$instance) { element.$instance.initController(); }
+    }
+
+    export function getAllScopes(element, scopes = []) {
+        if (element && element[Constants.SCOPE_ATTRIBUTE_NAME]) {
+            if (scopes.filter((s) => s.id === element[Constants.SCOPE_ATTRIBUTE_NAME].id).length === 0) {
+                scopes.push(element[Constants.SCOPE_ATTRIBUTE_NAME]);
+            }
+        }
+        if (element && element.parentNode) {
+            return getAllScopes(element.parentNode, scopes);
+        }
+        return scopes;
+    }
+
+    export function evalInMultiContext(element, condition) {
+        return evalInContext(condition, getAllScopes(element).map((scope) => scope.scope));
     }
 
     export function isValidCondition(element, condition) {
-        const scope = isComponent(element) && element.parentNode && element.parentNode[Constants.SCOPE_ATTRIBUTE_NAME] ? getScope(element.parentNode).scope : getScope(element).scope;
-        const result = evalInContext(condition, scope);
-        if (result === undefined && element.parentNode && !isComponent(element.parentNode) && element.parentNode[Constants.SCOPE_ATTRIBUTE_NAME]) {
-            return isValidCondition(element.parentNode, condition);
-        }
-        return result;
+        return evalInMultiContext(element, condition);
     }
 
     export function appendBefore(element, elementToInsert) {

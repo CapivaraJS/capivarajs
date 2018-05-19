@@ -1,30 +1,28 @@
-import { } from 'jasmine';
+import {} from 'jasmine';
 import capivara from '../../src/index';
 
-describe('placeholder test', () => {
+describe('Directive cp-attr.placeholder', () => {
+  it("", () => {
     const template = `
-        <input cp-placeholder="$ctrl.name"/> <button cp-click="$ctrl.test()">Testing</button>
+        <input cp-attr.placeholder="$ctrl.name"/>
+        <button cp-click="$ctrl.test()">Testing</button>
     `;
     const element = document.createElement('div');
     element.innerHTML = template;
     capivara.controller(element, function() {
-        const $ctrl = this;
-        $ctrl.name = 'Test';
+      this.name = 'Test';
 
-        $ctrl.test = () => {
-            $ctrl.name = 'Testing';
-        };
+      this.test = () => {
+        this.name = 'Testing';
+      };
 
-        $ctrl.$onViewInit = () => {
-            const event = new Event('click');
-            element.querySelector('button').dispatchEvent(event);
-            it('Expected attribute focused is true', (done) => {
-                setTimeout(() => {
-                    expect(element.querySelector('input').getAttribute('placeholder')).toEqual('Testing');
-                    done();
-                });
-            });
-
-        };
+      this.$onViewInit = () => {
+        const event = new Event('click');
+        element.querySelector('button').dispatchEvent(event);
+        setTimeout(() => {
+          expect(element.querySelector('input').getAttribute('placeholder')).toEqual('Testing');
+        });
+      };
     });
+  });
 });

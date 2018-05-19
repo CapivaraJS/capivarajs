@@ -1,36 +1,38 @@
 <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <meta http-equiv="X-UA-Compatible" content="ie=edge">
-            <title>Test</title>
-        </head>
-        <body>
-        
-            <my-component #myComponent></my-component>
-            
-            <script src="/dist/capivara.js"></script>
-            <script>
-                capivara.component('my-component', {
-                    template: `
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Test</title>
+</head>
+
+<body>
+
+    <my-component #myComponent></my-component>
+
+    <script src="/dist/capivara.js"></script>
+    <script>
+        capivara.component('my-component', {
+            template: `
                         <input type="text" cp-mouseover="$ctrl.mousein()" cp-mouseout="$ctrl.mouseout()" cp-model="$ctrl.text" >
                         <h1>[[$ctrl.text]]</h1>
                     `,
-                    controller: function(){
-                    const $ctrl = this;
-                    
-                    $ctrl.mousein = function(){
-                        $ctrl.text = 'mousein'
-                    }
+            controller: function () {
+                const $ctrl = this;
 
-                    $ctrl.mouseout = function(){
-                        $ctrl.text ='mouseout'
-                    }
+                $ctrl.mousein = function () {
+                    $ctrl.text = 'mousein'
+                }
+
+                $ctrl.mouseout = function () {
+                    $ctrl.text = 'mouseout'
+                }
 
             }
-                });
-            </script>
-        </body>
-        </html>
-        
+        });
+    </script>
+</body>
+
+</html>

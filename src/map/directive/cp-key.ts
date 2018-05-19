@@ -14,13 +14,13 @@ export class CPKey implements Directive {
     constructor(_element: HTMLElement, _map: MapDom) {
         this.element = _element;
         this.attributes = [];
-        this.element['cpKey'] = this;
         this.map = _map;
         Array.from(this.element.attributes).forEach((attribute: any) => {
             if (attribute.nodeName && attribute.nodeName.startsWith(Constants.KEY_ATTRIBUTE_NAME)) {
                 if (!attribute.value) {
                     throw new Error(`syntax error ${Constants.KEY_ATTRIBUTE_NAME} expected arguments`);
                 }
+                this.element[attribute.name] = this;
                 this.attributes.push(attribute.name);
             }
         });
@@ -31,19 +31,19 @@ export class CPKey implements Directive {
     }
 
     public onKeyPress(evt) {
-        if (evt.target && evt.target['cpKey']) {
-            evt.target['cpKey'].attributes.forEach((attribute) => {
-                const indexSeparator = attribute.lastIndexOf('.');
-                if (indexSeparator === -1) {
-                    Common.executeFunctionCallback(evt.target['cpKey'].element, evt.target['cpKey'].element.getAttribute(attribute), evt);
-                } else {
-                    const watchKeyName = attribute.substring(attribute.lastIndexOf('.') + 1);
-                    const watchKey = !isNaN(watchKeyName) ? Number(watchKeyName) : KeyCode[(watchKeyName || '').toUpperCase()];
-                    if (watchKey !== undefined && evt.keyCode === watchKey) {
-                        Common.executeFunctionCallback(evt.target['cpKey'].element, evt.target['cpKey'].element.getAttribute(attribute), evt);
-                    }
+        const directiveName: any = 'cp-' + evt.type;
+        if (evt.target && evt.target.hasAttributeStartingWith(directiveName)) {
+            const attribute = evt.target.getAttributeStartingWith(directiveName)[0].name;
+            const indexSeparator = attribute.lastIndexOf('.');
+            if (indexSeparator === -1) {
+                Common.executeFunctionCallback(evt.target[attribute].element, evt.target[attribute].element.getAttribute(attribute), evt);
+            } else {
+                const watchKeyName = attribute.substring(attribute.lastIndexOf('.') + 1);
+                const watchKey = !isNaN(watchKeyName) ? Number(watchKeyName) : KeyCode[(watchKeyName || '').toUpperCase()];
+                if (watchKey !== undefined && evt.keyCode === watchKey) {
+                    Common.executeFunctionCallback(evt.target[attribute].element, evt.target[attribute].element.getAttribute(attribute), evt);
                 }
-            });
+            }
         }
     }
 

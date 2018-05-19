@@ -11,10 +11,10 @@ module.exports = function (config) {
 
 		// list of files / patterns to load in the browser
 		files: [
+			'./node_modules/babel-polyfill/dist/polyfill.js',
 			'src/*.ts',
 			'src/**/*.ts',
 			'test/spec/*spec.ts',
-			'./node_modules/babel-polyfill/dist/polyfill.js'
 		],
 
 		// Configure code coverage reporter

@@ -8,7 +8,8 @@ describe('test interpolation', () => {
     `;
     const element = document.createElement('div');
     element.innerHTML = template;
-    capivara.controller(element, function () {
+
+    capivara.controller(element, function() {
         const $ctrl = this;
 
         $ctrl.$onInit = () => {
@@ -18,19 +19,19 @@ describe('test interpolation', () => {
         $ctrl.$onViewInit = () => {
             setTimeout(() => {
                 $ctrl.name = 'Felipe Sabadini';
-                it("Expected field name is equal to scope", function (done) {
-                    setTimeout(function() {
-                        expect(element.querySelector('h1').innerHTML).toEqual($ctrl.name);
-                        done();
-                    });
-                });
-                it("Expected field name not equal to scope", function (done) {
-                    setTimeout(function() {
-                        expect(element.querySelector('h2').innerHTML).toEqual('Felipe');
-                        done();
-                    });
-                });
-            }, 10);
+            }, 1000);
+            it("Expected field name is equal to scope", function(done) {
+                setTimeout(function() {
+                    expect(element.querySelector('h1').innerHTML).toEqual($ctrl.name);
+                    done();
+                }, 2000);
+            }, 3000);
+            it("Expected field name not equal to scope", function(done) {
+                setTimeout(function() {
+                    expect(element.querySelector('h2').innerHTML).toEqual('Felipe');
+                    done();
+                }, 2000);
+            }, 3000);
         };
     });
 });

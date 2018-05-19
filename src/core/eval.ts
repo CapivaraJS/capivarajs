@@ -22,11 +22,12 @@ export namespace Eval {
     export function isVariable(str = '') {
         const firstChar = str.charAt(0);
         return /[a-zA-Z]/g.test(firstChar)
-                || firstChar === '$'
-                || firstChar === '_';
+            || firstChar === '$'
+            || firstChar === '_';
     }
 
     export function exec(source, context, prefix = '') {
+        const contexts = Array.isArray(context) ? context : [context];
         const referenceSelf = `this.${prefix ? prefix += '.' : ''}`, regex = /\$*[a-z0-9.$]+\s*/gi, keys = source.match(regex);
         if (keys && Array.isArray(keys)) {
             keys.forEach((str, i) => {
@@ -34,7 +35,7 @@ export namespace Eval {
                     indexStart = getIndexStart(keys, i);
                 const indexEnd = indexStart + source.substring(indexStart, source.length).indexOf(key) + key.length;
                 if (!key.includes(referenceSelf)) {
-                    const isVar = !prefix.trim() ? context.hasOwnProperty(Common.getFirstKey(key)) : isVariable(key);
+                    const isVar = !prefix.trim() ? contexts.filter((c) => c.hasOwnProperty(Common.getFirstKey(key))).length > 0 : isVariable(key);
                     if (isVar) {
                         source = replaceAt(source, key, `${referenceSelf}${key}`, indexStart, indexEnd);
                     }
@@ -42,9 +43,10 @@ export namespace Eval {
             });
         }
         try {
-            return function(str) {
+            return function executeCode(str) {
+                (contexts || []).forEach((c) => Object.keys(c).forEach((key) => this[key] = c[key]));
                 return eval(str);
-            }.call(context, source);
+            }.call({}, source);
         } catch (e) { }
     }
 }

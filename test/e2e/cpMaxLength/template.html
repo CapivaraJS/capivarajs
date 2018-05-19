@@ -9,14 +9,14 @@
 <body>
 
     <my-component #myComponent></my-component>
-    
+
     <script src="/dist/capivara.js"></script>
     <script>
         capivara.component('my-component', {
             template: `
                 <p>[[ $ctrl.person.name ]]</p>
 
-                <input cp-model="$ctrl.person.name" cp-maxlength="10"/>
+                <input cp-model="$ctrl.person.name" cp-attr.maxlength="10"/>
             `,
             controller: function(){
                 const $ctrl = this;

@@ -1,5 +1,6 @@
 import { Common } from '../common';
 import { Constants } from '../constants';
+import { Scope } from '../scope/scope';
 import { Component } from './component';
 import { ComponentInstance } from './component.instance';
 import { Controller } from './controller';
@@ -14,19 +15,26 @@ export class Capivara {
     public scopes;
     public components;
     public $watchers;
-    private version;
+    public version;
 
     constructor() {
         this.version = packageJson.version;
         this.components = {};
         this.scopes = [];
         this.$watchers = [];
-        if (!Element.prototype.hasOwnProperty('hasAttributeStartingWith')) {
-            Object.defineProperty(Element.prototype, 'hasAttributeStartingWith', {
+        if (!Element.prototype.hasOwnProperty('getAttributeStartingWith')) {
+            Object.defineProperty(Element.prototype, 'getAttributeStartingWith', {
                 value: function hasAttributeStartingWith(attr) {
                     return Array.from(this.attributes).filter((attributeNode: any) => {
                         return attributeNode.nodeName.indexOf(attr) === 0;
-                    }).length > 0;
+                    });
+                },
+            });
+        }
+        if (!Element.prototype.hasOwnProperty('hasAttributeStartingWith')) {
+            Object.defineProperty(Element.prototype, 'hasAttributeStartingWith', {
+                value: function hasAttributeStartingWith(attr) {
+                    return this.getAttributeStartingWith(attr).length > 0;
                 },
             });
         }
@@ -36,7 +44,7 @@ export class Capivara {
         });
     }
 
-    private createComponents() {
+    public createComponents() {
         Object.keys(this.components).forEach((componentName) => {
             const elms: any = document.querySelectorAll(componentName) || [];
             Array.from(elms).forEach((elm) => {
@@ -45,7 +53,7 @@ export class Capivara {
         });
     }
 
-    private constroyIfComponent(addedNode) {
+    public constroyIfComponent(addedNode) {
         const component = this.components[addedNode.nodeName];
         if (component) {
             component.createNewInstance(addedNode).create();
@@ -55,7 +63,7 @@ export class Capivara {
         }
     }
 
-    private destroyIfComponent(removedNode) {
+    public destroyIfComponent(removedNode) {
         if (removedNode['$instance'] && !removedNode['$instance'].destroyed) {
             removedNode['$instance'].destroy();
         }
@@ -64,7 +72,7 @@ export class Capivara {
         }
     }
 
-    private onMutation(mutations) {
+    public onMutation(mutations) {
         mutations.forEach((mutation) => {
             if (mutation.type === 'childList') {
                 mutation.addedNodes.forEach((addedNode) => {
@@ -77,7 +85,7 @@ export class Capivara {
         });
     }
 
-    private createListeners() {
+    public createListeners() {
         const MutationObserver = window['MutationObserver'] || window['WebKitMutationObserver'] || window['MozMutationObserver'];
         const observer = new MutationObserver((mutations) => this.onMutation(mutations));
         observer.observe(document.body, {
@@ -234,6 +242,68 @@ export class Capivara {
             .forEach((watcher) => {
                 watcher.callback(...args);
             });
+    }
+
+    public simpleCompare(a, b) {
+        return a === b || (a !== a && b !== b);
+    }
+
+    public isRegExp(value) {
+        return toString.call(value) === '[object RegExp]';
+    }
+
+    public isDefined(value) {
+        return typeof value !== 'undefined';
+    }
+
+    public isWindow(value) {
+        return value && value.window === value;
+    }
+
+    public isScope(value) {
+        return value instanceof Scope;
+    }
+
+    public equals(o1, o2) {
+        if (o1 === o2) { return true; }
+        if (o1 === null || o2 === null) { return false; }
+        if (o1 !== o1 && o2 !== o2) { return true; }
+        /* tslint:disable */
+        let t1 = typeof o1, t2 = typeof o2, length, key, keySet;
+        if (t1 === t2 && t1 === 'object') {
+            if (this.isArray(o1)) {
+                if (!this.isArray(o2)) { return false };
+                if ((length = o1.length) === o2.length) {
+                    for (key = 0; key < length; key++) {
+                        if (!this.equals(o1[key], o2[key])) return false;
+                    }
+                    return true;
+                }
+            } else if (this.isDate(o1)) {
+                if (!this.isDate(o2)) return false;
+                return this.simpleCompare(o1.getTime(), o2.getTime());
+            } else if (this.isRegExp(o1)) {
+                if (!this.isRegExp(o2)) return false;
+                return o1.toString() === o2.toString();
+            } else {
+                if (this.isScope(o1) || this.isScope(o2) || this.isWindow(o1) || this.isWindow(o2) ||
+                    this.isArray(o2) || this.isDate(o2) || this.isRegExp(o2)) return false;
+                keySet = Object.create(null);
+                for (key in o1) {
+                    if (key.charAt(0) === '$' || this.isFunction(o1[key])) continue;
+                    if (!this.equals(o1[key], o2[key])) return false;
+                    keySet[key] = true;
+                }
+                for (key in o2) {
+                    if (!(key in keySet) &&
+                        key.charAt(0) !== '$' &&
+                        this.isDefined(o2[key]) &&
+                        !this.isFunction(o2[key])) return false;
+                }
+                return true;
+            }
+        }
+        return false;
     }
 
 }
