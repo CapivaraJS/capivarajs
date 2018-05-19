@@ -83,142 +83,8 @@ export namespace Common {
         return component ? true : false;
     }
 
-    export function getScopeParent(element) {
-        if (getScope(element)) {
-            return getScope(element).scope;
-        }
-        if (element.parentNode) {
-            return getScopeParent(element.parentNode);
-        }
-    }
-
-    export function hasSomeParentTheClass(element, classname) {
-        if (element && element.classList && element.classList.contains(classname)) { return true; }
-        return element && element.parentNode && hasSomeParentTheClass(element.parentNode, classname);
-    }
-
-    export function findContextRecursive(element) {
-        if (element.classList && element.classList.contains('binding-repeat') && !isComponent(element) && !hasSomeParentTheClass(element.parentNode, 'binding-repeat')) {
-            return element.parentNode;
-        }
-        if (hasSomeParentTheClass(element.parentNode, 'binding-repeat')) {
-            return findContextRecursive(element.parentNode);
-        }
-        return element;
-    }
-
-    export function getContext(element) {
-        const el = findContextRecursive(element);
-        if (el) {
-            const scope = el[Constants.SCOPE_ATTRIBUTE_NAME];
-            if (scope && scope.mapDom && scope.mapDom.element.$instance) {
-                return scope[scope.mapDom.element.$instance.config.controllerAs] || scope.scope[scope.mapDom.element.$instance.config.controllerAs];
-            } else {
-                return scope;
-            }
-        }
-    }
-
-    export function getClickContext(element, callback) {
-        if (callback.__ctx__) { return callback.__ctx__; }
-        return getContext(element);
-    }
-
-    export function getParamValue(element, param) {
-        let paramValue = getParamValueRecursive(element, param.replace(/ /g, ''));
-        if (paramValue === undefined) {
-            paramValue = getParamValueIsolate(element, param);
-        }
-        if (paramValue === undefined || paramValue === null) {
-            paramValue = executeFunctionCallback(element, param);
-        }
-        if (paramValue === undefined) {
-            paramValue = evalInContext(param, {});
-        }
-        return paramValue;
-    }
-
-    export function getParamValueRecursive(element, param) {
-        let scope = getScope(element);
-        if (scope && scope.scope) { scope = scope.scope; }
-        const paramValue = _.get(scope, param);
-        if ((paramValue === undefined || paramValue === null) && element.parentNode && !isComponent(element.parentNode)) {
-            return getParamValueRecursive(element.parentNode, param);
-        }
-        return paramValue;
-    }
-
-    export function getParamValueIsolate(element, params) {
-        const regex = /(\+|\-|\/|\*)/g;
-        params.split(regex).forEach((param) => {
-            if (!regex.test(param)) {
-                const paramValue = getParamValueRecursive(element, param.replace(/ /g, ''));
-                if (paramValue !== undefined || !isNaN(param)) {
-                    params = params.replace(param.replace(/ /g, ''), paramValue || param);
-                } else {
-                    params = params.replace(param.replace(/ /g, ''), null);
-                }
-            }
-        });
-        return Eval.exec(params, {});
-    }
-
     export function executeFunctionCallback(element, attribute, evt?, additionalParameters?) {
-        const callback = getCallbackFunc(element, attribute);
-        if (callback && !isNative(callback)) {
-            const params = attribute.substring(attribute.indexOf('(') + 1, attribute.lastIndexOf(')')), args = [];
-            const context = getClickContext(element, callback);
-            params.split(',').forEach((param) => {
-                if (additionalParameters) {
-                    const paramValue = additionalParameters[param.trim()];
-                    if (paramValue !== undefined) {
-                        args.push(paramValue);
-                    }
-                } else if (param === Constants.EVENT_ATTRIBUTE_NAME) {
-                    args.push(evt);
-                } else {
-                    let paramValue = getParamValueRecursive(element, param.replace(/ /g, ''));
-                    if (paramValue === undefined) {
-                        paramValue = evalInContext(param, context);
-                    }
-                    if (paramValue === undefined) {
-                        paramValue = getParamValueIsolate(element, param);
-                    }
-                    args.push(paramValue === undefined ? evalInContext(param, context) : paramValue);
-                }
-            });
-            return callback.call(context, ...args);
-        }
-    }
-
-    export function getCallbackFunc(element, attribute) {
-        attribute = attribute.trim();
-        const getFirstElementWithScope = (elm) => {
-            if (elm[Constants.SCOPE_ATTRIBUTE_NAME]) {
-                return elm;
-            }
-            if (elm.parentNode) {
-                return getFirstElementWithScope(elm.parentNode);
-            }
-        };
-        const el = getFirstElementWithScope(element);
-        const scope = getScope(el).scope;
-        const callback = _.get(scope, attribute.substring(0, attribute.indexOf('(')));
-        if (!callback && el.parentNode && getScope(el.parentNode) && !isComponent(el.parentNode)) {
-            return getCallbackFunc(el.parentNode, attribute);
-        }
-        return callback;
-    }
-
-    export function getOrExec(element, attribute) {
-        let value = getParamValue(element, attribute);
-        if (!value && value !== 0) {
-            value = executeFunctionCallback(element, attribute);
-        }
-        if (!value && value !== 0) {
-            value = evalInContext(attribute, {});
-        }
-        return value;
+        return evalInMultiContext(element, attribute);
     }
 
     export function isNative(fn) {
@@ -241,13 +107,24 @@ export namespace Common {
         if (element.$instance) { element.$instance.initController(); }
     }
 
-    export function isValidCondition(element, condition) {
-        const scope = isComponent(element) && element.parentNode && element.parentNode[Constants.SCOPE_ATTRIBUTE_NAME] ? getScope(element.parentNode).scope : getScope(element).scope;
-        const result = evalInContext(condition, scope);
-        if (result === undefined && element.parentNode && !isComponent(element.parentNode) && element.parentNode[Constants.SCOPE_ATTRIBUTE_NAME]) {
-            return isValidCondition(element.parentNode, condition);
+    export function getAllScopes(element, scopes = []) {
+        if (element && element[Constants.SCOPE_ATTRIBUTE_NAME]) {
+            if (scopes.filter((s) => s.id === element[Constants.SCOPE_ATTRIBUTE_NAME].id).length === 0) {
+                scopes.push(element[Constants.SCOPE_ATTRIBUTE_NAME]);
+            }
         }
-        return result;
+        if (element && element.parentNode) {
+            return getAllScopes(element.parentNode, scopes);
+        }
+        return scopes;
+    }
+
+    export function evalInMultiContext(element, condition) {
+        return evalInContext(condition, getAllScopes(element).map((scope) => scope.scope));
+    }
+
+    export function isValidCondition(element, condition) {
+        return evalInMultiContext(element, condition);
     }
 
     export function appendBefore(element, elementToInsert) {

@@ -30,7 +30,7 @@ export class CPAttr implements Directive {
         this.attributes.forEach((attribute) => {
             const attributeValue = this.element.getAttribute(attribute);
             const attr = attribute.replace(Constants.ATTR_ATTRIBUTE_NAME + '.', '');
-            const value = Common.getOrExec(this.element, attributeValue);
+            const value = Common.evalInMultiContext(this.element, attributeValue);
             if (value === undefined || value === null) {
                 this.element.setAttribute(attr, '');
             } else {

@@ -38,6 +38,7 @@ export class CPClass implements Directive {
 
     public init() {
         try {
+            console.log(Common.evalInMultiContext(this.element, this.attribute));
             this.attribute.split(',')
                 .map((attr) => {
                     return {
@@ -57,7 +58,6 @@ export class CPClass implements Directive {
                     }
                 });
         } catch (e) {
-            this.setClassByObject(Common.executeFunctionCallback(this.element, this.attribute));
         }
     }
 

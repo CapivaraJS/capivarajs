@@ -230,7 +230,7 @@ export class MapDom {
 
     public getInterpolationValue(content, childNode, prefix?) {
         if (prefix) { content = prefix + '.' + content; }
-        let evalValue = Common.getParamValue(childNode, content.trim().startsWith(':') ? content.trim().slice(1) : content) + '';
+        let evalValue = Common.evalInMultiContext(childNode, content.trim().startsWith(':') ? content.trim().slice(1) : content) + '';
         evalValue = (evalValue.trim() !== undefined && (evalValue).trim() !== 'undefined' && (evalValue).trim() !== 'null') ? evalValue : '';
         return evalValue;
     }
