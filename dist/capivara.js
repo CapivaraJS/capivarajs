@@ -18055,11 +18055,8 @@ module.exports = {"name":"capivarajs","version":"3.1.0","description":"Um framew
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Common", function() { return Common; });
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "../node_modules/lodash/lodash.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./constants */ "../src/constants.ts");
-/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./core */ "../src/core/index.ts");
-
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "../src/constants.ts");
+/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./core */ "../src/core/index.ts");
 
 
 var Common;
@@ -18077,7 +18074,7 @@ var Common;
      */
     function evalInContext(source, context, prefix) {
         if (source) {
-            return _core__WEBPACK_IMPORTED_MODULE_2__["Eval"].exec(source, context, prefix);
+            return _core__WEBPACK_IMPORTED_MODULE_1__["Eval"].exec(source, context, prefix);
         }
     }
     Common.evalInContext = evalInContext;
@@ -18087,55 +18084,55 @@ var Common;
     }
     Common.getFirstKey = getFirstKey;
     function getAttributeCpShow(element) {
-        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SHOW_ATTRIBUTE_NAME);
+        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].SHOW_ATTRIBUTE_NAME);
     }
     Common.getAttributeCpShow = getAttributeCpShow;
     function getAttributeCpIf(element) {
-        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].IF_ATTRIBUTE_NAME);
+        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].IF_ATTRIBUTE_NAME);
     }
     Common.getAttributeCpIf = getAttributeCpIf;
     function getAttributeCpElseIf(element) {
-        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].ELSE_IF_ATTRIBUTE_NAME);
+        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].ELSE_IF_ATTRIBUTE_NAME);
     }
     Common.getAttributeCpElseIf = getAttributeCpElseIf;
     function getAttributeCpElse(element) {
-        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].ELSE_ATTRIBUTE_NAME);
+        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].ELSE_ATTRIBUTE_NAME);
     }
     Common.getAttributeCpElse = getAttributeCpElse;
     function getAttributeCpInit(element) {
-        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].INIT_ATTRIBUTE_NAME);
+        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].INIT_ATTRIBUTE_NAME);
     }
     Common.getAttributeCpInit = getAttributeCpInit;
     function getAttributeCpStyle(element) {
-        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].STYLE_ATTRIBUTE_NAME);
+        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].STYLE_ATTRIBUTE_NAME);
     }
     Common.getAttributeCpStyle = getAttributeCpStyle;
     function getAttributeCpClass(element) {
-        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].CLASS_ATTRIBUTE_NAME);
+        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].CLASS_ATTRIBUTE_NAME);
     }
     Common.getAttributeCpClass = getAttributeCpClass;
     function getAttributeCpSrc(element) {
-        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SRC_ATTRIBUTE_NAME);
+        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].SRC_ATTRIBUTE_NAME);
     }
     Common.getAttributeCpSrc = getAttributeCpSrc;
     function getAttributeCpDisable(element) {
-        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].DISABLE_ATTRIBUTE_NAME);
+        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].DISABLE_ATTRIBUTE_NAME);
     }
     Common.getAttributeCpDisable = getAttributeCpDisable;
     function getAttributeCpFocus(element) {
-        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].FOCUS_ATTRIBUTE_NAME);
+        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].FOCUS_ATTRIBUTE_NAME);
     }
     Common.getAttributeCpFocus = getAttributeCpFocus;
     function getAttributeCpHide(element) {
-        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].HIDE_ATTRIBUTE_NAME);
+        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].HIDE_ATTRIBUTE_NAME);
     }
     Common.getAttributeCpHide = getAttributeCpHide;
     function getAttributeCpBlur(element) {
-        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].BLUR_ATTRIBUTE_NAME);
+        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].BLUR_ATTRIBUTE_NAME);
     }
     Common.getAttributeCpBlur = getAttributeCpBlur;
     function getScope(element) {
-        return element[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SCOPE_ATTRIBUTE_NAME];
+        return element[_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].SCOPE_ATTRIBUTE_NAME];
     }
     Common.getScope = getScope;
     function isComponent(element) {
@@ -18143,154 +18140,10 @@ var Common;
         return component ? true : false;
     }
     Common.isComponent = isComponent;
-    function getScopeParent(element) {
-        if (getScope(element)) {
-            return getScope(element).scope;
-        }
-        if (element.parentNode) {
-            return getScopeParent(element.parentNode);
-        }
-    }
-    Common.getScopeParent = getScopeParent;
-    function hasSomeParentTheClass(element, classname) {
-        if (element && element.classList && element.classList.contains(classname)) {
-            return true;
-        }
-        return element && element.parentNode && hasSomeParentTheClass(element.parentNode, classname);
-    }
-    Common.hasSomeParentTheClass = hasSomeParentTheClass;
-    function findContextRecursive(element) {
-        if (element.classList && element.classList.contains('binding-repeat') && !isComponent(element) && !hasSomeParentTheClass(element.parentNode, 'binding-repeat')) {
-            return element.parentNode;
-        }
-        if (hasSomeParentTheClass(element.parentNode, 'binding-repeat')) {
-            return findContextRecursive(element.parentNode);
-        }
-        return element;
-    }
-    Common.findContextRecursive = findContextRecursive;
-    function getContext(element) {
-        var el = findContextRecursive(element);
-        if (el) {
-            var scope = el[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SCOPE_ATTRIBUTE_NAME];
-            if (scope && scope.mapDom && scope.mapDom.element.$instance) {
-                return scope[scope.mapDom.element.$instance.config.controllerAs] || scope.scope[scope.mapDom.element.$instance.config.controllerAs];
-            }
-            else {
-                return scope;
-            }
-        }
-    }
-    Common.getContext = getContext;
-    function getClickContext(element, callback) {
-        if (callback.__ctx__) {
-            return callback.__ctx__;
-        }
-        return getContext(element);
-    }
-    Common.getClickContext = getClickContext;
-    function getParamValue(element, param) {
-        var paramValue = getParamValueRecursive(element, param.replace(/ /g, ''));
-        if (paramValue === undefined) {
-            paramValue = getParamValueIsolate(element, param);
-        }
-        if (paramValue === undefined || paramValue === null) {
-            paramValue = executeFunctionCallback(element, param);
-        }
-        if (paramValue === undefined) {
-            paramValue = evalInContext(param, {});
-        }
-        return paramValue;
-    }
-    Common.getParamValue = getParamValue;
-    function getParamValueRecursive(element, param) {
-        var scope = getScope(element);
-        if (scope && scope.scope) {
-            scope = scope.scope;
-        }
-        var paramValue = lodash__WEBPACK_IMPORTED_MODULE_0__["get"](scope, param);
-        if ((paramValue === undefined || paramValue === null) && element.parentNode && !isComponent(element.parentNode)) {
-            return getParamValueRecursive(element.parentNode, param);
-        }
-        return paramValue;
-    }
-    Common.getParamValueRecursive = getParamValueRecursive;
-    function getParamValueIsolate(element, params) {
-        var regex = /(\+|\-|\/|\*)/g;
-        params.split(regex).forEach(function (param) {
-            if (!regex.test(param)) {
-                var paramValue = getParamValueRecursive(element, param.replace(/ /g, ''));
-                if (paramValue !== undefined || !isNaN(param)) {
-                    params = params.replace(param.replace(/ /g, ''), paramValue || param);
-                }
-                else {
-                    params = params.replace(param.replace(/ /g, ''), null);
-                }
-            }
-        });
-        return _core__WEBPACK_IMPORTED_MODULE_2__["Eval"].exec(params, {});
-    }
-    Common.getParamValueIsolate = getParamValueIsolate;
     function executeFunctionCallback(element, attribute, evt, additionalParameters) {
-        var callback = getCallbackFunc(element, attribute);
-        if (callback && !isNative(callback)) {
-            var params = attribute.substring(attribute.indexOf('(') + 1, attribute.lastIndexOf(')')), args_1 = [];
-            var context_1 = getClickContext(element, callback);
-            params.split(',').forEach(function (param) {
-                if (additionalParameters) {
-                    var paramValue = additionalParameters[param.trim()];
-                    if (paramValue !== undefined) {
-                        args_1.push(paramValue);
-                    }
-                }
-                else if (param === _constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].EVENT_ATTRIBUTE_NAME) {
-                    args_1.push(evt);
-                }
-                else {
-                    var paramValue = getParamValueRecursive(element, param.replace(/ /g, ''));
-                    if (paramValue === undefined) {
-                        paramValue = evalInContext(param, context_1);
-                    }
-                    if (paramValue === undefined) {
-                        paramValue = getParamValueIsolate(element, param);
-                    }
-                    args_1.push(paramValue === undefined ? evalInContext(param, context_1) : paramValue);
-                }
-            });
-            return callback.call.apply(callback, [context_1].concat(args_1));
-        }
+        return evalInMultiContext(element, attribute);
     }
     Common.executeFunctionCallback = executeFunctionCallback;
-    function getCallbackFunc(element, attribute) {
-        attribute = attribute.trim();
-        var getFirstElementWithScope = function (elm) {
-            if (elm[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SCOPE_ATTRIBUTE_NAME]) {
-                return elm;
-            }
-            if (elm.parentNode) {
-                return getFirstElementWithScope(elm.parentNode);
-            }
-        };
-        var el = getFirstElementWithScope(element);
-        var scope = getScope(el).scope;
-        var callback = lodash__WEBPACK_IMPORTED_MODULE_0__["get"](scope, attribute.substring(0, attribute.indexOf('(')));
-        if (!callback && el.parentNode && getScope(el.parentNode) && !isComponent(el.parentNode)) {
-            return getCallbackFunc(el.parentNode, attribute);
-        }
-        return callback;
-    }
-    Common.getCallbackFunc = getCallbackFunc;
-    function getOrExec(element, attribute) {
-        var value = getParamValue(element, attribute);
-        if (!value && value !== 0) {
-            value = executeFunctionCallback(element, attribute);
-        }
-        if (!value && value !== 0) {
-            value = evalInContext(attribute, {});
-        }
-        return value;
-    }
-    Common.getOrExec = getOrExec;
     function isNative(fn) {
         return /{\s*\[native code]\s*}/.test('' + fn);
     }
@@ -18315,13 +18168,25 @@ var Common;
         }
     }
     Common.createElement = createElement;
-    function isValidCondition(element, condition) {
-        var scope = isComponent(element) && element.parentNode && element.parentNode[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SCOPE_ATTRIBUTE_NAME] ? getScope(element.parentNode).scope : getScope(element).scope;
-        var result = evalInContext(condition, scope);
-        if (result === undefined && element.parentNode && !isComponent(element.parentNode) && element.parentNode[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SCOPE_ATTRIBUTE_NAME]) {
-            return isValidCondition(element.parentNode, condition);
+    function getAllScopes(element, scopes) {
+        if (scopes === void 0) { scopes = []; }
+        if (element && element[_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].SCOPE_ATTRIBUTE_NAME]) {
+            if (scopes.filter(function (s) { return s.id === element[_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].SCOPE_ATTRIBUTE_NAME].id; }).length === 0) {
+                scopes.push(element[_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].SCOPE_ATTRIBUTE_NAME]);
+            }
         }
-        return result;
+        if (element && element.parentNode) {
+            return getAllScopes(element.parentNode, scopes);
+        }
+        return scopes;
+    }
+    Common.getAllScopes = getAllScopes;
+    function evalInMultiContext(element, condition) {
+        return evalInContext(condition, getAllScopes(element).map(function (scope) { return scope.scope; }));
+    }
+    Common.evalInMultiContext = evalInMultiContext;
+    function isValidCondition(element, condition) {
+        return evalInMultiContext(element, condition);
     }
     Common.isValidCondition = isValidCondition;
     function appendBefore(element, elementToInsert) {
@@ -18340,7 +18205,7 @@ var Common;
     }
     Common.setScopeId = setScopeId;
     function parentHasIgnore(element) {
-        if (element.hasAttribute && (element.hasAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].IGNORE_BINDINGS) || element.nodeName === 'CP-TRANSCLUDE')) {
+        if (element.hasAttribute && (element.hasAttribute(_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].IGNORE_BINDINGS) || element.nodeName === 'CP-TRANSCLUDE')) {
             return true;
         }
         if (element.parentNode) {
@@ -18827,21 +18692,14 @@ var ComponentInstance = /** @class */ (function () {
         });
     };
     ComponentInstance.prototype.initController = function () {
-        var _this = this;
         if (this.destroyed) {
             if (this.config.controller) {
-                var args_1 = [];
-                var injects = _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getFunctionArgs(this.config.controller);
-                injects.forEach(function (inject) {
-                    if (inject === _constants__WEBPACK_IMPORTED_MODULE_3__["Constants"].SCOPE_ATTRIBUTE_NAME) {
-                        args_1.push(_this.componentScope.element[_constants__WEBPACK_IMPORTED_MODULE_3__["Constants"].SCOPE_ATTRIBUTE_NAME]);
-                    }
-                    else {
-                        var injectValue = _this.componentScope[("" + inject).replace('$', '')];
-                        args_1.push(injectValue);
-                    }
-                });
-                this.componentScope[this.config.controllerAs] = new ((_a = this.config.controller).bind.apply(_a, [void 0].concat(args_1)))();
+                var args = [
+                    this.componentScope.element[_constants__WEBPACK_IMPORTED_MODULE_3__["Constants"].SCOPE_ATTRIBUTE_NAME],
+                    this.componentScope.mapDom.element,
+                    this.componentScope.mapDom,
+                ];
+                this.componentScope[this.config.controllerAs] = new ((_a = this.config.controller).bind.apply(_a, [void 0].concat(args)))();
             }
             this.contextObj = _magic_magic__WEBPACK_IMPORTED_MODULE_6__["Magic"].getContext(this.element);
             this.applyConstantsComponentMagic();
@@ -19248,13 +19106,14 @@ var Eval;
     Eval.isVariable = isVariable;
     function exec(source, context, prefix) {
         if (prefix === void 0) { prefix = ''; }
+        var contexts = Array.isArray(context) ? context : [context];
         var referenceSelf = "this." + (prefix ? prefix += '.' : ''), regex = /\$*[a-z0-9.$]+\s*/gi, keys = source.match(regex);
         if (keys && Array.isArray(keys)) {
             keys.forEach(function (str, i) {
                 var key = str.replace(/\s/g, ''), indexStart = getIndexStart(keys, i);
                 var indexEnd = indexStart + source.substring(indexStart, source.length).indexOf(key) + key.length;
                 if (!key.includes(referenceSelf)) {
-                    var isVar = !prefix.trim() ? context.hasOwnProperty(_common__WEBPACK_IMPORTED_MODULE_0__["Common"].getFirstKey(key)) : isVariable(key);
+                    var isVar = !prefix.trim() ? contexts.filter(function (c) { return c.hasOwnProperty(_common__WEBPACK_IMPORTED_MODULE_0__["Common"].getFirstKey(key)); }).length > 0 : isVariable(key);
                     if (isVar) {
                         source = replaceAt(source, key, "" + referenceSelf + key, indexStart, indexEnd);
                     }
@@ -19262,9 +19121,11 @@ var Eval;
             });
         }
         try {
-            return function (str) {
+            return function executeCode(str) {
+                var _this = this;
+                (contexts || []).forEach(function (c) { return Object.keys(c).forEach(function (key) { return _this[key] = c[key]; }); });
                 return eval(str);
-            }.call(context, source);
+            }.call({}, source);
         }
         catch (e) { }
     }
@@ -20117,7 +19978,7 @@ var CPAttr = /** @class */ (function () {
         this.attributes.forEach(function (attribute) {
             var attributeValue = _this.element.getAttribute(attribute);
             var attr = attribute.replace(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].ATTR_ATTRIBUTE_NAME + '.', '');
-            var value = _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getOrExec(_this.element, attributeValue);
+            var value = _common__WEBPACK_IMPORTED_MODULE_0__["Common"].evalInMultiContext(_this.element, attributeValue);
             if (value === undefined || value === null) {
                 _this.element.setAttribute(attr, '');
             }
@@ -20282,7 +20143,6 @@ var CPClass = /** @class */ (function () {
             });
         }
         catch (e) {
-            this.setClassByObject(_common__WEBPACK_IMPORTED_MODULE_0__["Common"].executeFunctionCallback(this.element, this.attribute));
         }
     };
     CPClass.prototype.removeClass = function (className) {
@@ -20731,7 +20591,7 @@ var CPInit = /** @class */ (function () {
     };
     CPInit.prototype.init = function () {
         this.attribute = this.attribute.trim();
-        _common__WEBPACK_IMPORTED_MODULE_0__["Common"].executeFunctionCallback(this.element, this.attribute);
+        _common__WEBPACK_IMPORTED_MODULE_0__["Common"].evalInMultiContext(this.element, this.attribute);
     };
     return CPInit;
 }());
@@ -21433,7 +21293,7 @@ var MapDom = /** @class */ (function () {
         if (prefix) {
             content = prefix + '.' + content;
         }
-        var evalValue = _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getParamValue(childNode, content.trim().startsWith(':') ? content.trim().slice(1) : content) + '';
+        var evalValue = _common__WEBPACK_IMPORTED_MODULE_0__["Common"].evalInMultiContext(childNode, content.trim().startsWith(':') ? content.trim().slice(1) : content) + '';
         evalValue = (evalValue.trim() !== undefined && (evalValue).trim() !== 'undefined' && (evalValue).trim() !== 'null') ? evalValue : '';
         return evalValue;
     };
