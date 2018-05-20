@@ -18041,7 +18041,7 @@ module.exports = function(module) {
 /*! exports provided: name, version, description, main, repository, scripts, author, license, dependencies, keywords, nyc, devDependencies, default */
 /***/ (function(module) {
 
-module.exports = {"name":"capivarajs","version":"3.1.0","description":"Um framework para criação de componentes.","main":"./index.js","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./config/webpack.dev.js","prod":"npm run test-single && webpack --config ./config/webpack.dev.js && webpack --config ./config/webpack.prod.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./config/webpack.dev.js --t true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.3.1"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^10.0.3","babel-loader":"^7.1.4","babel-polyfill":"^6.26.0","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.2","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.12","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.21.0","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.8.1","webpack-cli":"^2.1.3","webpack-dev-server":"^3.1.1","webpack-merge":"^4.1.2"}};
+module.exports = {"name":"capivarajs","version":"3.2.0","description":"Um framework para criação de componentes.","main":"./index.js","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./config/webpack.dev.js","prod":"npm run test-single && webpack --config ./config/webpack.dev.js && webpack --config ./config/webpack.prod.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./config/webpack.dev.js --t true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.4.3"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^10.0.3","babel-loader":"^7.1.4","babel-polyfill":"^6.26.0","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.2","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.12","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.21.0","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.8.1","webpack-cli":"^2.1.3","webpack-dev-server":"^3.1.1","webpack-merge":"^4.1.2"}};
 
 /***/ }),
 
@@ -18140,8 +18140,8 @@ var Common;
         return component ? true : false;
     }
     Common.isComponent = isComponent;
-    function executeFunctionCallback(element, attribute, evt, additionalParameters) {
-        return evalInMultiContext(element, attribute);
+    function executeFunctionCallback(element, attribute, additionalParameters) {
+        return evalInMultiContext(element, attribute, additionalParameters);
     }
     Common.executeFunctionCallback = executeFunctionCallback;
     function isNative(fn) {
@@ -18181,8 +18181,12 @@ var Common;
         return scopes;
     }
     Common.getAllScopes = getAllScopes;
-    function evalInMultiContext(element, condition) {
-        return evalInContext(condition, getAllScopes(element).map(function (scope) { return scope.scope; }));
+    function evalInMultiContext(element, condition, additionalParameters) {
+        var scopes = getAllScopes(element).map(function (scope) { return scope.scope; });
+        if (additionalParameters) {
+            scopes.push(additionalParameters);
+        }
+        return evalInContext(condition, scopes);
     }
     Common.evalInMultiContext = evalInMultiContext;
     function isValidCondition(element, condition) {
@@ -19127,7 +19131,9 @@ var Eval;
                 return eval(str);
             }.call({}, source);
         }
-        catch (e) { }
+        catch (e) {
+            console.error(e);
+        }
     }
     Eval.exec = exec;
 })(Eval || (Eval = {}));
@@ -20022,7 +20028,8 @@ var CPBlur = /** @class */ (function () {
         this.init();
     };
     CPBlur.prototype.onBlur = function (evt) {
-        _common__WEBPACK_IMPORTED_MODULE_0__["Common"].executeFunctionCallback(evt.target['cpBlur'].element, evt.target['cpBlur'].attribute, evt);
+        _common__WEBPACK_IMPORTED_MODULE_0__["Common"].executeFunctionCallback(evt.target['cpBlur'].element, evt.target['cpBlur'].attribute, (_a = {}, _a[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].EVENT_ATTRIBUTE_NAME] = evt, _a));
+        var _a;
     };
     CPBlur.prototype.init = function () {
         // Remove old event
@@ -20067,7 +20074,8 @@ var CPChange = /** @class */ (function () {
         this.init();
     };
     CPChange.prototype.onModelChange = function (newValue, oldValue) {
-        _common__WEBPACK_IMPORTED_MODULE_0__["Common"].executeFunctionCallback(this.element, this.attribute, null, { $newValue: newValue, $oldValue: oldValue });
+        console.log(newValue, oldValue);
+        _common__WEBPACK_IMPORTED_MODULE_0__["Common"].executeFunctionCallback(this.element, this.attribute, { $newValue: newValue, $oldValue: oldValue });
     };
     CPChange.prototype.init = function () {
         var modelAttribute = this.element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].MODEL_ATTRIBUTE_NAME).replace(_common__WEBPACK_IMPORTED_MODULE_0__["Common"].getScope(this.element).scope['__$controllerAs__'] + '.', '');
@@ -20125,7 +20133,7 @@ var CPClass = /** @class */ (function () {
                 .map(function (attr) {
                 return {
                     key: attr.substring(0, attr.indexOf(':')).replace(/'/g, "").replace(/"/, '').replace(/{/g, '').replace(/}/, ''),
-                    value: _common__WEBPACK_IMPORTED_MODULE_0__["Common"].evalInContext(attr.substring(attr.indexOf(':') + 1, attr.length).replace(/{/g, '').replace(/}/, ''), _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getScope(_this.element).scope),
+                    value: _common__WEBPACK_IMPORTED_MODULE_0__["Common"].evalInMultiContext(_this.element, attr.substring(attr.indexOf(':') + 1, attr.length).replace(/{/g, '').replace(/}/, '')),
                 };
             })
                 .forEach(function (cpClass) {
@@ -20213,7 +20221,8 @@ var CPClick = /** @class */ (function () {
         var _this = this;
         var onClick = function (evt) {
             _this.attribute = _this.attribute.trim();
-            _common__WEBPACK_IMPORTED_MODULE_1__["Common"].executeFunctionCallback(_this.element, _this.attribute, evt);
+            _common__WEBPACK_IMPORTED_MODULE_1__["Common"].executeFunctionCallback(_this.element, _this.attribute, (_a = {}, _a[_constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].EVENT_ATTRIBUTE_NAME] = evt, _a));
+            var _a;
         };
         // Remove old event
         this.element.removeEventListener(this.eventName, onClick);
@@ -20441,7 +20450,8 @@ var CPFocus = /** @class */ (function () {
         this.init();
     };
     CPFocus.prototype.onFocus = function (evt) {
-        _common__WEBPACK_IMPORTED_MODULE_0__["Common"].executeFunctionCallback(evt.target['cpFocus'].element, evt.target['cpFocus'].attribute, evt);
+        _common__WEBPACK_IMPORTED_MODULE_0__["Common"].executeFunctionCallback(evt.target['cpFocus'].element, evt.target['cpFocus'].attribute, (_a = {}, _a[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].EVENT_ATTRIBUTE_NAME] = evt, _a));
+        var _a;
     };
     CPFocus.prototype.init = function () {
         // Remove old event
@@ -20641,16 +20651,17 @@ var CPKey = /** @class */ (function () {
             var attribute = evt.target.getAttributeStartingWith(directiveName)[0].name;
             var indexSeparator = attribute.lastIndexOf('.');
             if (indexSeparator === -1) {
-                _common__WEBPACK_IMPORTED_MODULE_0__["Common"].executeFunctionCallback(evt.target[attribute].element, evt.target[attribute].element.getAttribute(attribute), evt);
+                _common__WEBPACK_IMPORTED_MODULE_0__["Common"].executeFunctionCallback(evt.target[attribute].element, evt.target[attribute].element.getAttribute(attribute), (_a = {}, _a[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].EVENT_ATTRIBUTE_NAME] = evt, _a));
             }
             else {
                 var watchKeyName = attribute.substring(attribute.lastIndexOf('.') + 1);
                 var watchKey = !isNaN(watchKeyName) ? Number(watchKeyName) : _core_util_keycodes_enum__WEBPACK_IMPORTED_MODULE_2__["KeyCode"][(watchKeyName || '').toUpperCase()];
                 if (watchKey !== undefined && evt.keyCode === watchKey) {
-                    _common__WEBPACK_IMPORTED_MODULE_0__["Common"].executeFunctionCallback(evt.target[attribute].element, evt.target[attribute].element.getAttribute(attribute), evt);
+                    _common__WEBPACK_IMPORTED_MODULE_0__["Common"].executeFunctionCallback(evt.target[attribute].element, evt.target[attribute].element.getAttribute(attribute), (_b = {}, _b[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].EVENT_ATTRIBUTE_NAME] = evt, _b));
                 }
             }
         }
+        var _a, _b;
     };
     CPKey.prototype.init = function () {
         var _this = this;
@@ -20781,8 +20792,9 @@ var CPMouse = /** @class */ (function () {
     CPMouse.prototype.onMouse = function (evt) {
         var directiveName = 'cp-' + evt.type;
         if (evt.target && evt.target[directiveName]) {
-            _common__WEBPACK_IMPORTED_MODULE_0__["Common"].executeFunctionCallback(evt.target[directiveName].element, evt.target[directiveName].element.getAttribute(directiveName), evt);
+            _common__WEBPACK_IMPORTED_MODULE_0__["Common"].executeFunctionCallback(evt.target[directiveName].element, evt.target[directiveName].element.getAttribute(directiveName), (_a = {}, _a[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].EVENT_ATTRIBUTE_NAME] = evt, _a));
         }
+        var _a;
     };
     CPMouse.prototype.init = function () {
         var _this = this;
@@ -20819,7 +20831,11 @@ var RepeatController = /** @class */ (function () {
     }
     RepeatController.prototype.$onViewInit = function () {
         var _this = this;
-        setTimeout(function () { return _this.$element.style.display = ''; }, 100);
+        setTimeout(function () {
+            if (_this.$element && _this.$element.style) {
+                _this.$element.style.display = '';
+            }
+        }, 100);
     };
     return RepeatController;
 }());
@@ -20868,16 +20884,16 @@ var CPRepeat = /** @class */ (function () {
         }
     }
     CPRepeat.prototype.create = function () {
+        this.attributeAlias = this.attribute.substring(0, this.attribute.indexOf(_constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].REPEAT_ATTRIBUTE_OPERATOR)).replace(/ /g, '');
+        this.attributeScope = this.attribute.substring(this.attribute.indexOf(_constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].REPEAT_ATTRIBUTE_OPERATOR) + _constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].REPEAT_ATTRIBUTE_OPERATOR.length, this.attribute.length).replace(/ /g, '');
         this.applyLoop();
     };
     CPRepeat.prototype.applyLoop = function () {
-        var attributeAlias = this.attribute.substring(0, this.attribute.indexOf(_constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].REPEAT_ATTRIBUTE_OPERATOR)).replace(/ /g, '');
-        var attributeScope = this.attribute.substring(this.attribute.indexOf(_constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].REPEAT_ATTRIBUTE_OPERATOR) + _constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].REPEAT_ATTRIBUTE_OPERATOR.length, this.attribute.length).replace(/ /g, '');
-        var array = lodash__WEBPACK_IMPORTED_MODULE_0__["get"](_common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(this.originalElement).scope, attributeScope);
+        var array = _common__WEBPACK_IMPORTED_MODULE_1__["Common"].evalInMultiContext(this.originalElement, this.attributeScope);
         if (array && !lodash__WEBPACK_IMPORTED_MODULE_0__["isEqual"](array, this.lastArray)) {
             this.lastArray = array.slice();
             this.removeChildes();
-            this.loop(array.slice().reverse(), attributeAlias);
+            this.loop(array.slice().reverse(), this.attributeAlias);
         }
     };
     CPRepeat.prototype.removeChildes = function () {
@@ -20891,13 +20907,15 @@ var CPRepeat = /** @class */ (function () {
             elm.removeAttribute(_constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].REPEAT_ATTRIBUTE_NAME);
             elm.classList.add('binding-repeat');
             _common__WEBPACK_IMPORTED_MODULE_1__["Common"].appendAfter(_this.referenceNode, elm);
-            elm.style.display = 'none';
+            if (elm && elm.style) {
+                elm.style.display = 'none';
+            }
             new _core__WEBPACK_IMPORTED_MODULE_3__["ComponentInstance"](elm, { controller: _cp_repeat_controller__WEBPACK_IMPORTED_MODULE_4__["RepeatController"] }).create();
             _common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(elm).scope[attributeAlias] = row;
             return elm;
         });
         this.elms.reverse().forEach(function (elm, index) { return _common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(elm).scope[_constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].REPEAT_INDEX_NAME] = index; });
-        var shift = Object.assign([], this.elms).shift();
+        var shift = Object.assign([], this.elms)[this.elms.length - 1];
         if (shift) {
             _common__WEBPACK_IMPORTED_MODULE_1__["Common"].appendAfter(shift, this.referenceNode.parentNode.appendChild(document.createComment('end repeat ' + this.attribute)));
         }
@@ -20996,7 +21014,7 @@ var CPStyle = /** @class */ (function () {
                 .map(function (attr) {
                 return {
                     key: attr.substring(0, attr.indexOf(':')).replace(/'/g, "").replace(/"/, '').replace(/{/g, '').replace(/}/, ''),
-                    value: _common__WEBPACK_IMPORTED_MODULE_0__["Common"].evalInContext(attr.substring(attr.indexOf(':') + 1, attr.length).replace(/{/g, '').replace(/}/, ''), _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getScope(_this.element).scope),
+                    value: _common__WEBPACK_IMPORTED_MODULE_0__["Common"].evalInMultiContext(_this.element, attr.substring(attr.indexOf(':') + 1, attr.length).replace(/{/g, '').replace(/}/, '')),
                 };
             })
                 .forEach(function (style) {
@@ -21627,9 +21645,7 @@ var Scope = /** @class */ (function () {
         });
     };
     Scope.prototype.$unwatch = function (key, callback) {
-        this.observers = this.observers.filter(function (observer) {
-            return observer.key !== key;
-        });
+        this.observers = this.observers.filter(function (observer) { return observer.key !== key; });
     };
     Scope.prototype.element = function (element) {
         if (this.cpElements[element] && this.cpElements[element].element === element) {

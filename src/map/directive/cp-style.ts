@@ -38,11 +38,11 @@ export class CPStyle implements Directive {
                 .map((attr) => {
                     return {
                         key: attr.substring(0, attr.indexOf(':')).replace(/'/g, "").replace(/"/, '').replace(/{/g, '').replace(/}/, ''),
-                        value: Common.evalInContext(attr.substring(attr.indexOf(':') + 1, attr.length).replace(/{/g, '').replace(/}/, ''), Common.getScope(this.element).scope),
+                        value: Common.evalInMultiContext(this.element, attr.substring(attr.indexOf(':') + 1, attr.length).replace(/{/g, '').replace(/}/, '')),
                     };
                 })
                 .forEach((style) => {
-                    if  (window['capivara'].isString(style.value)) {
+                    if (window['capivara'].isString(style.value)) {
                         this.element.style.setProperty(style.key.replace(/ /g, ''), style.value);
                     } else {
                         this.setStyleByObject(style.value);

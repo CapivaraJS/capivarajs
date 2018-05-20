@@ -84,9 +84,7 @@ export class Scope {
     }
 
     public $unwatch(key: string, callback) {
-        this.observers = this.observers.filter((observer) => {
-            return observer.key !== key;
-        });
+        this.observers = this.observers.filter((observer) => observer.key !== key);
     }
 
     public element(element) {

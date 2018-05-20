@@ -24,7 +24,7 @@ export class CPFocus implements Directive {
     }
 
     public onFocus(evt) {
-        Common.executeFunctionCallback(evt.target['cpFocus'].element, evt.target['cpFocus'].attribute, evt);
+        Common.executeFunctionCallback(evt.target['cpFocus'].element, evt.target['cpFocus'].attribute, { [Constants.EVENT_ATTRIBUTE_NAME] : evt });
     }
 
     public init() {

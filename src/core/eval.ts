@@ -47,6 +47,6 @@ export namespace Eval {
                 (contexts || []).forEach((c) => Object.keys(c).forEach((key) => this[key] = c[key]));
                 return eval(str);
             }.call({}, source);
-        } catch (e) { }
+        } catch (e) { console.error(e); }
     }
 }

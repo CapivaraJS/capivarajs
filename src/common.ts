@@ -83,8 +83,8 @@ export namespace Common {
         return component ? true : false;
     }
 
-    export function executeFunctionCallback(element, attribute, evt?, additionalParameters?) {
-        return evalInMultiContext(element, attribute);
+    export function executeFunctionCallback(element, attribute, additionalParameters?) {
+        return evalInMultiContext(element, attribute, additionalParameters);
     }
 
     export function isNative(fn) {
@@ -119,8 +119,12 @@ export namespace Common {
         return scopes;
     }
 
-    export function evalInMultiContext(element, condition) {
-        return evalInContext(condition, getAllScopes(element).map((scope) => scope.scope));
+    export function evalInMultiContext(element, condition, additionalParameters?) {
+        const scopes = getAllScopes(element).map((scope) => scope.scope);
+        if (additionalParameters) {
+            scopes.push(additionalParameters);
+        }
+        return evalInContext(condition, scopes);
     }
 
     export function isValidCondition(element, condition) {

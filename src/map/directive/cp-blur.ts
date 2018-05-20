@@ -24,7 +24,7 @@ export class CPBlur implements Directive {
     }
 
     public onBlur(evt) {
-        Common.executeFunctionCallback(evt.target['cpBlur'].element, evt.target['cpBlur'].attribute, evt);
+        Common.executeFunctionCallback(evt.target['cpBlur'].element, evt.target['cpBlur'].attribute, { [Constants.EVENT_ATTRIBUTE_NAME] : evt });
     }
 
     public init() {

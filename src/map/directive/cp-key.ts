@@ -36,12 +36,12 @@ export class CPKey implements Directive {
             const attribute = evt.target.getAttributeStartingWith(directiveName)[0].name;
             const indexSeparator = attribute.lastIndexOf('.');
             if (indexSeparator === -1) {
-                Common.executeFunctionCallback(evt.target[attribute].element, evt.target[attribute].element.getAttribute(attribute), evt);
+                Common.executeFunctionCallback(evt.target[attribute].element, evt.target[attribute].element.getAttribute(attribute), { [Constants.EVENT_ATTRIBUTE_NAME] : evt });
             } else {
                 const watchKeyName = attribute.substring(attribute.lastIndexOf('.') + 1);
                 const watchKey = !isNaN(watchKeyName) ? Number(watchKeyName) : KeyCode[(watchKeyName || '').toUpperCase()];
                 if (watchKey !== undefined && evt.keyCode === watchKey) {
-                    Common.executeFunctionCallback(evt.target[attribute].element, evt.target[attribute].element.getAttribute(attribute), evt);
+                    Common.executeFunctionCallback(evt.target[attribute].element, evt.target[attribute].element.getAttribute(attribute), { [Constants.EVENT_ATTRIBUTE_NAME] : evt });
                 }
             }
         }

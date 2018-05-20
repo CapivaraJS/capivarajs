@@ -40,7 +40,7 @@ export class CPClick implements Directive {
     public init() {
         const onClick = (evt) => {
             this.attribute = this.attribute.trim();
-            Common.executeFunctionCallback(this.element, this.attribute, evt);
+            Common.executeFunctionCallback(this.element, this.attribute, { [Constants.EVENT_ATTRIBUTE_NAME] : evt });
         };
         // Remove old event
         this.element.removeEventListener(this.eventName, onClick);

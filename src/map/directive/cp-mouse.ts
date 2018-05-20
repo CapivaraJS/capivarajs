@@ -32,7 +32,7 @@ export class CPMouse implements Directive {
     public onMouse(evt) {
         const directiveName = 'cp-' + evt.type;
         if (evt.target && evt.target[directiveName]) {
-            Common.executeFunctionCallback(evt.target[directiveName].element, evt.target[directiveName].element.getAttribute(directiveName), evt);
+            Common.executeFunctionCallback(evt.target[directiveName].element, evt.target[directiveName].element.getAttribute(directiveName), { [Constants.EVENT_ATTRIBUTE_NAME] : evt });
         }
     }
 
