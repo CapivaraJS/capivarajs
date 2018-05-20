@@ -230,9 +230,16 @@ export class MapDom {
 
     public getInterpolationValue(content, childNode, prefix?) {
         if (prefix) { content = prefix + '.' + content; }
-        let evalValue = Common.evalInMultiContext(childNode, content.trim().startsWith(':') ? content.trim().slice(1) : content) + '';
-        evalValue = (evalValue.trim() !== undefined && (evalValue).trim() !== 'undefined' && (evalValue).trim() !== 'null') ? evalValue : '';
-        return evalValue;
+        try {
+            let evalValue: any = Common.evalInMultiContext(childNode, content.trim().startsWith(':') ? content.trim().slice(1) : content) + '';
+            evalValue = (evalValue.trim() !== undefined
+                        && (evalValue).trim() !== 'undefined'
+                        && (evalValue).trim() !== 'null'
+                        && (evalValue).trim() !== 'NaN') ? evalValue : '';
+            return evalValue;
+        } catch (e) {
+            return '';
+        }
     }
 
     /**
@@ -278,7 +285,7 @@ export class MapDom {
             (nodeModified.match(/\${.+?}/g) || []).forEach((key) => {
                 const content = key.replace('${', '').replace('}', '');
                 try {
-                    const evalValue = this.getInterpolationValue(content, childNode, '$ctrl');
+                    const evalValue = this.getInterpolationValue(content, childNode, Common.getScope(this.element).scope['__$controllerAs__']);
                     nodeModified = nodeModified.replace(key, evalValue);
                     childNode.nodeValue = nodeModified;
                 } catch (e) { }

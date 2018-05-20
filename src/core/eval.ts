@@ -51,6 +51,6 @@ export namespace Eval {
                 }));
                 return eval(str);
             }.call({}, source);
-        } catch (e) { console.error(e); }
+        } catch (e) { throw e; }
     }
 }
