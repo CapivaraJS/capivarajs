@@ -44,7 +44,11 @@ export namespace Eval {
         }
         try {
             return function executeCode(str) {
-                (contexts || []).forEach((c) => Object.keys(c).forEach((key) => this[key] = c[key]));
+                (contexts || []).forEach((c) => Object.keys(c).forEach((key) => {
+                    if (!this[key]) {
+                        this[key] = c[key];
+                    }
+                }));
                 return eval(str);
             }.call({}, source);
         } catch (e) { console.error(e); }

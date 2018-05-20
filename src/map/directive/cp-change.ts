@@ -27,7 +27,6 @@ export class CPChange implements Directive {
     }
 
     public onModelChange(newValue, oldValue) {
-        console.log(newValue, oldValue);
         Common.executeFunctionCallback(this.element, this.attribute, { $newValue: newValue, $oldValue: oldValue });
     }
 
