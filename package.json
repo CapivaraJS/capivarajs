@@ -1,6 +1,6 @@
 {
   "name": "capivarajs",
-  "version": "3.2.2",
+  "version": "3.2.3",
   "description": "Um framework para criação de componentes.",
   "main": "./index.js",
   "repository": {
