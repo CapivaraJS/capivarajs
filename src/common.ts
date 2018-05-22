@@ -17,7 +17,9 @@ export namespace Common {
      */
     export function evalInContext(source, context: any, prefix?) {
         if (source) {
-            return Eval.exec(source, context, prefix);
+            try {
+                return Eval.exec(source, context, prefix);
+            } catch (e) { }
         }
     }
 
