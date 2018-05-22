@@ -18041,7 +18041,7 @@ module.exports = function(module) {
 /*! exports provided: name, version, description, main, repository, scripts, author, license, dependencies, keywords, nyc, devDependencies, default */
 /***/ (function(module) {
 
-module.exports = {"name":"capivarajs","version":"3.2.4","description":"Um framework para criação de componentes.","main":"./index.js","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./config/webpack.dev.js","prod":"npm run test-single && webpack --config ./config/webpack.dev.js && webpack --config ./config/webpack.prod.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./config/webpack.dev.js --t true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.4.3"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^10.0.3","babel-loader":"^7.1.4","babel-polyfill":"^6.26.0","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.2","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.12","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.21.0","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.8.1","webpack-cli":"^2.1.3","webpack-dev-server":"^3.1.1","webpack-merge":"^4.1.2"}};
+module.exports = {"name":"capivarajs","version":"3.2.5","description":"Um framework para criação de componentes.","main":"./index.js","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./config/webpack.dev.js","prod":"npm run test-single && webpack --config ./config/webpack.dev.js && webpack --config ./config/webpack.prod.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./config/webpack.dev.js --t true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.4.3"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^10.0.3","babel-loader":"^7.1.4","babel-polyfill":"^6.26.0","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.2","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.12","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.21.0","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.8.1","webpack-cli":"^2.1.3","webpack-dev-server":"^3.1.1","webpack-merge":"^4.1.2"}};
 
 /***/ }),
 
@@ -19529,6 +19529,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Observe", function() { return Observe; });
 /* harmony import */ var _polyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./polyfill */ "../src/core/observer/polyfill.ts");
 /* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./util */ "../src/core/observer/util.ts");
+/* harmony import */ var _scope_scope__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../scope/scope */ "../src/scope/scope.ts");
+
 
 
 var Observe;
@@ -19570,7 +19572,12 @@ var Observe;
         for (var i = 0; i < propsL; i++) {
             if (Object.prototype.toString.call(obj[props[i]]) === '[object Object]' || Array.isArray(obj[props[i]])) {
                 if (objCreated.indexOf(obj[props[i]]) === -1 && !obj[props[i]].__observer__) {
-                    this.create(obj[props[i]], handler, objCreated);
+                    if (props[i] === '$parent' && obj[props[i]] instanceof _scope_scope__WEBPACK_IMPORTED_MODULE_2__["Scope"]) {
+                        /** deixar dessa maneira para facilitar o debugger;  */
+                    }
+                    else {
+                        this.create(obj[props[i]], handler, objCreated);
+                    }
                 }
             }
             else {

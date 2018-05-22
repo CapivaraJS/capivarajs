@@ -177,7 +177,6 @@ export class ComponentInstance {
     */
     public createObserverScope(_bindings = {}, key) {
         const $ctrl = Common.getScope(this.element).scope[this.config.controllerAs];
-
         Object.defineProperty($ctrl, '_$$checkBindings', {
             value: (changes) => {
                 changes.forEach((change) => {
