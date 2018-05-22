@@ -1,6 +1,6 @@
+import { Scope } from '../../scope/scope';
 import { Polyfill } from './polyfill';
 import { Util } from './util';
-import { Scope } from '../../scope/scope';
 
 export namespace Observe {
 
@@ -40,11 +40,7 @@ export namespace Observe {
         for (let i = 0; i < propsL; i++) {
             if (Object.prototype.toString.call(obj[props[i]]) === '[object Object]' || Array.isArray(obj[props[i]])) {
                 if (objCreated.indexOf(obj[props[i]]) === -1 && !obj[props[i]].__observer__) {
-                    if (props[i] === '$parent' && obj[props[i]] instanceof Scope) {
-                        /** deixar dessa maneira para facilitar o debugger;  */
-                    } else {
-                        this.create(obj[props[i]], handler, objCreated);
-                    }
+                    this.create(obj[props[i]], handler, objCreated);
                 }
             } else {
                 Polyfill.watchProperty(obj, props[i], handler);

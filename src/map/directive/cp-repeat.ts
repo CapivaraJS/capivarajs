@@ -4,7 +4,6 @@ import { Constants } from '../../constants';
 import { ComponentInstance } from '../../core';
 import { Controller } from '../../core/controller';
 import { MapDom } from '../map-dom';
-import { RepeatController } from './cp-repeat.controller';
 import { Directive } from './directive.interface';
 
 export class CPRepeat implements Directive {
@@ -55,14 +54,22 @@ export class CPRepeat implements Directive {
         this.elms.forEach((elm) => this.referenceNode.parentNode.removeChild(elm));
     }
 
+    private afterLoop() {
+        setTimeout(() => {
+            this.elms.forEach((elm) => {
+                elm.style.visibility = 'visible';
+            });
+        }, 1);
+    }
+
     public loop(array, attributeAlias) {
         this.elms = array.map((row, index) => {
             const elm = this.element.cloneNode(true);
             elm.removeAttribute(Constants.REPEAT_ATTRIBUTE_NAME);
+            new Controller(elm, () => {});
             elm.classList.add('binding-repeat');
+            elm.style.visibility = 'hidden';
             Common.appendAfter(this.referenceNode, elm);
-            if (elm && elm.style) { elm.style.display = 'none'; }
-            new ComponentInstance(elm, { controller: RepeatController }).create();
             Common.getScope(elm).scope[attributeAlias] = row;
             return elm;
         });
@@ -71,6 +78,7 @@ export class CPRepeat implements Directive {
         if (shift) {
             Common.appendAfter(shift, this.referenceNode.parentNode.appendChild(document.createComment('end repeat ' + this.attribute)));
         }
+        this.afterLoop();
     }
 
 }

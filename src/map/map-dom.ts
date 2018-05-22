@@ -35,10 +35,10 @@ export class MapDom {
         /**
          * Array com os cp-repeat
          */
+        cpIfs: [],
         cpModels: [],
         repeats: [],
         cpShows: [],
-        cpIfs: [],
         cpElses: [],
         cpElseIfs: [],
         cpStyles: [],
@@ -95,9 +95,7 @@ export class MapDom {
             Object.keys(this.directives).forEach((key) => {
                 const directives = this.directives[key];
                 if (Array.isArray(directives)) {
-                    directives.forEach((directive) => {
-                        directive.create();
-                    });
+                    directives.forEach((directive) => directive.create());
                 }
             });
             this.$viewInit();
@@ -154,10 +152,7 @@ export class MapDom {
     public reloadDirectives() {
         // Update input values
         Object.keys(this.directives.cpModelsElements)
-            .forEach((key) => {
-                this.directives.cpModelsElements[key]
-                    .forEach((bind) => bind.applyModelInValue());
-            });
+            .forEach((key) => this.directives.cpModelsElements[key].forEach((bind) => bind.applyModelInValue()));
         // Update cp repeats
         this.directives.repeats.forEach((repeat) => repeat.applyLoop());
 
@@ -215,6 +210,22 @@ export class MapDom {
         this.reloadElementChildes(this.element, Common.getScope(this.element));
     }
 
+    private deepText(node) {
+        let A = [];
+        if (node) {
+            node = node.firstChild;
+            while (node != null) {
+                if (node.nodeType === 3) {
+                    A[A.length] = node;
+                } else {
+                    A = A.concat(this.deepText(node));
+                }
+                node = node.nextSibling;
+            }
+        }
+        return A;
+    }
+
     /**
      * @description Percorre os elementos para processar os interpolations.
      * @param element
@@ -222,9 +233,7 @@ export class MapDom {
     public processInterpolation(element) {
         if (element.timeLastReload) { clearTimeout(element.timeLastReload); }
         element.timeLastReload = setTimeout(() => {
-            Array.from(element.childNodes).forEach((childNode: any) => {
-                this.interpolation(childNode);
-            });
+            this.deepText(element).forEach((childNode) => this.interpolation(childNode));
         }, 1);
     }
 
@@ -233,9 +242,9 @@ export class MapDom {
         try {
             let evalValue: any = Common.evalInMultiContext(childNode, content.trim().startsWith(':') ? content.trim().slice(1) : content) + '';
             evalValue = (evalValue.trim() !== undefined
-                        && (evalValue).trim() !== 'undefined'
-                        && (evalValue).trim() !== 'null'
-                        && (evalValue).trim() !== 'NaN') ? evalValue : '';
+                && (evalValue).trim() !== 'undefined'
+                && (evalValue).trim() !== 'null'
+                && (evalValue).trim() !== 'NaN') ? evalValue : '';
             return evalValue;
         } catch (e) {
             return '';
@@ -247,10 +256,10 @@ export class MapDom {
      * @param childNode
      */
     public interpolation(childNode) {
-        if (childNode.nodeName === '#text' && !Common.parentHasIgnore(childNode)) {
+        if (!Common.parentHasIgnore(childNode)) {
+            childNode.originalValue = childNode.originalValue || childNode.nodeValue;
             childNode.$immutableInterpolation = childNode.$immutableInterpolation || false;
             if (childNode.$immutableInterpolation) { return; }
-            childNode.originalValue = childNode.originalValue || childNode.nodeValue;
             let nodeModified = childNode.originalValue, str = childNode.originalValue;
             str = window['capivara'].replaceAll(str, Constants.START_INTERPOLATION, '{{');
             str = window['capivara'].replaceAll(str, Constants.END_INTERPOLATION, '}}');
@@ -275,7 +284,7 @@ export class MapDom {
 
         }
         if (childNode.childNodes) {
-            this.processInterpolation(childNode);
+            setTimeout(() => this.processInterpolation(childNode), 1);
         }
     }
 

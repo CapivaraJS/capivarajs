@@ -83,6 +83,17 @@ export namespace Common {
         return component ? true : false;
     }
 
+    export function insideComponent(element) {
+        if (element && element.parentNode) {
+            if (isComponent(element.parentNode)) {
+                return true;
+            } else {
+                return insideComponent(element.parentNode);
+            }
+        }
+        return false;
+    }
+
     export function executeFunctionCallback(element, attribute, additionalParameters?) {
         return evalInMultiContext(element, attribute, additionalParameters);
     }
