@@ -38,10 +38,20 @@ export class Capivara {
                 },
             });
         }
-        document.addEventListener("DOMContentLoaded", (event) => {
-            this.createComponents();
-            this.createListeners();
-        });
+
+        if (document.readyState === 'complete' ||
+            (document.readyState !== 'loading' && !document.documentElement['doScroll'])
+        ) {
+            setTimeout(() => {
+                this.createListeners();
+                this.createComponents();
+            });
+        } else {
+            document.addEventListener("DOMContentLoaded", (event) => {
+                this.createListeners();
+                this.createComponents();
+            });
+        }
     }
 
     public createComponents() {
@@ -73,12 +83,12 @@ export class Capivara {
     }
 
     public onMutation(mutations) {
-        mutations.forEach((mutation) => {
+        (mutations || []).forEach((mutation) => {
             if (mutation.type === 'childList') {
-                mutation.addedNodes.forEach((addedNode) => {
+                ((mutation && mutation.addedNodes && mutation.addedNodes.forEach) ? mutation.addedNodes : []).forEach((addedNode) => {
                     this.constroyIfComponent(addedNode);
                 });
-                mutation.removedNodes.forEach((removedNode) => {
+                ((mutation && mutation.removedNodes && mutation.removedNodes.forEach) ? mutation.removedNodes : []).forEach((removedNode) => {
                     this.destroyIfComponent(removedNode);
                 });
             }
@@ -87,13 +97,15 @@ export class Capivara {
 
     public createListeners() {
         const MutationObserver = window['MutationObserver'] || window['WebKitMutationObserver'] || window['MozMutationObserver'];
-        const observer = new MutationObserver((mutations) => this.onMutation(mutations));
-        observer.observe(document.body, {
-            attributes: false,
-            childList: true,
-            subtree: true,
-            characterData: false,
-        });
+        if (MutationObserver) {
+            const observer = new MutationObserver((mutations) => this.onMutation(mutations));
+            observer.observe(document.body, {
+                attributes: false,
+                childList: true,
+                subtree: true,
+                characterData: false,
+            });
+        }
     }
 
     /**
