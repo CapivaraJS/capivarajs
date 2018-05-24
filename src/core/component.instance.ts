@@ -1,12 +1,12 @@
 import * as _ from 'lodash';
-import WatchJS from 'melanke-watchjs';
+import smartObserve from 'smart-observe';
 import { Common } from '../common';
 import { Constants } from '../constants';
+import capivara from '../index';
 import { ScopeProxy } from '../scope/scope.proxy';
 import { ComponentConfig } from './component.config';
 import { Controller } from './controller';
 import { Magic } from './magic/magic';
-import { Observe } from './observer';
 
 export class ComponentInstance {
 
@@ -71,7 +71,8 @@ export class ComponentInstance {
                     this.componentScope.mapDom.element,
                     this.componentScope.mapDom,
                 ];
-                this.componentScope[this.config.controllerAs] = new this.config.controller(...args);
+                const controller = new this.config.controller(...args);
+                this.componentScope[this.config.controllerAs] = controller;
             }
             this.contextObj = Magic.getContext(this.element);
             this.applyConstantsComponentMagic();
@@ -116,11 +117,10 @@ export class ComponentInstance {
     public destroy() {
         this.destroyed = true;
         this.element[Constants.SCOPE_ATTRIBUTE_NAME].destroy();
-        Observe.unobserve(this.componentScope[this.config.controllerAs]);
         if (this.componentScope[this.config.controllerAs] && this.componentScope[this.config.controllerAs].$destroy) {
             this.componentScope[this.config.controllerAs].$destroy();
         }
-        window['capivara'].scopes = window['capivara'].scopes.filter((scope) => {
+        capivara.scopes = capivara.scopes.filter((scope) => {
             return scope.id !== this.componentScope.element[Constants.SCOPE_ATTRIBUTE_NAME].id;
         });
     }
@@ -151,7 +151,6 @@ export class ComponentInstance {
         (this.config.bindings || []).forEach((key) => {
             this.setAttributeValue(this.bindingsValue, key);
             this.createObserverContext(this.bindingsValue, key);
-            this.createObserverScope(this.bindingsValue, key);
         });
     }
 
@@ -167,28 +166,24 @@ export class ComponentInstance {
                 this.bindingsValue[bindingKey] = valueAttribute;
                 this.setAttributeValue(this.bindingsValue, bindingKey);
                 this.createObserverContext(this.bindingsValue, bindingKey);
-                this.createObserverScope(this.bindingsValue, bindingKey);
             }
         });
     }
 
-    /**
-    * @description Observa o componente quando houver alteração é modificado o contexto
-    */
-    public createObserverScope(_bindings = {}, key) {
+    public $$checkBindings() {
         const $ctrl = Common.getScope(this.element).scope[this.config.controllerAs];
-        Object.defineProperty($ctrl, '_$$checkBindings', {
-            value: (changes) => {
-                changes.forEach((change) => {
-                    if (change.type === 'update' && _bindings.hasOwnProperty(change.name)) {
-                        _.set(this.contextObj, _bindings[change.name], $ctrl['$bindings'][change.name]);
-                        this.forceUpdateContext();
-                        Common.getScope(this.element).mapDom.reload();
-                    }
-                });
-            },
-            writable: true,
+        let forceUpdate = false;
+        Object.keys(this.bindingsValue).forEach((key) => {
+            const oldValue = _.get(this.contextObj, this.bindingsValue[key]);
+            const newValue = $ctrl['$bindings'][key];
+            if (!capivara.equals(oldValue, newValue)) {
+                forceUpdate = true;
+                _.set(this.contextObj, this.bindingsValue[key], $ctrl['$bindings'][key]);
+            }
         });
+        if (forceUpdate) {
+            this.forceUpdateContext();
+        }
     }
 
     private forceUpdateContext() {
@@ -219,7 +214,9 @@ export class ComponentInstance {
     }
 
     public observeAndSetValues(obj, _bindings, key) {
-        Observe.observe(obj, (changes) => this.setAttributeValue(_bindings, key));
+        smartObserve.watch(obj, key, () => {
+            this.setAttributeValue(_bindings, key);
+        });
     }
 
     public createObserverContext(_bindings, key) {
@@ -233,21 +230,14 @@ export class ComponentInstance {
                 this.observeAndSetValues(this.contextObj, _bindings, key);
             }
         } else {
-            const attrToObserve = ComponentInstance.getFirstAttribute(_bindings, key);
-            this.listenerContextBindings[attrToObserve] = this.listenerContextBindings[attrToObserve] || [];
-            WatchJS.watch(this.contextObj, attrToObserve,
-                () => {
-                    this.listenerContextBindings[attrToObserve].forEach((keyListener) => {
-                        this.setAttributeValue(_bindings, keyListener);
-                    });
-                });
-            this.listenerContextBindings[attrToObserve].push(key);
+            smartObserve.watch(this.contextObj, _bindings[key], (newValue, oldValue) => {
+               this.setAttributeValue(_bindings, key);
+            });
         }
     }
 
     public setAttributeValue(_bindings = {}, key) {
         _.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$bindings.' + key, _.get(this.contextObj, _bindings[key]));
-        _.set(Common.getScope(this.element).scope, '$bindings.' + key, _.get(this.contextObj, _bindings[key]));
         Common.getScope(this.element).mapDom.reload();
     }
 
@@ -263,7 +253,6 @@ export class ComponentInstance {
     public applyConstantsComponentMagic() {
         if (!Common.getScope(this.element).scope[this.config.controllerAs]['$constants']) {
             _.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$constants', {});
-            _.set(Common.getScope(this.element).scope, '$constants', {});
         }
         (this.config.constants || []).forEach((constantKey) => {
             const bindAttribute = constantKey.replace(/([A-Z])/g, "-$1").toLowerCase();
@@ -271,7 +260,6 @@ export class ComponentInstance {
             if (valueAttribute) {
                 const constantValue = Common.evalInContext(valueAttribute, this.contextObj);
                 _.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$constants.' + constantKey, constantValue);
-                _.set(Common.getScope(this.element).scope, '$constants.' + constantKey, constantValue);
             }
         });
     }
@@ -279,8 +267,6 @@ export class ComponentInstance {
     public applyConstantsComponentBuilder() {
         (this.config.constants || []).forEach((key) => {
             _.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$constants.' + key, this.constantsValue[key]);
-            // Mantém compatibilidade
-            _.set(Common.getScope(this.element).scope, '$constants.' + key, this.constantsValue[key]);
         });
     }
 
@@ -292,7 +278,6 @@ export class ComponentInstance {
     public applyFunctionsComponentMagic() {
         if (!Common.getScope(this.element).scope[this.config.controllerAs]['$functions']) {
             _.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$functions', {});
-            _.set(Common.getScope(this.element).scope, '$functions', {});
         }
         (this.config.functions || []).forEach((functionKey) => {
             const bindAttribute = functionKey.replace(/([A-Z])/g, "-$1").toLowerCase();
@@ -304,7 +289,6 @@ export class ComponentInstance {
                     value: this.contextObj,
                 });
                 _.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$functions.' + functionKey, callback);
-                _.set(Common.getScope(this.element).scope, '$functions.' + functionKey, callback);
             }
         });
     }

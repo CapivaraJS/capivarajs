@@ -20,7 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "lodash": "^4.17.5",
-    "melanke-watchjs": "^1.4.3"
+    "smart-observe": "^1.0.4"
   },
   "keywords": [
     "frameworkjs",

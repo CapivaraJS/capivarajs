@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <my-component #myComponent></my-component>
+    <my-component ></my-component>
     
     <script src="/dist/capivara.js"></script>
     <script>
@@ -18,15 +18,17 @@
             `,
             controller: function(){
                 const $ctrl = this;
-                $ctrl.btnText = 'Click me';
-        
+                
+                $ctrl.$onInit = () => {
+                    $ctrl.btnText = 'Click me';
+                }
+
                 $ctrl.clicked = function(){
                     $ctrl.btnText = 'Clicked';
                 };
         
             }
         });
-        capivara.componentBuilder('myComponent').then((instance) => instance.build())
     </script>
 </body>
 </html>

@@ -1,8 +1,11 @@
+import smartObserve from 'smart-observe';
 import { Common } from '../common';
 import { Constants } from '../constants';
 import { CapivaraElement } from '../core/element';
 import { Eval } from '../core/eval';
+import { Magic } from '../core/magic/magic';
 import { MapDom } from '../map/map-dom';
+import observe from './observer';
 import { ScopeProxy } from './scope.proxy';
 
 export class Scope {
@@ -16,7 +19,7 @@ export class Scope {
 
     public watchers;
 
-    public observers;
+    public observers = [];
 
     public id;
 
@@ -34,8 +37,6 @@ export class Scope {
         if (!_element['$instance']) {
             this.$emit('$onInit');
         }
-        this.observers = [];
-        this.$on('$onChanges', this.onChanges);
     }
 
     public getScopeProxy() {
@@ -67,12 +68,14 @@ export class Scope {
         return Eval.exec(this.scope, source);
     }
 
-    public onChanges(changes) {
-        this.observers.forEach((observer) => {
-            changes.filter((change) => change.type === 'update' && change.name === observer.key).forEach((change) => {
-                observer.callback.call(observer.ctx, change.object[change.name], change.oldValue);
+    public verifyWatchers(change) {
+        if (change && change.name) {
+            this.observers.forEach((observer) => {
+                if (observer.key === change.name) {
+                    observer.callback.call(observer.ctx, change.object[change.name], change.oldValue);
+                }
             });
-        });
+        }
     }
 
     public $watch(key: string, callback?, ctx?) {
@@ -81,10 +84,6 @@ export class Scope {
             callback,
             ctx,
         });
-    }
-
-    public $unwatch(key: string, callback) {
-        this.observers = this.observers.filter((observer) => observer.key !== key);
     }
 
     public element(element) {

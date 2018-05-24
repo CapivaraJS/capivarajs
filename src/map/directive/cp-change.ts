@@ -9,6 +9,7 @@ export class CPChange implements Directive {
     private attribute;
     private element: any;
     private map: MapDom;
+    private initiated;
 
     constructor(_element: HTMLElement, _map: MapDom) {
         this.element = _element;
@@ -31,8 +32,9 @@ export class CPChange implements Directive {
     }
 
     public init() {
+        if (this.initiated) { return; }
+        this.initiated = true;
         const modelAttribute = this.element.getAttribute(Constants.MODEL_ATTRIBUTE_NAME).replace(Common.getScope(this.element).scope['__$controllerAs__'] + '.', '');
-        Common.getScope(this.element).$unwatch(modelAttribute, this.onModelChange);
         Common.getScope(this.element).$watch(modelAttribute, this.onModelChange, this);
     }
 }

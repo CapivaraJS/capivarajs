@@ -1,7 +1,8 @@
 import * as _ from 'lodash';
+import smartObserve from 'smart-observe';
 import { Constants } from '../constants';
-import { Observe } from '../core/observer';
 import { MapDom } from '../map/map-dom';
+import observe from './observer';
 import { Scope } from './scope';
 
 export class ScopeProxy {
@@ -18,11 +19,13 @@ export class ScopeProxy {
     public createWatcherScope(scope, objectObserve) {
         if (this.element['$instance']) {
             scope.$on('$onInit', () => {
-                Observe.observe(objectObserve[this.element['$instance'].config.controllerAs], (changes) => {
-                    this.updateScopes(objectObserve.element[Constants.SCOPE_ATTRIBUTE_NAME]);
-                    scope.$emit('$onChanges', changes);
-                    this.executeObservers(objectObserve, '$onChanges', changes);
-                    this.executeObservers(objectObserve, '_$$checkBindings', changes);
+                console.log(objectObserve[this.element['$instance'].config.controllerAs]);
+                observe(objectObserve[this.element['$instance'].config.controllerAs], (newValue) => {
+                    // this.updateScopes(objectObserve.element[Constants.SCOPE_ATTRIBUTE_NAME]);
+                    // this.executeObservers(objectObserve, '$onChanges', newValue);
+                    // this.element['$instance'].$$checkBindings();
+                    // scope.verifyWatchers(newValue);
+                    // console.log('oi');
                 });
             });
         }
