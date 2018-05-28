@@ -4,7 +4,7 @@ import { Capivara } from './core/capivara';
     if (!capivara) {
         window["capivara"] = new Capivara();
     } else {
-        console.warn("CapivaraJS tried to load more than once.");
+        console.warn("Gee! CapivaraJS tried to load more than once.");
     }
 })(window["capivara"]);
 
