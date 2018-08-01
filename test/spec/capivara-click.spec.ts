@@ -1,6 +1,6 @@
 import { } from 'jasmine';
 import capivara from '../../src/index';
-import { CPClick } from '../../src/map/directive/cp-click';
+import { CPEventHandler } from '../../src/map/directive/cp-event-handler';
 
 describe('test of click without parameters', () => {
     const template = `
@@ -134,7 +134,7 @@ describe('test methods', () => {
         };
 
         $ctrl.$onViewInit = () => {
-            const cpClick = new CPClick(element.querySelector('button'), null);
+            const cpClick = new CPEventHandler(element.querySelector('button'), null);
             it('Should create the click event', (done) => {
                 cpClick.create();
                 element.querySelector('button').click();

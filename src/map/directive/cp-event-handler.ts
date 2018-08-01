@@ -22,7 +22,7 @@ export class CPEventHandler implements Directive {
         } else if (this.element.hasAttribute(Constants.INPUT_ATTRIBUTE_NAME)) {
             this.attribute = this.element.getAttribute(Constants.INPUT_ATTRIBUTE_NAME);
             this.eventName = 'input';
-        } else {
+        } else if (!this.attribute) {
             throw new Error(`syntax error cp-${this.eventName} expected arguments`);
         }
     }
