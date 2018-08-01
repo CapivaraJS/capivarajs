@@ -18,6 +18,7 @@ export const Constants = {
     INIT_ATTRIBUTE_NAME       : 'cp-init',
     STYLE_ATTRIBUTE_NAME      : 'cp-style',
     CLASS_ATTRIBUTE_NAME      : 'cp-class',
+    INPUT_ATTRIBUTE_NAME      : 'cp-input',
     SRC_ATTRIBUTE_NAME        : 'cp-src',
     KEY_ATTRIBUTE_NAME        : 'cp-key',
     ATTR_ATTRIBUTE_NAME       : 'cp-attr',

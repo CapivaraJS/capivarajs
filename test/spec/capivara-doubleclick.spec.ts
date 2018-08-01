@@ -1,6 +1,6 @@
 import {} from 'jasmine';
 import capivara from '../../src/index';
-import {CPClick} from '../../src/map/directive/cp-click';
+import {CPEventHandler} from '../../src/map/directive/cp-event-handler';
 
 function triggerDoubeClick(element) {
     const doubleClickEvent = document.createEvent('MouseEvents');
@@ -117,7 +117,7 @@ describe('Directive cp-dblclick', () => {
                 $ctrl.clicked = true;
             };
         });
-        const cpClick = new CPClick(element.querySelector('button'), null);
+        const cpClick = new CPEventHandler(element.querySelector('button'), null);
         cpClick.create();
         triggerDoubeClick(element);
         setTimeout(() => {
