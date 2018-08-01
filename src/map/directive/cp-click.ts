@@ -1,8 +1,8 @@
 import * as _ from 'lodash';
-import {Common} from '../../common';
-import {Constants} from '../../constants';
-import {MapDom} from '../map-dom';
-import {Directive} from './directive.interface';
+import { Common } from '../../common';
+import { Constants } from '../../constants';
+import { MapDom } from '../map-dom';
+import { Directive } from './directive.interface';
 
 export class CPClick implements Directive {
 
@@ -16,11 +16,13 @@ export class CPClick implements Directive {
         this.map = _map;
         this.attribute = this.element.getAttribute(Constants.CLICK_ATTRIBUTE_NAME);
         this.eventName = 'click';
-        if (!this.attribute) {
+        if (this.element.hasAttribute(Constants.DBLCLICK_ATTRIBUTE_NAME)) {
             this.attribute = this.element.getAttribute(Constants.DBLCLICK_ATTRIBUTE_NAME);
             this.eventName = 'dblclick';
-        }
-        if (!this.attribute) {
+        } else if (this.element.hasAttribute(Constants.INPUT_ATTRIBUTE_NAME)) {
+            this.attribute = this.element.getAttribute(Constants.INPUT_ATTRIBUTE_NAME);
+            this.eventName = 'input';
+        } else {
             throw new Error(`syntax error cp-${this.eventName} expected arguments`);
         }
     }
@@ -40,7 +42,7 @@ export class CPClick implements Directive {
     public init() {
         const onClick = (evt) => {
             this.attribute = this.attribute.trim();
-            Common.executeFunctionCallback(this.element, this.attribute, { [Constants.EVENT_ATTRIBUTE_NAME] : evt });
+            Common.executeFunctionCallback(this.element, this.attribute, { [Constants.EVENT_ATTRIBUTE_NAME]: evt });
         };
         // Remove old event
         this.element.removeEventListener(this.eventName, onClick);
