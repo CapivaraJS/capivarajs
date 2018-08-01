@@ -4,7 +4,7 @@ import { Constants } from '../../constants';
 import { MapDom } from '../map-dom';
 import { Directive } from './directive.interface';
 
-export class CPClick implements Directive {
+export class CPEventHandler implements Directive {
 
     private readonly element: any;
     private readonly eventName;
@@ -40,13 +40,13 @@ export class CPClick implements Directive {
     }
 
     public init() {
-        const onClick = (evt) => {
+        const triggerEvent = (evt) => {
             this.attribute = this.attribute.trim();
             Common.executeFunctionCallback(this.element, this.attribute, { [Constants.EVENT_ATTRIBUTE_NAME]: evt });
         };
         // Remove old event
-        this.element.removeEventListener(this.eventName, onClick);
+        this.element.removeEventListener(this.eventName, triggerEvent);
         // Add new event
-        this.element.addEventListener(this.eventName, onClick);
+        this.element.addEventListener(this.eventName, triggerEvent);
     }
 }

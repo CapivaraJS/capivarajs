@@ -5,10 +5,10 @@ import { CPAttr } from './directive/cp-attr';
 import { CPBlur } from './directive/cp-blur';
 import { CPChange } from './directive/cp-change';
 import { CPClass } from './directive/cp-class';
-import { CPClick } from './directive/cp-click';
 import { CPDisabled } from './directive/cp-disabled';
 import { CPElse } from './directive/cp-else';
 import { CPElseIf } from './directive/cp-else-if';
+import { CPEventHandler } from './directive/cp-event-handler';
 import { CPFocus } from './directive/cp-focus';
 import { CPHide } from './directive/cp-hide';
 import { CPIf } from './directive/cp-if';
@@ -43,7 +43,7 @@ export class MapDom {
         cpElseIfs: [],
         cpStyles: [],
         cpClasses: [],
-        cpClicks: [],
+        cpEventsHandler: [],
         cpInits: [],
         cpKeys: [],
         cpAttrs: [],
@@ -119,7 +119,9 @@ export class MapDom {
     public createDirectives(child) {
         if (child.hasAttribute(Constants.MODEL_ATTRIBUTE_NAME)) { this.createCPModel(child); }
         if (child.hasAttribute(Constants.IF_ATTRIBUTE_NAME)) { this.createCPIf(child); }
-        if (child.hasAttribute(Constants.CLICK_ATTRIBUTE_NAME) || child.hasAttribute(Constants.DBLCLICK_ATTRIBUTE_NAME) || child.hasAttribute(Constants.INPUT_ATTRIBUTE_NAME)) { this.createCPClick(child); }
+        if (child.hasAttribute(Constants.CLICK_ATTRIBUTE_NAME) ||
+            child.hasAttribute(Constants.DBLCLICK_ATTRIBUTE_NAME) ||
+            child.hasAttribute(Constants.INPUT_ATTRIBUTE_NAME)) { this.createCPEventHandler(child); }
         if (child.hasAttribute(Constants.REPEAT_ATTRIBUTE_NAME)) { this.createCPRepeat(child); }
         if (child.hasAttribute(Constants.SHOW_ATTRIBUTE_NAME)) { this.createCPShow(child); }
         if (child.hasAttribute(Constants.ELSE_ATTRIBUTE_NAME)) { this.createCPElse(child); }
@@ -330,8 +332,8 @@ export class MapDom {
      *
      * @param child Elemento que está sendo criado o bind de click, dblclick e input
      */
-    public createCPClick(child) {
-        this.directives.cpClicks.push(new CPClick(child, this));
+    public createCPEventHandler(child) {
+        this.directives.cpEventsHandler.push(new CPEventHandler(child, this));
     }
 
     /**
