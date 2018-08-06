@@ -29,10 +29,10 @@ export class ScopeProxy {
     }
 
     private updateScopes(scope) {
-        scope.mapDom.reload();
-        if (scope.$parent) {
-            this.updateScopes(scope.$parent);
-        }
+      scope.mapDom.reload();
+      if (scope.$parent) {
+          this.updateScopes(scope.$parent);
+      }
     }
 
     private executeObservers(objectObserve, observeName, changes) {
