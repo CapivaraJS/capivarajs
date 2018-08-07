@@ -32,7 +32,7 @@ _____________________________________________________________________
 
 _____________________________________________________________________
 
-Nowadays there are a lot of frameworks to component criation, but these components become isolated in the technology. and this increase the complexity to migrate them.
+Nowadays there are a lot of frameworks to component creation, but these components become isolated in the technology. and this increase the complexity to migrate them.
 
 We create a **hibrid framework** and yours directives are totaly customizable, making your components independent of the used technology
 
