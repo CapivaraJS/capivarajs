@@ -102,4 +102,8 @@ export class Scope {
         });
     }
 
+    public refresh() {
+      this.mapDom.reload();
+    }
+
 }

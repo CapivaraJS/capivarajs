@@ -51,7 +51,9 @@ export class CPRepeat implements Directive {
   }
 
   public removeChildes() {
-    this.elms.forEach((elm) => this.referenceNode.parentNode.removeChild(elm));
+    this.elms.forEach((elm) => {
+      this.referenceNode.parentNode.removeChild(elm);
+    });
   }
 
   private afterLoop() {
