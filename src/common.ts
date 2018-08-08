@@ -155,8 +155,9 @@ export namespace Common {
 
   export function setScopeId(scope) {
     if (!scope.id) {
+      capivara.LAST_SCOPE_ID++;
       window['capivara'].scopes.push(scope);
-      scope.id = window['capivara'].scopes.length;
+      scope.id = capivara.LAST_SCOPE_ID;
     }
   }
 

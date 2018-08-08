@@ -121,7 +121,8 @@ export class ComponentInstance {
       this.componentScope[this.config.controllerAs].$destroy();
     }
     window['capivara'].scopes = window['capivara'].scopes.filter((scope) => {
-      return scope.id !== this.componentScope.element[Constants.SCOPE_ATTRIBUTE_NAME].id;
+      return scope.id !== this.componentScope.element[Constants.SCOPE_ATTRIBUTE_NAME].id &&
+             scope.id !== this.contextObj.element[Constants.SCOPE_ATTRIBUTE_NAME].id;
     });
   }
 

@@ -15,6 +15,7 @@ export class Capivara {
   public components;
   public $watchers;
   public version;
+  public LAST_SCOPE_ID = 0;
 
   constructor() {
     this.version = packageJson.version;
