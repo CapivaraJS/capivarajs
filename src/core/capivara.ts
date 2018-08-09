@@ -29,6 +29,7 @@ export class Capivara {
             return attributeNode.nodeName.indexOf(attr) === 0;
           });
         },
+        configurable: true,
       });
     }
     if (!Element.prototype.hasOwnProperty('hasAttributeStartingWith')) {
@@ -36,6 +37,7 @@ export class Capivara {
         value: function hasAttributeStartingWith(attr) {
           return this.getAttributeStartingWith(attr).length > 0;
         },
+        configurable: true,
       });
     }
 

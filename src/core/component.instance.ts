@@ -83,6 +83,7 @@ export class ComponentInstance {
       }
       Object.defineProperty(this.componentScope, '__$controllerAs__', {
         value: this.config.controllerAs,
+        configurable: true,
       });
       Common.getScope(this.element).$emit('$onInit');
       Common.getScope(this.element).mapDom.reload();
@@ -189,6 +190,7 @@ export class ComponentInstance {
         });
       },
       writable: true,
+      configurable: true,
     });
   }
 
@@ -303,6 +305,7 @@ export class ComponentInstance {
         const callback = indexRelative !== -1 ? _.get(this.contextObj, valueAttribute.substring(0, indexRelative)) : _.get(this.contextObj, valueAttribute);
         Object.defineProperty(callback, '__ctx__', {
           value: this.contextObj,
+          configurable: true,
         });
         _.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$functions.' + functionKey, callback);
         _.set(Common.getScope(this.element).scope, '$functions.' + functionKey, callback);

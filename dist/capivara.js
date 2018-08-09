@@ -36,17 +36,32 @@
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, {
-/******/ 				configurable: false,
-/******/ 				enumerable: true,
-/******/ 				get: getter
-/******/ 			});
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
 /******/ 		}
 /******/ 	};
 /******/
 /******/ 	// define __esModule on exports
 /******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
 /******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -18041,7 +18056,7 @@ module.exports = function(module) {
 /*! exports provided: name, version, description, main, repository, scripts, author, license, dependencies, keywords, nyc, devDependencies, default */
 /***/ (function(module) {
 
-module.exports = {"name":"capivarajs","version":"3.4.0","description":"Um framework para criação de componentes.","main":"./src/index.ts","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./config/webpack.dev.js","prod":"npm run test-single && webpack --config ./config/webpack.dev.js && webpack --config ./config/webpack.prod.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./config/webpack.dev.js --t true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.4.3"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^10.0.3","babel-loader":"^7.1.4","babel-polyfill":"^6.26.0","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^0.28.7","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.2","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.12","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^11.6.0","style-loader":"^0.21.0","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.8.1","webpack-cli":"^2.1.3","webpack-dev-server":"^3.1.1","webpack-merge":"^4.1.2"}};
+module.exports = {"name":"capivarajs","version":"3.6.0","description":"Um framework para criação de componentes.","main":"./src/index.ts","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./config/webpack.dev.js","prod":"npm run test-single && webpack --config ./config/webpack.dev.js && webpack --config ./config/webpack.prod.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./config/webpack.dev.js --t true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.4.3"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^10.0.3","babel-loader":"^7.1.4","babel-polyfill":"^6.26.0","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","eslint":"^4.19.1","css-loader":"^1.0.0","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.2","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.12","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^12.0.1","style-loader":"^0.21.0","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.8.1","webpack-cli":"^2.1.3","webpack-dev-server":"^3.1.1","webpack-merge":"^4.1.2"}};
 
 /***/ }),
 
@@ -18055,8 +18070,10 @@ module.exports = {"name":"capivarajs","version":"3.4.0","description":"Um framew
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Common", function() { return Common; });
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "../src/constants.ts");
-/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./core */ "../src/core/index.ts");
+/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ */ "../src/index.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./constants */ "../src/constants.ts");
+/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./core */ "../src/core/index.ts");
+
 
 
 var Common;
@@ -18075,7 +18092,7 @@ var Common;
     function evalInContext(source, context, prefix) {
         if (source) {
             try {
-                return _core__WEBPACK_IMPORTED_MODULE_1__["Eval"].exec(source, context, prefix);
+                return _core__WEBPACK_IMPORTED_MODULE_2__["Eval"].exec(source, context, prefix);
             }
             catch (e) { }
         }
@@ -18087,55 +18104,55 @@ var Common;
     }
     Common.getFirstKey = getFirstKey;
     function getAttributeCpShow(element) {
-        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].SHOW_ATTRIBUTE_NAME);
+        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SHOW_ATTRIBUTE_NAME);
     }
     Common.getAttributeCpShow = getAttributeCpShow;
     function getAttributeCpIf(element) {
-        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].IF_ATTRIBUTE_NAME);
+        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].IF_ATTRIBUTE_NAME);
     }
     Common.getAttributeCpIf = getAttributeCpIf;
     function getAttributeCpElseIf(element) {
-        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].ELSE_IF_ATTRIBUTE_NAME);
+        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].ELSE_IF_ATTRIBUTE_NAME);
     }
     Common.getAttributeCpElseIf = getAttributeCpElseIf;
     function getAttributeCpElse(element) {
-        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].ELSE_ATTRIBUTE_NAME);
+        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].ELSE_ATTRIBUTE_NAME);
     }
     Common.getAttributeCpElse = getAttributeCpElse;
     function getAttributeCpInit(element) {
-        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].INIT_ATTRIBUTE_NAME);
+        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].INIT_ATTRIBUTE_NAME);
     }
     Common.getAttributeCpInit = getAttributeCpInit;
     function getAttributeCpStyle(element) {
-        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].STYLE_ATTRIBUTE_NAME);
+        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].STYLE_ATTRIBUTE_NAME);
     }
     Common.getAttributeCpStyle = getAttributeCpStyle;
     function getAttributeCpClass(element) {
-        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].CLASS_ATTRIBUTE_NAME);
+        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].CLASS_ATTRIBUTE_NAME);
     }
     Common.getAttributeCpClass = getAttributeCpClass;
     function getAttributeCpSrc(element) {
-        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].SRC_ATTRIBUTE_NAME);
+        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SRC_ATTRIBUTE_NAME);
     }
     Common.getAttributeCpSrc = getAttributeCpSrc;
     function getAttributeCpDisable(element) {
-        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].DISABLE_ATTRIBUTE_NAME);
+        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].DISABLE_ATTRIBUTE_NAME);
     }
     Common.getAttributeCpDisable = getAttributeCpDisable;
     function getAttributeCpFocus(element) {
-        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].FOCUS_ATTRIBUTE_NAME);
+        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].FOCUS_ATTRIBUTE_NAME);
     }
     Common.getAttributeCpFocus = getAttributeCpFocus;
     function getAttributeCpHide(element) {
-        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].HIDE_ATTRIBUTE_NAME);
+        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].HIDE_ATTRIBUTE_NAME);
     }
     Common.getAttributeCpHide = getAttributeCpHide;
     function getAttributeCpBlur(element) {
-        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].BLUR_ATTRIBUTE_NAME);
+        return element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].BLUR_ATTRIBUTE_NAME);
     }
     Common.getAttributeCpBlur = getAttributeCpBlur;
     function getScope(element) {
-        return element[_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].SCOPE_ATTRIBUTE_NAME];
+        return element[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SCOPE_ATTRIBUTE_NAME];
     }
     Common.getScope = getScope;
     function isComponent(element) {
@@ -18168,9 +18185,7 @@ var Common;
         if (element.replaceWith) {
             element.replaceWith(elementComment);
         }
-        if (element.$instance) {
-            element.$instance.destroy();
-        }
+        ___WEBPACK_IMPORTED_MODULE_0__["default"].destroyIfComponent(element);
     }
     Common.destroyElement = destroyElement;
     function createElement(element, elementComment) {
@@ -18178,16 +18193,14 @@ var Common;
         if (elementComment.replaceWith) {
             elementComment.replaceWith(element);
         }
-        if (element.$instance) {
-            element.$instance.initController();
-        }
+        ___WEBPACK_IMPORTED_MODULE_0__["default"].constroyIfComponent(element, true);
     }
     Common.createElement = createElement;
     function getAllScopes(element, scopes) {
         if (scopes === void 0) { scopes = []; }
-        if (element && element[_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].SCOPE_ATTRIBUTE_NAME]) {
-            if (scopes.filter(function (s) { return s.id === element[_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].SCOPE_ATTRIBUTE_NAME].id; }).length === 0) {
-                scopes.push(element[_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].SCOPE_ATTRIBUTE_NAME]);
+        if (element && element[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SCOPE_ATTRIBUTE_NAME]) {
+            if (scopes.filter(function (s) { return s.id === element[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SCOPE_ATTRIBUTE_NAME].id; }).length === 0) {
+                scopes.push(element[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SCOPE_ATTRIBUTE_NAME]);
             }
         }
         if (element && element.parentNode) {
@@ -18218,13 +18231,14 @@ var Common;
     Common.appendAfter = appendAfter;
     function setScopeId(scope) {
         if (!scope.id) {
+            ___WEBPACK_IMPORTED_MODULE_0__["default"].LAST_SCOPE_ID++;
             window['capivara'].scopes.push(scope);
-            scope.id = window['capivara'].scopes.length;
+            scope.id = ___WEBPACK_IMPORTED_MODULE_0__["default"].LAST_SCOPE_ID;
         }
     }
     Common.setScopeId = setScopeId;
     function parentHasIgnore(element) {
-        if (element.hasAttribute && (element.hasAttribute(_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].IGNORE_BINDINGS) || element.nodeName === 'CP-TRANSCLUDE')) {
+        if (element.hasAttribute && (element.hasAttribute(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].IGNORE_BINDINGS) || element.nodeName === 'CP-TRANSCLUDE')) {
             return true;
         }
         if (element.parentNode) {
@@ -18318,6 +18332,7 @@ var packageJson = __webpack_require__(/*! ../../package.json */ "../package.json
 var Capivara = /** @class */ (function () {
     function Capivara() {
         var _this = this;
+        this.LAST_SCOPE_ID = 0;
         this.version = packageJson.version;
         this.components = {};
         this.scopes = [];
@@ -18329,6 +18344,7 @@ var Capivara = /** @class */ (function () {
                         return attributeNode.nodeName.indexOf(attr) === 0;
                     });
                 },
+                configurable: true,
             });
         }
         if (!Element.prototype.hasOwnProperty('hasAttributeStartingWith')) {
@@ -18336,6 +18352,7 @@ var Capivara = /** @class */ (function () {
                 value: function hasAttributeStartingWith(attr) {
                     return this.getAttributeStartingWith(attr).length > 0;
                 },
+                configurable: true,
             });
         }
         if (document.readyState === 'complete' ||
@@ -18361,18 +18378,25 @@ var Capivara = /** @class */ (function () {
             });
         });
     };
-    Capivara.prototype.constroyIfComponent = function (addedNode) {
+    Capivara.prototype.hasRepeat = function (elm) {
+        return elm && elm.classList && elm.classList.contains('binding-repeat');
+    };
+    Capivara.prototype.constroyIfComponent = function (addedNode, forceCreated) {
         var _this = this;
         var component = this.components[addedNode.nodeName];
-        if (component) {
+        if (component && (forceCreated || !addedNode.created)) {
+            addedNode.created = true;
             component.createNewInstance(addedNode).create();
         }
-        if (addedNode.children) {
-            (Array.from(addedNode.children) || []).forEach(function (child) { return _this.constroyIfComponent(child); });
+        if (addedNode.children && (forceCreated || !this.hasRepeat(addedNode))) {
+            (Array.from(addedNode.children) || []).forEach(function (child) {
+                _this.constroyIfComponent(child, forceCreated);
+            });
         }
     };
     Capivara.prototype.destroyIfComponent = function (removedNode) {
         var _this = this;
+        removedNode.created = false;
         if (removedNode['$instance'] && !removedNode['$instance'].destroyed) {
             removedNode['$instance'].destroy();
         }
@@ -18722,7 +18746,9 @@ var ComponentInstance = /** @class */ (function () {
         });
     };
     ComponentInstance.prototype.initController = function () {
-        if (this.destroyed) {
+        var _a;
+        if (this.destroyed && document.body.contains(this.element)) {
+            this.destroyed = false;
             if (this.config.controller) {
                 var args = [
                     this.componentScope.element[_constants__WEBPACK_IMPORTED_MODULE_3__["Constants"].SCOPE_ATTRIBUTE_NAME],
@@ -18738,14 +18764,13 @@ var ComponentInstance = /** @class */ (function () {
             if (this.componentScope[this.config.controllerAs] && this.componentScope[this.config.controllerAs].$onInit) {
                 this.componentScope[this.config.controllerAs].$onInit();
             }
-            this.destroyed = false;
             Object.defineProperty(this.componentScope, '__$controllerAs__', {
                 value: this.config.controllerAs,
+                configurable: true,
             });
             _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(this.element).$emit('$onInit');
             _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(this.element).mapDom.reload();
         }
-        var _a;
     };
     /**
      * @description Aplica os bindings|constants|functions
@@ -18778,7 +18803,8 @@ var ComponentInstance = /** @class */ (function () {
             this.componentScope[this.config.controllerAs].$destroy();
         }
         window['capivara'].scopes = window['capivara'].scopes.filter(function (scope) {
-            return scope.id !== _this.componentScope.element[_constants__WEBPACK_IMPORTED_MODULE_3__["Constants"].SCOPE_ATTRIBUTE_NAME].id;
+            return scope.id !== _this.componentScope.element[_constants__WEBPACK_IMPORTED_MODULE_3__["Constants"].SCOPE_ATTRIBUTE_NAME].id &&
+                scope.id !== _this.contextObj.element[_constants__WEBPACK_IMPORTED_MODULE_3__["Constants"].SCOPE_ATTRIBUTE_NAME].id;
         });
     };
     /**
@@ -18845,6 +18871,7 @@ var ComponentInstance = /** @class */ (function () {
                 });
             },
             writable: true,
+            configurable: true,
         });
     };
     ComponentInstance.prototype.forceUpdateContext = function () {
@@ -18959,6 +18986,7 @@ var ComponentInstance = /** @class */ (function () {
                 var callback = indexRelative !== -1 ? lodash__WEBPACK_IMPORTED_MODULE_0__["get"](_this.contextObj, valueAttribute.substring(0, indexRelative)) : lodash__WEBPACK_IMPORTED_MODULE_0__["get"](_this.contextObj, valueAttribute);
                 Object.defineProperty(callback, '__ctx__', {
                     value: _this.contextObj,
+                    configurable: true,
                 });
                 lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).scope, _this.config.controllerAs + '.$functions.' + functionKey, callback);
                 lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(_this.element).scope, '$functions.' + functionKey, callback);
@@ -19779,7 +19807,10 @@ var Util;
         }
         for (var j = 0; j < a2L; j++) {
             if (a[arr2[j]]) {
-                delete a[arr2[j]];
+                try {
+                    delete a[arr2[j]];
+                }
+                catch (e) { }
             }
             else {
                 a[arr2[j]] = 2;
@@ -20063,8 +20094,8 @@ var CPBlur = /** @class */ (function () {
         this.init();
     };
     CPBlur.prototype.onBlur = function (evt) {
-        _common__WEBPACK_IMPORTED_MODULE_0__["Common"].executeFunctionCallback(evt.target['cpBlur'].element, evt.target['cpBlur'].attribute, (_a = {}, _a[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].EVENT_ATTRIBUTE_NAME] = evt, _a));
         var _a;
+        _common__WEBPACK_IMPORTED_MODULE_0__["Common"].executeFunctionCallback(evt.target['cpBlur'].element, evt.target['cpBlur'].attribute, (_a = {}, _a[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].EVENT_ATTRIBUTE_NAME] = evt, _a));
     };
     CPBlur.prototype.init = function () {
         // Remove old event
@@ -20254,9 +20285,9 @@ var CPClick = /** @class */ (function () {
     CPClick.prototype.init = function () {
         var _this = this;
         var onClick = function (evt) {
+            var _a;
             _this.attribute = _this.attribute.trim();
             _common__WEBPACK_IMPORTED_MODULE_1__["Common"].executeFunctionCallback(_this.element, _this.attribute, (_a = {}, _a[_constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].EVENT_ATTRIBUTE_NAME] = evt, _a));
-            var _a;
         };
         // Remove old event
         this.element.removeEventListener(this.eventName, onClick);
@@ -20484,8 +20515,8 @@ var CPFocus = /** @class */ (function () {
         this.init();
     };
     CPFocus.prototype.onFocus = function (evt) {
-        _common__WEBPACK_IMPORTED_MODULE_0__["Common"].executeFunctionCallback(evt.target['cpFocus'].element, evt.target['cpFocus'].attribute, (_a = {}, _a[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].EVENT_ATTRIBUTE_NAME] = evt, _a));
         var _a;
+        _common__WEBPACK_IMPORTED_MODULE_0__["Common"].executeFunctionCallback(evt.target['cpFocus'].element, evt.target['cpFocus'].attribute, (_a = {}, _a[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].EVENT_ATTRIBUTE_NAME] = evt, _a));
     };
     CPFocus.prototype.init = function () {
         // Remove old event
@@ -20591,9 +20622,11 @@ var CPIf = /** @class */ (function () {
             return;
         }
         try {
-            _common__WEBPACK_IMPORTED_MODULE_0__["Common"].createElement(this.element, this.elementComment);
             if (!_common__WEBPACK_IMPORTED_MODULE_0__["Common"].isValidCondition(this.element, _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getAttributeCpIf(this.element))) {
                 _common__WEBPACK_IMPORTED_MODULE_0__["Common"].destroyElement(this.element, this.elementComment);
+            }
+            else {
+                _common__WEBPACK_IMPORTED_MODULE_0__["Common"].createElement(this.element, this.elementComment);
             }
         }
         catch (ex) {
@@ -20680,6 +20713,7 @@ var CPKey = /** @class */ (function () {
         this.init();
     };
     CPKey.prototype.onKeyPress = function (evt) {
+        var _a, _b;
         var directiveName = 'cp-' + evt.type;
         if (evt.target && evt.target.hasAttributeStartingWith(directiveName)) {
             var attribute = evt.target.getAttributeStartingWith(directiveName)[0].name;
@@ -20695,7 +20729,6 @@ var CPKey = /** @class */ (function () {
                 }
             }
         }
-        var _a, _b;
     };
     CPKey.prototype.init = function () {
         var _this = this;
@@ -20824,11 +20857,11 @@ var CPMouse = /** @class */ (function () {
         this.init();
     };
     CPMouse.prototype.onMouse = function (evt) {
+        var _a;
         var directiveName = 'cp-' + evt.type;
         if (evt.target && evt.target[directiveName]) {
             _common__WEBPACK_IMPORTED_MODULE_0__["Common"].executeFunctionCallback(evt.target[directiveName].element, evt.target[directiveName].element.getAttribute(directiveName), (_a = {}, _a[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].EVENT_ATTRIBUTE_NAME] = evt, _a));
         }
-        var _a;
     };
     CPMouse.prototype.init = function () {
         var _this = this;
@@ -20863,6 +20896,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../common */ "../src/common.ts");
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../constants */ "../src/constants.ts");
 /* harmony import */ var _core_controller__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../core/controller */ "../src/core/controller.ts");
+/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../index */ "../src/index.ts");
+
 
 
 
@@ -20900,7 +20935,9 @@ var CPRepeat = /** @class */ (function () {
     };
     CPRepeat.prototype.removeChildes = function () {
         var _this = this;
-        this.elms.forEach(function (elm) { return _this.referenceNode.parentNode.removeChild(elm); });
+        this.elms.forEach(function (elm) {
+            _this.referenceNode.parentNode.removeChild(elm);
+        });
     };
     CPRepeat.prototype.afterLoop = function () {
         var _this = this;
@@ -20922,12 +20959,20 @@ var CPRepeat = /** @class */ (function () {
             _common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(elm).scope[attributeAlias] = row;
             return elm;
         });
-        this.elms.reverse().forEach(function (elm, index) { return _common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(elm).scope[_constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].REPEAT_INDEX_NAME] = index; });
+        this.elms.reverse().forEach(function (elm, index) {
+            _common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(elm).scope[_constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].REPEAT_INDEX_NAME] = index;
+            _this.createChildrenComponents(elm);
+        });
         var shift = Object.assign([], this.elms)[this.elms.length - 1];
         if (shift) {
             _common__WEBPACK_IMPORTED_MODULE_1__["Common"].appendAfter(shift, this.referenceNode.parentNode.appendChild(document.createComment('end repeat ' + this.attribute)));
         }
         this.afterLoop();
+    };
+    CPRepeat.prototype.createChildrenComponents = function (elm) {
+        (Array.from(elm.children) || []).forEach(function (child) {
+            _index__WEBPACK_IMPORTED_MODULE_4__["default"].constroyIfComponent(child);
+        });
     };
     return CPRepeat;
 }());
@@ -21289,9 +21334,6 @@ var MapDom = /** @class */ (function () {
         if (!this.renderedView) {
             return;
         }
-        if (this.timeLastReload) {
-            clearTimeout(this.timeLastReload);
-        }
         this.reloadDirectives();
         this.processInterpolation(this.element);
         this.reloadElementChildes(this.element, _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getScope(this.element));
@@ -21318,12 +21360,7 @@ var MapDom = /** @class */ (function () {
      */
     MapDom.prototype.processInterpolation = function (element) {
         var _this = this;
-        if (element.timeLastReload) {
-            clearTimeout(element.timeLastReload);
-        }
-        element.timeLastReload = setTimeout(function () {
-            _this.deepText(element).forEach(function (childNode) { return _this.interpolation(childNode); });
-        }, 1);
+        this.deepText(element).forEach(function (childNode) { return _this.interpolation(childNode); });
     };
     MapDom.prototype.getInterpolationValue = function (content, childNode, prefix) {
         if (prefix) {
@@ -21622,8 +21659,8 @@ var Scope = /** @class */ (function () {
             _this.watchers
                 .filter(function (watcher) { return watcher.evtName === evtName; })
                 .forEach(function (watcher) {
-                (_a = watcher.callback).call.apply(_a, [_this].concat(args));
                 var _a;
+                (_a = watcher.callback).call.apply(_a, [_this].concat(args));
             });
         };
         this.$eval = function (source) {
@@ -21686,6 +21723,9 @@ var Scope = /** @class */ (function () {
         Object.keys(this.cpElements).forEach(function (key) {
             _this.cpElements[key].destroy();
         });
+    };
+    Scope.prototype.refresh = function () {
+        this.mapDom.reload();
     };
     return Scope;
 }());
