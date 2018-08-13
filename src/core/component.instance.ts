@@ -121,10 +121,16 @@ export class ComponentInstance {
     if (this.componentScope[this.config.controllerAs] && this.componentScope[this.config.controllerAs].$destroy) {
       this.componentScope[this.config.controllerAs].$destroy();
     }
-    window['capivara'].scopes = window['capivara'].scopes.filter((scope) => {
-      return scope.id !== this.componentScope.element[Constants.SCOPE_ATTRIBUTE_NAME].id &&
-             scope.id !== this.contextObj.element[Constants.SCOPE_ATTRIBUTE_NAME].id;
-    });
+    try {
+      window['capivara'].scopes = window['capivara'].scopes.filter((scope) => {
+        return scope.id !== this.componentScope.element[Constants.SCOPE_ATTRIBUTE_NAME].id &&
+          scope.id !== this.contextObj.element[Constants.SCOPE_ATTRIBUTE_NAME].id;
+      });
+    } catch (e) {
+      window['capivara'].scopes = window['capivara'].scopes.filter((scope) => {
+        return document.body.contains(this.componentScope.element);
+      });
+    }
   }
 
   /**

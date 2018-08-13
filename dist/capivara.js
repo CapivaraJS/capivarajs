@@ -18802,10 +18802,17 @@ var ComponentInstance = /** @class */ (function () {
         if (this.componentScope[this.config.controllerAs] && this.componentScope[this.config.controllerAs].$destroy) {
             this.componentScope[this.config.controllerAs].$destroy();
         }
-        window['capivara'].scopes = window['capivara'].scopes.filter(function (scope) {
-            return scope.id !== _this.componentScope.element[_constants__WEBPACK_IMPORTED_MODULE_3__["Constants"].SCOPE_ATTRIBUTE_NAME].id &&
-                scope.id !== _this.contextObj.element[_constants__WEBPACK_IMPORTED_MODULE_3__["Constants"].SCOPE_ATTRIBUTE_NAME].id;
-        });
+        try {
+            window['capivara'].scopes = window['capivara'].scopes.filter(function (scope) {
+                return scope.id !== _this.componentScope.element[_constants__WEBPACK_IMPORTED_MODULE_3__["Constants"].SCOPE_ATTRIBUTE_NAME].id &&
+                    scope.id !== _this.contextObj.element[_constants__WEBPACK_IMPORTED_MODULE_3__["Constants"].SCOPE_ATTRIBUTE_NAME].id;
+            });
+        }
+        catch (e) {
+            window['capivara'].scopes = window['capivara'].scopes.filter(function (scope) {
+                return document.body.contains(_this.componentScope.element);
+            });
+        }
     };
     /**
      * @description
