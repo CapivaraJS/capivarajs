@@ -149,7 +149,6 @@ export class MapDom {
       });
       Array.from(new Set(scopesToUpdate)).forEach((scope) => {
         scope.mapDom.reloadDirectives();
-        // console.log('atualizou o scope ' + scope.id + ' :: ' + new Date().getTime());
       });
     }
   }
