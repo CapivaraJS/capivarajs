@@ -139,12 +139,17 @@ export class MapDom {
 
   public reloadElementChildes(element, initialScope) {
     if (element.children) {
-      Array.from(element.children).forEach((child: any) => {
+      const children = Array.from(element.children), scopesToUpdate = [];
+      children.forEach((child: any) => {
         const childScope = Common.getScope(child);
         if (childScope && childScope.mapDom && childScope.id !== initialScope.id) {
-          childScope.mapDom.reloadDirectives();
+          scopesToUpdate.push(childScope);
         }
         this.reloadElementChildes(child, initialScope);
+      });
+      Array.from(new Set(scopesToUpdate)).forEach((scope) => {
+        scope.mapDom.reloadDirectives();
+        // console.log('atualizou o scope ' + scope.id + ' :: ' + new Date().getTime());
       });
     }
   }

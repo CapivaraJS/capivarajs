@@ -159,8 +159,8 @@ export class ComponentInstance {
     (this.config.bindings || []).forEach((key) => {
       this.setAttributeValue(this.bindingsValue, key);
       this.createObserverContext(this.bindingsValue, key);
-      this.createObserverScope(this.bindingsValue, key);
     });
+    this.createObserverScope(this.bindingsValue);
   }
 
   public applyBindingsComponentMagic() {
@@ -175,15 +175,15 @@ export class ComponentInstance {
         this.bindingsValue[bindingKey] = valueAttribute;
         this.setAttributeValue(this.bindingsValue, bindingKey);
         this.createObserverContext(this.bindingsValue, bindingKey);
-        this.createObserverScope(this.bindingsValue, bindingKey);
       }
     });
+    this.createObserverScope(this.bindingsValue);
   }
 
   /**
   * @description Observa o componente quando houver alteração é modificado o contexto
   */
-  public createObserverScope(_bindings = {}, key) {
+  public createObserverScope(_bindings = {}) {
     const $ctrl = Common.getScope(this.element).scope[this.config.controllerAs];
     Object.defineProperty($ctrl, '_$$checkBindings', {
       value: (changes) => {
@@ -227,37 +227,27 @@ export class ComponentInstance {
     return _bindings[key].indexOf('.') !== -1 ? _bindings[key].substring(0, _bindings[key].indexOf('.')) : _bindings[key];
   }
 
-  public observeAndSetValues(obj, _bindings, key) {
-    Observe.observe(obj, (changes) => this.setAttributeValue(_bindings, key));
-  }
-
   public createObserverContext(_bindings, key) {
     if (!_bindings[key]) {
       return;
     }
-    if (this.contextObj instanceof ScopeProxy) {
-      if (this.contextObj[this.config.controllerAs]) {
-        this.observeAndSetValues(this.contextObj[this.config.controllerAs], _bindings, key);
-      } else {
-        this.observeAndSetValues(this.contextObj, _bindings, key);
-      }
-    } else {
+    if (!(this.contextObj instanceof ScopeProxy)) {
       const attrToObserve = ComponentInstance.getFirstAttribute(_bindings, key);
-      this.listenerContextBindings[attrToObserve] = this.listenerContextBindings[attrToObserve] || [];
       WatchJS.watch(this.contextObj, attrToObserve,
         () => {
-          this.listenerContextBindings[attrToObserve].forEach((keyListener) => {
-            this.setAttributeValue(_bindings, keyListener);
-          });
-        });
-      this.listenerContextBindings[attrToObserve].push(key);
+          this.setAttributeValue(_bindings, key);
+        }, 1);
     }
   }
 
   public setAttributeValue(_bindings = {}, key) {
-    _.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$bindings.' + key, _.get(this.contextObj, _bindings[key]));
-    _.set(Common.getScope(this.element).scope, '$bindings.' + key, _.get(this.contextObj, _bindings[key]));
+    const scope = Common.getScope(this.element).scope;
+    _.set(scope, this.config.controllerAs + '.$bindings.' + key, _.get(this.contextObj, _bindings[key]));
+    _.set(scope, '$bindings.' + key, _.get(this.contextObj, _bindings[key]));
     Common.getScope(this.element).mapDom.reload();
+    if (scope[this.config.controllerAs] && scope[this.config.controllerAs].$onChanges) {
+      scope[this.config.controllerAs].$onChanges();
+    }
   }
 
   /**
@@ -309,12 +299,14 @@ export class ComponentInstance {
       if (valueAttribute) {
         const indexRelative = valueAttribute.indexOf('(');
         const callback = indexRelative !== -1 ? _.get(this.contextObj, valueAttribute.substring(0, indexRelative)) : _.get(this.contextObj, valueAttribute);
-        Object.defineProperty(callback, '__ctx__', {
-          value: this.contextObj,
-          configurable: true,
-        });
-        _.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$functions.' + functionKey, callback);
-        _.set(Common.getScope(this.element).scope, '$functions.' + functionKey, callback);
+        if (callback) {
+          Object.defineProperty(callback, '__ctx__', {
+            value: this.contextObj,
+            configurable: true,
+          });
+          _.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$functions.' + functionKey, callback);
+          _.set(Common.getScope(this.element).scope, '$functions.' + functionKey, callback);
+        }
       }
     });
   }
