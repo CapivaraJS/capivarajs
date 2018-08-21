@@ -213,39 +213,20 @@ export class MapDom {
     this.reloadElementChildes(this.element, Common.getScope(this.element));
   }
 
-  private deepText(node) {
-    let A = [];
-    if (node) {
-      node = node.firstChild;
-      while (node != null) {
-        if (node.nodeType === 3) {
-          A[A.length] = node;
-        } else {
-          A = A.concat(this.deepText(node));
-        }
-        node = node.nextSibling;
-      }
-    }
-    return A;
-  }
-
   /**
    * @description Percorre os elementos para processar os interpolations.
    * @param element
    */
   public processInterpolation(element) {
-    this.deepText(element).forEach((childNode) => this.interpolation(childNode));
+    Common.deepText(element).forEach((childNode) => {
+      this.interpolation(childNode);
+    });
   }
 
   public getInterpolationValue(content, childNode, prefix?) {
     if (prefix) { content = prefix + '.' + content; }
     try {
-      let evalValue: any = Common.evalInMultiContext(childNode, content.trim().startsWith(':') ? content.trim().slice(1) : content) + '';
-      evalValue = (evalValue.trim() !== undefined
-        && (evalValue).trim() !== 'undefined'
-        && (evalValue).trim() !== 'null'
-        && (evalValue).trim() !== 'NaN') ? evalValue : '';
-      return evalValue;
+      return Common.evalInMultiContext(childNode, content.trim().startsWith(':') ? content.trim().slice(1) : content) + '';
     } catch (e) {
       return '';
     }
@@ -267,11 +248,11 @@ export class MapDom {
         const content = key.replace('{{', '').replace('}}', '');
         if (!childNode.$immutableInterpolation) {
           try {
-            const evalValue = this.getInterpolationValue(content, childNode);
-            key = window['capivara'].replaceAll(key, '{{', Constants.START_INTERPOLATION);
-            key = window['capivara'].replaceAll(key, '}}', Constants.END_INTERPOLATION);
-            nodeModified = nodeModified.replace(key, evalValue);
-            childNode.nodeValue = nodeModified;
+                  const evalValue = this.getInterpolationValue(content, childNode);
+                  key = window['capivara'].replaceAll(key, '{{', Constants.START_INTERPOLATION);
+                  key = window['capivara'].replaceAll(key, '}}', Constants.END_INTERPOLATION);
+                  nodeModified = nodeModified.replace(key, evalValue);
+                  childNode.nodeValue = nodeModified;
           } catch (e) { }
         }
         if (content.trim().startsWith(':') && !childNode.$immutableInterpolation) {
@@ -280,25 +261,9 @@ export class MapDom {
       });
 
       childNode.nodeValue = childNode.nodeValue.replace(this.regexInterpolation, '');
-      this.alternativeInterpolation(childNode);
-
     }
     if (childNode.childNodes) {
-      setTimeout(() => this.processInterpolation(childNode), 1);
-    }
-  }
-
-  public alternativeInterpolation(childNode) {
-    if (!childNode.$immutableInterpolation) {
-      let nodeModified = childNode.originalValue;
-      (nodeModified.match(/\${.+?}/g) || []).forEach((key) => {
-        const content = key.replace('${', '').replace('}', '');
-        try {
-          const evalValue = this.getInterpolationValue(content, childNode, Common.getScope(this.element).scope['__$controllerAs__']);
-          nodeModified = nodeModified.replace(key, evalValue);
-          childNode.nodeValue = nodeModified;
-        } catch (e) { }
-      });
+      this.processInterpolation(childNode);
     }
   }
 

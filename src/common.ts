@@ -16,10 +16,10 @@ export namespace Common {
    * @param context
    * @param prefix
    */
-  export function evalInContext(source, context: any, prefix?) {
+  export function evalInContext(source, context: any) {
     if (source) {
       try {
-        return Eval.exec(source, context, prefix);
+        return Eval.exec(source, context);
       } catch (e) { }
     }
   }
@@ -121,11 +121,9 @@ export namespace Common {
     capivara.constroyIfComponent(element, true);
   }
 
-  export function getAllScopes(element, scopes = []) {
+  export function getAllScopes(element, scopes: Set<any>) {
     if (element && element[Constants.SCOPE_ATTRIBUTE_NAME]) {
-      if (scopes.filter((s) => s.id === element[Constants.SCOPE_ATTRIBUTE_NAME].id).length === 0) {
-        scopes.push(element[Constants.SCOPE_ATTRIBUTE_NAME]);
-      }
+      scopes.add(element[Constants.SCOPE_ATTRIBUTE_NAME].scope);
     }
     if (element && element.parentNode) {
       return getAllScopes(element.parentNode, scopes);
@@ -134,7 +132,7 @@ export namespace Common {
   }
 
   export function evalInMultiContext(element, condition, additionalParameters?) {
-    const scopes = getAllScopes(element).map((scope) => scope.scope);
+    const scopes = Array.from(getAllScopes(element, new Set()));
     if (additionalParameters) {
       scopes.push(additionalParameters);
     }
@@ -174,6 +172,22 @@ export namespace Common {
       .split('){', 1)[0].replace(/^[^(]*[(]/, '') // extract the parameters
       .replace(/=[^,]+/g, '') // strip any ES6 defaults
       .split(',').filter(Boolean); // split & filter [""]
+  }
+
+  export function deepText(node) {
+    let A = [];
+    if (node) {
+      node = node.firstChild;
+      while (node != null) {
+        if (node.nodeType === 3) {
+          A[A.length] = node;
+        } else {
+          A = A.concat(deepText(node));
+        }
+        node = node.nextSibling;
+      }
+    }
+    return A;
   }
 
 }
