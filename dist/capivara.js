@@ -18056,7 +18056,7 @@ module.exports = function(module) {
 /*! exports provided: name, version, description, main, repository, scripts, author, license, dependencies, keywords, nyc, devDependencies, default */
 /***/ (function(module) {
 
-module.exports = {"name":"capivarajs","version":"3.7.1-rc","description":"Um framework para criação de componentes.","main":"./src/index.ts","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./config/webpack.dev.js","prod":"npm run test-single && webpack --config ./config/webpack.dev.js && webpack --config ./config/webpack.prod.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./config/webpack.dev.js --t true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.4.3"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^10.0.3","babel-loader":"^7.1.4","babel-polyfill":"^6.26.0","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^1.0.0","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.2","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.12","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^12.0.1","style-loader":"^0.21.0","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.8.1","webpack-cli":"^2.1.3","webpack-dev-server":"^3.1.1","webpack-merge":"^4.1.2"}};
+module.exports = {"name":"capivarajs","version":"3.7.1-rc","description":"Um framework para criação de componentes.","main":"./src/index.ts","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./config/webpack.dev.js","prod":"npm run test-single && webpack --config ./config/webpack.dev.js && webpack --config ./config/webpack.prod.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./config/webpack.dev.js --t true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.4.3"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^10.0.3","babel-loader":"^7.1.4","babel-polyfill":"^6.26.0","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^1.0.0","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.2","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.12","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^12.0.1","style-loader":"^0.21.0","ts-loader":"^4.1.0","typescript":"^2.7.2","tslint":"^5.9.1","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.8.1","webpack-cli":"^2.1.3","webpack-dev-server":"^3.1.1","webpack-merge":"^4.1.2"}};
 
 /***/ }),
 
@@ -18334,23 +18334,20 @@ var Constants = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CapivaraInstance", function() { return CapivaraInstance; });
-/* harmony import */ var _package_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../package.json */ "../package.json");
-var _package_json__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../../package.json */ "../package.json", 1);
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constants */ "../src/constants.ts");
-/* harmony import */ var _scope_scope__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../scope/scope */ "../src/scope/scope.ts");
-/* harmony import */ var _component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./component */ "../src/core/component.ts");
-/* harmony import */ var _component_instance__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./component.instance */ "../src/core/component.instance.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "../src/constants.ts");
+/* harmony import */ var _scope_scope__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../scope/scope */ "../src/scope/scope.ts");
+/* harmony import */ var _component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./component */ "../src/core/component.ts");
+/* harmony import */ var _component_instance__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./component.instance */ "../src/core/component.instance.ts");
+var packageJson = __webpack_require__(/*! ../../package.json */ "../package.json");
 
 
 
 
-
-// import { Component, Controller } from '../decorators';
 var CapivaraInstance = /** @class */ (function () {
     function CapivaraInstance() {
         var _this = this;
         this.LAST_SCOPE_ID = 0;
-        this.version = _package_json__WEBPACK_IMPORTED_MODULE_0__.version;
+        this.version = packageJson.version;
         this.components = {};
         this.scopes = [];
         this.$watchers = [];
@@ -18456,7 +18453,7 @@ var CapivaraInstance = /** @class */ (function () {
             console.error("A registered component with this name already exists.");
             return;
         }
-        window["capivara"].components[componentName.toUpperCase()] = new _component__WEBPACK_IMPORTED_MODULE_3__["Component"](componentName, config);
+        window["capivara"].components[componentName.toUpperCase()] = new _component__WEBPACK_IMPORTED_MODULE_2__["Component"](componentName, config);
     };
     /**
      * @name capivara.componentBuilder
@@ -18494,7 +18491,7 @@ var CapivaraInstance = /** @class */ (function () {
      * @description Cria um novo controller para fazer manipulação de um determinado elemento.
      */
     CapivaraInstance.prototype.controller = function (elm, callback) {
-        new _component_instance__WEBPACK_IMPORTED_MODULE_4__["ComponentInstance"](elm, { controller: callback }).create();
+        new _component_instance__WEBPACK_IMPORTED_MODULE_3__["ComponentInstance"](elm, { controller: callback }).create();
     };
     /**
      * @name capivara,isArray
@@ -18584,8 +18581,8 @@ var CapivaraInstance = /** @class */ (function () {
      */
     CapivaraInstance.prototype.constants = function (obj) {
         Object.keys(obj).forEach(function (key) {
-            if (_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"][key]) {
-                _constants__WEBPACK_IMPORTED_MODULE_1__["Constants"][key] = obj[key];
+            if (_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"][key]) {
+                _constants__WEBPACK_IMPORTED_MODULE_0__["Constants"][key] = obj[key];
             }
         });
     };
@@ -18617,7 +18614,7 @@ var CapivaraInstance = /** @class */ (function () {
         return value && value.window === value;
     };
     CapivaraInstance.prototype.isScope = function (value) {
-        return value instanceof _scope_scope__WEBPACK_IMPORTED_MODULE_2__["Scope"];
+        return value instanceof _scope_scope__WEBPACK_IMPORTED_MODULE_1__["Scope"];
     };
     CapivaraInstance.prototype.equals = function (o1, o2) {
         if (o1 === o2) {
@@ -18818,6 +18815,9 @@ var ComponentInstance = /** @class */ (function () {
         _observer__WEBPACK_IMPORTED_MODULE_7__["Observe"].unobserve(this.componentScope[this.config.controllerAs]);
         if (this.componentScope[this.config.controllerAs] && this.componentScope[this.config.controllerAs].$destroy) {
             this.componentScope[this.config.controllerAs].$destroy();
+        }
+        if (this.componentScope[this.config.controllerAs] && this.componentScope[this.config.controllerAs].$onDestroy) {
+            this.componentScope[this.config.controllerAs].$onDestroy();
         }
         try {
             window['capivara'].scopes = window['capivara'].scopes.filter(function (scope) {
@@ -19157,7 +19157,7 @@ var Eval;
             var contexts = (Array.isArray(context) ? context : [context]).reverse();
             var contextMerged_1 = Object.assign.apply(Object, [{}].concat(contexts));
             var params = Object.keys(contextMerged_1), paramsValues = params.map(function (param) { return contextMerged_1[param]; });
-            return new (Function.bind.apply(Function, [void 0].concat(params, ['return ' + source])))().apply(void 0, paramsValues);
+            return new (Function.bind.apply(Function, [void 0].concat(params, ["\n        const value = " + source + ";\n        return value == undefined ? '' : Number.isNaN(value) ? 0 : value;\n      "])))().apply(void 0, paramsValues);
         }
         catch (e) {
             throw e;
@@ -20004,9 +20004,6 @@ var Controller = /** @class */ (function () {
         this.$scope = $scope;
         this.$element = $element;
     }
-    Controller.prototype.$onInit = function () { };
-    Controller.prototype.$onViewInit = function () { };
-    Controller.prototype.$destroy = function () { };
     return Controller;
 }());
 

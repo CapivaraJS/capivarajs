@@ -121,6 +121,9 @@ export class ComponentInstance {
     if (this.componentScope[this.config.controllerAs] && this.componentScope[this.config.controllerAs].$destroy) {
       this.componentScope[this.config.controllerAs].$destroy();
     }
+    if (this.componentScope[this.config.controllerAs] && this.componentScope[this.config.controllerAs].$onDestroy) {
+      this.componentScope[this.config.controllerAs].$onDestroy();
+    }
     try {
       window['capivara'].scopes = window['capivara'].scopes.filter((scope) => {
         return scope.id !== this.componentScope.element[Constants.SCOPE_ATTRIBUTE_NAME].id &&

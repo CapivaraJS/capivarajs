@@ -1,10 +1,8 @@
-import packageJson from '../../package.json';
+const packageJson = require('../../package.json');
 import { Constants } from '../constants';
 import { Scope } from '../scope/scope';
 import { Component } from './component';
 import { ComponentInstance } from './component.instance';
-import { Eval } from './index';
-// import { Component, Controller } from '../decorators';
 
 export class CapivaraInstance {
   /**

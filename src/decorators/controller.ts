@@ -1,14 +1,8 @@
-import { Capivara } from '../';
+import { Bindings, Constants, Functions } from './component-state';
 
-export class Controller {
+export class Controller implements Bindings, Constants, Functions {
   public $bindings;
   public $constants;
   public $functions;
-
-  constructor(public $scope?, public $element?) {}
-
-  public $onInit() {}
-  public $onViewInit() {}
-  public $destroy() {}
-
+  constructor(public $scope?, public $element?) { }
 }
