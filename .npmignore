@@ -1,13 +1,8 @@
 bin
-src
 example
-tsconfig.json
-.babelrc
-webpack.config
 coverage
 test
 .idea
 config
-coverage
 dev
 webpack-nightwatch-plugin
