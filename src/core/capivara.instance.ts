@@ -1,12 +1,12 @@
-import { Common } from '../common';
+import packageJson from '../../package.json';
 import { Constants } from '../constants';
 import { Scope } from '../scope/scope';
 import { Component } from './component';
 import { ComponentInstance } from './component.instance';
+import { Eval } from './index';
+// import { Component, Controller } from '../decorators';
 
-const packageJson = require("../../package.json");
-
-export class Capivara {
+export class CapivaraInstance {
   /**
    * @name capivara.components
    * @description Armazena os componentes criados
@@ -16,6 +16,7 @@ export class Capivara {
   public $watchers;
   public version;
   public LAST_SCOPE_ID = 0;
+  public core;
 
   constructor() {
     this.version = packageJson.version;

@@ -1,4 +1,4 @@
-export { Capivara } from './capivara';
+export { CapivaraInstance } from './capivara.instance';
 export { Controller } from './controller';
 export { ComponentConfig } from './component.config';
 export { ComponentInstance } from './component.instance';

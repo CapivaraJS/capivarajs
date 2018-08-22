@@ -18056,7 +18056,7 @@ module.exports = function(module) {
 /*! exports provided: name, version, description, main, repository, scripts, author, license, dependencies, keywords, nyc, devDependencies, default */
 /***/ (function(module) {
 
-module.exports = {"name":"capivarajs","version":"3.7.0-rc","description":"Um framework para criação de componentes.","main":"./src/index.ts","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./config/webpack.dev.js","prod":"npm run test-single && webpack --config ./config/webpack.dev.js && webpack --config ./config/webpack.prod.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./config/webpack.dev.js --t true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.4.3"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^10.0.3","babel-loader":"^7.1.4","babel-polyfill":"^6.26.0","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","eslint":"^4.19.1","css-loader":"^1.0.0","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.2","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.12","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^12.0.1","style-loader":"^0.21.0","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.8.1","webpack-cli":"^2.1.3","webpack-dev-server":"^3.1.1","webpack-merge":"^4.1.2"}};
+module.exports = {"name":"capivarajs","version":"3.7.1-rc","description":"Um framework para criação de componentes.","main":"./src/index.ts","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./config/webpack.dev.js","prod":"npm run test-single && webpack --config ./config/webpack.dev.js && webpack --config ./config/webpack.prod.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./config/webpack.dev.js --t true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.4.3"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^10.0.3","babel-loader":"^7.1.4","babel-polyfill":"^6.26.0","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^1.0.0","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.2","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.12","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^12.0.1","style-loader":"^0.21.0","ts-loader":"^4.1.0","tslint":"^5.9.1","typescript":"^2.7.2","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.8.1","webpack-cli":"^2.1.3","webpack-dev-server":"^3.1.1","webpack-merge":"^4.1.2"}};
 
 /***/ }),
 
@@ -18089,10 +18089,10 @@ var Common;
      * @param context
      * @param prefix
      */
-    function evalInContext(source, context, prefix) {
+    function evalInContext(source, context) {
         if (source) {
             try {
-                return _core__WEBPACK_IMPORTED_MODULE_2__["Eval"].exec(source, context, prefix);
+                return _core__WEBPACK_IMPORTED_MODULE_2__["Eval"].exec(source, context);
             }
             catch (e) { }
         }
@@ -18197,11 +18197,8 @@ var Common;
     }
     Common.createElement = createElement;
     function getAllScopes(element, scopes) {
-        if (scopes === void 0) { scopes = []; }
         if (element && element[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SCOPE_ATTRIBUTE_NAME]) {
-            if (scopes.filter(function (s) { return s.id === element[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SCOPE_ATTRIBUTE_NAME].id; }).length === 0) {
-                scopes.push(element[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SCOPE_ATTRIBUTE_NAME]);
-            }
+            scopes.add(element[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SCOPE_ATTRIBUTE_NAME].scope);
         }
         if (element && element.parentNode) {
             return getAllScopes(element.parentNode, scopes);
@@ -18210,7 +18207,7 @@ var Common;
     }
     Common.getAllScopes = getAllScopes;
     function evalInMultiContext(element, condition, additionalParameters) {
-        var scopes = getAllScopes(element).map(function (scope) { return scope.scope; });
+        var scopes = Array.from(getAllScopes(element, new Set()));
         if (additionalParameters) {
             scopes.push(additionalParameters);
         }
@@ -18256,6 +18253,23 @@ var Common;
             .split(',').filter(Boolean); // split & filter [""]
     }
     Common.getFunctionArgs = getFunctionArgs;
+    function deepText(node) {
+        var A = [];
+        if (node) {
+            node = node.firstChild;
+            while (node != null) {
+                if (node.nodeType === 3) {
+                    A[A.length] = node;
+                }
+                else {
+                    A = A.concat(deepText(node));
+                }
+                node = node.nextSibling;
+            }
+        }
+        return A;
+    }
+    Common.deepText = deepText;
 })(Common || (Common = {}));
 
 
@@ -18310,30 +18324,33 @@ var Constants = {
 
 /***/ }),
 
-/***/ "../src/core/capivara.ts":
-/*!*******************************!*\
-  !*** ../src/core/capivara.ts ***!
-  \*******************************/
-/*! exports provided: Capivara */
+/***/ "../src/core/capivara.instance.ts":
+/*!****************************************!*\
+  !*** ../src/core/capivara.instance.ts ***!
+  \****************************************/
+/*! exports provided: CapivaraInstance */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Capivara", function() { return Capivara; });
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "../src/constants.ts");
-/* harmony import */ var _scope_scope__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../scope/scope */ "../src/scope/scope.ts");
-/* harmony import */ var _component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./component */ "../src/core/component.ts");
-/* harmony import */ var _component_instance__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./component.instance */ "../src/core/component.instance.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CapivaraInstance", function() { return CapivaraInstance; });
+/* harmony import */ var _package_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../package.json */ "../package.json");
+var _package_json__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../../package.json */ "../package.json", 1);
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constants */ "../src/constants.ts");
+/* harmony import */ var _scope_scope__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../scope/scope */ "../src/scope/scope.ts");
+/* harmony import */ var _component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./component */ "../src/core/component.ts");
+/* harmony import */ var _component_instance__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./component.instance */ "../src/core/component.instance.ts");
 
 
 
 
-var packageJson = __webpack_require__(/*! ../../package.json */ "../package.json");
-var Capivara = /** @class */ (function () {
-    function Capivara() {
+
+// import { Component, Controller } from '../decorators';
+var CapivaraInstance = /** @class */ (function () {
+    function CapivaraInstance() {
         var _this = this;
         this.LAST_SCOPE_ID = 0;
-        this.version = packageJson.version;
+        this.version = _package_json__WEBPACK_IMPORTED_MODULE_0__.version;
         this.components = {};
         this.scopes = [];
         this.$watchers = [];
@@ -18369,7 +18386,7 @@ var Capivara = /** @class */ (function () {
             });
         }
     }
-    Capivara.prototype.createComponents = function () {
+    CapivaraInstance.prototype.createComponents = function () {
         var _this = this;
         Object.keys(this.components).forEach(function (componentName) {
             var elms = document.querySelectorAll(componentName) || [];
@@ -18378,10 +18395,10 @@ var Capivara = /** @class */ (function () {
             });
         });
     };
-    Capivara.prototype.hasRepeat = function (elm) {
+    CapivaraInstance.prototype.hasRepeat = function (elm) {
         return elm && elm.classList && elm.classList.contains('binding-repeat');
     };
-    Capivara.prototype.constroyIfComponent = function (addedNode, forceCreated) {
+    CapivaraInstance.prototype.constroyIfComponent = function (addedNode, forceCreated) {
         var _this = this;
         var component = this.components[addedNode.nodeName];
         if (component && (forceCreated || !addedNode.created)) {
@@ -18394,7 +18411,7 @@ var Capivara = /** @class */ (function () {
             });
         }
     };
-    Capivara.prototype.destroyIfComponent = function (removedNode) {
+    CapivaraInstance.prototype.destroyIfComponent = function (removedNode) {
         var _this = this;
         removedNode.created = false;
         if (removedNode['$instance'] && !removedNode['$instance'].destroyed) {
@@ -18404,7 +18421,7 @@ var Capivara = /** @class */ (function () {
             (Array.from(removedNode.children) || []).forEach(function (child) { return _this.destroyIfComponent(child); });
         }
     };
-    Capivara.prototype.onMutation = function (mutations) {
+    CapivaraInstance.prototype.onMutation = function (mutations) {
         var _this = this;
         (mutations || []).forEach(function (mutation) {
             if (mutation.type === 'childList') {
@@ -18417,7 +18434,7 @@ var Capivara = /** @class */ (function () {
             }
         });
     };
-    Capivara.prototype.createListeners = function () {
+    CapivaraInstance.prototype.createListeners = function () {
         var _this = this;
         var MutationObserver = window['MutationObserver'] || window['WebKitMutationObserver'] || window['MozMutationObserver'];
         if (MutationObserver) {
@@ -18434,18 +18451,18 @@ var Capivara = /** @class */ (function () {
      * @name capivara.component
      * @description Registra um novo componente capivara
      */
-    Capivara.prototype.component = function (componentName, config) {
+    CapivaraInstance.prototype.component = function (componentName, config) {
         if (window["capivara"].components[componentName]) {
             console.error("A registered component with this name already exists.");
             return;
         }
-        window["capivara"].components[componentName.toUpperCase()] = new _component__WEBPACK_IMPORTED_MODULE_2__["Component"](componentName, config);
+        window["capivara"].components[componentName.toUpperCase()] = new _component__WEBPACK_IMPORTED_MODULE_3__["Component"](componentName, config);
     };
     /**
      * @name capivara.componentBuilder
      * @description Faz a inicialização de um componente.
      */
-    Capivara.prototype.componentBuilder = function (hashName) {
+    CapivaraInstance.prototype.componentBuilder = function (hashName) {
         return new Promise(function (resp) {
             var elms = window["capivara"].isElement(hashName) ? [hashName] : Array.from(document.querySelectorAll("[\\#" + hashName + "]"));
             if (elms.length === 0) {
@@ -18476,24 +18493,24 @@ var Capivara = /** @class */ (function () {
      * @name capivara.controller
      * @description Cria um novo controller para fazer manipulação de um determinado elemento.
      */
-    Capivara.prototype.controller = function (elm, callback) {
-        new _component_instance__WEBPACK_IMPORTED_MODULE_3__["ComponentInstance"](elm, { controller: callback }).create();
+    CapivaraInstance.prototype.controller = function (elm, callback) {
+        new _component_instance__WEBPACK_IMPORTED_MODULE_4__["ComponentInstance"](elm, { controller: callback }).create();
     };
     /**
      * @name capivara,isArray
      * @description Verifica se um valor é um Array.
      */
-    Capivara.prototype.isArray = function (value) {
+    CapivaraInstance.prototype.isArray = function (value) {
         return Array.isArray(value) || value instanceof Array;
     };
     /**
      * @name capivara,isObject
      * @description Verifica se um valor é um Objeto.
      */
-    Capivara.prototype.isObject = function (value) {
+    CapivaraInstance.prototype.isObject = function (value) {
         return value !== null && typeof value === "object";
     };
-    Capivara.prototype.isObjectConstructor = function (obj) {
+    CapivaraInstance.prototype.isObjectConstructor = function (obj) {
         if (!obj) {
             return false;
         }
@@ -18503,14 +18520,14 @@ var Capivara = /** @class */ (function () {
      * @name capivara,isDate
      * @description Verifica se um valor é uma Data.
      */
-    Capivara.prototype.isDate = function (value) {
+    CapivaraInstance.prototype.isDate = function (value) {
         return toString.call(value) === "[object Date]";
     };
     /**
      * @name capivara,isElement
      * @description Verifica se um valor é um NodeElement.
      */
-    Capivara.prototype.isElement = function (value) {
+    CapivaraInstance.prototype.isElement = function (value) {
         return !!(value &&
             (value.nodeName // We are a direct element.
                 || (value.prop && value.attr && value.find)));
@@ -18519,28 +18536,28 @@ var Capivara = /** @class */ (function () {
      * @name capivara,isFunction
      * @description Verifica se um valor é uma função.
      */
-    Capivara.prototype.isFunction = function (value) {
+    CapivaraInstance.prototype.isFunction = function (value) {
         return typeof value === "function";
     };
     /**
      * @name capivara,isNumber
      * @description Verifica se um valor é um número.
      */
-    Capivara.prototype.isNumber = function (value) {
+    CapivaraInstance.prototype.isNumber = function (value) {
         return typeof value === "number";
     };
     /**
      * @name capivara,isString
      * @description Verifica se um valor é uma string.
      */
-    Capivara.prototype.isString = function (value) {
+    CapivaraInstance.prototype.isString = function (value) {
         return typeof value === "string";
     };
     /**
      * @name capivara,merge
      * @description Faz a junção de objetos em um único objeto.
      */
-    Capivara.prototype.merge = function () {
+    CapivaraInstance.prototype.merge = function () {
         var args = [];
         for (var _i = 0; _i < arguments.length; _i++) {
             args[_i] = arguments[_i];
@@ -18551,31 +18568,31 @@ var Capivara = /** @class */ (function () {
      * @name capivara,copy
      * @description Faz a copia de um objeto para que seja criada a referência.
      */
-    Capivara.prototype.copy = function (value) {
+    CapivaraInstance.prototype.copy = function (value) {
         return Object.assign(value);
     };
     /**
      * @name capivara,replaceAll
      * @description Faz a devida alteração em todas as  ocorrências
      */
-    Capivara.prototype.replaceAll = function (str, needle, replacement) {
+    CapivaraInstance.prototype.replaceAll = function (str, needle, replacement) {
         return str.split(needle).join(replacement);
     };
     /**
      * @name capivara.constants
      * @description Modifica o nome das diretivas que são criadas pelo capivara.
      */
-    Capivara.prototype.constants = function (obj) {
+    CapivaraInstance.prototype.constants = function (obj) {
         Object.keys(obj).forEach(function (key) {
-            if (_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"][key]) {
-                _constants__WEBPACK_IMPORTED_MODULE_0__["Constants"][key] = obj[key];
+            if (_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"][key]) {
+                _constants__WEBPACK_IMPORTED_MODULE_1__["Constants"][key] = obj[key];
             }
         });
     };
-    Capivara.prototype.$on = function (evtName, callback) {
+    CapivaraInstance.prototype.$on = function (evtName, callback) {
         window["capivara"].$watchers.push({ evtName: evtName, callback: callback });
     };
-    Capivara.prototype.$emit = function (evtName) {
+    CapivaraInstance.prototype.$emit = function (evtName) {
         var args = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
@@ -18587,22 +18604,22 @@ var Capivara = /** @class */ (function () {
             watcher.callback.apply(watcher, args);
         });
     };
-    Capivara.prototype.simpleCompare = function (a, b) {
+    CapivaraInstance.prototype.simpleCompare = function (a, b) {
         return a === b || (a !== a && b !== b);
     };
-    Capivara.prototype.isRegExp = function (value) {
+    CapivaraInstance.prototype.isRegExp = function (value) {
         return toString.call(value) === '[object RegExp]';
     };
-    Capivara.prototype.isDefined = function (value) {
+    CapivaraInstance.prototype.isDefined = function (value) {
         return typeof value !== 'undefined';
     };
-    Capivara.prototype.isWindow = function (value) {
+    CapivaraInstance.prototype.isWindow = function (value) {
         return value && value.window === value;
     };
-    Capivara.prototype.isScope = function (value) {
-        return value instanceof _scope_scope__WEBPACK_IMPORTED_MODULE_1__["Scope"];
+    CapivaraInstance.prototype.isScope = function (value) {
+        return value instanceof _scope_scope__WEBPACK_IMPORTED_MODULE_2__["Scope"];
     };
-    Capivara.prototype.equals = function (o1, o2) {
+    CapivaraInstance.prototype.equals = function (o1, o2) {
         if (o1 === o2) {
             return true;
         }
@@ -18662,7 +18679,7 @@ var Capivara = /** @class */ (function () {
         }
         return false;
     };
-    return Capivara;
+    return CapivaraInstance;
 }());
 
 
@@ -18907,12 +18924,24 @@ var ComponentInstance = /** @class */ (function () {
         if (_bindings === void 0) { _bindings = {}; }
         return _bindings[key].indexOf('.') !== -1 ? _bindings[key].substring(0, _bindings[key].indexOf('.')) : _bindings[key];
     };
+    ComponentInstance.prototype.observeAndSetValues = function (obj, _bindings, key) {
+        var _this = this;
+        _observer__WEBPACK_IMPORTED_MODULE_7__["Observe"].observe(obj, function () { return _this.setAttributeValue(_bindings, key); });
+    };
     ComponentInstance.prototype.createObserverContext = function (_bindings, key) {
         var _this = this;
         if (!_bindings[key]) {
             return;
         }
-        if (!(this.contextObj instanceof _scope_scope_proxy__WEBPACK_IMPORTED_MODULE_4__["ScopeProxy"])) {
+        if (this.contextObj instanceof _scope_scope_proxy__WEBPACK_IMPORTED_MODULE_4__["ScopeProxy"]) {
+            if (this.contextObj[this.config.controllerAs]) {
+                this.observeAndSetValues(this.contextObj[this.config.controllerAs], _bindings, key);
+            }
+            else {
+                this.observeAndSetValues(this.contextObj, _bindings, key);
+            }
+        }
+        else {
             var attrToObserve = ComponentInstance.getFirstAttribute(_bindings, key);
             melanke_watchjs__WEBPACK_IMPORTED_MODULE_1___default.a.watch(this.contextObj, attrToObserve, function () {
                 _this.setAttributeValue(_bindings, key);
@@ -19051,16 +19080,11 @@ var Component = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Controller", function() { return Controller; });
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "../src/constants.ts");
-/* harmony import */ var _scope_scope__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../scope/scope */ "../src/scope/scope.ts");
-
+/* harmony import */ var _scope_scope__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../scope/scope */ "../src/scope/scope.ts");
 
 var Controller = /** @class */ (function () {
     function Controller(element, callback) {
-        var scope = new _scope_scope__WEBPACK_IMPORTED_MODULE_1__["Scope"](element);
-        if (element && element.parentNode && element.parentNode[_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].SCOPE_ATTRIBUTE_NAME]) {
-            scope.$parent = element.parentNode[_constants__WEBPACK_IMPORTED_MODULE_0__["Constants"].SCOPE_ATTRIBUTE_NAME];
-        }
+        var scope = new _scope_scope__WEBPACK_IMPORTED_MODULE_0__["Scope"](element);
         callback(scope.getScopeProxy());
     }
     return Controller;
@@ -19126,65 +19150,14 @@ var CapivaraElement = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Eval", function() { return Eval; });
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common */ "../src/common.ts");
-
 var Eval;
 (function (Eval) {
-    function replaceAt(input, search, replace, start, end) {
-        return input.slice(0, start)
-            + input.slice(start, end).replace(search, replace)
-            + input.slice(end);
-    }
-    Eval.replaceAt = replaceAt;
-    function getIndexStart(arr, currentIndex) {
-        if (currentIndex === 0) {
-            return 0;
-        }
-        var getPreviousSize = function (i, size) {
-            var index = i - 1;
-            if (index === -1) {
-                return size;
-            }
-            size += arr[index].length;
-            return getPreviousSize(index, size);
-        };
-        return getPreviousSize(currentIndex, 0);
-    }
-    Eval.getIndexStart = getIndexStart;
-    function isVariable(str) {
-        if (str === void 0) { str = ''; }
-        var firstChar = str.charAt(0);
-        return /[a-zA-Z]/g.test(firstChar)
-            || firstChar === '$'
-            || firstChar === '_';
-    }
-    Eval.isVariable = isVariable;
-    function exec(source, context, prefix) {
-        if (prefix === void 0) { prefix = ''; }
-        var contexts = Array.isArray(context) ? context : [context];
-        var referenceSelf = "this." + (prefix ? prefix += '.' : ''), regex = /\$*[a-z0-9.$]+\s*/gi, keys = source.match(regex);
-        if (keys && Array.isArray(keys)) {
-            keys.forEach(function (str, i) {
-                var key = str.replace(/\s/g, ''), indexStart = getIndexStart(keys, i);
-                var indexEnd = indexStart + source.substring(indexStart, source.length).indexOf(key) + key.length;
-                if (!key.includes(referenceSelf)) {
-                    var isVar = !prefix.trim() ? contexts.filter(function (c) { return c.hasOwnProperty(_common__WEBPACK_IMPORTED_MODULE_0__["Common"].getFirstKey(key)); }).length > 0 : isVariable(key);
-                    if (isVar) {
-                        source = replaceAt(source, key, "" + referenceSelf + key, indexStart, indexEnd);
-                    }
-                }
-            });
-        }
+    function exec(source, context) {
         try {
-            return function executeCode(str) {
-                var _this = this;
-                (contexts || []).forEach(function (c) { return Object.keys(c).forEach(function (key) {
-                    if (!_this[key]) {
-                        _this[key] = c[key];
-                    }
-                }); });
-                return eval(str);
-            }.call({}, source);
+            var contexts = (Array.isArray(context) ? context : [context]).reverse();
+            var contextMerged_1 = Object.assign.apply(Object, [{}].concat(contexts));
+            var params = Object.keys(contextMerged_1), paramsValues = params.map(function (param) { return contextMerged_1[param]; });
+            return new (Function.bind.apply(Function, [void 0].concat(params, ['return ' + source])))().apply(void 0, paramsValues);
         }
         catch (e) {
             throw e;
@@ -19200,13 +19173,13 @@ var Eval;
 /*!****************************!*\
   !*** ../src/core/index.ts ***!
   \****************************/
-/*! exports provided: Capivara, Controller, ComponentInstance, Component, Eval, Observe */
+/*! exports provided: CapivaraInstance, Controller, ComponentInstance, Component, Eval, Observe */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _capivara__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./capivara */ "../src/core/capivara.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Capivara", function() { return _capivara__WEBPACK_IMPORTED_MODULE_0__["Capivara"]; });
+/* harmony import */ var _capivara_instance__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./capivara.instance */ "../src/core/capivara.instance.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CapivaraInstance", function() { return _capivara_instance__WEBPACK_IMPORTED_MODULE_0__["CapivaraInstance"]; });
 
 /* harmony import */ var _controller__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./controller */ "../src/core/controller.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Controller", function() { return _controller__WEBPACK_IMPORTED_MODULE_1__["Controller"]; });
@@ -19986,26 +19959,119 @@ var KeyCode;
 
 /***/ }),
 
-/***/ "../src/index.ts":
-/*!***********************!*\
-  !*** ../src/index.ts ***!
-  \***********************/
-/*! exports provided: default */
+/***/ "../src/decorators/component.ts":
+/*!**************************************!*\
+  !*** ../src/decorators/component.ts ***!
+  \**************************************/
+/*! exports provided: Component */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _core_capivara__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./core/capivara */ "../src/core/capivara.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Component", function() { return Component; });
+/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../ */ "../src/index.ts");
 
-(function (capivara) {
-    if (!capivara) {
-        window["capivara"] = new _core_capivara__WEBPACK_IMPORTED_MODULE_0__["Capivara"]();
+var Component = function (componentConfig) {
+    return function (target) {
+        var config = {
+            template: componentConfig.template,
+            style: componentConfig.style,
+            constants: componentConfig.constants,
+            functions: componentConfig.functions,
+            bindings: componentConfig.bindings,
+            controllerAs: componentConfig.controllerAs,
+            controller: target,
+        };
+        ___WEBPACK_IMPORTED_MODULE_0__["Capivara"].component(componentConfig.tag, config);
+    };
+};
+
+
+/***/ }),
+
+/***/ "../src/decorators/controller.ts":
+/*!***************************************!*\
+  !*** ../src/decorators/controller.ts ***!
+  \***************************************/
+/*! exports provided: Controller */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Controller", function() { return Controller; });
+var Controller = /** @class */ (function () {
+    function Controller($scope, $element) {
+        this.$scope = $scope;
+        this.$element = $element;
+    }
+    Controller.prototype.$onInit = function () { };
+    Controller.prototype.$onViewInit = function () { };
+    Controller.prototype.$destroy = function () { };
+    return Controller;
+}());
+
+
+
+/***/ }),
+
+/***/ "../src/decorators/index.ts":
+/*!**********************************!*\
+  !*** ../src/decorators/index.ts ***!
+  \**********************************/
+/*! exports provided: Component, Controller */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./component */ "../src/decorators/component.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Component", function() { return _component__WEBPACK_IMPORTED_MODULE_0__["Component"]; });
+
+/* harmony import */ var _controller__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./controller */ "../src/decorators/controller.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Controller", function() { return _controller__WEBPACK_IMPORTED_MODULE_1__["Controller"]; });
+
+
+
+
+
+/***/ }),
+
+/***/ "../src/index.ts":
+/*!***********************!*\
+  !*** ../src/index.ts ***!
+  \***********************/
+/*! exports provided: default, Capivara, Component, Controller */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Capivara", function() { return Capivara; });
+/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./core */ "../src/core/index.ts");
+/* harmony import */ var _core_capivara_instance__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./core/capivara.instance */ "../src/core/capivara.instance.ts");
+/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./decorators */ "../src/decorators/index.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Component", function() { return _decorators__WEBPACK_IMPORTED_MODULE_2__["Component"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Controller", function() { return _decorators__WEBPACK_IMPORTED_MODULE_2__["Controller"]; });
+
+
+
+
+var Capivara = (function initCapivara(ctx, aliasName) {
+    if (!ctx[aliasName]) {
+        ctx[aliasName] = new _core_capivara_instance__WEBPACK_IMPORTED_MODULE_1__["CapivaraInstance"]();
+        ctx[aliasName].core = {
+            Eval: _core__WEBPACK_IMPORTED_MODULE_0__["Eval"],
+            Component: _decorators__WEBPACK_IMPORTED_MODULE_2__["Component"],
+            Controller: _decorators__WEBPACK_IMPORTED_MODULE_2__["Controller"],
+        };
     }
     else {
         console.warn("Gee! CapivaraJS tried to load more than once.");
     }
-})(window["capivara"]);
-/* harmony default export */ __webpack_exports__["default"] = (window['capivara']);
+    return ctx[aliasName];
+})(window, 'capivara');
+
+/* harmony default export */ __webpack_exports__["default"] = (Capivara);
+
 
 
 /***/ }),
@@ -21281,17 +21347,12 @@ var MapDom = /** @class */ (function () {
     MapDom.prototype.reloadElementChildes = function (element, initialScope) {
         var _this = this;
         if (element.children) {
-            var children = Array.from(element.children), scopesToUpdate_1 = [];
-            children.forEach(function (child) {
+            Array.from(element.children).forEach(function (child) {
                 var childScope = _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getScope(child);
                 if (childScope && childScope.mapDom && childScope.id !== initialScope.id) {
-                    scopesToUpdate_1.push(childScope);
+                    childScope.mapDom.reloadDirectives();
                 }
                 _this.reloadElementChildes(child, initialScope);
-            });
-            Array.from(new Set(scopesToUpdate_1)).forEach(function (scope) {
-                scope.mapDom.reloadDirectives();
-                // console.log('atualizou o scope ' + scope.id + ' :: ' + new Date().getTime());
             });
         }
     };
@@ -21342,41 +21403,22 @@ var MapDom = /** @class */ (function () {
         this.processInterpolation(this.element);
         this.reloadElementChildes(this.element, _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getScope(this.element));
     };
-    MapDom.prototype.deepText = function (node) {
-        var A = [];
-        if (node) {
-            node = node.firstChild;
-            while (node != null) {
-                if (node.nodeType === 3) {
-                    A[A.length] = node;
-                }
-                else {
-                    A = A.concat(this.deepText(node));
-                }
-                node = node.nextSibling;
-            }
-        }
-        return A;
-    };
     /**
      * @description Percorre os elementos para processar os interpolations.
      * @param element
      */
     MapDom.prototype.processInterpolation = function (element) {
         var _this = this;
-        this.deepText(element).forEach(function (childNode) { return _this.interpolation(childNode); });
+        _common__WEBPACK_IMPORTED_MODULE_0__["Common"].deepText(element).forEach(function (childNode) {
+            _this.interpolation(childNode);
+        });
     };
     MapDom.prototype.getInterpolationValue = function (content, childNode, prefix) {
         if (prefix) {
             content = prefix + '.' + content;
         }
         try {
-            var evalValue = _common__WEBPACK_IMPORTED_MODULE_0__["Common"].evalInMultiContext(childNode, content.trim().startsWith(':') ? content.trim().slice(1) : content) + '';
-            evalValue = (evalValue.trim() !== undefined
-                && (evalValue).trim() !== 'undefined'
-                && (evalValue).trim() !== 'null'
-                && (evalValue).trim() !== 'NaN') ? evalValue : '';
-            return evalValue;
+            return _common__WEBPACK_IMPORTED_MODULE_0__["Common"].evalInMultiContext(childNode, content.trim().startsWith(':') ? content.trim().slice(1) : content) + '';
         }
         catch (e) {
             return '';
@@ -21414,25 +21456,9 @@ var MapDom = /** @class */ (function () {
                 }
             });
             childNode.nodeValue = childNode.nodeValue.replace(this.regexInterpolation, '');
-            this.alternativeInterpolation(childNode);
         }
         if (childNode.childNodes) {
-            setTimeout(function () { return _this.processInterpolation(childNode); }, 1);
-        }
-    };
-    MapDom.prototype.alternativeInterpolation = function (childNode) {
-        var _this = this;
-        if (!childNode.$immutableInterpolation) {
-            var nodeModified_2 = childNode.originalValue;
-            (nodeModified_2.match(/\${.+?}/g) || []).forEach(function (key) {
-                var content = key.replace('${', '').replace('}', '');
-                try {
-                    var evalValue = _this.getInterpolationValue(content, childNode, _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getScope(_this.element).scope['__$controllerAs__']);
-                    nodeModified_2 = nodeModified_2.replace(key, evalValue);
-                    childNode.nodeValue = nodeModified_2;
-                }
-                catch (e) { }
-            });
+            this.processInterpolation(childNode);
         }
     };
     /**
@@ -21685,6 +21711,9 @@ var Scope = /** @class */ (function () {
         }
         this.observers = [];
         this.$on('$onChanges', this.onChanges);
+        if (_element && _element.parentNode && _element.parentNode[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SCOPE_ATTRIBUTE_NAME]) {
+            this.$parent = _element.parentNode[_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].SCOPE_ATTRIBUTE_NAME];
+        }
     }
     Scope.prototype.getScopeProxy = function () {
         return this.scope;
