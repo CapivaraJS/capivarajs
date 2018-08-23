@@ -85,8 +85,9 @@ export class ComponentInstance {
         value: this.config.controllerAs,
         configurable: true,
       });
-      Common.getScope(this.element).$emit('$onInit');
-      Common.getScope(this.element).mapDom.reload();
+      const context = Common.getScope(this.element);
+      context.$emit('$onInit');
+      context.mapDom.reload();
     }
   }
 
@@ -99,8 +100,9 @@ export class ComponentInstance {
     if (this.contextObj) {
       this.applyBindingsComponentBuilder();
     }
-    if (Common.getScope(this.element).scope.$ctrl.$onBuild) {
-      Common.getScope(this.element).scope.$ctrl.$onBuild();
+    const context = Common.getScope(this.element);
+    if (context.scope.$ctrl.$onBuild) {
+      context.scope.$ctrl.$onBuild();
     }
   }
 

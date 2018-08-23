@@ -28,7 +28,7 @@ export class ScopeProxy {
     }
   }
 
-  private updateScopes(scope) {
+  private updateScopes(scope: Scope) {
     if (!scope.$parent) {
       scope.mapDom.reload();
     } else {

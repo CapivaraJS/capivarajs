@@ -15,8 +15,10 @@ export class CapivaraInstance {
   public version;
   public LAST_SCOPE_ID = 0;
   public core;
+  public DOMMutation;
 
   constructor() {
+    this.DOMMutation = window['MutationObserver'] || window['WebKitMutationObserver'] || window['MozMutationObserver'];
     this.version = packageJson.version;
     this.components = {};
     this.scopes = [];
@@ -105,9 +107,8 @@ export class CapivaraInstance {
   }
 
   public createListeners() {
-    const MutationObserver = window['MutationObserver'] || window['WebKitMutationObserver'] || window['MozMutationObserver'];
-    if (MutationObserver) {
-      const observer = new MutationObserver((mutations) => this.onMutation(mutations));
+    if (this.DOMMutation) {
+      const observer = new this.DOMMutation((mutations) => this.onMutation(mutations));
       observer.observe(document.body, {
         attributes: false,
         childList: true,

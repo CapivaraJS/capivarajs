@@ -16,10 +16,10 @@ export namespace Common {
    * @param context
    * @param prefix
    */
-  export function evalInContext(source, context: any) {
+  export function evalInContext(source, context: any, test?) {
     if (source) {
       try {
-        return Eval.exec(source, context);
+        return Eval.exec(source, context, test);
       } catch (e) { }
     }
   }
@@ -131,12 +131,12 @@ export namespace Common {
     return scopes;
   }
 
-  export function evalInMultiContext(element, condition, additionalParameters?) {
-    const scopes = Array.from(getAllScopes(element, new Set()));
+  export function evalInMultiContext(element, condition, additionalParameters?, test?) {
+    const scopes = Array.from(getAllScopes(element, new Set())).reverse();
     if (additionalParameters) {
       scopes.push(additionalParameters);
     }
-    return evalInContext(condition, scopes);
+    return evalInContext(condition, scopes, test);
   }
 
   export function isValidCondition(element, condition) {

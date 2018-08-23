@@ -55,16 +55,19 @@ export class CPModel implements Directive {
 
   public applyValueInModel(evt) {
     const self = (evt ? (evt.target || evt.srcElement) : this.element)['cpModel'];
-    switch (self.element.type) {
-      case 'date':
-        _.set(Common.getScope(self.element).scope, self.attribute, self.element.valueAsDate);
-        break;
-      case 'number':
-        _.set(Common.getScope(self.element).scope, self.attribute, isNaN(self.element.valueAsNumber) ? undefined : self.element.valueAsNumber);
-        break;
-      default:
-        _.set(Common.getScope(self.element).scope, self.attribute, self.element.value);
-    }
+    if (self.debouce) { clearTimeout(self.debouce); }
+    self.debouce = setTimeout(() => {
+      switch (self.element.type) {
+        case 'date':
+          _.set(Common.getScope(self.element).scope, self.attribute, self.element.valueAsDate);
+          break;
+        case 'number':
+          _.set(Common.getScope(self.element).scope, self.attribute, isNaN(self.element.valueAsNumber) ? undefined : self.element.valueAsNumber);
+          break;
+        default:
+          _.set(Common.getScope(self.element).scope, self.attribute, self.element.value);
+      }
+    }, 10);
   }
 
 }

@@ -21,6 +21,8 @@ export class CPRepeat implements Directive {
 
   constructor(_element: HTMLElement, _map: MapDom) {
     this.element = _element.cloneNode(true);
+    this.element.removeAttribute(Constants.REPEAT_ATTRIBUTE_NAME);
+    this.element.classList.add('binding-repeat');
     this.originalElement = _element;
     this.map = _map;
     this.attribute = _element.getAttribute(Constants.REPEAT_ATTRIBUTE_NAME).replace(/\s+/g, ' ');
@@ -46,50 +48,32 @@ export class CPRepeat implements Directive {
     if (array && !_.isEqual(array, this.lastArray)) {
       this.lastArray = array.slice();
       this.removeChildes();
-      this.loop(array.slice().reverse(), this.attributeAlias);
+      this.loop(array, this.attributeAlias);
     }
   }
 
   public removeChildes() {
-    this.elms.forEach((elm) => {
-      this.referenceNode.parentNode.removeChild(elm);
-    });
-  }
-
-  private afterLoop() {
-    setTimeout(() => {
-      this.elms.forEach((elm) => {
-        elm.style.visibility = 'visible';
-      });
-    }, 1);
+    this.elms.forEach((elm) => this.referenceNode.parentNode.removeChild(elm));
   }
 
   public loop(array, attributeAlias) {
-    this.elms = array.map((row, index) => {
-      const elm = this.element.cloneNode(true);
-      elm.removeAttribute(Constants.REPEAT_ATTRIBUTE_NAME);
-      new Controller(elm, () => { });
-      elm.classList.add('binding-repeat');
-      elm.style.visibility = 'hidden';
-      Common.appendAfter(this.referenceNode, elm);
-      Common.getScope(elm).scope[attributeAlias] = row;
-      return elm;
-    });
-    this.elms.reverse().forEach((elm, index) => {
-      Common.getScope(elm).scope[Constants.REPEAT_INDEX_NAME] = index;
-      this.createChildrenComponents(elm);
-    });
-    const shift = Object.assign([], this.elms)[this.elms.length - 1];
-    if (shift) {
-      Common.appendAfter(shift, this.referenceNode.parentNode.appendChild(document.createComment('end repeat ' + this.attribute)));
-    }
-    this.afterLoop();
-  }
+    this.elms = []; // reset elements render
+    let lastAdded = this.referenceNode;
 
-  private createChildrenComponents(elm) {
-    (Array.from(elm.children) || []).forEach((child) => {
-      capivara.constroyIfComponent(child);
+    array.forEach((row, index) => {
+      const elm = this.element.cloneNode(true);
+      new Controller(elm, () => { });
+      Common.appendAfter(lastAdded, elm);
+      const elementContext = Common.getScope(elm);
+      elementContext.scope[attributeAlias] = row;
+      elementContext.scope[Constants.REPEAT_INDEX_NAME] = index;
+      lastAdded = elm;
+      this.elms.push(elm); // add element reference.
     });
+
+    if (lastAdded) {
+      Common.appendAfter(lastAdded, this.referenceNode.parentNode.appendChild(document.createComment('end repeat ' + this.attribute)));
+    }
   }
 
 }

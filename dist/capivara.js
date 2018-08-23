@@ -18056,7 +18056,7 @@ module.exports = function(module) {
 /*! exports provided: name, version, description, main, repository, scripts, author, license, dependencies, keywords, nyc, devDependencies, default */
 /***/ (function(module) {
 
-module.exports = {"name":"capivarajs","version":"3.8.1","description":"Um framework para criação de componentes.","main":"./src/index.ts","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./config/webpack.dev.js","prod":"npm run test-single && webpack --config ./config/webpack.dev.js && webpack --config ./config/webpack.prod.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./config/webpack.dev.js --t true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.4.3"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^10.0.3","babel-loader":"^7.1.4","babel-polyfill":"^6.26.0","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^1.0.0","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.2","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.12","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^12.0.1","style-loader":"^0.21.0","ts-loader":"^4.1.0","typescript":"^2.7.2","tslint":"^5.9.1","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.8.1","webpack-cli":"^2.1.3","webpack-dev-server":"^3.1.1","webpack-merge":"^4.1.2"}};
+module.exports = {"name":"capivarajs","version":"3.9.0","description":"Um framework para criação de componentes.","main":"./src/index.ts","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./config/webpack.dev.js","prod":"npm run test-single && webpack --config ./config/webpack.dev.js && webpack --config ./config/webpack.prod.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./config/webpack.dev.js --t true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.4.3"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^10.0.3","babel-loader":"^7.1.4","babel-polyfill":"^6.26.0","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^1.0.0","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.2","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.12","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^12.0.1","style-loader":"^0.21.0","ts-loader":"^4.1.0","typescript":"^2.7.2","tslint":"^5.9.1","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.8.1","webpack-cli":"^2.1.3","webpack-dev-server":"^3.1.1","webpack-merge":"^4.1.2"}};
 
 /***/ }),
 
@@ -18089,10 +18089,10 @@ var Common;
      * @param context
      * @param prefix
      */
-    function evalInContext(source, context) {
+    function evalInContext(source, context, test) {
         if (source) {
             try {
-                return _core__WEBPACK_IMPORTED_MODULE_2__["Eval"].exec(source, context);
+                return _core__WEBPACK_IMPORTED_MODULE_2__["Eval"].exec(source, context, test);
             }
             catch (e) { }
         }
@@ -18206,12 +18206,12 @@ var Common;
         return scopes;
     }
     Common.getAllScopes = getAllScopes;
-    function evalInMultiContext(element, condition, additionalParameters) {
-        var scopes = Array.from(getAllScopes(element, new Set()));
+    function evalInMultiContext(element, condition, additionalParameters, test) {
+        var scopes = Array.from(getAllScopes(element, new Set())).reverse();
         if (additionalParameters) {
             scopes.push(additionalParameters);
         }
-        return evalInContext(condition, scopes);
+        return evalInContext(condition, scopes, test);
     }
     Common.evalInMultiContext = evalInMultiContext;
     function isValidCondition(element, condition) {
@@ -18347,6 +18347,7 @@ var CapivaraInstance = /** @class */ (function () {
     function CapivaraInstance() {
         var _this = this;
         this.LAST_SCOPE_ID = 0;
+        this.DOMMutation = window['MutationObserver'] || window['WebKitMutationObserver'] || window['MozMutationObserver'];
         this.version = packageJson.version;
         this.components = {};
         this.scopes = [];
@@ -18433,9 +18434,8 @@ var CapivaraInstance = /** @class */ (function () {
     };
     CapivaraInstance.prototype.createListeners = function () {
         var _this = this;
-        var MutationObserver = window['MutationObserver'] || window['WebKitMutationObserver'] || window['MozMutationObserver'];
-        if (MutationObserver) {
-            var observer = new MutationObserver(function (mutations) { return _this.onMutation(mutations); });
+        if (this.DOMMutation) {
+            var observer = new this.DOMMutation(function (mutations) { return _this.onMutation(mutations); });
             observer.observe(document.body, {
                 attributes: false,
                 childList: true,
@@ -18782,8 +18782,9 @@ var ComponentInstance = /** @class */ (function () {
                 value: this.config.controllerAs,
                 configurable: true,
             });
-            _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(this.element).$emit('$onInit');
-            _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(this.element).mapDom.reload();
+            var context = _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(this.element);
+            context.$emit('$onInit');
+            context.mapDom.reload();
         }
     };
     /**
@@ -18795,8 +18796,9 @@ var ComponentInstance = /** @class */ (function () {
         if (this.contextObj) {
             this.applyBindingsComponentBuilder();
         }
-        if (_common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(this.element).scope.$ctrl.$onBuild) {
-            _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(this.element).scope.$ctrl.$onBuild();
+        var context = _common__WEBPACK_IMPORTED_MODULE_2__["Common"].getScope(this.element);
+        if (context.scope.$ctrl.$onBuild) {
+            context.scope.$ctrl.$onBuild();
         }
     };
     /**
@@ -19152,9 +19154,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Eval", function() { return Eval; });
 var Eval;
 (function (Eval) {
-    function exec(source, context) {
+    function exec(source, context, test) {
         try {
-            var contexts = (Array.isArray(context) ? context : [context]).reverse();
+            // if (test)  {
+            //   return '';
+            // }
+            var contexts = (Array.isArray(context) ? context : [context]);
             var contextMerged_1 = Object.assign.apply(Object, [{}].concat(contexts));
             var params = Object.keys(contextMerged_1), paramsValues = params.map(function (param) { return contextMerged_1[param]; });
             return new (Function.bind.apply(Function, [void 0].concat(params, ["\n        const value = " + source + ";\n        return value == undefined ? '' : Number.isNaN(value) ? 0 : value;\n      "])))().apply(void 0, paramsValues);
@@ -20867,16 +20872,21 @@ var CPModel = /** @class */ (function () {
     };
     CPModel.prototype.applyValueInModel = function (evt) {
         var self = (evt ? (evt.target || evt.srcElement) : this.element)['cpModel'];
-        switch (self.element.type) {
-            case 'date':
-                lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(self.element).scope, self.attribute, self.element.valueAsDate);
-                break;
-            case 'number':
-                lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(self.element).scope, self.attribute, isNaN(self.element.valueAsNumber) ? undefined : self.element.valueAsNumber);
-                break;
-            default:
-                lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(self.element).scope, self.attribute, self.element.value);
+        if (self.debouce) {
+            clearTimeout(self.debouce);
         }
+        self.debouce = setTimeout(function () {
+            switch (self.element.type) {
+                case 'date':
+                    lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(self.element).scope, self.attribute, self.element.valueAsDate);
+                    break;
+                case 'number':
+                    lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(self.element).scope, self.attribute, isNaN(self.element.valueAsNumber) ? undefined : self.element.valueAsNumber);
+                    break;
+                default:
+                    lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(self.element).scope, self.attribute, self.element.value);
+            }
+        }, 10);
     };
     return CPModel;
 }());
@@ -20958,8 +20968,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../common */ "../src/common.ts");
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../constants */ "../src/constants.ts");
 /* harmony import */ var _core_controller__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../core/controller */ "../src/core/controller.ts");
-/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../index */ "../src/index.ts");
-
 
 
 
@@ -20969,6 +20977,8 @@ var CPRepeat = /** @class */ (function () {
         this.lastArray = [];
         this.elms = [];
         this.element = _element.cloneNode(true);
+        this.element.removeAttribute(_constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].REPEAT_ATTRIBUTE_NAME);
+        this.element.classList.add('binding-repeat');
         this.originalElement = _element;
         this.map = _map;
         this.attribute = _element.getAttribute(_constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].REPEAT_ATTRIBUTE_NAME).replace(/\s+/g, ' ');
@@ -20992,49 +21002,30 @@ var CPRepeat = /** @class */ (function () {
         if (array && !lodash__WEBPACK_IMPORTED_MODULE_0__["isEqual"](array, this.lastArray)) {
             this.lastArray = array.slice();
             this.removeChildes();
-            this.loop(array.slice().reverse(), this.attributeAlias);
+            this.loop(array, this.attributeAlias);
         }
     };
     CPRepeat.prototype.removeChildes = function () {
         var _this = this;
-        this.elms.forEach(function (elm) {
-            _this.referenceNode.parentNode.removeChild(elm);
-        });
-    };
-    CPRepeat.prototype.afterLoop = function () {
-        var _this = this;
-        setTimeout(function () {
-            _this.elms.forEach(function (elm) {
-                elm.style.visibility = 'visible';
-            });
-        }, 1);
+        this.elms.forEach(function (elm) { return _this.referenceNode.parentNode.removeChild(elm); });
     };
     CPRepeat.prototype.loop = function (array, attributeAlias) {
         var _this = this;
-        this.elms = array.map(function (row, index) {
+        this.elms = []; // reset elements render
+        var lastAdded = this.referenceNode;
+        array.forEach(function (row, index) {
             var elm = _this.element.cloneNode(true);
-            elm.removeAttribute(_constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].REPEAT_ATTRIBUTE_NAME);
             new _core_controller__WEBPACK_IMPORTED_MODULE_3__["Controller"](elm, function () { });
-            elm.classList.add('binding-repeat');
-            elm.style.visibility = 'hidden';
-            _common__WEBPACK_IMPORTED_MODULE_1__["Common"].appendAfter(_this.referenceNode, elm);
-            _common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(elm).scope[attributeAlias] = row;
-            return elm;
+            _common__WEBPACK_IMPORTED_MODULE_1__["Common"].appendAfter(lastAdded, elm);
+            var elementContext = _common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(elm);
+            elementContext.scope[attributeAlias] = row;
+            elementContext.scope[_constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].REPEAT_INDEX_NAME] = index;
+            lastAdded = elm;
+            _this.elms.push(elm); // add element reference.
         });
-        this.elms.reverse().forEach(function (elm, index) {
-            _common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(elm).scope[_constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].REPEAT_INDEX_NAME] = index;
-            _this.createChildrenComponents(elm);
-        });
-        var shift = Object.assign([], this.elms)[this.elms.length - 1];
-        if (shift) {
-            _common__WEBPACK_IMPORTED_MODULE_1__["Common"].appendAfter(shift, this.referenceNode.parentNode.appendChild(document.createComment('end repeat ' + this.attribute)));
+        if (lastAdded) {
+            _common__WEBPACK_IMPORTED_MODULE_1__["Common"].appendAfter(lastAdded, this.referenceNode.parentNode.appendChild(document.createComment('end repeat ' + this.attribute)));
         }
-        this.afterLoop();
-    };
-    CPRepeat.prototype.createChildrenComponents = function (elm) {
-        (Array.from(elm.children) || []).forEach(function (child) {
-            _index__WEBPACK_IMPORTED_MODULE_4__["default"].constroyIfComponent(child);
-        });
     };
     return CPRepeat;
 }());
@@ -21165,24 +21156,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MapDom", function() { return MapDom; });
 /* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common */ "../src/common.ts");
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constants */ "../src/constants.ts");
-/* harmony import */ var _directive_cp_attr__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./directive/cp-attr */ "../src/map/directive/cp-attr.ts");
-/* harmony import */ var _directive_cp_blur__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./directive/cp-blur */ "../src/map/directive/cp-blur.ts");
-/* harmony import */ var _directive_cp_change__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./directive/cp-change */ "../src/map/directive/cp-change.ts");
-/* harmony import */ var _directive_cp_class__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./directive/cp-class */ "../src/map/directive/cp-class.ts");
-/* harmony import */ var _directive_cp_click__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./directive/cp-click */ "../src/map/directive/cp-click.ts");
-/* harmony import */ var _directive_cp_disabled__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./directive/cp-disabled */ "../src/map/directive/cp-disabled.ts");
-/* harmony import */ var _directive_cp_else__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./directive/cp-else */ "../src/map/directive/cp-else.ts");
-/* harmony import */ var _directive_cp_else_if__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./directive/cp-else-if */ "../src/map/directive/cp-else-if.ts");
-/* harmony import */ var _directive_cp_focus__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./directive/cp-focus */ "../src/map/directive/cp-focus.ts");
-/* harmony import */ var _directive_cp_hide__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./directive/cp-hide */ "../src/map/directive/cp-hide.ts");
-/* harmony import */ var _directive_cp_if__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./directive/cp-if */ "../src/map/directive/cp-if.ts");
-/* harmony import */ var _directive_cp_init__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./directive/cp-init */ "../src/map/directive/cp-init.ts");
-/* harmony import */ var _directive_cp_key__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./directive/cp-key */ "../src/map/directive/cp-key.ts");
-/* harmony import */ var _directive_cp_model__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./directive/cp-model */ "../src/map/directive/cp-model.ts");
-/* harmony import */ var _directive_cp_mouse__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./directive/cp-mouse */ "../src/map/directive/cp-mouse.ts");
-/* harmony import */ var _directive_cp_repeat__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./directive/cp-repeat */ "../src/map/directive/cp-repeat.ts");
-/* harmony import */ var _directive_cp_show__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./directive/cp-show */ "../src/map/directive/cp-show.ts");
-/* harmony import */ var _directive_cp_style__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./directive/cp-style */ "../src/map/directive/cp-style.ts");
+/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../index */ "../src/index.ts");
+/* harmony import */ var _directive_cp_attr__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./directive/cp-attr */ "../src/map/directive/cp-attr.ts");
+/* harmony import */ var _directive_cp_blur__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./directive/cp-blur */ "../src/map/directive/cp-blur.ts");
+/* harmony import */ var _directive_cp_change__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./directive/cp-change */ "../src/map/directive/cp-change.ts");
+/* harmony import */ var _directive_cp_class__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./directive/cp-class */ "../src/map/directive/cp-class.ts");
+/* harmony import */ var _directive_cp_click__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./directive/cp-click */ "../src/map/directive/cp-click.ts");
+/* harmony import */ var _directive_cp_disabled__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./directive/cp-disabled */ "../src/map/directive/cp-disabled.ts");
+/* harmony import */ var _directive_cp_else__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./directive/cp-else */ "../src/map/directive/cp-else.ts");
+/* harmony import */ var _directive_cp_else_if__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./directive/cp-else-if */ "../src/map/directive/cp-else-if.ts");
+/* harmony import */ var _directive_cp_focus__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./directive/cp-focus */ "../src/map/directive/cp-focus.ts");
+/* harmony import */ var _directive_cp_hide__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./directive/cp-hide */ "../src/map/directive/cp-hide.ts");
+/* harmony import */ var _directive_cp_if__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./directive/cp-if */ "../src/map/directive/cp-if.ts");
+/* harmony import */ var _directive_cp_init__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./directive/cp-init */ "../src/map/directive/cp-init.ts");
+/* harmony import */ var _directive_cp_key__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./directive/cp-key */ "../src/map/directive/cp-key.ts");
+/* harmony import */ var _directive_cp_model__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./directive/cp-model */ "../src/map/directive/cp-model.ts");
+/* harmony import */ var _directive_cp_mouse__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./directive/cp-mouse */ "../src/map/directive/cp-mouse.ts");
+/* harmony import */ var _directive_cp_repeat__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./directive/cp-repeat */ "../src/map/directive/cp-repeat.ts");
+/* harmony import */ var _directive_cp_show__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./directive/cp-show */ "../src/map/directive/cp-show.ts");
+/* harmony import */ var _directive_cp_style__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./directive/cp-style */ "../src/map/directive/cp-style.ts");
+
 
 
 
@@ -21205,6 +21198,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var MapDom = /** @class */ (function () {
     function MapDom(_element) {
+        var _this = this;
         this.directives = {
             /**
              * Mapa de atributos com os elementos que os observam.
@@ -21234,11 +21228,26 @@ var MapDom = /** @class */ (function () {
         };
         this.element = _element;
         this.regexInterpolation = new RegExp(/({{).*?(}})/g);
+        this.nodesTextReference = [];
         this.setRenderedView(false);
         if (this.element) {
             this.$addScope();
         }
+        var observer = new _index__WEBPACK_IMPORTED_MODULE_2__["Capivara"].DOMMutation(function () { return _this.loadNodeText(); });
+        observer.observe(this.element, {
+            childList: true,
+            subtree: true,
+        });
+        var nodes = this.getNodeTexts();
+        nodes.forEach(function (childNode) { return childNode.originalValue = childNode.originalValue || childNode.nodeValue; });
+        this.nodesTextReference = nodes;
     }
+    MapDom.prototype.loadNodeText = function () {
+        this.nodesTextReference = this.getNodeTexts().filter(function (node) {
+            return (node.originalValue + '').indexOf(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].START_INTERPOLATION) !== -1
+                && (node.originalValue + '').indexOf(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].END_INTERPOLATION) !== -1;
+        });
+    };
     /**
      * @method void Percorre os elementos filhos do elemento principal criando os binds.
      */
@@ -21397,25 +21406,28 @@ var MapDom = /** @class */ (function () {
             return;
         }
         this.reloadDirectives();
-        this.processInterpolation(this.element);
+        this.processInterpolation();
         this.reloadElementChildes(this.element, _common__WEBPACK_IMPORTED_MODULE_0__["Common"].getScope(this.element));
     };
     /**
      * @description Percorre os elementos para processar os interpolations.
      * @param element
      */
-    MapDom.prototype.processInterpolation = function (element) {
+    MapDom.prototype.processInterpolation = function () {
         var _this = this;
-        _common__WEBPACK_IMPORTED_MODULE_0__["Common"].deepText(element).forEach(function (childNode) {
-            _this.interpolation(childNode);
-        });
+        this.nodesTextReference.forEach(function (nodeTextReference) { return _this.interpolation(nodeTextReference); });
     };
-    MapDom.prototype.getInterpolationValue = function (content, childNode, prefix) {
-        if (prefix) {
-            content = prefix + '.' + content;
+    MapDom.prototype.getNodeTexts = function () {
+        var n;
+        var a = [], walk = document.createTreeWalker(this.element, NodeFilter.SHOW_TEXT, null, false);
+        while (n = walk.nextNode()) {
+            a.push(n);
         }
+        return a;
+    };
+    MapDom.prototype.getInterpolationValue = function (content, childNode) {
         try {
-            return _common__WEBPACK_IMPORTED_MODULE_0__["Common"].evalInMultiContext(childNode, content.trim().startsWith(':') ? content.trim().slice(1) : content) + '';
+            return _common__WEBPACK_IMPORTED_MODULE_0__["Common"].evalInMultiContext(childNode, content.trim().startsWith(':') ? content.trim().slice(1) : content, undefined, true) + '';
         }
         catch (e) {
             return '';
@@ -21434,15 +21446,15 @@ var MapDom = /** @class */ (function () {
                 return;
             }
             var nodeModified_1 = childNode.originalValue, str = childNode.originalValue;
-            str = window['capivara'].replaceAll(str, _constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].START_INTERPOLATION, '{{');
-            str = window['capivara'].replaceAll(str, _constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].END_INTERPOLATION, '}}');
+            str = _index__WEBPACK_IMPORTED_MODULE_2__["Capivara"].replaceAll(str, _constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].START_INTERPOLATION, '{{');
+            str = _index__WEBPACK_IMPORTED_MODULE_2__["Capivara"].replaceAll(str, _constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].END_INTERPOLATION, '}}');
             (str.match(this.regexInterpolation) || []).forEach(function (key) {
                 var content = key.replace('{{', '').replace('}}', '');
                 if (!childNode.$immutableInterpolation) {
                     try {
                         var evalValue = _this.getInterpolationValue(content, childNode);
-                        key = window['capivara'].replaceAll(key, '{{', _constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].START_INTERPOLATION);
-                        key = window['capivara'].replaceAll(key, '}}', _constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].END_INTERPOLATION);
+                        key = _index__WEBPACK_IMPORTED_MODULE_2__["Capivara"].replaceAll(key, '{{', _constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].START_INTERPOLATION);
+                        key = _index__WEBPACK_IMPORTED_MODULE_2__["Capivara"].replaceAll(key, '}}', _constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].END_INTERPOLATION);
                         nodeModified_1 = nodeModified_1.replace(key, evalValue);
                         childNode.nodeValue = nodeModified_1;
                     }
@@ -21453,9 +21465,6 @@ var MapDom = /** @class */ (function () {
                 }
             });
             childNode.nodeValue = childNode.nodeValue.replace(this.regexInterpolation, '');
-        }
-        if (childNode.childNodes) {
-            this.processInterpolation(childNode);
         }
     };
     /**
@@ -21477,119 +21486,119 @@ var MapDom = /** @class */ (function () {
      * @param child Elemento que está sendo criado o bind de model
      */
     MapDom.prototype.createCPModel = function (child) {
-        this.directives.cpModels.push(new _directive_cp_model__WEBPACK_IMPORTED_MODULE_15__["CPModel"](child, this));
+        this.directives.cpModels.push(new _directive_cp_model__WEBPACK_IMPORTED_MODULE_16__["CPModel"](child, this));
     };
     /**
      *
      * @param child Elemento que está sendo criado o bind de click
      */
     MapDom.prototype.createCPClick = function (child) {
-        this.directives.cpClicks.push(new _directive_cp_click__WEBPACK_IMPORTED_MODULE_6__["CPClick"](child, this));
+        this.directives.cpClicks.push(new _directive_cp_click__WEBPACK_IMPORTED_MODULE_7__["CPClick"](child, this));
     };
     /**
      *
      * @param child Elemento que está sendo criado o bind de show
      */
     MapDom.prototype.createCPShow = function (child) {
-        this.directives.cpShows.push(new _directive_cp_show__WEBPACK_IMPORTED_MODULE_18__["CPShow"](child, this));
+        this.directives.cpShows.push(new _directive_cp_show__WEBPACK_IMPORTED_MODULE_19__["CPShow"](child, this));
     };
     /**
      *
      * @param child Elemento que está sendo criado o bind do if
      */
     MapDom.prototype.createCPIf = function (child) {
-        this.directives.cpIfs.push(new _directive_cp_if__WEBPACK_IMPORTED_MODULE_12__["CPIf"](child, this));
+        this.directives.cpIfs.push(new _directive_cp_if__WEBPACK_IMPORTED_MODULE_13__["CPIf"](child, this));
     };
     /**
      *
      * @param child Elemento que está sendo criado o bind do else
      */
     MapDom.prototype.createCPElse = function (child) {
-        this.directives.cpElses.push(new _directive_cp_else__WEBPACK_IMPORTED_MODULE_8__["CPElse"](child, this));
+        this.directives.cpElses.push(new _directive_cp_else__WEBPACK_IMPORTED_MODULE_9__["CPElse"](child, this));
     };
     /**
      *
      * @param child Elemento que está sendo criado o bind do else if
      */
     MapDom.prototype.createCPElseIf = function (child) {
-        this.directives.cpElseIfs.push(new _directive_cp_else_if__WEBPACK_IMPORTED_MODULE_9__["CPElseIf"](child, this));
+        this.directives.cpElseIfs.push(new _directive_cp_else_if__WEBPACK_IMPORTED_MODULE_10__["CPElseIf"](child, this));
     };
     /**
      *
      * @param child Elemento que está sendo criado o bind de repeat.
      */
     MapDom.prototype.createCPRepeat = function (child) {
-        this.directives.repeats.push(new _directive_cp_repeat__WEBPACK_IMPORTED_MODULE_17__["CPRepeat"](child, this));
+        this.directives.repeats.push(new _directive_cp_repeat__WEBPACK_IMPORTED_MODULE_18__["CPRepeat"](child, this));
     };
     /**
      *
      * @param child Elemento que está sendo criado o bind do init.
      */
     MapDom.prototype.createCPInit = function (child) {
-        this.directives.cpInits.push(new _directive_cp_init__WEBPACK_IMPORTED_MODULE_13__["CPInit"](child, this));
+        this.directives.cpInits.push(new _directive_cp_init__WEBPACK_IMPORTED_MODULE_14__["CPInit"](child, this));
     };
     /**
      *
      * @param child Elemento que está sendo criado o bind do style.
      */
     MapDom.prototype.createCPStyle = function (child) {
-        this.directives.cpStyles.push(new _directive_cp_style__WEBPACK_IMPORTED_MODULE_19__["CPStyle"](child, this));
+        this.directives.cpStyles.push(new _directive_cp_style__WEBPACK_IMPORTED_MODULE_20__["CPStyle"](child, this));
     };
     /**
      *
      * @param child Elemento que está sendo criado o bind do class.
      */
     MapDom.prototype.createCPClass = function (child) {
-        this.directives.cpClasses.push(new _directive_cp_class__WEBPACK_IMPORTED_MODULE_5__["CPClass"](child, this));
+        this.directives.cpClasses.push(new _directive_cp_class__WEBPACK_IMPORTED_MODULE_6__["CPClass"](child, this));
     };
     /**
      *
      * @param child Elemento que está sendo criado o bind do key.
      */
     MapDom.prototype.createCPKey = function (child) {
-        this.directives.cpKeys.push(new _directive_cp_key__WEBPACK_IMPORTED_MODULE_14__["CPKey"](child, this));
+        this.directives.cpKeys.push(new _directive_cp_key__WEBPACK_IMPORTED_MODULE_15__["CPKey"](child, this));
     };
     /**
      * @param child Elemento que está criando a bind do attr.
      */
     MapDom.prototype.createCPAttr = function (child) {
-        this.directives.cpAttrs.push(new _directive_cp_attr__WEBPACK_IMPORTED_MODULE_2__["CPAttr"](child, this));
+        this.directives.cpAttrs.push(new _directive_cp_attr__WEBPACK_IMPORTED_MODULE_3__["CPAttr"](child, this));
     };
     /**
      * @param child Elemento que está sendo criado o bind do disable.
      */
     MapDom.prototype.createCPDisabled = function (child) {
-        this.directives.cpDisables.push(new _directive_cp_disabled__WEBPACK_IMPORTED_MODULE_7__["CPDisabled"](child, this));
+        this.directives.cpDisables.push(new _directive_cp_disabled__WEBPACK_IMPORTED_MODULE_8__["CPDisabled"](child, this));
     };
     /**
      * @param child Elemento que está sendo criado o bind do focus.
      */
     MapDom.prototype.createCPFocus = function (child) {
-        this.directives.cpFocus.push(new _directive_cp_focus__WEBPACK_IMPORTED_MODULE_10__["CPFocus"](child, this));
+        this.directives.cpFocus.push(new _directive_cp_focus__WEBPACK_IMPORTED_MODULE_11__["CPFocus"](child, this));
     };
     /**
      * @param child Elemento que está sendo criado o bind do hide.
      */
     MapDom.prototype.createCPHide = function (child) {
-        this.directives.cpHide.push(new _directive_cp_hide__WEBPACK_IMPORTED_MODULE_11__["CPHide"](child, this));
+        this.directives.cpHide.push(new _directive_cp_hide__WEBPACK_IMPORTED_MODULE_12__["CPHide"](child, this));
     };
     /**
      * @param child Elemento que está sendo criado o bind do blur.
      */
     MapDom.prototype.createCPBlur = function (child) {
-        this.directives.cpBlur.push(new _directive_cp_blur__WEBPACK_IMPORTED_MODULE_3__["CPBlur"](child, this));
+        this.directives.cpBlur.push(new _directive_cp_blur__WEBPACK_IMPORTED_MODULE_4__["CPBlur"](child, this));
     };
     /**
     * @param child Elemento que está sendo criado o bind do dbTitle.
     */
     MapDom.prototype.createCPmouse = function (child) {
-        this.directives.cpMouse.push(new _directive_cp_mouse__WEBPACK_IMPORTED_MODULE_16__["CPMouse"](child, this));
+        this.directives.cpMouse.push(new _directive_cp_mouse__WEBPACK_IMPORTED_MODULE_17__["CPMouse"](child, this));
     };
     /**
     * @param child Elemento que está sendo criado o bind do placeholder.
     */
     MapDom.prototype.createCPChange = function (child) {
-        this.directives.cpChange.push(new _directive_cp_change__WEBPACK_IMPORTED_MODULE_4__["CPChange"](child, this));
+        this.directives.cpChange.push(new _directive_cp_change__WEBPACK_IMPORTED_MODULE_5__["CPChange"](child, this));
     };
     return MapDom;
 }());
