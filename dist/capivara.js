@@ -18056,7 +18056,7 @@ module.exports = function(module) {
 /*! exports provided: name, version, description, main, repository, scripts, author, license, dependencies, keywords, nyc, devDependencies, default */
 /***/ (function(module) {
 
-module.exports = {"name":"capivarajs","version":"3.9.0","description":"Um framework para criação de componentes.","main":"./src/index.ts","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./config/webpack.dev.js","prod":"npm run test-single && webpack --config ./config/webpack.dev.js && webpack --config ./config/webpack.prod.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./config/webpack.dev.js --t true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.4.3"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^10.0.3","babel-loader":"^7.1.4","babel-polyfill":"^6.26.0","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^1.0.0","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.2","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.12","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^12.0.1","style-loader":"^0.21.0","ts-loader":"^4.1.0","typescript":"^2.7.2","tslint":"^5.9.1","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.8.1","webpack-cli":"^2.1.3","webpack-dev-server":"^3.1.1","webpack-merge":"^4.1.2"}};
+module.exports = {"name":"capivarajs","version":"3.9.1","description":"Um framework para criação de componentes.","main":"./src/index.ts","repository":{"url":"https://github.com/CapivaraJS/capivarajs","type":"git"},"scripts":{"dev":"webpack-dev-server --config ./config/webpack.dev.js","prod":"npm run test-single && webpack --config ./config/webpack.dev.js && webpack --config ./config/webpack.prod.js","test":"karma start","test-single":"karma start --single-run","e2e":"webpack-dev-server --config ./config/webpack.dev.js --t true","generate-report":"nyc --report-dir coverage npm run test && nyc report --reporter=text","coverage":"npm run generate-report && nyc report --reporter=text-lcov > coverage.lcov && codecov"},"author":"Capivara Team.","license":"MIT","dependencies":{"lodash":"^4.17.5","melanke-watchjs":"^1.4.3"},"keywords":["frameworkjs","web components","front end","documentation","components","gumga","capivara","capivarajs","js","javascript","framework"],"nyc":{"include":["src/*.ts","src/**/*.ts"],"exclude":["typings"],"extension":[".ts",".js"],"reporter":["json","html"],"all":true},"devDependencies":{"@babel/core":"^7.0.0-beta.42","@babel/preset-env":"^7.0.0-beta.42","@types/jasmine":"^2.6.3","@types/node":"^10.0.3","babel-loader":"^7.1.4","babel-polyfill":"^6.26.0","babel-preset-stage-0":"^6.24.1","codecov":"^3.0.0","css-loader":"^1.0.0","eslint":"^4.19.1","extract-text-webpack-plugin":"^4.0.0-beta.0","file-loader":"^1.1.5","html-loader":"^0.5.1","jasmine":"^3.1.0","jasmine-core":"^3.1.0","karma":"^2.0.2","karma-cli":"^1.0.1","karma-es6-shim":"^1.0.0","karma-jasmine":"^1.1.1","karma-phantomjs-launcher":"^1.0.4","karma-typescript":"^3.0.12","nightwatch":"^0.9.20","node-sass":"^4.7.2","nyc":"^12.0.1","style-loader":"^0.21.0","ts-loader":"^4.1.0","typescript":"^2.7.2","tslint":"^5.9.1","uglifyjs-webpack-plugin":"^1.1.2","weakset":"^1.0.0","webpack":"^4.8.1","webpack-cli":"^2.1.3","webpack-dev-server":"^3.1.1","webpack-merge":"^4.1.2"}};
 
 /***/ }),
 
@@ -20872,21 +20872,16 @@ var CPModel = /** @class */ (function () {
     };
     CPModel.prototype.applyValueInModel = function (evt) {
         var self = (evt ? (evt.target || evt.srcElement) : this.element)['cpModel'];
-        if (self.debouce) {
-            clearTimeout(self.debouce);
+        switch (self.element.type) {
+            case 'date':
+                lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(self.element).scope, self.attribute, self.element.valueAsDate);
+                break;
+            case 'number':
+                lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(self.element).scope, self.attribute, isNaN(self.element.valueAsNumber) ? undefined : self.element.valueAsNumber);
+                break;
+            default:
+                lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(self.element).scope, self.attribute, self.element.value);
         }
-        self.debouce = setTimeout(function () {
-            switch (self.element.type) {
-                case 'date':
-                    lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(self.element).scope, self.attribute, self.element.valueAsDate);
-                    break;
-                case 'number':
-                    lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(self.element).scope, self.attribute, isNaN(self.element.valueAsNumber) ? undefined : self.element.valueAsNumber);
-                    break;
-                default:
-                    lodash__WEBPACK_IMPORTED_MODULE_0__["set"](_common__WEBPACK_IMPORTED_MODULE_1__["Common"].getScope(self.element).scope, self.attribute, self.element.value);
-            }
-        }, 10);
     };
     return CPModel;
 }());
@@ -21198,7 +21193,6 @@ __webpack_require__.r(__webpack_exports__);
 
 var MapDom = /** @class */ (function () {
     function MapDom(_element) {
-        var _this = this;
         this.directives = {
             /**
              * Mapa de atributos com os elementos que os observam.
@@ -21228,26 +21222,11 @@ var MapDom = /** @class */ (function () {
         };
         this.element = _element;
         this.regexInterpolation = new RegExp(/({{).*?(}})/g);
-        this.nodesTextReference = [];
         this.setRenderedView(false);
         if (this.element) {
             this.$addScope();
         }
-        var observer = new _index__WEBPACK_IMPORTED_MODULE_2__["Capivara"].DOMMutation(function () { return _this.loadNodeText(); });
-        observer.observe(this.element, {
-            childList: true,
-            subtree: true,
-        });
-        var nodes = this.getNodeTexts();
-        nodes.forEach(function (childNode) { return childNode.originalValue = childNode.originalValue || childNode.nodeValue; });
-        this.nodesTextReference = nodes;
     }
-    MapDom.prototype.loadNodeText = function () {
-        this.nodesTextReference = this.getNodeTexts().filter(function (node) {
-            return (node.originalValue + '').indexOf(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].START_INTERPOLATION) !== -1
-                && (node.originalValue + '').indexOf(_constants__WEBPACK_IMPORTED_MODULE_1__["Constants"].END_INTERPOLATION) !== -1;
-        });
-    };
     /**
      * @method void Percorre os elementos filhos do elemento principal criando os binds.
      */
@@ -21415,7 +21394,7 @@ var MapDom = /** @class */ (function () {
      */
     MapDom.prototype.processInterpolation = function () {
         var _this = this;
-        this.nodesTextReference.forEach(function (nodeTextReference) { return _this.interpolation(nodeTextReference); });
+        this.getNodeTexts().forEach(function (nodeTextReference) { return _this.interpolation(nodeTextReference); });
     };
     MapDom.prototype.getNodeTexts = function () {
         var n;

@@ -58,8 +58,6 @@ export class MapDom {
 
   private readonly regexInterpolation;
 
-  private nodesTextReference;
-
   /**
    * @description variavel boleana que define se o HTML está renderizado na página.
    */
@@ -68,24 +66,8 @@ export class MapDom {
   constructor(_element: HTMLElement) {
     this.element = _element;
     this.regexInterpolation = new RegExp(/({{).*?(}})/g);
-    this.nodesTextReference = [];
     this.setRenderedView(false);
     if (this.element) { this.$addScope(); }
-    const observer = new Capivara.DOMMutation(() => this.loadNodeText());
-    observer.observe(this.element, {
-      childList: true,
-      subtree: true,
-    });
-    const nodes = this.getNodeTexts();
-    nodes.forEach((childNode) => childNode.originalValue = childNode.originalValue || childNode.nodeValue);
-    this.nodesTextReference = nodes;
-  }
-
-  public loadNodeText() {
-    this.nodesTextReference = this.getNodeTexts().filter((node) => {
-      return (node.originalValue + '').indexOf(Constants.START_INTERPOLATION) !== -1
-        && (node.originalValue + '').indexOf(Constants.END_INTERPOLATION) !== -1;
-    });
   }
 
   /**
@@ -232,7 +214,7 @@ export class MapDom {
    * @param element
    */
   public processInterpolation() {
-    this.nodesTextReference.forEach((nodeTextReference) => this.interpolation(nodeTextReference));
+    this.getNodeTexts().forEach((nodeTextReference) => this.interpolation(nodeTextReference));
   }
 
   public getNodeTexts(): any {
