@@ -67,6 +67,7 @@ export class CPRepeat implements Directive {
       const elementContext = Common.getScope(elm);
       elementContext.scope[attributeAlias] = row;
       elementContext.scope[Constants.REPEAT_INDEX_NAME] = index;
+      this.createChildrenComponents(elm);
       lastAdded = elm;
       this.elms.push(elm); // add element reference.
     });
@@ -74,6 +75,12 @@ export class CPRepeat implements Directive {
     if (lastAdded) {
       Common.appendAfter(lastAdded, this.referenceNode.parentNode.appendChild(document.createComment('end repeat ' + this.attribute)));
     }
+  }
+
+  private createChildrenComponents(elm) {
+    (Array.from(elm.children) || []).forEach((child) => {
+      capivara.constroyIfComponent(child);
+    });
   }
 
 }
