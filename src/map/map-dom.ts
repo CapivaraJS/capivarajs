@@ -205,8 +205,8 @@ export class MapDom {
   public reload() {
     if (!this.renderedView) { return; }
     this.reloadDirectives();
-    this.processInterpolation();
     this.reloadElementChildes(this.element, Common.getScope(this.element));
+    this.processInterpolation();
   }
 
   /**
@@ -227,7 +227,7 @@ export class MapDom {
 
   public getInterpolationValue(content, childNode) {
     try {
-      return Common.evalInMultiContext(childNode, content.trim().startsWith(':') ? content.trim().slice(1) : content, undefined, true) + '';
+      return Common.evalInMultiContext(childNode, content.trim().startsWith(':') ? content.trim().slice(1) : content, undefined) + '';
     } catch (e) {
       return '';
     }

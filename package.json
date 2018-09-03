@@ -20,7 +20,8 @@
   "license": "MIT",
   "dependencies": {
     "lodash": "^4.17.5",
-    "melanke-watchjs": "^1.4.3"
+    "melanke-watchjs": "^1.4.3",
+    "obajs": "^0.1.1"
   },
   "keywords": [
     "frameworkjs",

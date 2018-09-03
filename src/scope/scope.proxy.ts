@@ -19,7 +19,9 @@ export class ScopeProxy {
     if (this.element['$instance']) {
       scope.$on('$onInit', () => {
         Observe.observe(objectObserve[this.element['$instance'].config.controllerAs], (changes) => {
-          this.updateScopes(objectObserve.element[Constants.SCOPE_ATTRIBUTE_NAME]);
+          if (changes.length > 0) {
+            this.updateScopes(objectObserve.element[Constants.SCOPE_ATTRIBUTE_NAME]);
+          }
           scope.$emit('$onChanges', changes);
           this.executeObservers(objectObserve, '$onChanges', changes);
           this.executeObservers(objectObserve, '_$$checkBindings', changes);

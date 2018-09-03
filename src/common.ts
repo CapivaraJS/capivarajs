@@ -16,10 +16,10 @@ export namespace Common {
    * @param context
    * @param prefix
    */
-  export function evalInContext(source, context: any, test?) {
+  export function evalInContext(source, context: any) {
     if (source) {
       try {
-        return Eval.exec(source, context, test);
+        return Eval.exec(source, context);
       } catch (e) { }
     }
   }
@@ -131,12 +131,12 @@ export namespace Common {
     return scopes;
   }
 
-  export function evalInMultiContext(element, condition, additionalParameters?, test?) {
+  export function evalInMultiContext(element, condition, additionalParameters?) {
     const scopes = Array.from(getAllScopes(element, new Set())).reverse();
     if (additionalParameters) {
       scopes.push(additionalParameters);
     }
-    return evalInContext(condition, scopes, test);
+    return evalInContext(condition, scopes);
   }
 
   export function isValidCondition(element, condition) {
@@ -162,6 +162,11 @@ export namespace Common {
   export function parentHasIgnore(element) {
     if (element.hasAttribute && (element.hasAttribute(Constants.IGNORE_BINDINGS) || element.nodeName === 'CP-TRANSCLUDE')) { return true; }
     if (element.parentNode) { return parentHasIgnore(element.parentNode); }
+  }
+
+  export function parentHasRepeat(element) {
+    if (element.classList && element.classList.contains('binding-repeat')) { return element; }
+    if (element.parentNode) { return parentHasRepeat(element.parentNode); }
   }
 
   export function getFunctionArgs(func) {

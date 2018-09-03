@@ -67,6 +67,7 @@ export class CPRepeat implements Directive {
       const elementContext = Common.getScope(elm);
       elementContext.scope[attributeAlias] = row;
       elementContext.scope[Constants.REPEAT_INDEX_NAME] = index;
+      elementContext.$parent  = Common.getScope(this.referenceNode.parentNode);
       this.createChildrenComponents(elm);
       lastAdded = elm;
       this.elms.push(elm); // add element reference.

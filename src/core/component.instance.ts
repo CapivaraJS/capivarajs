@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 import WatchJS from 'melanke-watchjs';
 import { Common } from '../common';
 import { Constants } from '../constants';
+import { Capivara } from '../index';
 import { ScopeProxy } from '../scope/scope.proxy';
 import { ComponentConfig } from './component.config';
 import { Controller } from './controller';
@@ -194,9 +195,12 @@ export class ComponentInstance {
       value: (changes) => {
         changes.forEach((change) => {
           if (change.type === 'update' && _bindings.hasOwnProperty(change.name)) {
-            _.set(this.contextObj, _bindings[change.name], $ctrl['$bindings'][change.name]);
-            this.forceUpdateContext();
-            Common.getScope(this.element).mapDom.reload();
+            if (!(this.contextObj instanceof ScopeProxy)) {
+              _.set(this.contextObj, _bindings[change.name], $ctrl['$bindings'][change.name]);
+              this.forceUpdateContext();
+            } else {
+              // if the scope is not created by the repeater
+            }
           }
         });
       },
@@ -233,7 +237,9 @@ export class ComponentInstance {
   }
 
   public observeAndSetValues(obj, _bindings, key) {
-    Observe.observe(obj, () => this.setAttributeValue(_bindings, key));
+    Observe.observe(obj, () => {
+      this.setAttributeValue(_bindings, key);
+    });
   }
 
   public createObserverContext(_bindings, key) {
@@ -255,11 +261,37 @@ export class ComponentInstance {
     }
   }
 
+  public setAttributeRecursive(element, bindKey) {
+    const scope = Common.getScope(element).scope;
+    const bindKeyFormatted = bindKey.replace(/([A-Z])/g, "-$1").toLowerCase();
+    Object.keys((Capivara.components)).forEach((key) => {
+      const componentName = key.toLowerCase(), componentConfig = Capivara.components[key];
+      const components = Array.from(this.element.querySelectorAll(componentName));
+      components.forEach((component: any) => {
+        if (component.firstChild) {
+          const componentCtx = Common.getScope(component.firstChild).scope;
+          _.set(componentCtx[this.config.controllerAs], '$bindings.' + bindKey, _.get(scope, component.getAttribute(bindKeyFormatted)));
+        }
+      });
+    });
+  }
+
   public setAttributeValue(_bindings = {}, key) {
-    const scope = Common.getScope(this.element).scope;
-    _.set(scope, this.config.controllerAs + '.$bindings.' + key, _.get(this.contextObj, _bindings[key]));
-    _.set(scope, '$bindings.' + key, _.get(this.contextObj, _bindings[key]));
-    Common.getScope(this.element).mapDom.reload();
+    const parentRepeat = Common.parentHasRepeat(this.element), scope = Common.getScope(this.element).scope;
+
+    if (this.contextObj instanceof ScopeProxy && _bindings[key].startsWith(this.config.controllerAs) && parentRepeat) {
+      const ctx = Common.getScope(parentRepeat);
+      if (ctx.$parent) {
+        _.set(scope, this.config.controllerAs + '.$bindings.' + key, _.get(ctx.$parent.scope, _bindings[key]));
+        _.set(scope, '$bindings.' + key, _.get(ctx.$parent.scope, _bindings[key]));
+      }
+    } else {
+      _.set(scope[this.config.controllerAs], '$bindings.' + key, _.get(this.contextObj, _bindings[key]));
+      _.set(scope, '$bindings.' + key, _.get(this.contextObj, _bindings[key]));
+    }
+
+    this.setAttributeRecursive(this.element, key);
+
     if (scope[this.config.controllerAs] && scope[this.config.controllerAs].$onChanges) {
       scope[this.config.controllerAs].$onChanges();
     }

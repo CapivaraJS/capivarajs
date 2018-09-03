@@ -1,9 +1,6 @@
 export namespace Eval {
-  export function exec(source, context, test?) {
+  export function exec(source, context) {
     try {
-      // if (test)  {
-      //   return '';
-      // }
       const contexts = (Array.isArray(context) ? context : [context]);
       const contextMerged = Object.assign({}, ...contexts);
       const params = Object.keys(contextMerged), paramsValues = params.map((param) => contextMerged[param]);
