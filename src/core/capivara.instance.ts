@@ -1,4 +1,3 @@
-const packageJson = require('../../package.json');
 import { Constants } from '../constants';
 import { Scope } from '../scope/scope';
 import { Component } from './component';
@@ -19,7 +18,7 @@ export class CapivaraInstance {
 
   constructor() {
     this.DOMMutation = window['MutationObserver'] || window['WebKitMutationObserver'] || window['MozMutationObserver'];
-    this.version = packageJson.version;
+    this.version = '3.10.0';
     this.components = {};
     this.scopes = [];
     this.$watchers = [];

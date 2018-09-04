@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import { Common } from '../../common';
 import { Constants } from '../../constants';
 import { KeyCode } from '../../core/util/keycodes.enum';

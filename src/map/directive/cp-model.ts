@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import { Common } from '../../common';
 import { Constants } from '../../constants';
 import { MapDom } from '../map-dom';
@@ -34,7 +33,7 @@ export class CPModel implements Directive {
   }
 
   public applyModelInValue() {
-    const value = _.get(Common.getScope(this.element).scope, this.attribute);
+    const value = Common.get(Common.getScope(this.element).scope, this.attribute);
     switch (this.element.type) {
       case 'date':
         if (this.element.valueAsDate && this.element.valueAsDate.getTime() !== value.getTime()) {
@@ -53,18 +52,17 @@ export class CPModel implements Directive {
     }
   }
 
-
   public applyValueInModel(evt) {
     const self = (evt ? (evt.target || evt.srcElement) : this.element)['cpModel'];
     switch (self.element.type) {
       case 'date':
-        _.set(Common.getScope(self.element).scope, self.attribute, self.element.valueAsDate);
+        Common.set(Common.getScope(self.element).scope, self.attribute, self.element.valueAsDate);
         break;
       case 'number':
-        _.set(Common.getScope(self.element).scope, self.attribute, isNaN(self.element.valueAsNumber) ? undefined : self.element.valueAsNumber);
+        Common.set(Common.getScope(self.element).scope, self.attribute, isNaN(self.element.valueAsNumber) ? undefined : self.element.valueAsNumber);
         break;
       default:
-        _.set(Common.getScope(self.element).scope, self.attribute, self.element.value);
+        Common.set(Common.getScope(self.element).scope, self.attribute, self.element.value);
     }
   }
 

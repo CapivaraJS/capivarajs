@@ -9,6 +9,7 @@ const Capivara: CapivaraInstance = (function initCapivara(ctx, aliasName) {
       Eval,
       Component,
       Controller,
+      Capivara,
     };
   } else {
     console.warn("Gee! CapivaraJS tried to load more than once.");

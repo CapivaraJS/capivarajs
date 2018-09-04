@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import { Common } from '../../common';
 import { MapDom } from '../map-dom';
 import { Directive } from './directive.interface';

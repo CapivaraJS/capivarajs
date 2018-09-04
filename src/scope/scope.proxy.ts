@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import { Constants } from '../constants';
 import { Observe } from '../core/observer';
 import { MapDom } from '../map/map-dom';

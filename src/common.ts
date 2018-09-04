@@ -1,4 +1,5 @@
-import * as _ from 'lodash';
+import _get from 'lodash.get';
+import _set from 'lodash.set';
 import capivara from './';
 import { Constants } from './constants';
 import { Eval } from './core';
@@ -193,6 +194,14 @@ export namespace Common {
       }
     }
     return A;
+  }
+
+  export function get(obj, path) {
+    return _get(obj, path);
+  }
+
+  export function set(obj, path, value) {
+    return _set(obj, path, value);
   }
 
 }

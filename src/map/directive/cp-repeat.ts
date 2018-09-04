@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import isEqual from 'lodash.isequal';
 import { Common } from '../../common';
 import { Constants } from '../../constants';
 import { Controller } from '../../core/controller';
@@ -45,7 +45,7 @@ export class CPRepeat implements Directive {
 
   public applyLoop() {
     const array = Common.evalInMultiContext(this.originalElement, this.attributeScope);
-    if (array && !_.isEqual(array, this.lastArray)) {
+    if (array && !isEqual(array, this.lastArray)) {
       this.lastArray = array.slice();
       this.removeChildes();
       this.loop(array, this.attributeAlias);
@@ -67,7 +67,7 @@ export class CPRepeat implements Directive {
       const elementContext = Common.getScope(elm);
       elementContext.scope[attributeAlias] = row;
       elementContext.scope[Constants.REPEAT_INDEX_NAME] = index;
-      elementContext.$parent  = Common.getScope(this.referenceNode.parentNode);
+      elementContext.$parent = Common.getScope(this.referenceNode.parentNode);
       this.createChildrenComponents(elm);
       lastAdded = elm;
       this.elms.push(elm); // add element reference.

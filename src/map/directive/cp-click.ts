@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import {Common} from '../../common';
 import {Constants} from '../../constants';
 import {MapDom} from '../map-dom';
@@ -30,7 +29,7 @@ export class CPClick implements Directive {
     }
 
     public getIndexRow(element) {
-        const index = _.get(Common.getScope(element).scope, Constants.REPEAT_INDEX_NAME);
+        const index = Common.get(Common.getScope(element).scope, Constants.REPEAT_INDEX_NAME);
         if (index === undefined && element.parentNode) {
             return this.getIndexRow(element.parentNode);
         }

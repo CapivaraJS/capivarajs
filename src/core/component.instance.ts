@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import WatchJS from 'melanke-watchjs';
 import { Common } from '../common';
 import { Constants } from '../constants';
@@ -171,8 +170,8 @@ export class ComponentInstance {
 
   public applyBindingsComponentMagic() {
     if (!Common.getScope(this.element).scope[this.config.controllerAs]['$bindings']) {
-      _.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$bindings', {});
-      _.set(Common.getScope(this.element).scope, '$bindings', {});
+      Common.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$bindings', {});
+      Common.set(Common.getScope(this.element).scope, '$bindings', {});
     }
     (this.config.bindings || []).forEach((bindingKey) => {
       const bindAttribute = bindingKey.replace(/([A-Z])/g, "-$1").toLowerCase();
@@ -195,12 +194,8 @@ export class ComponentInstance {
       value: (changes) => {
         changes.forEach((change) => {
           if (change.type === 'update' && _bindings.hasOwnProperty(change.name)) {
-            if (!(this.contextObj instanceof ScopeProxy)) {
-              _.set(this.contextObj, _bindings[change.name], $ctrl['$bindings'][change.name]);
-              this.forceUpdateContext();
-            } else {
-              // if the scope is not created by the repeater
-            }
+            Common.set(this.contextObj, _bindings[change.name], change.object[change.name]);
+            this.forceUpdateContext();
           }
         });
       },
@@ -265,12 +260,12 @@ export class ComponentInstance {
     const scope = Common.getScope(element).scope;
     const bindKeyFormatted = bindKey.replace(/([A-Z])/g, "-$1").toLowerCase();
     Object.keys((Capivara.components)).forEach((key) => {
-      const componentName = key.toLowerCase(), componentConfig = Capivara.components[key];
+      const componentName = key.toLowerCase();
       const components = Array.from(this.element.querySelectorAll(componentName));
       components.forEach((component: any) => {
         if (component.firstChild) {
           const componentCtx = Common.getScope(component.firstChild).scope;
-          _.set(componentCtx[this.config.controllerAs], '$bindings.' + bindKey, _.get(scope, component.getAttribute(bindKeyFormatted)));
+          Common.set(componentCtx[this.config.controllerAs], '$bindings.' + bindKey, Common.get(scope, component.getAttribute(bindKeyFormatted)));
         }
       });
     });
@@ -282,12 +277,12 @@ export class ComponentInstance {
     if (this.contextObj instanceof ScopeProxy && _bindings[key].startsWith(this.config.controllerAs) && parentRepeat) {
       const ctx = Common.getScope(parentRepeat);
       if (ctx.$parent) {
-        _.set(scope, this.config.controllerAs + '.$bindings.' + key, _.get(ctx.$parent.scope, _bindings[key]));
-        _.set(scope, '$bindings.' + key, _.get(ctx.$parent.scope, _bindings[key]));
+        Common.set(scope, this.config.controllerAs + '.$bindings.' + key, Common.get(ctx.$parent.scope, _bindings[key]));
+        Common.set(scope, '$bindings.' + key, Common.get(ctx.$parent.scope, _bindings[key]));
       }
     } else {
-      _.set(scope[this.config.controllerAs], '$bindings.' + key, _.get(this.contextObj, _bindings[key]));
-      _.set(scope, '$bindings.' + key, _.get(this.contextObj, _bindings[key]));
+      Common.set(scope[this.config.controllerAs], '$bindings.' + key, Common.get(this.contextObj, _bindings[key]));
+      Common.set(scope, '$bindings.' + key, Common.get(this.contextObj, _bindings[key]));
     }
 
     this.setAttributeRecursive(this.element, key);
@@ -308,25 +303,25 @@ export class ComponentInstance {
 
   public applyConstantsComponentMagic() {
     if (!Common.getScope(this.element).scope[this.config.controllerAs]['$constants']) {
-      _.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$constants', {});
-      _.set(Common.getScope(this.element).scope, '$constants', {});
+      Common.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$constants', {});
+      Common.set(Common.getScope(this.element).scope, '$constants', {});
     }
     (this.config.constants || []).forEach((constantKey) => {
       const bindAttribute = constantKey.replace(/([A-Z])/g, "-$1").toLowerCase();
       const valueAttribute = this.element.getAttribute(bindAttribute);
       if (valueAttribute) {
         const constantValue = Common.evalInContext(valueAttribute, this.contextObj);
-        _.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$constants.' + constantKey, constantValue);
-        _.set(Common.getScope(this.element).scope, '$constants.' + constantKey, constantValue);
+        Common.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$constants.' + constantKey, constantValue);
+        Common.set(Common.getScope(this.element).scope, '$constants.' + constantKey, constantValue);
       }
     });
   }
 
   public applyConstantsComponentBuilder() {
     (this.config.constants || []).forEach((key) => {
-      _.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$constants.' + key, this.constantsValue[key]);
+      Common.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$constants.' + key, this.constantsValue[key]);
       // Mantém compatibilidade
-      _.set(Common.getScope(this.element).scope, '$constants.' + key, this.constantsValue[key]);
+      Common.set(Common.getScope(this.element).scope, '$constants.' + key, this.constantsValue[key]);
     });
   }
 
@@ -337,22 +332,22 @@ export class ComponentInstance {
 
   public applyFunctionsComponentMagic() {
     if (!Common.getScope(this.element).scope[this.config.controllerAs]['$functions']) {
-      _.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$functions', {});
-      _.set(Common.getScope(this.element).scope, '$functions', {});
+      Common.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$functions', {});
+      Common.set(Common.getScope(this.element).scope, '$functions', {});
     }
     (this.config.functions || []).forEach((functionKey) => {
       const bindAttribute = functionKey.replace(/([A-Z])/g, "-$1").toLowerCase();
       const valueAttribute = this.element.getAttribute(bindAttribute);
       if (valueAttribute) {
         const indexRelative = valueAttribute.indexOf('(');
-        const callback = indexRelative !== -1 ? _.get(this.contextObj, valueAttribute.substring(0, indexRelative)) : _.get(this.contextObj, valueAttribute);
+        const callback = indexRelative !== -1 ? Common.get(this.contextObj, valueAttribute.substring(0, indexRelative)) : Common.get(this.contextObj, valueAttribute);
         if (callback) {
           Object.defineProperty(callback, '__ctx__', {
             value: this.contextObj,
             configurable: true,
           });
-          _.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$functions.' + functionKey, callback);
-          _.set(Common.getScope(this.element).scope, '$functions.' + functionKey, callback);
+          Common.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$functions.' + functionKey, callback);
+          Common.set(Common.getScope(this.element).scope, '$functions.' + functionKey, callback);
         }
       }
     });
@@ -360,8 +355,8 @@ export class ComponentInstance {
 
   public applyFunctionsComponentBuilder() {
     (this.config.functions || []).forEach((key) => {
-      _.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$functions.' + key, this.functionsValue[key]);
-      _.set(Common.getScope(this.element).scope, '$functions.' + key, this.functionsValue[key]);
+      Common.set(Common.getScope(this.element).scope, this.config.controllerAs + '.$functions.' + key, this.functionsValue[key]);
+      Common.set(Common.getScope(this.element).scope, '$functions.' + key, this.functionsValue[key]);
     });
   }
 
