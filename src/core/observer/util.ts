@@ -34,7 +34,9 @@ export namespace Util {
         }
         for (let j = 0; j < a2L; j++) {
             if (a[arr2[j]]) {
-                delete a[arr2[j]];
+                try {
+                  delete a[arr2[j]];
+                } catch (e) {}
             } else {
                 a[arr2[j]] = 2;
             }

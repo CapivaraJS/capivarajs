@@ -1,11 +1,22 @@
-import { Capivara } from './core/capivara';
+import { Eval } from './core';
+import { CapivaraInstance } from './core/capivara.instance';
+import { Component, Controller } from './decorators';
 
-(function(capivara) {
-    if (!capivara) {
-        window["capivara"] = new Capivara();
-    } else {
-        console.warn("Gee! CapivaraJS tried to load more than once.");
-    }
-})(window["capivara"]);
+const Capivara: CapivaraInstance = (function initCapivara(ctx, aliasName) {
+  if (!ctx[aliasName]) {
+    ctx[aliasName] = new CapivaraInstance();
+    ctx[aliasName].core = {
+      Eval,
+      Component,
+      Controller,
+      Capivara,
+    };
+  } else {
+    console.warn("Gee! CapivaraJS tried to load more than once.");
+  }
+  return ctx[aliasName];
+})(window, 'capivara');
 
-export default window['capivara'];
+export * from './decorators';
+export default Capivara;
+export { Capivara };
