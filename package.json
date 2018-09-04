@@ -19,12 +19,10 @@
   "author": "Capivara Team.",
   "license": "MIT",
   "dependencies": {
-    "lodash": "^4.17.5",
     "lodash.get": "^4.4.2",
     "lodash.isequal": "^4.5.0",
     "lodash.set": "^4.3.2",
-    "melanke-watchjs": "^1.4.3",
-    "obajs": "^0.1.1"
+    "melanke-watchjs": "^1.4.3"
   },
   "keywords": [
     "frameworkjs",
