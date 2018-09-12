@@ -11,7 +11,6 @@ describe('Directive cp-attr.tittle', () => {
     this.var = 'test1';
 
     this.$onViewInit = () => {
-      console.log('oi');
       it('expect the element title = test1 be found', (done) => {
         expect(element.querySelector('h1').getAttribute("title")).toEqual('test1');
         done();

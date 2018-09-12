@@ -5467,7 +5467,7 @@ var ComponentInstance = /** @class */ (function () {
     };
     ComponentInstance.prototype.initController = function () {
         var _a;
-        if (this.destroyed && document.body.contains(this.element)) {
+        if (this.destroyed) {
             this.destroyed = false;
             if (this.config.controller) {
                 var args = [
@@ -5533,11 +5533,7 @@ var ComponentInstance = /** @class */ (function () {
                     scope.id !== _this.contextObj.element[_constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].SCOPE_ATTRIBUTE_NAME].id;
             });
         }
-        catch (e) {
-            window['capivara'].scopes = window['capivara'].scopes.filter(function (scope) {
-                return document.body.contains(_this.componentScope.element);
-            });
-        }
+        catch (e) { }
     };
     /**
      * @description
@@ -7713,8 +7709,9 @@ var CPRepeat = /** @class */ (function () {
         }
     }
     CPRepeat.prototype.create = function () {
-        this.attributeAlias = this.attribute.substring(0, this.attribute.indexOf(_constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].REPEAT_ATTRIBUTE_OPERATOR)).replace(/ /g, '');
-        this.attributeScope = this.attribute.substring(this.attribute.indexOf(_constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].REPEAT_ATTRIBUTE_OPERATOR) + _constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].REPEAT_ATTRIBUTE_OPERATOR.length, this.attribute.length).replace(/ /g, '');
+        var operator = " " + _constants__WEBPACK_IMPORTED_MODULE_2__["Constants"].REPEAT_ATTRIBUTE_OPERATOR + " ";
+        this.attributeAlias = this.attribute.substring(0, this.attribute.indexOf(operator)).replace(/ /g, '');
+        this.attributeScope = this.attribute.substring(this.attribute.indexOf(operator) + operator.length, this.attribute.length).replace(/ /g, '');
         this.applyLoop();
     };
     CPRepeat.prototype.applyLoop = function () {

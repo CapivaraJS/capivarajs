@@ -64,7 +64,7 @@ export class ComponentInstance {
   }
 
   public initController() {
-    if (this.destroyed && document.body.contains(this.element)) {
+    if (this.destroyed) {
       this.destroyed = false;
       if (this.config.controller) {
         const args = [
@@ -131,11 +131,7 @@ export class ComponentInstance {
         return scope.id !== this.componentScope.element[Constants.SCOPE_ATTRIBUTE_NAME].id &&
           scope.id !== this.contextObj.element[Constants.SCOPE_ATTRIBUTE_NAME].id;
       });
-    } catch (e) {
-      window['capivara'].scopes = window['capivara'].scopes.filter((scope) => {
-        return document.body.contains(this.componentScope.element);
-      });
-    }
+    } catch (e) { }
   }
 
   /**
