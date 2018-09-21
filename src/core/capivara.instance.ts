@@ -18,7 +18,7 @@ export class CapivaraInstance {
 
   constructor() {
     this.DOMMutation = window['MutationObserver'] || window['WebKitMutationObserver'] || window['MozMutationObserver'];
-    this.version = '3.10.0';
+    this.version = '3.10.1';
     this.components = {};
     this.scopes = [];
     this.$watchers = [];
