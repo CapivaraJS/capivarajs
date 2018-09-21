@@ -5055,7 +5055,7 @@ var CapivaraInstance = /** @class */ (function () {
         var _this = this;
         this.LAST_SCOPE_ID = 0;
         this.DOMMutation = window['MutationObserver'] || window['WebKitMutationObserver'] || window['MozMutationObserver'];
-        this.version = '3.10.0';
+        this.version = '3.10.1';
         this.components = {};
         this.scopes = [];
         this.$watchers = [];
@@ -5879,17 +5879,84 @@ var CapivaraElement = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Eval", function() { return Eval; });
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common */ "../src/common.ts");
+
 var Eval;
 (function (Eval) {
+    function replaceAt(input, search, replace, start, end) {
+        return input.slice(0, start)
+            + input.slice(start, end).replace(search, replace)
+            + input.slice(end);
+    }
+    Eval.replaceAt = replaceAt;
+    function getIndexStart(arr, currentIndex) {
+        if (currentIndex === 0) {
+            return 0;
+        }
+        var getPreviousSize = function (i, size) {
+            var index = i - 1;
+            if (index === -1) {
+                return size;
+            }
+            size += arr[index].length;
+            return getPreviousSize(index, size);
+        };
+        return getPreviousSize(currentIndex, 0);
+    }
+    Eval.getIndexStart = getIndexStart;
+    function isVariable(str) {
+        if (str === void 0) { str = ''; }
+        var firstChar = str.charAt(0);
+        return /[a-zA-Z]/g.test(firstChar)
+            || firstChar === '$'
+            || firstChar === '_';
+    }
+    Eval.isVariable = isVariable;
+    function evaluation(source, context, prefix) {
+        if (prefix === void 0) { prefix = ''; }
+        var contexts = Array.isArray(context) ? context : [context];
+        var referenceSelf = "this." + (prefix ? prefix += '.' : ''), regex = /\$*[a-z0-9.$]+\s*/gi, keys = source.match(regex);
+        if (keys && Array.isArray(keys)) {
+            keys.forEach(function (str, i) {
+                var key = str.replace(/\s/g, ''), indexStart = getIndexStart(keys, i);
+                var indexEnd = indexStart + source.substring(indexStart, source.length).indexOf(key) + key.length;
+                if (!key.includes(referenceSelf)) {
+                    var isVar = !prefix.trim() ? contexts.filter(function (c) { return c.hasOwnProperty(_common__WEBPACK_IMPORTED_MODULE_0__["Common"].getFirstKey(key)); }).length > 0 : isVariable(key);
+                    if (isVar) {
+                        source = replaceAt(source, key, "" + referenceSelf + key, indexStart, indexEnd);
+                    }
+                }
+            });
+        }
+        try {
+            return function executeCode(str) {
+                var _this = this;
+                (contexts || []).forEach(function (c) { return Object.keys(c).forEach(function (key) {
+                    if (!_this[key]) {
+                        _this[key] = c[key];
+                    }
+                }); });
+                return eval(str);
+            }.call({}, source);
+        }
+        catch (e) {
+            throw e;
+        }
+    }
+    Eval.evaluation = evaluation;
     function exec(source, context) {
         try {
             var contexts = (Array.isArray(context) ? context : [context]);
             var contextMerged_1 = Object.assign.apply(Object, [{}].concat(contexts));
             var params = Object.keys(contextMerged_1), paramsValues = params.map(function (param) { return contextMerged_1[param]; });
-            return new (Function.bind.apply(Function, [void 0].concat(params, ["\n        const value = " + source + ";\n        return value == undefined ? '' : Number.isNaN(value) ? 0 : value;\n      "])))().apply(void 0, paramsValues);
+            var toReturn = new (Function.bind.apply(Function, [void 0].concat(params, ["\n        const value = " + source + ";\n        return value == undefined ? '' : Number.isNaN(value) ? 0 : value;\n      "])))().apply(void 0, paramsValues);
+            if (toReturn === undefined) {
+                return evaluation(source, context);
+            }
+            return toReturn;
         }
         catch (e) {
-            throw e;
+            return evaluation(source, context);
         }
     }
     Eval.exec = exec;
@@ -6765,7 +6832,7 @@ __webpack_require__.r(__webpack_exports__);
 /*!***********************!*\
   !*** ../src/index.ts ***!
   \***********************/
-/*! exports provided: default, Capivara, Component, Controller */
+/*! exports provided: Capivara, default, Component, Controller */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6797,8 +6864,8 @@ var Capivara = (function initCapivara(ctx, aliasName) {
     return ctx[aliasName];
 })(window, 'capivara');
 
-/* harmony default export */ __webpack_exports__["default"] = (Capivara);
 
+/* harmony default export */ __webpack_exports__["default"] = (Capivara);
 
 
 /***/ }),
