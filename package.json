@@ -78,7 +78,7 @@
     "karma-es6-shim": "^1.0.0",
     "karma-jasmine": "^1.1.1",
     "karma-phantomjs-launcher": "^1.0.4",
-    "karma-typescript": "^3.0.12",
+    "karma-typescript": "^4.1.0",
     "nightwatch": "^0.9.20",
     "node-sass": "^4.7.2",
     "nyc": "^12.0.1",
