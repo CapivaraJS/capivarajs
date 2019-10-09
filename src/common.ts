@@ -25,6 +25,10 @@ export namespace Common {
     }
   }
 
+  /**
+   * @description Pega o primeiro atributo do interpolation Ex: (pessoa.nome return: pessoa)
+   * @param str valor do interpolation
+   */
   export function getFirstKey(str: string) {
     const firstKey = (str.indexOf('.') !== -1 ? str.substring(0, str.indexOf('.')) : str).replace(/ /g, '');
     return firstKey.split('(').join('').split(')').join('').replace(/!/g, '');
