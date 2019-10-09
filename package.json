@@ -60,7 +60,7 @@
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.42",
     "@babel/preset-env": "^7.0.0-beta.42",
-    "@types/jasmine": "^2.6.3",
+    "@types/jasmine": "^3.4.3",
     "@types/node": "^10.0.3",
     "babel-loader": "^7.1.4",
     "babel-polyfill": "^6.26.0",
