@@ -17,6 +17,6 @@ const Capivara: CapivaraInstance = (function initCapivara(ctx, aliasName) {
   return ctx[aliasName];
 })(window, 'capivara');
 
+export { Capivara };
 export * from './decorators';
 export default Capivara;
-export { Capivara };

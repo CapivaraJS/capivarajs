@@ -38,8 +38,9 @@ export class CPRepeat implements Directive {
   }
 
   public create() {
-    this.attributeAlias = this.attribute.substring(0, this.attribute.indexOf(Constants.REPEAT_ATTRIBUTE_OPERATOR)).replace(/ /g, '');
-    this.attributeScope = this.attribute.substring(this.attribute.indexOf(Constants.REPEAT_ATTRIBUTE_OPERATOR) + Constants.REPEAT_ATTRIBUTE_OPERATOR.length, this.attribute.length).replace(/ /g, '');
+    const operator = ` ${Constants.REPEAT_ATTRIBUTE_OPERATOR} `;
+    this.attributeAlias = this.attribute.substring(0, this.attribute.indexOf(operator)).replace(/ /g, '');
+    this.attributeScope = this.attribute.substring(this.attribute.indexOf(operator) + operator.length, this.attribute.length).replace(/ /g, '');
     this.applyLoop();
   }
 
