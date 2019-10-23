@@ -14,7 +14,7 @@ export namespace Common {
   /**
    * @description Executa o eval alterando as propriedades do source para seus determinados valores dentro do contexto.
    * @param source
-   * @param context
+   * @param context contexto do componente
    * @param prefix
    */
   export function evalInContext(source, context: any) {
