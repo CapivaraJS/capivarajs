@@ -80,7 +80,7 @@
     "nightwatch": "^0.9.20",
     "node-sass": "^4.7.2",
     "nyc": "^12.0.1",
-    "style-loader": "^0.22.0",
+    "style-loader": "^1.0.1",
     "ts-loader": "^4.1.0",
     "typescript": "^2.7.2",
     "tslint": "^5.9.1",
