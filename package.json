@@ -74,7 +74,7 @@
     "karma": "^3.0.0",
     "karma-cli": "^1.0.1",
     "karma-es6-shim": "^1.0.0",
-    "karma-jasmine": "^1.1.1",
+    "karma-jasmine": "^3.3.1",
     "karma-phantomjs-launcher": "^1.0.4",
     "karma-typescript": "^3.0.12",
     "nightwatch": "^0.9.20",
